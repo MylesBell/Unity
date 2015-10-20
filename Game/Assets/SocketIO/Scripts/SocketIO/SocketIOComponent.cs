@@ -308,6 +308,7 @@ namespace SocketIO
 			try {
 				ws.Send(encoder.Encode(packet));
 			} catch(SocketIOException ex) {
+				print(ex.ToString ());
 				#if SOCKET_IO_DEBUG
 				debugMethod.Invoke(ex.ToString());
 				#endif
@@ -399,10 +400,10 @@ namespace SocketIO
 				try{
 					handler(ev);
 				} catch(Exception ex){
-					// Myles commented out to remove warnings of ex not being used.
-					//#if SOCKET_IO_DEBUG
+					print(ex.ToString ());
+					#if SOCKET_IO_DEBUG
 					debugMethod.Invoke(ex.ToString());
-					//#endif
+					#endif
 				}
 			}
 		}
