@@ -399,9 +399,10 @@ namespace SocketIO
 				try{
 					handler(ev);
 				} catch(Exception ex){
-					#if SOCKET_IO_DEBUG
+					// Myles commented out to remove warnings of ex not being used.
+					//#if SOCKET_IO_DEBUG
 					debugMethod.Invoke(ex.ToString());
-					#endif
+					//#endif
 				}
 			}
 		}
