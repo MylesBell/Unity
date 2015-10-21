@@ -19,7 +19,9 @@ public class Teams : MonoBehaviour, IPlayerJoin {
 	}
 
 	public GameObject GetHero(int playerID) {
-		return playerDict [playerID];
+		GameObject hero;
+		playerDict.TryGetValue(playerID, out hero);
+		return hero;
 	}
 
 	#region IPlayerJoin implementation
