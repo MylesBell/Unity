@@ -13,7 +13,7 @@ public class CreateHero : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey (KeyCode.P)) {
+		if (Input.GetKeyUp (KeyCode.P)) {
 			ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin());
 		}
 	}
