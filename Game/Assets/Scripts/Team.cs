@@ -13,7 +13,7 @@ public class Team : MonoBehaviour {
 	}
 
 	public GameObject CreateHero() {
-		GameObject heroObject = Instantiate (heroPrefab) as GameObject;
+		GameObject heroObject = Instantiate (heroPrefab,transform.GetChild(0).position, Quaternion.identity) as GameObject;
 		Hero hero = heroObject.GetComponent<Hero> ();
 		hero.InitialiseHero (id);
 		numPlayersOnTeam++;
