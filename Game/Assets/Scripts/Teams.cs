@@ -6,6 +6,10 @@ public enum TeamID {
 	red, blue
 }
 
+public enum Direction {
+	up, down
+}
+
 public class Teams : MonoBehaviour, IPlayerJoin {
 
 	Team blueTeam, redTeam;
@@ -25,12 +29,12 @@ public class Teams : MonoBehaviour, IPlayerJoin {
 	}
 
 	#region IPlayerJoin implementation
-	public void PlayerJoin () {
+	public void PlayerJoin (int playerID) {
 		GameObject hero;
 		if (blueTeam.numPlayersOnTeam < redTeam.numPlayersOnTeam) {
-			hero = blueTeam.CreateHero ();
+			hero = blueTeam.CreateHero (playerID);
 		} else {
-			hero = redTeam.CreateHero ();
+			hero = redTeam.CreateHero (playerID);
 		}
 
 		playerDict.Add (numPlayers, hero);

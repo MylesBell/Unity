@@ -2,10 +2,10 @@
 using System.Collections;
 
 public class Hero : MonoBehaviour, IHeroMovement {
-
+	public TeamID teamID;
 	public float speed = 3.0f;
 	public float health = 10.0f;
-	public TeamID teamID;
+	public string playerType = "elf";
 	// Rigidbody controls physical properties of object
 	private Rigidbody rigidBody;
 	
@@ -13,8 +13,8 @@ public class Hero : MonoBehaviour, IHeroMovement {
 		rigidBody = GetComponent<Rigidbody>();
 	}
 
-	public void InitialiseHero(TeamID id) {
-		SetTeam (id);
+	public void InitialiseHero(TeamID teamID) {
+		SetTeam (teamID);
 	}
 
 	void SetTeam(TeamID id) {
@@ -32,14 +32,15 @@ public class Hero : MonoBehaviour, IHeroMovement {
 			
 		}
 	}
-
+	
 	#region IHeroMovement implementation
-
-	public void Move (float x, float y) {
-		Vector3 movement = new Vector3 (x, 0.0f, y);
-		
-		rigidBody.AddForce (movement * speed);
+	public void PlayerBack ()
+	{
+		throw new System.NotImplementedException ();
 	}
-
+	public void PlayerMoveLane (Direction direction)
+	{
+		throw new System.NotImplementedException ();
+	}
 	#endregion
 }

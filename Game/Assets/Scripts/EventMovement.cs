@@ -15,9 +15,15 @@ public class EventMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float moveX = Input.GetAxis ("Horizontal") * speed;
-		float moveY = Input.GetAxis ("Vertical") * speed;
-		if (teams.GetHero(playerID) != null)
-			ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.Move (moveX, moveY));
+		if (teams.GetHero (playerID) != null){
+			Direction direction;
+			if (Input.GetKeyUp (KeyCode.UpArrow)) {
+				direction = Direction.up;
+				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveLane (direction));
+			} else if (Input.GetKeyUp (KeyCode.DownArrow)) {
+				direction = Direction.down;
+				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveLane (direction));
+			}
+		}
 	}
 }
