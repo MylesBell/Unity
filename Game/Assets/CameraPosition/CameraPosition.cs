@@ -7,10 +7,8 @@ public class CameraPosition : MonoBehaviour {
 
     private bool isServer;
 
-    
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         int screenNumber = PlayerPrefs.GetInt("screen", 0);
         isServer = PlayerPrefs.GetInt("isServer", 1) == 1 ? true : false;
         Debug.Log("Screen Number: " + screenNumber);
@@ -24,8 +22,6 @@ public class CameraPosition : MonoBehaviour {
     }
 
     // Update is called once per frame
-  
-
     void LateUpdate()
     {
         if (isServer)
