@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class Team : MonoBehaviour {
-
+	
 	public TeamID teamID;
-	public GameObject heroPrefab;
+	public GameObject heroPrefab, gruntPrefab;
 	public int numPlayersOnTeam;
 
 	// Use this for initialization
@@ -18,5 +18,12 @@ public class Team : MonoBehaviour {
 		hero.InitialiseHero (teamID);
 		numPlayersOnTeam++;
 		return heroObject;
+	}
+
+	public GameObject CreateGrunt() {
+		GameObject gruntObject = Instantiate (gruntPrefab,transform.GetChild(0).position, Quaternion.identity) as GameObject;
+		Grunt grunt = gruntObject.GetComponent<Grunt> ();
+		grunt.InitialiseGrunt (teamID);
+		return gruntObject;
 	}
 }
