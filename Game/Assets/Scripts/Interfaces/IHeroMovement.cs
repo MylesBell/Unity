@@ -1,6 +1,6 @@
 ﻿using UnityEngine.EventSystems;
 
 public interface IHeroMovement : IEventSystemHandler {
-	void PlayerBack (int playerID);
+	void PlayerBack ();
 	void PlayerMoveLane(Direction direction);
 }

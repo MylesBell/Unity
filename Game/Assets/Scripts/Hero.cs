@@ -34,7 +34,7 @@ public class Hero : MonoBehaviour, IHeroMovement {
 	}
 	
 	#region IHeroMovement implementation
-	public void PlayerBack (int playerID)
+	public void PlayerBack ()
 	{
 		throw new System.NotImplementedException ();
 	}

@@ -21,12 +21,12 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 
 	public void PlayerBack (int playerID)
 	{
-		throw new System.NotImplementedException ();
+		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerBack());
 	}
 
-	public void PlayerMoveLane (Direction direction)
+	public void PlayerMoveLane (int playerID, Direction direction)
 	{
-		throw new System.NotImplementedException ();
+		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveLane(direction));
 	}
 
 	#endregion

@@ -763,7 +763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c2c2223b97ec4604b8fef367951f549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 0
+  teamID: 1
   heroPrefab: {fileID: 179994, guid: 6d64255e7cfa6492ca000be0dbe62fe7, type: 2}
   numPlayersOnTeam: 0
 --- !u!23 &1241281464
