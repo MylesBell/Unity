@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c2c2223b97ec4604b8fef367951f549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  teamID: 0
   heroPrefab: {fileID: 179994, guid: 6d64255e7cfa6492ca000be0dbe62fe7, type: 2}
   numPlayersOnTeam: 0
 --- !u!23 &131420486
@@ -553,6 +553,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 131420489}
   m_RootOrder: 0
+--- !u!1 &853217995
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 853217996}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &853217996
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 853217995}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
 --- !u!1 &999944492
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,7 +763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c2c2223b97ec4604b8fef367951f549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 1
+  teamID: 0
   heroPrefab: {fileID: 179994, guid: 6d64255e7cfa6492ca000be0dbe62fe7, type: 2}
   numPlayersOnTeam: 0
 --- !u!23 &1241281464

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Team : MonoBehaviour {
 
-	public TeamID id;
+	public TeamID teamID;
 	public GameObject heroPrefab;
 	public int numPlayersOnTeam;
 
@@ -11,11 +11,11 @@ public class Team : MonoBehaviour {
 	void Start () {
 		numPlayersOnTeam = 0;
 	}
-
-	public GameObject CreateHero() {
-		GameObject heroObject = Instantiate (heroPrefab,transform.GetChild(0).position, Quaternion.identity) as GameObject;
+	
+	public GameObject CreateHero(int newPlayerID) {
+		GameObject heroObject = Instantiate (heroPrefab) as GameObject;
 		Hero hero = heroObject.GetComponent<Hero> ();
-		hero.InitialiseHero (id);
+		hero.InitialiseHero (teamID);
 		numPlayersOnTeam++;
 		return heroObject;
 	}

@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
 
 public interface IPlayerJoin : IEventSystemHandler {
-	void PlayerJoin();
+	// returns a Hero object
+	void PlayerJoin(int playerID);
 }
