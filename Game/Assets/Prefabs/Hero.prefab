@@ -30,7 +30,7 @@ GameObject:
   - 54: {fileID: 5456760}
   - 114: {fileID: 11453504}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
