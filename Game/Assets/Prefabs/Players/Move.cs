@@ -4,7 +4,7 @@ using System.Collections;
 public class Move : MonoBehaviour
 {
 
-    Vector3 pointB = new Vector3(1400, 10, 400);
+    Vector3 pointB = new Vector3(2000, 10, 400);
     Vector3 pointA;
     // Use this for initialization
     IEnumerator Start()

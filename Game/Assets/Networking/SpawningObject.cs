@@ -5,11 +5,10 @@ using UnityEngine.Networking;
 public class SpawningObject : NetworkBehaviour {
 
     public GameObject PlayerPrefab;
-
-    private bool isServer;
+    
     void Start()
     {
-        isServer = PlayerPrefs.GetInt("isServer", 1) == 1 ? true : false;
+
     }
     public void Spawn()
     {
