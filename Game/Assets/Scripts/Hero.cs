@@ -6,15 +6,18 @@ public class Hero : MonoBehaviour, IHeroMovement {
 	public float speed = 3.0f;
 	public float health = 10.0f;
 	public string playerType = "elf";
-	// Rigidbody controls physical properties of object
-	private Rigidbody rigidBody;
+	private NavMeshAgent agent;
+	private Vector3 tempTargetLocation;
 	
-	void Start () {
-		rigidBody = GetComponent<Rigidbody>();
+	
+	void Update () {
+		//Temporary until NavMesh generation is implemented in terrain data
+		transform.position = Vector3.Lerp (transform.position, tempTargetLocation, Time.deltaTime * speed);
 	}
 
-	public void InitialiseHero(TeamID teamID) {
+	public void InitialiseHero(TeamID teamID, Vector3 targetPosition) {
 		SetTeam (teamID);
+		SetTargetPosition (targetPosition);
 	}
 
 	void SetTeam(TeamID id) {
@@ -31,6 +34,13 @@ public class Hero : MonoBehaviour, IHeroMovement {
 			light.color = Color.blue;
 			
 		}
+	}
+
+	void SetTargetPosition (Vector3 targetPosition) {
+		//Temporary until NavMesh generation is implemented in terrain data
+		tempTargetLocation = targetPosition;
+		NavMeshAgent agent = GetComponent<NavMeshAgent> ();
+		//		agent.destination = targetPosition;
 	}
 	
 	#region IHeroMovement implementation

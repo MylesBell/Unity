@@ -29,6 +29,7 @@ GameObject:
   - 23: {fileID: 2366328}
   - 54: {fileID: 5456760}
   - 114: {fileID: 11453504}
+  - 114: {fileID: 11452782}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -139,6 +140,38 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11452782
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 109
+    i1: 100
+    i2: 37
+    i3: 94
+    i4: 124
+    i5: 250
+    i6: 100
+    i7: 146
+    i8: 202
+    i9: 0
+    i10: 11
+    i11: 224
+    i12: 219
+    i13: 230
+    i14: 47
+    i15: 231
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11453504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,9 +183,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d7432ab6cb8493db8ddcc9240b7e5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  health: 10
   teamID: 0
+  speed: .400000006
+  health: 10
+  playerType: elf
 --- !u!135 &13553516
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -187,6 +221,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Shadows.m_Type
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: .400000006
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
