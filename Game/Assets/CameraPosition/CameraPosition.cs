@@ -12,9 +12,8 @@ public class CameraPosition : MonoBehaviour {
         int screenNumber = PlayerPrefs.GetInt("screen", 0);
         isServer = PlayerPrefs.GetInt("isServer", 1) == 1 ? true : false;
         Debug.Log("Screen Number: " + screenNumber);
-
-        float height = 2f * Camera.main.orthographicSize; //the height of the screen in the game
-        float width = height * Camera.main.aspect; //the width of the screen in the game 
+        
+        float width = 100; //the width of the screen in the game 
         Vector3 v3 = transform.position; //get current pos
         v3.x = width / 2 + width*screenNumber; //offset the camera correctly
         transform.position = v3;
