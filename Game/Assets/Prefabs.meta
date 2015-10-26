@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: cefe1cddbd7fe40f197f04240289c9ec
 folderAsset: yes
 timeCreated: 1445444830
+=======
+guid: 66a4247ac1fc9684ebaa49f55ebfd9ba
+folderAsset: yes
+timeCreated: 1445434517
+>>>>>>> upstream/networkMaps
 licenseType: Free
 DefaultImporter:
   userData: 
