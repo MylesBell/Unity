@@ -7,11 +7,13 @@ public class GraniteNetworkManager : NetworkManager {
     public InputField IPAddressInput;
     public InputField PortNumberInput;
     public InputField ScreenNumberInput;
+    public InputField NumberOfScreensInputField;
 
     public void StartupHost()
     {
         SetIPAddress();
         SetPort();
+        SetNumberOfScreens();
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
         NetworkManager.singleton.StartHost();
@@ -23,6 +25,7 @@ public class GraniteNetworkManager : NetworkManager {
         SetPort();
         SetScreen();
         SetLane();
+        SetNumberOfScreens();
         PlayerPrefs.SetInt("isServer", 0);
         NetworkManager.singleton.StartClient();
     }
@@ -52,5 +55,14 @@ public class GraniteNetworkManager : NetworkManager {
         int screen = -1;
         int.TryParse(screenNumber, out screen);
         PlayerPrefs.SetInt("screen", screen);
+    }
+
+    public void SetNumberOfScreens()
+    {
+        string screenNumber = NumberOfScreensInputField.text;
+        Debug.Log("Number of screens is: " + screenNumber);
+        int screen = 2;
+        int.TryParse(screenNumber, out screen);
+        PlayerPrefs.SetInt("numberofscreens", screen);
     }
 }

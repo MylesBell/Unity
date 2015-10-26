@@ -12,7 +12,7 @@ public class SpawningObject : NetworkBehaviour {
     }
     public void Spawn()
     {
-        GameObject player = (GameObject)Instantiate(PlayerPrefab, new Vector3(400,10,300), transform.rotation);
+        GameObject player = (GameObject)Instantiate(PlayerPrefab, new Vector3(50,10,50), transform.rotation);
         NetworkServer.Spawn(player);
     }
 
