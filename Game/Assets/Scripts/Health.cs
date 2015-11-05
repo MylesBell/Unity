@@ -5,7 +5,7 @@ public class Health : MonoBehaviour {
 	public float healthBarInitialLength;
 	public Texture healthBarTexture;
 
-	private float maxHealth;
+	public float maxHealth;
 	private float currentHealth;
 	private float healthBarLength;
 	private float percentOfHealth;
@@ -13,13 +13,12 @@ public class Health : MonoBehaviour {
 
 	void Start(){
 		// if max heath isnt set, as can be set by later function
-		maxHealth = 100.0f;
 		currentHealth = maxHealth;
 	}
 
 	void OnGUI () {
 		if (currentHealth > 0) {
-			GUI.DrawTexture(new Rect(entityLocation.x - 5 ,
+			GUI.DrawTexture(new Rect(entityLocation.x - (healthBarInitialLength/2) ,
 			                         Screen.height - entityLocation.y - 10,
 			                         healthBarLength, 2), healthBarTexture);
 		}
@@ -34,7 +33,7 @@ public class Health : MonoBehaviour {
 			Destroy(gameObject);
 		}
 		percentOfHealth = currentHealth / maxHealth;
-		healthBarLength = percentOfHealth * 10;
+		healthBarLength = percentOfHealth * healthBarInitialLength;
 	}
 
 	// use to set max and inc or dec health

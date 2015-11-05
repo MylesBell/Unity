@@ -5,10 +5,8 @@ using UnityEngine.Networking;
 public class Grunt : NetworkBehaviour {
 	// characteristics
 	public float speed = 20.0f;
-	public float health = 100.0f;
-	public float maxHealth = 100.0f;
 	public TeamID teamID;
-	public int maxdistance;
+	public int minDistance;
 
 	// movement
 	private NavMeshAgent agent;
@@ -20,7 +18,7 @@ public class Grunt : NetworkBehaviour {
 	
 	void Start () {
 		target = null;
-		maxdistance = 5;
+		minDistance = 5;
 		gruntAttack = this.GetComponent<GruntAttack> ();
 	}
 	
@@ -59,7 +57,7 @@ public class Grunt : NetworkBehaviour {
 
 	void moveTowardsTarget(){
 		//print ("move " + transform.position + " to " + targetLocation);
-		if(Vector3.Distance(transform.position, targetLocation) > maxdistance){
+		if(Vector3.Distance(transform.position, targetLocation) > minDistance){
 			float step = speed * Time.deltaTime;
 			transform.position = Vector3.MoveTowards(transform.position, targetLocation, step);
 		}
@@ -71,8 +69,15 @@ public class Grunt : NetworkBehaviour {
 		} else {
 			target = FindClosestObjectWithTag("redGrunt");
 		}
+		if (target == null) {
+			if (teamID == TeamID.blue) {
+				target = GameObject.FindGameObjectWithTag("redBase");
+			} else {
+				target = GameObject.FindGameObjectWithTag("blueBase");
+			}
+		}
 		if (target != null) {
-			gruntAttack.setTarget(target);
+			gruntAttack.setTarget (target);
 		}
 	}
 

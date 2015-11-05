@@ -15,9 +15,11 @@ GameObject:
   - 114: {fileID: 11456954}
   - 195: {fileID: 19528242}
   - 114: {fileID: 11454656}
+  - 114: {fileID: 11467978}
+  - 114: {fileID: 11472348}
   m_Layer: 0
   m_Name: Grunt
-  m_TagString: Untagged
+  m_TagString: blueGrunt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,9 +125,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc5429111cc749aaab5e805e0df33be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: .300000012
-  health: 5
+  speed: 50
   teamID: 0
+  minDistance: 20
+--- !u!114 &11467978
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34394d4d266c14ba599b660f48831bdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarInitialLength: 50
+  healthBarTexture: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
+  maxHealth: 100
+--- !u!114 &11472348
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10e0b21541819415baf1438826991fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &13599662
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -167,7 +194,31 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: speed
-      value: .300000012
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarInitialLength
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: blueGrunt
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: health
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: minDistance
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
