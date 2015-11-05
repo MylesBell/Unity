@@ -30,6 +30,7 @@ GameObject:
   - 54: {fileID: 5456760}
   - 114: {fileID: 11453504}
   - 114: {fileID: 11452782}
+  - 114: {fileID: 11422604}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -140,6 +141,20 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11422604
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34394d4d266c14ba599b660f48831bdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBarInitialLength: 20
+  healthBarTexture: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
+  maxHealth: 100
 --- !u!114 &11452782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -225,6 +240,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: speed
       value: .400000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarInitialLength
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

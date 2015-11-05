@@ -4,9 +4,9 @@ using UnityEngine.Networking;
 
 public class Grunt : NetworkBehaviour {
 	// characteristics
-	public float speed = 20.0f;
+	public float speed = 10.0f;
 	public TeamID teamID;
-	public int minDistance;
+	public int minDistance = 5;
 
 	// movement
 	private NavMeshAgent agent;
@@ -14,12 +14,11 @@ public class Grunt : NetworkBehaviour {
 	private Vector3 targetLocation;
 
 	// attack
-	private GruntAttack gruntAttack;
+	private Attack gruntAttack;
 	
 	void Start () {
 		target = null;
-		minDistance = 5;
-		gruntAttack = this.GetComponent<GruntAttack> ();
+		gruntAttack = this.GetComponent<Attack> ();
 	}
 	
 	void Update () {
@@ -38,7 +37,7 @@ public class Grunt : NetworkBehaviour {
 		SetTargetPosition (targetPosition);
 	}
 	
-	void SetTeam(TeamID id) {
+	private void SetTeam(TeamID id) {
 		teamID = id;
 		Material mat = GetComponent<Renderer> ().material;
 		if (id == TeamID.red) {
@@ -55,7 +54,7 @@ public class Grunt : NetworkBehaviour {
 		//agent.destination = targetPosition;
 	}
 
-	void moveTowardsTarget(){
+	private void moveTowardsTarget(){
 		//print ("move " + transform.position + " to " + targetLocation);
 		if(Vector3.Distance(transform.position, targetLocation) > minDistance){
 			float step = speed * Time.deltaTime;
@@ -63,22 +62,44 @@ public class Grunt : NetworkBehaviour {
 		}
 	}
 
-	void getNewTarget(){
-		if (teamID == TeamID.blue) {
-			target = FindClosestObjectWithTag("blueGrunt");
-		} else {
-			target = FindClosestObjectWithTag("redGrunt");
+	private void getNewTarget(){
+		target = getClosestEnemyGrunt ();
+		if (target == null) {
+			target = getClosestEnemyHero();
 		}
 		if (target == null) {
-			if (teamID == TeamID.blue) {
-				target = GameObject.FindGameObjectWithTag("redBase");
-			} else {
-				target = GameObject.FindGameObjectWithTag("blueBase");
-			}
+			target = getEnemyBase();
 		}
 		if (target != null) {
 			gruntAttack.setTarget (target);
 		}
+	}
+
+	private GameObject getClosestEnemyGrunt(){
+		if (teamID == TeamID.blue) {
+			target = FindClosestObjectWithTag("redGrunt");
+		} else {
+			target = FindClosestObjectWithTag("blueGrunt");
+		}
+		return target;
+	}
+
+	private GameObject getClosestEnemyHero(){
+		if (teamID == TeamID.blue) {
+			target = FindClosestObjectWithTag("redHero");
+		} else {
+			target = FindClosestObjectWithTag("blueHero");
+		}
+		return target;
+	}
+
+	private GameObject getEnemyBase(){
+		if (teamID == TeamID.blue) {
+			target = FindClosestObjectWithTag("redBase");
+		} else {
+			target = FindClosestObjectWithTag("blueBase");
+		}
+		return target;
 	}
 
 	private GameObject FindClosestObjectWithTag(string type) {

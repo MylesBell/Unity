@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class GruntAttack : MonoBehaviour {
+public class Attack : MonoBehaviour {
+	public float damage = 20.0f;
 	private GameObject target;
 	private float attackTime;
 	private float coolDown;
@@ -17,15 +18,15 @@ public class GruntAttack : MonoBehaviour {
 			if ((attackTime > 0)) {
 				attackTime -= Time.deltaTime;
 			} else {
-				Attack ();
+				AttackTarget ();
 				attackTime = coolDown;
 			}
 		}
 	}
 	
-	private void Attack() {
+	private void AttackTarget() {
 		if (targetInAttackArea()){
-			((Health)target.GetComponent ("Health")).reduceHealth(20.0f);
+			((Health)target.GetComponent ("Health")).reduceHealth(damage);
 		}
 	}
 
