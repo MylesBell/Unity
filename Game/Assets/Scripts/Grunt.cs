@@ -28,7 +28,7 @@ public class Grunt : NetworkBehaviour {
 		if (target == null) {
 			getNewTarget ();
 		} else {
-			targetLocation = target.transform.position;
+			SetTargetPosition(target.transform.position);
 		}
 		moveTowardsTarget ();
 		//Temporary until NavMesh generation is implemented in terrain data
@@ -50,7 +50,7 @@ public class Grunt : NetworkBehaviour {
 		}
 	}
 
-	void SetTargetPosition (Vector3 targetLocationIn) {
+	private void SetTargetPosition (Vector3 targetLocationIn) {
 		//Temporary until NavMesh generation is implemented in terrain data
 		targetLocation = targetLocationIn;
 		//NavMeshAgent agent = GetComponent<NavMeshAgent> ();
