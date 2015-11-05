@@ -14,6 +14,7 @@ GameObject:
   - 54: {fileID: 5493952}
   - 114: {fileID: 11456954}
   - 195: {fileID: 19528242}
+  - 114: {fileID: 11454656}
   m_Layer: 0
   m_Name: Grunt
   m_TagString: Untagged
@@ -79,6 +80,38 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11454656
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 119
+    i1: 113
+    i2: 246
+    i3: 188
+    i4: 77
+    i5: 31
+    i6: 212
+    i7: 26
+    i8: 153
+    i9: 253
+    i10: 21
+    i11: 80
+    i12: 97
+    i13: 160
+    i14: 203
+    i15: 225
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11456954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -90,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc5429111cc749aaab5e805e0df33be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: .300000012
   health: 5
   teamID: 0
 --- !u!135 &13599662
@@ -131,7 +164,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: .300000012
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129988}
