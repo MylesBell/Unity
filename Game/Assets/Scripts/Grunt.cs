@@ -3,16 +3,36 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class Grunt : NetworkBehaviour {
-	public float speed = 1.0f;
-	public float health = 5.0f;
-	public float maxHealth = 5.0f;
+	// characteristics
+	public float speed = 20.0f;
+	public float health = 100.0f;
+	public float maxHealth = 100.0f;
 	public TeamID teamID;
+	public int maxdistance;
+
+	// movement
 	private NavMeshAgent agent;
-	private Vector3 tempTargetLocation;
+	private GameObject target;
+	private Vector3 targetLocation;
+
+	// attack
+	private GruntAttack gruntAttack;
+	
+	void Start () {
+		target = null;
+		maxdistance = 5;
+		gruntAttack = this.GetComponent<GruntAttack> ();
+	}
 	
 	void Update () {
+		if (target == null) {
+			getNewTarget ();
+		} else {
+			targetLocation = target.transform.position;
+		}
+		moveTowardsTarget ();
 		//Temporary until NavMesh generation is implemented in terrain data
-		transform.position = Vector3.Lerp (transform.position, tempTargetLocation, Time.deltaTime * speed);
+		//transform.position = Vector3.Lerp (transform.position, tempTargetLocation, Time.deltaTime * speed);
 	}
 	
 	public void InitialiseGrunt(TeamID id, Vector3 targetPosition) {
@@ -30,10 +50,46 @@ public class Grunt : NetworkBehaviour {
 		}
 	}
 
-	void SetTargetPosition (Vector3 targetPosition) {
+	void SetTargetPosition (Vector3 targetLocationIn) {
 		//Temporary until NavMesh generation is implemented in terrain data
-		tempTargetLocation = targetPosition;
-		NavMeshAgent agent = GetComponent<NavMeshAgent> ();
-//		agent.destination = targetPosition;
+		targetLocation = targetLocationIn;
+		//NavMeshAgent agent = GetComponent<NavMeshAgent> ();
+		//agent.destination = targetPosition;
+	}
+
+	void moveTowardsTarget(){
+		//print ("move " + transform.position + " to " + targetLocation);
+		if(Vector3.Distance(transform.position, targetLocation) > maxdistance){
+			float step = speed * Time.deltaTime;
+			transform.position = Vector3.MoveTowards(transform.position, targetLocation, step);
+		}
+	}
+
+	void getNewTarget(){
+		if (teamID == TeamID.blue) {
+			target = FindClosestObjectWithTag("blueGrunt");
+		} else {
+			target = FindClosestObjectWithTag("redGrunt");
+		}
+		if (target != null) {
+			gruntAttack.setTarget(target);
+		}
+	}
+
+	private GameObject FindClosestObjectWithTag(string type) {
+		GameObject[] gos;
+		gos = GameObject.FindGameObjectsWithTag(type);
+		GameObject closest = null;
+		float distance = Mathf.Infinity;
+		Vector3 position = transform.position;
+		foreach (GameObject go in gos) {
+			Vector3 diff = go.transform.position - position;
+			float curDistance = diff.sqrMagnitude;
+			if (curDistance < distance) {
+				closest = go;
+				distance = curDistance;
+			}
+		}
+		return closest;
 	}
 }
