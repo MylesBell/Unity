@@ -21,9 +21,7 @@ public class UnitFactory: NetworkBehaviour {
 			blueTeam = blueTower.GetComponent<Team>();
 			redTeam = redTower.GetComponent<Team>();
 			playerCounter = 0;
-
 		}
-
 	}
 
 	// Update is called once per frame

@@ -3,13 +3,12 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class Grunt : NetworkBehaviour {
-
 	public float speed = 1.0f;
 	public float health = 5.0f;
+	public float maxHealth = 5.0f;
 	public TeamID teamID;
 	private NavMeshAgent agent;
 	private Vector3 tempTargetLocation;
-
 	
 	void Update () {
 		//Temporary until NavMesh generation is implemented in terrain data
