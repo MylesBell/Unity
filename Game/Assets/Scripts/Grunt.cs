@@ -64,11 +64,4 @@ public class Grunt : NetworkBehaviour {
 		NavMeshAgent agent = GetComponent<NavMeshAgent> ();
 //		agent.destination = targetPosition;
 	}
-
-	void SetTargetPosition (Vector3 targetPosition) {
-		//Temporary until NavMesh generation is implemented in terrain data
-		tempTargetLocation = targetPosition;
-		NavMeshAgent agent = GetComponent<NavMeshAgent> ();
-//		agent.destination = targetPosition;
-	}
 }

@@ -461,6 +461,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5cee4d9451f4cdaad3b43ab0dfb99d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  redBase: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
+  blueBase: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
 --- !u!1 &1919932849
 GameObject:
   m_ObjectHideFlags: 0
