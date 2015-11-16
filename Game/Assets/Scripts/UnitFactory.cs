@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class UnitFactory: NetworkBehaviour {
 	
-	public GameObject teamsObject, redBase, blueBase, heroPrefab, blueGruntPrefab, redGruntPrefab;
+	public GameObject teamsObject, redBase, blueBase, blueHeroPrefab, redHeroPrefab, blueGruntPrefab, redGruntPrefab;
 	int playerCounter;
 	private Team blueTeam, redTeam;
 	private GameObject redTower, blueTower;
@@ -51,12 +51,12 @@ public class UnitFactory: NetworkBehaviour {
 		return gruntObject;
 	}
 
-	public GameObject CreateHero(TeamID teamID, int playerID) {
+	public GameObject CreateHero(TeamID teamID) {
 		Vector3 spawnLocation = GetSpawnLocation (teamID);
 		Vector3 targetLocation = GetTargetLocation (teamID);
-		GameObject heroObject = Instantiate (heroPrefab, spawnLocation, Quaternion.identity) as GameObject;
-		Hero hero = heroObject.GetComponent<Hero> ();
-		hero.InitialiseHero (teamID, targetLocation);
+        GameObject heroPrefab = teamID == TeamID.blue ? blueHeroPrefab : redHeroPrefab;
+        GameObject heroObject = Instantiate (heroPrefab, spawnLocation, Quaternion.identity) as GameObject;
+		heroObject.GetComponent<Hero> ().InitialiseHero (teamID, targetLocation);
 		NetworkServer.Spawn (heroObject);
 		return heroObject;
 	}

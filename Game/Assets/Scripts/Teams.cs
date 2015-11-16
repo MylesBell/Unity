@@ -35,10 +35,10 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 	public void PlayerJoin (int playerID) {
 		GameObject hero;
 		if (numPlayersBlue < numPlayersRed) {
-			hero = unitFactory.CreateHero (TeamID.blue, playerID);
+			hero = unitFactory.CreateHero (TeamID.blue);
 			numPlayersBlue++;
 		} else {
-			hero = unitFactory.CreateHero (TeamID.red, playerID);
+			hero = unitFactory.CreateHero (TeamID.red);
 			numPlayersRed++;
 		}
 

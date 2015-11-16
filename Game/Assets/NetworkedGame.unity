@@ -197,6 +197,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 010d39cbd03ee4c99a746c1f8ecdc0d8, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 010d39cbd03ee4c99a746c1f8ecdc0d8, type: 2}
   m_IsPrefabParent: 0
@@ -342,7 +346,8 @@ MonoBehaviour:
   teamsObject: {fileID: 1193707480}
   redBase: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
   blueBase: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
-  heroPrefab: {fileID: 179994, guid: 6d64255e7cfa6492ca000be0dbe62fe7, type: 2}
+  blueHeroPrefab: {fileID: 100030, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
+  redHeroPrefab: {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
   blueGruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
   redGruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
 --- !u!114 &1193707483
@@ -461,8 +466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f5cee4d9451f4cdaad3b43ab0dfb99d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redBase: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
-  blueBase: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
 --- !u!1 &1919932849
 GameObject:
   m_ObjectHideFlags: 0
