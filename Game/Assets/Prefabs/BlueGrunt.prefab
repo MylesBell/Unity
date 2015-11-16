@@ -11,12 +11,12 @@ GameObject:
   - 33: {fileID: 3365630}
   - 135: {fileID: 13599662}
   - 23: {fileID: 2321098}
-  - 54: {fileID: 5493952}
   - 114: {fileID: 11456954}
   - 195: {fileID: 19528242}
   - 114: {fileID: 11454656}
+  - 54: {fileID: 5418598}
   m_Layer: 0
-  m_Name: Grunt
+  m_Name: BlueGrunt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 7b774b33cc3fb4b86bf3c1586e54c703, type: 2}
+  - {fileID: 2100000, guid: 25320b9b423df48abb36a4f26e9c8d9b, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -65,7 +65,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129988}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5493952
+--- !u!54 &5418598
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -126,6 +126,11 @@ MonoBehaviour:
   speed: .300000012
   health: 5
   teamID: 0
+  tempTargetLocation: {x: 0, y: 0, z: 0}
+  isInitialised: 0
+  lerpRate: 10
+  positionThreshold: .5
+  rotationThreshold: 5
 --- !u!135 &13599662
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -144,7 +149,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129988}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: .5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -169,6 +174,18 @@ Prefab:
       propertyPath: speed
       value: .300000012
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 25320b9b423df48abb36a4f26e9c8d9b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: targetTransform
+      value: 
+      objectReference: {fileID: 422694, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129988}

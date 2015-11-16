@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Hero : MonoBehaviour, IHeroMovement {
+public class Hero : NetworkBehaviour, IHeroMovement {
 	public TeamID teamID;
 	public float speed = 3.0f;
 	public float health = 10.0f;

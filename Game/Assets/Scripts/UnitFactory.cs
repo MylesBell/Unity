@@ -4,8 +4,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
 public class UnitFactory: NetworkBehaviour {
-
-	public GameObject teamsObject, redBase, blueBase, heroPrefab, gruntPrefab;
+	
+	public GameObject teamsObject, redBase, blueBase, heroPrefab, blueGruntPrefab, redGruntPrefab;
 	int playerCounter;
 	private Team blueTeam, redTeam;
 	private GameObject redTower, blueTower;
@@ -43,10 +43,11 @@ public class UnitFactory: NetworkBehaviour {
 	public GameObject CreateGrunt(TeamID teamID) {
 		Vector3 spawnLocation = GetSpawnLocation (teamID);
 		Vector3 targetLocation = GetTargetLocation (teamID);
-		GameObject gruntObject = Instantiate (gruntPrefab, spawnLocation, Quaternion.identity) as GameObject;
+		GameObject gruntPrefab = teamID == TeamID.blue ? blueGruntPrefab : redGruntPrefab;
+		GameObject gruntObject = (GameObject) Instantiate (gruntPrefab, spawnLocation, Quaternion.identity);
+		gruntObject.GetComponent<Grunt> ().InitialiseGrunt (teamID, targetLocation);
 		NetworkServer.Spawn (gruntObject);
-		Grunt grunt = gruntObject.GetComponent<Grunt> ();
-		grunt.InitialiseGrunt (teamID, targetLocation);
+
 		return gruntObject;
 	}
 
@@ -54,9 +55,9 @@ public class UnitFactory: NetworkBehaviour {
 		Vector3 spawnLocation = GetSpawnLocation (teamID);
 		Vector3 targetLocation = GetTargetLocation (teamID);
 		GameObject heroObject = Instantiate (heroPrefab, spawnLocation, Quaternion.identity) as GameObject;
-		NetworkServer.Spawn (heroObject);
 		Hero hero = heroObject.GetComponent<Hero> ();
 		hero.InitialiseHero (teamID, targetLocation);
+		NetworkServer.Spawn (heroObject);
 		return heroObject;
 	}
 
