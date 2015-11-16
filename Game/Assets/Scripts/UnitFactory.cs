@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
 public class UnitFactory: NetworkBehaviour {
-
+	
 	public GameObject teamsObject, redBase, blueBase, heroPrefab, blueGruntPrefab, redGruntPrefab;
 	int playerCounter;
 	private Team blueTeam, redTeam;
@@ -47,6 +47,7 @@ public class UnitFactory: NetworkBehaviour {
 		GameObject gruntObject = (GameObject) Instantiate (gruntPrefab, spawnLocation, Quaternion.identity);
 		gruntObject.GetComponent<Grunt> ().InitialiseGrunt (teamID, targetLocation);
 		NetworkServer.Spawn (gruntObject);
+
 		return gruntObject;
 	}
 

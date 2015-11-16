@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class Grunt : NetworkBehaviour {
-
 	[SyncVar] public float speed = 1.0f;
 	[SyncVar] public float health = 5.0f;
 	[SyncVar] public TeamID teamID;
@@ -62,6 +61,13 @@ public class Grunt : NetworkBehaviour {
 	void SetTargetPosition (Vector3 targetPosition) {
 		//Temporary until NavMesh generation is implemented in terrain data
 		this.tempTargetLocation = targetPosition;
+		NavMeshAgent agent = GetComponent<NavMeshAgent> ();
+//		agent.destination = targetPosition;
+	}
+
+	void SetTargetPosition (Vector3 targetPosition) {
+		//Temporary until NavMesh generation is implemented in terrain data
+		tempTargetLocation = targetPosition;
 		NavMeshAgent agent = GetComponent<NavMeshAgent> ();
 //		agent.destination = targetPosition;
 	}
