@@ -8,7 +8,7 @@ public class SocketNetworkManager : MonoBehaviour, ISocketManager  {
 
 	SocketIOComponent socket;
 	SocketIOInputEvents socketIOInputEvents;
-	private string hostName = "localhost";
+	private string hostName = "icantmiss.com";
 	private string portNumber = "1337";
 	 
 	// Use this for initialization
