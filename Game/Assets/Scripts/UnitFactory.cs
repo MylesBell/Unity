@@ -23,8 +23,8 @@ public class UnitFactory: NetworkBehaviour {
 
 	private void CreateBases(){
 		int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
-		redBase = (GameObject)Instantiate(blueBasePrefab, new Vector3(50,2,50), Quaternion.identity);
-		blueBase = (GameObject) Instantiate(redBasePrefab, new Vector3(numScreens * 100 - 50, 2, 50), Quaternion.identity);
+		blueBase = (GameObject)Instantiate(blueBasePrefab, new Vector3(50,2,50), Quaternion.identity);
+		redBase = (GameObject) Instantiate(redBasePrefab, new Vector3(numScreens * 100 - 50, 2, 50), Quaternion.identity);
 		NetworkServer.Spawn(blueBase);
 		NetworkServer.Spawn(redBase);
 	}
@@ -64,6 +64,7 @@ public class UnitFactory: NetworkBehaviour {
 	public GameObject CreateGrunt(TeamID teamID) {
 		GameObject gruntPrefab = teamID == TeamID.blue ? blueGruntPrefab : redGruntPrefab;
 		Vector3 spawnLocation = GetSpawnLocation (teamID);
+		Debug.Log(spawnLocation);
 		Channel channel = getChannel();
 		Vector3 channelTarget = GetLaneTarget (teamID, channel);
 		GameObject gruntObject = Instantiate (gruntPrefab, spawnLocation, Quaternion.identity) as GameObject;
