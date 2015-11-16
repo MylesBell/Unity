@@ -25,7 +25,7 @@ public class SocketNetworkManager : MonoBehaviour, ISocketManager  {
 
 	public void PlayerJoinHandler(SocketIOEvent e){
 		Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));	
-		socketIOInputEvents.PlayerJoin(1);
+		socketIOInputEvents.PlayerJoin(1, e.data.GetField("username").str);
 	}
 
 	public void DirectionHandler(SocketIOEvent e){
