@@ -91,6 +91,14 @@ namespace SocketIO
 
 		public void Awake()
 		{
+
+
+			#if SOCKET_IO_DEBUG
+			if(debugMethod == null) { debugMethod = Debug.Log; };
+			#endif
+		}
+
+		public void init(string hostname, string port){
 			encoder = new Encoder();
 			decoder = new Decoder();
 			parser = new Parser();
@@ -98,29 +106,28 @@ namespace SocketIO
 			ackList = new List<Ack>();
 			sid = null;
 			packetId = 0;
-
+			url = "ws://" + hostname + ":" + port +"/socket.io/?EIO=4&transport=websocket";
 			ws = new WebSocket(url);
 			ws.OnOpen += OnOpen;
 			ws.OnMessage += OnMessage;
 			ws.OnError += OnError;
 			ws.OnClose += OnClose;
 			wsConnected = false;
-
+			
 			eventQueueLock = new object();
 			eventQueue = new Queue<SocketIOEvent>();
-
+			
 			ackQueueLock = new object();
 			ackQueue = new Queue<Packet>();
-
+			
 			connected = false;
 
-			#if SOCKET_IO_DEBUG
-			if(debugMethod == null) { debugMethod = Debug.Log; };
-			#endif
+			print ("set up connection " + url);
 		}
 
 		public void Start()
-		{
+		{	
+
 			if (autoConnect) { Connect(); }
 		}
 

@@ -4,11 +4,13 @@ using System.Collections;
 public class Move : MonoBehaviour
 {
 
-    Vector3 pointB = new Vector3(2000, 10, 400);
+    Vector3 pointB;
     Vector3 pointA;
     // Use this for initialization
     IEnumerator Start()
     {
+        int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
+        pointB = new Vector3(numScreens*100-50, 10, 50);
         pointA = transform.position;
         while (true)
         {
