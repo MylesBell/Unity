@@ -30,7 +30,7 @@ public class SocketNetworkManager : MonoBehaviour, ISocketManager  {
 
 	public void DirectionHandler(SocketIOEvent e){
 		Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-		socketIOInputEvents.PlayerMoveLane(1, 0);
+		socketIOInputEvents.PlayerMoveChannel(1, 0);
 	}
 
 	public void TestBoopHandler(SocketIOEvent e){

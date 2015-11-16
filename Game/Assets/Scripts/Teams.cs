@@ -7,7 +7,7 @@ public enum TeamID {
 	red, blue
 }
 
-public enum Direction {
+public enum Channel {
 	up, down
 }
 

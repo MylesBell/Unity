@@ -11,11 +11,11 @@ GameObject:
   - 33: {fileID: 3392518}
   - 65: {fileID: 6518506}
   - 23: {fileID: 2389914}
-  - 114: {fileID: 11439948}
   - 114: {fileID: 11425726}
+  - 114: {fileID: 11489150}
   m_Layer: 0
   m_Name: RedTeamBase
-  m_TagString: Untagged
+  m_TagString: redBase
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,21 +107,20 @@ MonoBehaviour:
     i15: 59
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &11439948
+--- !u!114 &11489150
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 182580}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c2c2223b97ec4604b8fef367951f549, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c330b945ab0b469d895f4f0abccd338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamID: 0
-  heroPrefab: {fileID: 179994, guid: 6d64255e7cfa6492ca000be0dbe62fe7, type: 2}
-  gruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
-  numPlayersOnTeam: 0
+  healthBarInitialLength: 100
+  healthBarTexture: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
+  maxHealth: 500
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -132,6 +131,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarInitialLength
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: redBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

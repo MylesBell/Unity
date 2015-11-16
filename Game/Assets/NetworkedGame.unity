@@ -298,6 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e1bb11e9c66c41f1b93cdfc12dfc964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  channelSeparation: 0
   teamsObject: {fileID: 1193707480}
   redBase: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
   blueBase: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
