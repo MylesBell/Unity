@@ -4,24 +4,44 @@ using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
 public class UnitFactory: NetworkBehaviour {
-
-	public GameObject teamsObject, redBase, blueBase, heroPrefab, gruntPrefab;
-	int playerCounter;
-	private Team blueTeam, redTeam;
-	private GameObject redTower, blueTower;
+	public float channelSeparation;
+	public GameObject teamsObject, redBasePrefab, blueBasePrefab, heroPrefab, gruntPrefab;
+	private GameObject redBase, blueBase;
+	private Vector3 blueBaseUpChannelStart, blueBaseDownChannelStart, redBaseUpChannelStart, redBaseDownChannelStart;
+	private Vector3 channelOffset;
+	private int playerCounter;
 
 	// Use this for initialization
 	void Start () {
 		if (isServer) {
-			int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
-			redTower = (GameObject)Instantiate(redBase, new Vector3(50,2,50), Quaternion.identity);
-			blueTower = (GameObject) Instantiate(blueBase, new Vector3(numScreens * 100 - 50, 2, 50), Quaternion.identity);
-			NetworkServer.Spawn(redTower);
-			NetworkServer.Spawn(blueTower);
-			blueTeam = blueTower.GetComponent<Team>();
-			redTeam = redTower.GetComponent<Team>();
 			playerCounter = 0;
+			CreateBases();
+			SetChannelStarts();
 		}
+	}
+
+	private void CreateBases(){
+		int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
+		redBase = (GameObject)Instantiate(blueBasePrefab, new Vector3(50,2,50), Quaternion.identity);
+		blueBase = (GameObject) Instantiate(redBasePrefab, new Vector3(numScreens * 100 - 50, 2, 50), Quaternion.identity);
+		NetworkServer.Spawn(blueBase);
+		NetworkServer.Spawn(redBase);
+	}
+
+	private void SetChannelStarts(){
+		Vector3 blueBasePosition = blueBase.transform.position;
+		Vector3 redBasePosition = redBase.transform.position;
+		Vector3 baseDistance = redBasePosition - blueBasePosition;
+
+		float xOffset = Mathf.Sqrt (Mathf.Abs(Mathf.Pow(channelSeparation,2)/
+		                            (1+Mathf.Pow(baseDistance.y / baseDistance.x,2))));
+		float yOffset = Mathf.Sqrt (Mathf.Abs(Mathf.Pow(channelSeparation,2) + Mathf.Pow(xOffset,2)));
+		channelOffset = new Vector3(xOffset, yOffset, 0);
+
+		blueBaseUpChannelStart = blueBasePosition + new Vector3 (-xOffset,yOffset,0);
+		blueBaseDownChannelStart = blueBasePosition + new Vector3 (xOffset,-yOffset,0);
+		redBaseUpChannelStart = redBasePosition + new Vector3 (-xOffset,yOffset,0);
+		redBaseDownChannelStart = redBasePosition + new Vector3 (xOffset,-yOffset,0);
 	}
 
 	// Update is called once per frame
@@ -42,39 +62,58 @@ public class UnitFactory: NetworkBehaviour {
 
 	public GameObject CreateGrunt(TeamID teamID) {
 		Vector3 spawnLocation = GetSpawnLocation (teamID);
-		Vector3 targetLocation = GetTargetLocation (teamID);
+		Channel channel = getChannel();
+		Vector3 channelTarget = GetLaneTarget (teamID, channel);
 		GameObject gruntObject = Instantiate (gruntPrefab, spawnLocation, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (gruntObject);
 		Grunt grunt = gruntObject.GetComponent<Grunt> ();
-		grunt.InitialiseGrunt (teamID, targetLocation);
+		grunt.InitialiseGrunt (teamID, channel, channelTarget, channelOffset);
 		return gruntObject;
 	}
 
 	public GameObject CreateHero(TeamID teamID, int playerID) {
 		Vector3 spawnLocation = GetSpawnLocation (teamID);
-		Vector3 targetLocation = GetTargetLocation (teamID);
+		Channel channel = getChannel();
+		Vector3 channelTarget = GetLaneTarget (teamID, channel);
 		GameObject heroObject = Instantiate (heroPrefab, spawnLocation, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (heroObject);
 		Hero hero = heroObject.GetComponent<Hero> ();
-		hero.InitialiseHero (teamID, targetLocation);
+		hero.InitialiseHero (teamID, channel, channelTarget, channelOffset);
 		return heroObject;
 	}
 
-	Vector3 GetSpawnLocation (TeamID teamID) {
+	private Vector3 GetSpawnLocation (TeamID teamID) {
 		Vector3 spawnLocation = Vector3.zero;
-		if (teamID == TeamID.red)
-			spawnLocation = redTower.transform.position + new Vector3(4,0,0);
+		if (teamID == TeamID.blue)
+			spawnLocation = blueBase.transform.position + new Vector3(4,0,0);
 		else
-			spawnLocation = blueTower.transform.position - new Vector3(4,0,0);
+			spawnLocation = redBase.transform.position - new Vector3(4,0,0);
 		return spawnLocation;
 	}
 
-	Vector3 GetTargetLocation (TeamID teamID) {
+	private Channel getChannel(){
+		int randomNumber = Random.Range(0,1);
+		if (randomNumber == 0) {
+			return Channel.up;
+		}
+		return Channel.down;
+	}
+	
+	private Vector3 GetLaneTarget (TeamID teamID, Channel channel) {
 		Vector3 targetLocation = Vector3.zero;
-		if (teamID == TeamID.red) 
-			targetLocation = blueTower.transform.position - new Vector3 (4, 0, 0);
-		else
-			targetLocation = redTower.transform.position + new Vector3 (4, 0, 0);
+		if (teamID == TeamID.blue) {
+			if (channel == Channel.up){
+				targetLocation = blueBaseUpChannelStart;
+			}else{
+				targetLocation = blueBaseDownChannelStart;
+			}
+		} else {
+			if (channel == Channel.up){
+				targetLocation = redBaseUpChannelStart;
+			}else{
+				targetLocation = redBaseDownChannelStart;
+			}
+		}
 		return targetLocation;
 	}
 }

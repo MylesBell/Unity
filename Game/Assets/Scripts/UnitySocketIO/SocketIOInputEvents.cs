@@ -24,9 +24,9 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerBack());
 	}
 
-	public void PlayerMoveLane (int playerID, Direction direction)
+	public void PlayerMoveChannel (int playerID, Channel channel)
 	{
-		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveLane(direction));
+		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveLane(channel));
 	}
 
 	#endregion

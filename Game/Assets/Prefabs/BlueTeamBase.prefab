@@ -11,7 +11,6 @@ GameObject:
   - 33: {fileID: 3318454}
   - 65: {fileID: 6534900}
   - 23: {fileID: 2322342}
-  - 114: {fileID: 11409986}
   - 114: {fileID: 11401376}
   - 114: {fileID: 11480678}
   m_Layer: 0
@@ -108,17 +107,6 @@ MonoBehaviour:
     i15: 150
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &11409986
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185270}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c2c2223b97ec4604b8fef367951f549, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11480678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 185270}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34394d4d266c14ba599b660f48831bdb, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c330b945ab0b469d895f4f0abccd338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarInitialLength: 100

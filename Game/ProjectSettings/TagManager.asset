@@ -8,6 +8,8 @@ TagManager:
   - redGrunt
   - blueBase
   - redBase
+  - blueHero
+  - redHero
   layers:
   - Default
   - TransparentFX
