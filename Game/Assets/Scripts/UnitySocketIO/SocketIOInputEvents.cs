@@ -14,19 +14,20 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 
 	#region ISocketIOInputEvents implementation
 	
-	public void PlayerJoin (int playerID)
+	public void PlayerJoin (string playerID)
 	{
 		ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin(playerID));
 	}
 
-	public void PlayerBack (int playerID)
+	public void PlayerBack (string playerID)
 	{
 		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerBack());
 	}
 
-	public void PlayerMoveChannel (int playerID, Channel channel)
+	public void PlayerMoveChannel (string playerID, Channel channel)
 	{
-		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveLane(channel));
+		Debug.Log(teams.GetHero(playerID));
+		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveChannel(channel));
 	}
 
 	#endregion

@@ -15,9 +15,9 @@ public class Hero : NetworkBehaviour, IHeroMovement {
 	{
 		throw new System.NotImplementedException ();
 	}
-	public void PlayerMoveLane (Channel channel)
+	public void PlayerMoveChannel (Channel channel)
 	{
-		throw new System.NotImplementedException ();
+		targetSelect.MoveToChannel(channel);
 	}
 	#endregion
 }

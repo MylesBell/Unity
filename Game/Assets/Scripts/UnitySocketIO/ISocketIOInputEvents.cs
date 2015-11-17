@@ -1,5 +1,5 @@
 public interface ISocketIOInputEvents{
-	void PlayerJoin (int playerID);
-	void PlayerBack (int playerID);
-	void PlayerMoveChannel (int playerID, Channel channel);
+	void PlayerJoin (string playerID);
+	void PlayerBack (string playerID);
+	void PlayerMoveChannel (string playerID, Channel channel);
 }

@@ -6,7 +6,7 @@ public class EventMovement : MonoBehaviour {
 
 	public float speed;
 	public Teams teams;
-	public int playerID = 0;
+	public string playerID = "test";
 
 	// Use this for initialization
 	void Start () {
@@ -19,10 +19,10 @@ public class EventMovement : MonoBehaviour {
 			Channel channel;
 			if (Input.GetKeyUp (KeyCode.UpArrow)) {
 				channel = Channel.up;
-				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveLane (channel));
+				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (channel));
 			} else if (Input.GetKeyUp (KeyCode.DownArrow)) {
 				channel = Channel.down;
-				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveLane (channel));
+				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (channel));
 			}
 		}
 	}

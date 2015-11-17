@@ -21,6 +21,27 @@ public class TargetSelect : MonoBehaviour {
 		movement.SetTarget (channelTarget);
 	}
 
+	public void MoveToChannel(Channel channelInput){
+		Debug.Log("event called");
+
+		if (channel == Channel.up){
+			channelTarget = channelTarget - new Vector3(0,0,20);
+			channel = Channel.down;
+		}else{
+			channelTarget = channelTarget + new Vector3(0,0,20);
+			channel = Channel.up;
+		}
+		movement.SetTarget (channelTarget);
+		/*if (channel != channelInput){
+			channel = channelInput;
+			if (channelInput == Channel.up){
+				channelTarget = channelTarget - new Vector3(0,0,2*channelOffset.z);
+			}else{
+				channelTarget = channelTarget + new Vector3(0,0,2*channelOffset.z);
+			}
+		}*/
+	}
+
 	void Update () {
 		if (!hasAttackTarget()) {
 			attack.setTarget(GetNewAttackTarget ());
@@ -109,8 +130,7 @@ public class TargetSelect : MonoBehaviour {
 	}
 
 	private bool TargetInRange(GameObject attackTarget){
-		print (Vector3.Distance (attackTarget.transform.position, transform.position));
-		return (Vector3.Distance (attackTarget.transform.position, transform.position) < 10.0f);
+		return (Vector3.Distance (attackTarget.transform.position, transform.position) < 15.0f);
 	}
 
 	private GameObject FindClosestObjectWithTag(string type) {
