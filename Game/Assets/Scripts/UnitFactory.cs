@@ -46,7 +46,6 @@ public class UnitFactory: NetworkBehaviour {
 		blueBaseDownChannelStart = blueBasePosition + new Vector3 (channelSeparation,0,-channelSeparation);
 		redBaseUpChannelStart = redBasePosition + new Vector3 (-channelSeparation,0,channelSeparation);
 		redBaseDownChannelStart = redBasePosition + new Vector3 (-channelSeparation,0,-channelSeparation);
-		channelOffset = new Vector3(channelSeparation, 0, 0);
 	}
 
 	// Update is called once per frame
@@ -74,7 +73,7 @@ public class UnitFactory: NetworkBehaviour {
 		GameObject gruntObject = Instantiate (gruntPrefab, spawnLocation, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (gruntObject);
 		Grunt grunt = gruntObject.GetComponent<Grunt> ();
-		grunt.InitialiseGrunt (teamID, channel, channelTarget, channelOffset);
+		grunt.InitialiseGrunt (teamID, channel, channelTarget, channelSeparation);
 		return gruntObject;
 	}
 
@@ -86,7 +85,7 @@ public class UnitFactory: NetworkBehaviour {
 		GameObject heroObject = Instantiate (heroPrefab, spawnLocation, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (heroObject);
 		Hero hero = heroObject.GetComponent<Hero> ();
-		hero.InitialiseHero (teamID, playerName, channel, channelTarget, channelOffset);
+		hero.InitialiseHero (teamID, playerName, channel, channelTarget, channelSeparation);
 		return heroObject;
 	}
 
