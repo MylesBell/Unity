@@ -10,7 +10,13 @@ public class TargetSelect : NetworkBehaviour {
 	private Channel channel;
 	private Vector3 channelTarget;
 	private float channelOffset;
-
+	
+	private Stats stats;
+	
+	void Start() {
+		stats = (Stats) GetComponent<Stats>();
+	}
+	
 	public void InitialiseTargetSelect (TeamID teamIDInput, Channel channelInput, Vector3 channelTargetInput, float channelOffsetInput)
 	{
 		teamID = teamIDInput;
@@ -128,7 +134,7 @@ public class TargetSelect : NetworkBehaviour {
 	}
 
 	private bool TargetInRange(GameObject attackTarget){
-		return (Vector3.Distance (attackTarget.transform.position, transform.position) < 15.0f);
+		return (Vector3.Distance (attackTarget.transform.position, transform.position) < stats.targetSelectRange);
 	}
 
 	private GameObject FindClosestObjectWithTag(string type) {
