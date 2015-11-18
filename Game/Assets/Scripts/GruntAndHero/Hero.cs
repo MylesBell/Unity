@@ -11,7 +11,7 @@ public class Hero : NetworkBehaviour, IHeroMovement {
         heroname.GetComponent<TextMesh>().text = HeroNameString;
     }
     
-	public void InitialiseHero(TeamID teamIDInput, string playerName, Channel channelInput, Vector3 channelTarget, Vector3 channelOffset) {
+	public void InitialiseHero(TeamID teamIDInput, string playerName, Channel channelInput, Vector3 channelTarget, float channelOffset) {
         GameObject heroname = transform.FindChild("HeroName").gameObject;
         HeroNameString = playerName;
         heroname.GetComponent<TextMesh>().text = HeroNameString;

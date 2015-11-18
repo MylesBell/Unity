@@ -6,7 +6,7 @@ public class Grunt : NetworkBehaviour {
 
 	private TargetSelect targetSelect;
 
-	public void InitialiseGrunt(TeamID teamIDInput, Channel channelInput, Vector3 channelTarget, Vector3 channelOffset) {
+	public void InitialiseGrunt(TeamID teamIDInput, Channel channelInput, Vector3 channelTarget, float channelOffset) {
         if (isServer) { 
 		    targetSelect = GetComponent<TargetSelect> ();
 		    targetSelect.InitialiseTargetSelect (teamIDInput, channelInput, channelTarget, channelOffset);

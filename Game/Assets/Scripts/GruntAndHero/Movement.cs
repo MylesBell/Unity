@@ -71,7 +71,6 @@ public class Movement : NetworkBehaviour{
 	}
 	
 	public void SetTarget (Vector3 movementTargetInput) {
-		Debug.Log(movementTargetInput);
 		movementTarget = movementTargetInput;
 	}
 }
