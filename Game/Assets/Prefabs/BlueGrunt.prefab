@@ -13,12 +13,12 @@ GameObject:
   - 23: {fileID: 2321098}
   - 195: {fileID: 19528242}
   - 114: {fileID: 11454656}
-  - 54: {fileID: 5418598}
   - 114: {fileID: 11442344}
   - 114: {fileID: 11445054}
   - 114: {fileID: 11486206}
   - 114: {fileID: 11460638}
   - 114: {fileID: 11485918}
+  - 54: {fileID: 5456998}
   m_Layer: 0
   m_Name: BlueGrunt
   m_TagString: blueGrunt
@@ -69,7 +69,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129988}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5418598
+--- !u!54 &5456998
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -79,7 +79,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: .0500000007
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -253,6 +253,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: maxHealth
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

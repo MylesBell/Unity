@@ -6,8 +6,10 @@ public class Hero : NetworkBehaviour, IHeroMovement {
 	private TargetSelect targetSelect;
 
 	public void InitialiseHero(TeamID teamIDInput, Channel channelInput, Vector3 channelTarget, Vector3 channelOffset) {
-		targetSelect = GetComponent<TargetSelect> ();
-		targetSelect.InitialiseTargetSelect (teamIDInput, channelInput, channelTarget, channelOffset);
+        if (isServer) {
+            targetSelect = GetComponent<TargetSelect>();
+            targetSelect.InitialiseTargetSelect(teamIDInput, channelInput, channelTarget, channelOffset);
+        }
 	}
 	
 	#region IHeroMovement implementation
@@ -17,7 +19,9 @@ public class Hero : NetworkBehaviour, IHeroMovement {
 	}
 	public void PlayerMoveChannel (Channel channel)
 	{
-		targetSelect.MoveToChannel(channel);
+        if (isServer) {
+            targetSelect.MoveToChannel(channel);
+        }
 	}
 	#endregion
 }

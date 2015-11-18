@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class TargetSelect : MonoBehaviour {
+public class TargetSelect : NetworkBehaviour {
 
 	private TeamID teamID;
 	private Attack attack;
@@ -43,15 +44,19 @@ public class TargetSelect : MonoBehaviour {
 	}
 
 	void Update () {
-		if (!hasAttackTarget()) {
-			attack.setTarget(GetNewAttackTarget ());
-		}
+        if (isServer)
+        {
+            if (!hasAttackTarget()) {
+                attack.setTarget(GetNewAttackTarget());
+            }
 
-		if (hasAttackTarget ()) {
-			movement.SetTarget (attack.getTarget ().transform.position);
-		} else {
-			UpdateChannelMoveTarget();
-		}
+            if (hasAttackTarget()) {
+                movement.SetTarget(attack.getTarget().transform.position);
+            }
+            else {
+                UpdateChannelMoveTarget();
+            }
+        }
 	}
 	
 	private void UpdateChannelMoveTarget(){

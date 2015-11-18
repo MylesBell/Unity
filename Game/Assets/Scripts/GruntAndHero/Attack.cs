@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Attack : MonoBehaviour {
+public class Attack : NetworkBehaviour {
 
 	private GameObject target;
 	private float timeTillAttack;
@@ -17,14 +18,16 @@ public class Attack : MonoBehaviour {
 	}
 
 	void Update () {
-		if (target != null) {
-			if ((timeTillAttack > 0)) {
-				timeTillAttack -= Time.deltaTime;
-			} else {
-				AttackTarget ();
-				timeTillAttack = attackCoolDown;
-			}
-		}
+        if (isServer) { 
+		    if (target != null) {
+			    if ((timeTillAttack > 0)) {
+				    timeTillAttack -= Time.deltaTime;
+			    } else {
+				    AttackTarget ();
+				    timeTillAttack = attackCoolDown;
+			    }
+		    }
+        }
 	}
 	
 	private void AttackTarget() {

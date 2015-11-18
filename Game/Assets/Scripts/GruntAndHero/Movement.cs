@@ -23,6 +23,9 @@ public class Movement : NetworkBehaviour{
 	public float rotationThreshold = 5f;
 
 	void Start() {
+        if (isServer) {
+            gameObject.GetComponent<Rigidbody>().useGravity = true;
+        }
 		synchPos = transform.position;
 	}
 
