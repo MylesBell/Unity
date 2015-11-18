@@ -31,7 +31,12 @@ public class Movement : NetworkBehaviour{
 
 	void Update(){
 		if (isServer) {
-			SeverSetNewPosition();
+            if(GameState.gameState == GameState.State.PLAYING) {
+			    SeverSetNewPosition();
+            } else {
+                //Make sure they stop moving
+                gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            }
 		} else {
 			if(NotTooClose()){
 				ClientMoveToPosition();

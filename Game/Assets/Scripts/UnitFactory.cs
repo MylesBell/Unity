@@ -12,21 +12,25 @@ public class UnitFactory: NetworkBehaviour {
 	private Vector3 channelOffset;
 	private int playerCounter;
 
-	// Use this for initialization
-	void Start () {
+    private bool initialised;
+
+    // Use this for initialization
+    void Start () {
 		if (isServer) {
 			playerCounter = 0;
-			CreateBases();
-			SetChannelStarts();
-		}
+            initialised = false;
+        }
 	}
 
 	private void CreateBases(){
 		int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
 		blueBase = (GameObject)Instantiate(blueBasePrefab, new Vector3(50,2,50), Quaternion.identity);
+        blueBase.GetComponent<Base>().initialise(TeamID.blue);
 		redBase = (GameObject) Instantiate(redBasePrefab, new Vector3(numScreens * 100 - 50, 2, 50), Quaternion.identity);
-		NetworkServer.Spawn(blueBase);
+        redBase.GetComponent<Base>().initialise(TeamID.red);
+        NetworkServer.Spawn(blueBase);
 		NetworkServer.Spawn(redBase);
+        initialised = true;
 	}
 
 	private void SetChannelStarts(){
@@ -52,7 +56,19 @@ public class UnitFactory: NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (isServer) {
-			if (Input.GetKeyUp (KeyCode.P)) {
+            switch (GameState.gameState) {
+                case GameState.State.IDLE:
+                    if (!initialised) {
+                        CreateBases();
+                        SetChannelStarts();
+                    }
+                        break;
+                case GameState.State.PLAYING:
+                    break;
+                case GameState.State.END:
+                    break;
+            }
+            if (Input.GetKeyUp (KeyCode.P)) {
 				ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin (playerCounter.ToString(), "Smith"));
 				playerCounter++;
 			}

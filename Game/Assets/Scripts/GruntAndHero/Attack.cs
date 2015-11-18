@@ -18,7 +18,7 @@ public class Attack : NetworkBehaviour {
 	}
 
 	void Update () {
-        if (isServer) { 
+        if (isServer && GameState.gameState == GameState.State.PLAYING) { 
 		    if (target != null) {
 			    if ((timeTillAttack > 0)) {
 				    timeTillAttack -= Time.deltaTime;
