@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 491372}
   - 108: {fileID: 10842794}
+  - 114: {fileID: 11462982}
   m_Layer: 0
   m_Name: Point light
   m_TagString: Untagged
@@ -26,13 +27,13 @@ GameObject:
   - 224: {fileID: 22485974}
   - 135: {fileID: 13521646}
   - 23: {fileID: 2306862}
-  - 54: {fileID: 5435622}
   - 114: {fileID: 11432016}
   - 114: {fileID: 11470932}
   - 114: {fileID: 11431772}
   - 114: {fileID: 11400890}
   - 114: {fileID: 11415468}
   - 114: {fileID: 11459170}
+  - 54: {fileID: 5439950}
   - 33: {fileID: 3349382}
   - 222: {fileID: 22263394}
   m_Layer: 0
@@ -53,6 +54,7 @@ GameObject:
   - 23: {fileID: 2313768}
   - 102: {fileID: 10212794}
   - 114: {fileID: 11402480}
+  - 114: {fileID: 11416126}
   m_Layer: 0
   m_Name: HeroName
   m_TagString: Untagged
@@ -139,7 +141,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 149832}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5435622
+--- !u!54 &5439950
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -149,7 +151,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: .0500000007
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -174,7 +176,7 @@ TextMesh:
   m_Font: {fileID: 0}
   m_Color:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
 --- !u!108 &10842794
 Light:
   m_ObjectHideFlags: 1
@@ -249,6 +251,38 @@ MonoBehaviour:
   lerpRate: 10
   positionThreshold: .5
   rotationThreshold: 5
+--- !u!114 &11416126
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 189648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 62
+    i1: 83
+    i2: 35
+    i3: 158
+    i4: 34
+    i5: 150
+    i6: 126
+    i7: 244
+    i8: 26
+    i9: 208
+    i10: 24
+    i11: 99
+    i12: 209
+    i13: 24
+    i14: 164
+    i15: 119
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11431772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -306,6 +340,38 @@ MonoBehaviour:
   healthBarInitialLength: 10
   healthBarTexture: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
   maxHealth: 100
+--- !u!114 &11462982
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 62
+    i1: 83
+    i2: 35
+    i3: 158
+    i4: 34
+    i5: 150
+    i6: 126
+    i7: 244
+    i8: 26
+    i9: 208
+    i10: 24
+    i11: 99
+    i12: 209
+    i13: 24
+    i14: 164
+    i15: 119
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11470932
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -386,8 +452,8 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: m_RootOrder
-      value: 1
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Text
@@ -408,6 +474,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Alignment
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

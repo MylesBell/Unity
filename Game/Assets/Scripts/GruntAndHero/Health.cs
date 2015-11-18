@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Health : MonoBehaviour {
+public class Health : NetworkBehaviour {
 	public float healthBarInitialLength;
 	public Texture healthBarTexture;
 
 	public float maxHealth;
-	private float currentHealth;
+	[SyncVar] private float currentHealth;
 	private float healthBarLength;
 	private float percentOfHealth;
 	private Vector3 entityLocation;

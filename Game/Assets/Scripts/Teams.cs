@@ -15,7 +15,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 
 	Team blueTeam, redTeam;
 	int numPlayers, numPlayersRed, numPlayersBlue;
-	Dictionary<int,GameObject> playerDict = new Dictionary<int,GameObject>();
+	Dictionary<string,GameObject> playerDict = new Dictionary<string,GameObject>();
 	UnitFactory unitFactory;
 
 	void Start () {
@@ -25,14 +25,14 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 		unitFactory = GetComponent<UnitFactory> ();
 	}
 
-	public GameObject GetHero(int playerID) {
+	public GameObject GetHero(string playerID) {
 		GameObject hero;
 		playerDict.TryGetValue(playerID, out hero);
 		return hero;
 	}
 
 	#region IPlayerJoin implementation
-	public void PlayerJoin (int playerID, string playerName) {
+	public void PlayerJoin (string playerID, string playerName) {
 		GameObject hero;
 		if (numPlayersBlue < numPlayersRed) {
 			hero = unitFactory.CreateHero (TeamID.blue, playerName);
@@ -42,7 +42,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 			numPlayersRed++;
 		}
 
-		playerDict.Add (numPlayers, hero);
+		playerDict.Add (playerID, hero);
 		numPlayers++;
 	}
 	#endregion

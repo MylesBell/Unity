@@ -11,13 +11,13 @@ GameObject:
   - 33: {fileID: 3345434}
   - 135: {fileID: 13518674}
   - 23: {fileID: 2348364}
-  - 54: {fileID: 5450938}
   - 114: {fileID: 11458742}
   - 114: {fileID: 11446168}
   - 114: {fileID: 11448390}
   - 114: {fileID: 11490844}
   - 114: {fileID: 11495222}
   - 114: {fileID: 11454082}
+  - 54: {fileID: 5478138}
   m_Layer: 0
   m_Name: RedHero
   m_TagString: redHero
@@ -34,6 +34,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 484192}
   - 108: {fileID: 10846150}
+  - 114: {fileID: 11478922}
   m_Layer: 0
   m_Name: Point light
   m_TagString: Untagged
@@ -52,6 +53,7 @@ GameObject:
   - 23: {fileID: 2303392}
   - 102: {fileID: 10296092}
   - 114: {fileID: 11482282}
+  - 114: {fileID: 11413352}
   m_Layer: 0
   m_Name: HeroName
   m_TagString: Untagged
@@ -152,7 +154,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101776}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5450938
+--- !u!54 &5478138
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -162,7 +164,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: .0500000007
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -187,7 +189,7 @@ TextMesh:
   m_Font: {fileID: 0}
   m_Color:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190080
 --- !u!108 &10846150
 Light:
   m_ObjectHideFlags: 1
@@ -220,6 +222,38 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11413352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 147
+    i1: 201
+    i2: 179
+    i3: 89
+    i4: 67
+    i5: 39
+    i6: 85
+    i7: 52
+    i8: 169
+    i9: 150
+    i10: 16
+    i11: 250
+    i12: 115
+    i13: 131
+    i14: 145
+    i15: 46
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11446168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -262,6 +296,38 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 147
+    i1: 201
+    i2: 179
+    i3: 89
+    i4: 67
+    i5: 39
+    i6: 85
+    i7: 52
+    i8: 169
+    i9: 150
+    i10: 16
+    i11: 250
+    i12: 115
+    i13: 131
+    i14: 145
+    i15: 46
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11478922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111404}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
@@ -366,8 +432,8 @@ Prefab:
       value: 
       objectReference: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
     - target: {fileID: 0}
-      propertyPath: m_OffsetZ
-      value: 3
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Anchor
@@ -376,6 +442,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Alignment
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

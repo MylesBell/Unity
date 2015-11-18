@@ -8,7 +8,7 @@ public class Movement : NetworkBehaviour{
 	private NavMeshAgent agent;
 
 	// characteristics, move to stats later
-	public float speed = 10.0f;
+	public float speed = 5.0f;
 	public int minDistance;
 
 	[SyncVar] public bool isInitialised = false;
@@ -23,37 +23,42 @@ public class Movement : NetworkBehaviour{
 	public float rotationThreshold = 5f;
 
 	void Start() {
+        if (isServer) {
+            gameObject.GetComponent<Rigidbody>().useGravity = true;
+        }
 		synchPos = transform.position;
 	}
 
 	void Update(){
 		if (isServer) {
-			transform.position = Vector3.Lerp (transform.position, this.movementTarget, Time.deltaTime);
-			if (Vector3.Distance (transform.position, lastPos) > positionThreshold
-				|| Quaternion.Angle (transform.rotation, lastRot) > rotationThreshold) {
-				lastPos = transform.position;
-				lastRot = transform.rotation;
-			
-				synchPos = transform.position;
-				synchYRot = transform.localEulerAngles.y;
-			}
+			SeverSetNewPosition();
 		} else {
-			if(notTooClose()){
-				transform.position = Vector3.Lerp (transform.position, synchPos, Time.deltaTime * lerpRate);
-				transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (new Vector3 (0, synchYRot, 0)), Time.deltaTime * lerpRate);
+			if(NotTooClose()){
+				ClientMoveToPosition();
 			}
 		}
-		//moveTowardsTarget ();
 	}
 
-	private void moveTowardsTarget(){
-		if(notTooClose()){
-			float step = speed * Time.deltaTime;
-			transform.position = Vector3.MoveTowards(transform.position, movementTarget, step);
+	private void SeverSetNewPosition(){
+		transform.position = Vector3.Lerp (transform.position, this.movementTarget, Time.deltaTime);
+		if (Vector3.Distance (transform.position, lastPos) > positionThreshold
+			|| Quaternion.Angle (transform.rotation, lastRot) > rotationThreshold) {
+			lastPos = transform.position;
+			lastRot = transform.rotation;
+		
+			synchPos = transform.position;
+			synchYRot = transform.localEulerAngles.y;
 		}
+		/*float step = speed * Time.deltaTime;
+		transform.position = Vector3.MoveTowards(transform.position, movementTarget, step);*/
 	}
 
-	private bool notTooClose(){
+	private void ClientMoveToPosition(){
+		transform.position = Vector3.Lerp (transform.position, synchPos, Time.deltaTime * lerpRate);
+		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (new Vector3 (0, synchYRot, 0)), Time.deltaTime * lerpRate);
+	}
+
+	private bool NotTooClose(){
 		if (Vector3.Distance (transform.position, movementTarget) > minDistance) {
 			return true;
 		}
@@ -66,6 +71,7 @@ public class Movement : NetworkBehaviour{
 	}
 	
 	public void SetTarget (Vector3 movementTargetInput) {
+		Debug.Log(movementTargetInput);
 		movementTarget = movementTargetInput;
 	}
 }

@@ -34,22 +34,26 @@ public class UnitFactory: NetworkBehaviour {
 		Vector3 redBasePosition = redBase.transform.position;
 		Vector3 baseDistance = redBasePosition - blueBasePosition;
 
-		float xOffset = Mathf.Sqrt (Mathf.Abs(Mathf.Pow(channelSeparation,2)/
+		/*float xOffset = Mathf.Sqrt (Mathf.Abs(Mathf.Pow(channelSeparation,2)/
 		                            (1+Mathf.Pow(baseDistance.y / baseDistance.x,2))));
-		float yOffset = Mathf.Sqrt (Mathf.Abs(Mathf.Pow(channelSeparation,2) + Mathf.Pow(xOffset,2)));
-		channelOffset = new Vector3(xOffset, yOffset, 0);
+		float zOffset = Mathf.Sqrt (Mathf.Abs(Mathf.Pow(channelSeparation,2) + Mathf.Pow(xOffset,2)));
+		blueBaseUpChannelStart = blueBasePosition + new Vector3 (-xOffset,0,zOffset);
+		blueBaseDownChannelStart = blueBasePosition + new Vector3 (xOffset,0,-zOffset);
+		redBaseUpChannelStart = redBasePosition + new Vector3 (-xOffset,0,zOffset);
+		redBaseDownChannelStart = redBasePosition + new Vector3 (xOffset,0,-zOffset);*/
 
-		blueBaseUpChannelStart = blueBasePosition + new Vector3 (-xOffset,yOffset,0);
-		blueBaseDownChannelStart = blueBasePosition + new Vector3 (xOffset,-yOffset,0);
-		redBaseUpChannelStart = redBasePosition + new Vector3 (-xOffset,yOffset,0);
-		redBaseDownChannelStart = redBasePosition + new Vector3 (xOffset,-yOffset,0);
+		blueBaseUpChannelStart = blueBasePosition + new Vector3 (channelSeparation,0,channelSeparation);
+		blueBaseDownChannelStart = blueBasePosition + new Vector3 (channelSeparation,0,-channelSeparation);
+		redBaseUpChannelStart = redBasePosition + new Vector3 (-channelSeparation,0,channelSeparation);
+		redBaseDownChannelStart = redBasePosition + new Vector3 (-channelSeparation,0,-channelSeparation);
+		channelOffset = new Vector3(channelSeparation, 0, 0);
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if (isServer) {
 			if (Input.GetKeyUp (KeyCode.P)) {
-				ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin (playerCounter, "Smith"));
+				ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin (playerCounter.ToString(), "Smith"));
 				playerCounter++;
 			}
 			if (Input.GetKeyUp (KeyCode.G)) {
@@ -96,7 +100,7 @@ public class UnitFactory: NetworkBehaviour {
 	}
 
 	private Channel getChannel(){
-		int randomNumber = Random.Range(0,1);
+		int randomNumber = Random.Range(0,2);
 		if (randomNumber == 0) {
 			return Channel.up;
 		}

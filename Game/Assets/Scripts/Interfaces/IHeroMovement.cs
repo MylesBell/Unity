@@ -2,5 +2,5 @@
 
 public interface IHeroMovement : IEventSystemHandler {
 	void PlayerBack ();
-	void PlayerMoveLane(Channel channel);
+	void PlayerMoveChannel(Channel channel);
 }
