@@ -18,6 +18,7 @@ GameObject:
   - 114: {fileID: 11495222}
   - 114: {fileID: 11454082}
   - 54: {fileID: 5478138}
+  - 114: {fileID: 11412706}
   m_Layer: 0
   m_Name: RedHero
   m_TagString: redHero
@@ -222,6 +223,19 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11412706
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f92930b3f4e34b9fabd9379fa43af4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 0
+  minDistanceFromEnemy: 0
 --- !u!114 &11413352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -390,8 +404,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3803b6d1f32a146e792f38c381ed9888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  minDistance: 0
   isInitialised: 0
   lerpRate: 10
   positionThreshold: .5

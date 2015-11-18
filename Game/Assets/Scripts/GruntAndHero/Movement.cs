@@ -4,15 +4,10 @@ using UnityEngine.Networking;
 
 public class Movement : NetworkBehaviour{
 
-	[SyncVar] private Vector3 movementTarget;
 	private NavMeshAgent agent;
 
-	// characteristics, move to stats later
-	public float speed = 5.0f;
-	public int minDistance;
-
+	[SyncVar] private Vector3 movementTarget;
 	[SyncVar] public bool isInitialised = false;
-
 	[SyncVar] private Vector3 synchPos;
 	[SyncVar] private float synchYRot;
 	
@@ -21,11 +16,14 @@ public class Movement : NetworkBehaviour{
 	public float lerpRate = 10f;
 	public float positionThreshold = 0.5f;
 	public float rotationThreshold = 5f;
+	
+	private Stats stats;
 
 	void Start() {
         if (isServer) {
             gameObject.GetComponent<Rigidbody>().useGravity = true;
         }
+		stats = (Stats) GetComponent<Stats>();
 		synchPos = transform.position;
 	}
 
@@ -59,7 +57,7 @@ public class Movement : NetworkBehaviour{
 	}
 
 	private bool NotTooClose(){
-		if (Vector3.Distance (transform.position, movementTarget) > minDistance) {
+		if (Vector3.Distance (transform.position, movementTarget) > stats.minDistanceFromEnemy) {
 			return true;
 		}
 		return false;
