@@ -3,12 +3,21 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class Hero : NetworkBehaviour, IHeroMovement {
+    [SyncVar] private string HeroNameString = "";
 	private TargetSelect targetSelect;
 
-	public void InitialiseHero(TeamID teamIDInput, Channel channelInput, Vector3 channelTarget, Vector3 channelOffset) {
+    public void Start() {
+        GameObject heroname = transform.FindChild("HeroName").gameObject;
+        heroname.GetComponent<TextMesh>().text = HeroNameString;
+    }
+    
+	public void InitialiseHero(TeamID teamIDInput, string playerName, Channel channelInput, Vector3 channelTarget, Vector3 channelOffset) {
+        GameObject heroname = transform.FindChild("HeroName").gameObject;
+        HeroNameString = playerName;
+        heroname.GetComponent<TextMesh>().text = HeroNameString;
         if (isServer) {
-            targetSelect = GetComponent<TargetSelect>();
-            targetSelect.InitialiseTargetSelect(teamIDInput, channelInput, channelTarget, channelOffset);
+            targetSelect = GetComponent<TargetSelect> ();
+            targetSelect.InitialiseTargetSelect (teamIDInput, channelInput, channelTarget, channelOffset);
         }
 	}
 	

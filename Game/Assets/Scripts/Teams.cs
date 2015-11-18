@@ -32,13 +32,13 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 	}
 
 	#region IPlayerJoin implementation
-	public void PlayerJoin (string playerID) {
+	public void PlayerJoin (string playerID, string playerName) {
 		GameObject hero;
 		if (numPlayersBlue < numPlayersRed) {
-			hero = unitFactory.CreateHero (TeamID.blue);
+			hero = unitFactory.CreateHero (TeamID.blue, playerName);
 			numPlayersBlue++;
 		} else {
-			hero = unitFactory.CreateHero (TeamID.red);
+			hero = unitFactory.CreateHero (TeamID.red, playerName);
 			numPlayersRed++;
 		}
 

@@ -14,9 +14,9 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 
 	#region ISocketIOInputEvents implementation
 	
-	public void PlayerJoin (string playerID)
+	public void PlayerJoin (string playerID, string playerName)
 	{
-		ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin(playerID));
+		ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin(playerID, playerName));
 	}
 
 	public void PlayerBack (string playerID)

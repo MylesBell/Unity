@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SocketIO;
+using UnityEngine.Networking;
 
-public class SocketNetworkManager : MonoBehaviour, ISocketManager  {
+public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 
 	public GameObject socketPrefab;
 
@@ -13,24 +14,30 @@ public class SocketNetworkManager : MonoBehaviour, ISocketManager  {
 	 
 	// Use this for initialization
 	void Start () {
-		socketIOInputEvents = new SocketIOInputEvents ();
-		socket = createSocket (hostName, portNumber);
-		socket.On("playerJoin", PlayerJoinHandler);
-		socket.On("playerDirection", DirectionHandler);
-		socket.On("boop", TestBoopHandler);
-		socket.On("open", TestOpen);
-		socket.On("close", CloseHandler);
+        if (isServer) {
+            socketIOInputEvents = new SocketIOInputEvents();
+            socket = createSocket(hostName, portNumber);
+            socket.On("playerJoin", PlayerJoinHandler);
+            socket.On("playerDirection", DirectionHandler);
+            socket.On("boop", TestBoopHandler);
+            socket.On("open", TestOpen);
+            socket.On("close", CloseHandler);
+        }
 
 	}
 
 	public void PlayerJoinHandler(SocketIOEvent e){
-		Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));	
-		socketIOInputEvents.PlayerJoin("test");
+        if (isServer) {
+            Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
+            socketIOInputEvents.PlayerJoin("test", e.data.GetField("username").str);
+        }
 	}
 
 	public void DirectionHandler(SocketIOEvent e){
-		Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-		socketIOInputEvents.PlayerMoveChannel("test", Channel.up);
+        if (isServer) {
+		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
+		    socketIOInputEvents.PlayerMoveChannel("test", Channel.up);
+        }
 	}
 
 	public void TestBoopHandler(SocketIOEvent e){

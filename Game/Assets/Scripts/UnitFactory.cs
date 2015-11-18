@@ -53,7 +53,7 @@ public class UnitFactory: NetworkBehaviour {
 	void Update () {
 		if (isServer) {
 			if (Input.GetKeyUp (KeyCode.P)) {
-				ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin (playerCounter.ToString()));
+				ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin (playerCounter.ToString(), "Smith"));
 				playerCounter++;
 			}
 			if (Input.GetKeyUp (KeyCode.G)) {
@@ -78,7 +78,7 @@ public class UnitFactory: NetworkBehaviour {
 		return gruntObject;
 	}
 
-	public GameObject CreateHero(TeamID teamID) {
+	public GameObject CreateHero(TeamID teamID, string playerName) {
 		GameObject heroPrefab = teamID == TeamID.blue ? blueHeroPrefab : redHeroPrefab;
 		Vector3 spawnLocation = GetSpawnLocation (teamID);
 		Channel channel = getChannel();
@@ -86,7 +86,7 @@ public class UnitFactory: NetworkBehaviour {
 		GameObject heroObject = Instantiate (heroPrefab, spawnLocation, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (heroObject);
 		Hero hero = heroObject.GetComponent<Hero> ();
-		hero.InitialiseHero (teamID, channel, channelTarget, channelOffset);
+		hero.InitialiseHero (teamID, playerName, channel, channelTarget, channelOffset);
 		return heroObject;
 	}
 
