@@ -29,7 +29,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 	public void PlayerJoinHandler(SocketIOEvent e){
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerJoin("test", e.data.GetField("username").str); // socekt io id, name
+            socketIOInputEvents.PlayerJoin(e.data.GetField("uID").str, e.data.GetField("username").str); // socekt io id, name
         }
 	}
 
@@ -45,7 +45,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		    	dest = Channel.down;
 		    }
             
-		    socketIOInputEvents.PlayerMoveChannel("test", dest); // socket io id, channel direction
+		    socketIOInputEvents.PlayerMoveChannel(e.data.GetField("uID").str, dest); // socket io id, channel direction
         }
 	}
 
