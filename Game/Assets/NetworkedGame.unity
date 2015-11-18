@@ -288,6 +288,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993fb1fb1dcff45d5899b56bc9a131a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  channelSeparation: 10
+  channelOffset: {x: 10, y: 0, z: 0}
 --- !u!114 &1193707482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,7 +308,6 @@ MonoBehaviour:
   redHeroPrefab: {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
   blueGruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
   redGruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
-  channelSeparation: 10
 --- !u!114 &1193707483
 MonoBehaviour:
   m_ObjectHideFlags: 0
