@@ -75,7 +75,7 @@ public class Team : NetworkBehaviour {
     }
 
     private Vector3 GetTargetPosition(float zPosition) {
-        return new Vector3(teamBase.transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 1, zPosition);
+        return new Vector3(teamBase.transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 0, zPosition);
     }
 
     private void resetTeam() {
