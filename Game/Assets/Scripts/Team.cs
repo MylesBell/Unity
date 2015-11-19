@@ -10,7 +10,7 @@ public class Team : NetworkBehaviour {
     UnitFactory unitFactory;
     private bool initialised;
     private GameObject teamBase;
-    private LinkedList<GameObject> grunts = new LinkedList<GameObject>();
+    private LinkedList<GameObject> availableGrunts = new LinkedList<GameObject>();
 
     private int numberOfHeros;
 
@@ -22,6 +22,8 @@ public class Team : NetworkBehaviour {
     public GameObject HeroPrefab;
     public GameObject BasePrefab;
     public GameObject GruntPrefab;
+
+    public int gruntPoolSize;
 
     void Start() {
         unitFactory = gameObject.GetComponent<UnitFactory>();
@@ -39,8 +41,10 @@ public class Team : NetworkBehaviour {
      void Update() {
         if (isServer) {
             if (Input.GetKeyUp(KeyCode.G)) {
-                float zPos = getZPosition();
-                grunts.AddLast(unitFactory.CreateGrunt(GruntPrefab, teamID, GetSpawnLocation(), GetTargetPosition(zPos), zPositionOffset));
+                GameObject grunt = getGrunt();
+                grunt.transform.position = GetSpawnLocation();
+                grunt.GetComponent<Grunt>().InitialiseGrunt(teamID, GetTargetPosition(getZPosition()), zPositionOffset);
+
             }
         }
     }
@@ -65,18 +69,10 @@ public class Team : NetworkBehaviour {
         return new Vector3(teamBase.transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 1, zPosition);
     }
 
-    private void destroyList(LinkedList<GameObject> objects) {
-        while(objects.Count > 0) {
-            Destroy(objects.First.Value);
-            objects.RemoveFirst();
-        }
-    }
-
     private void resetTeam() {
+        initialiseGruntPool();
         //Destroy bases
         if (teamBase) Destroy(teamBase);
-        //Destroy Grunts
-        destroyList(grunts);
 
         //Restart heros
         foreach (KeyValuePair<string, GameObject> entry in playerDict)
@@ -104,6 +100,26 @@ public class Team : NetworkBehaviour {
         GameObject hero = unitFactory.CreateHero(HeroPrefab, teamID, playerName, GetSpawnLocation(), GetTargetPosition(getZPosition()), zPositionOffset);
         playerDict.Add(playerID, hero);
         numberOfHeros++;
+    }
+
+    private void initialiseGruntPool() {
+        for(int i = 0; i < gruntPoolSize; i++) {
+            GameObject grunt = unitFactory.CreateGrunt(GruntPrefab);
+            grunt.SetActive(false);
+            availableGrunts.AddLast(grunt);
+        }
+    }
+
+    private GameObject getGrunt() {
+        GameObject grunt;
+        if (availableGrunts.Count > 0) {
+            grunt = availableGrunts.First.Value;
+            availableGrunts.RemoveFirst();
+        } else {
+            grunt = unitFactory.CreateGrunt(GruntPrefab);
+        }
+        grunt.SetActive(true);
+        return grunt;
     }
 
     public int GetNumberOfHeros() {
