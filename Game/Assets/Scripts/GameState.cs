@@ -15,6 +15,7 @@ public class GameState : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyUp(KeyCode.S)) {
             gameState = gameState == State.IDLE ? State.PLAYING: gameState;
+			startGame ();
         }
 
         if (Input.GetKeyUp(KeyCode.E)) {
@@ -26,27 +27,17 @@ public class GameState : MonoBehaviour {
         }
     }
 
-    void onGameStateChange() {
-        //tell sockets io
-        switch (gameState) {
-            case State.IDLE:
-
-                break;
-            case State.PLAYING:
-
-                break;
-            case State.END:
-
-                break;
-        }
-    }
-
     public static void changeGameState(State state) {
         gameState = state;
+		SocketIOOutgoingEvents.GameStateChange (state);
     }
 
-    public static void endGame(TeamID winner) {
-        changeGameState(State.END);
-        Debug.Log(winner + " won!\n");
-    }
+	public static void endGame(TeamID winner) {
+		changeGameState(State.END);
+		Debug.Log(winner + " won!\n");
+	}
+
+	public static void startGame() {
+		changeGameState(State.PLAYING);
+	}
 }

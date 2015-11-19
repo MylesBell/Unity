@@ -1,24 +1,18 @@
-// SocketIO methods to handle game events
+// SocketIO methods to handle game events;
+using UnityEngine;
 
-public class SocketIOOutgoingEvents : ISocketIOOutgoingEvents	{
+public enum State { IDLE, PLAYING, END };
+
+public static class SocketIOOutgoingEvents {
 	#region ISocketIOOutgoingEvents implementation
 
-	public void GameReady ()
+	public static void GameStateChange (GameState.State state)
 	{
-		throw new System.NotImplementedException ();
+		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
+		socketIOManager.GameStateHandler (state);
 	}
 
-	public void GameStart ()
-	{
-		throw new System.NotImplementedException ();
-	}
-
-	public void GameEnd ()
-	{
-		throw new System.NotImplementedException ();
-	}
-
-	public void HeroDeath ()
+	public static void HeroDeath ()
 	{
 		throw new System.NotImplementedException ();
 	}
