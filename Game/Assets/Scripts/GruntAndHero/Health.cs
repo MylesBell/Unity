@@ -31,9 +31,6 @@ public class Health : NetworkBehaviour {
 	
 	void Update () {
 		entityLocation =  Camera.main.WorldToScreenPoint(gameObject.transform.position);
-		if(Input.GetKeyUp (KeyCode.Q)) {
-			currentHealth -= 10.0f;
-		}
 		if (isServer && currentHealth <= 0) {
 			Destroy(gameObject);
 		}
