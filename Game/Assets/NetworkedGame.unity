@@ -381,8 +381,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1919932851}
-  - 114: {fileID: 1919932850}
   - 114: {fileID: 1919932852}
+  - 114: {fileID: 1919932850}
   m_Layer: 0
   m_Name: TerrainSpawner
   m_TagString: Untagged
@@ -402,9 +402,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laneSegments:
-  - {fileID: 15600000, guid: 6eeaa04eebf2ccb448ed9ab25f3eef19, type: 2}
-  base1: {fileID: 15600000, guid: b7ce317412f3415448ee3e10bbe1889e, type: 2}
-  base2: {fileID: 15600000, guid: 5c8cff4bb2c4e724b86da5a5dbf11cd6, type: 2}
+  - {fileID: 198818, guid: b35eff09e3c54674d8d3d2f2b4ad9431, type: 2}
+  base1: {fileID: 146920, guid: 575e29bb987388a44af2f846fb554eaf, type: 2}
+  base2: {fileID: 197054, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
 --- !u!4 &1919932851
 Transform:
   m_ObjectHideFlags: 0
