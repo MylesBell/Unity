@@ -65,7 +65,7 @@ public class Team : NetworkBehaviour {
             spawnLocation = teamBase.transform.position + new Vector3(4, 2, 0);
         else
             spawnLocation = teamBase.transform.position - new Vector3(4, 2, 0);
-        return spawnLocation;
+        return spawnLocation + new Vector3(0, 10, 0);
     }
 
     private float getZPosition()
@@ -112,7 +112,7 @@ public class Team : NetworkBehaviour {
 
     private void initialiseGruntPool() {
         for(int i = 0; i < gruntPoolSize; i++) {
-            GameObject grunt = unitFactory.CreateGrunt(GruntPrefab, GetSpawnLocation() + new Vector3(0, 10, 0));
+            GameObject grunt = unitFactory.CreateGrunt(GruntPrefab, GetSpawnLocation());
             availableGrunts.AddLast(grunt);
         }
         gruntPoolInitialised = true;
@@ -120,7 +120,7 @@ public class Team : NetworkBehaviour {
 
     private void spawnGrunt(int i) {
         GameObject grunt = getGrunt();
-        grunt.transform.position = GetSpawnLocation() + new Vector3(teamID == TeamID.blue ? i : -i, 10, 0);
+        grunt.transform.position = GetSpawnLocation() + new Vector3(teamID == TeamID.blue ? i : -i, 0, 0);
         grunt.GetComponent<Grunt>().InitialiseGrunt(teamID, GetTargetPosition(getZPosition()), zPositionOffset);
     }
 
