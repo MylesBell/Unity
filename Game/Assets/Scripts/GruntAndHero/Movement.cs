@@ -32,7 +32,6 @@ public class Movement : NetworkBehaviour{
 	void Update(){
         switch (GameState.gameState) {
             case GameState.State.IDLE:
-                if (isServer) synchPos = transform.position;
                 if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 break;
             case GameState.State.PLAYING:
@@ -54,7 +53,7 @@ public class Movement : NetworkBehaviour{
 	private void SeverSetNewPosition(){
         //only move when playing
 		if(GameState.gameState == GameState.State.PLAYING) {
-            transform.position = Vector3.Lerp (transform.position, this.movementTarget, Time.deltaTime);
+            transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime);
         }
 		if (Vector3.Distance (transform.position, lastPos) > positionThreshold
 			|| Quaternion.Angle (transform.rotation, lastRot) > rotationThreshold) {
