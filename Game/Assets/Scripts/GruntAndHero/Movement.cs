@@ -53,7 +53,7 @@ public class Movement : NetworkBehaviour{
 	private void SeverSetNewPosition(){
         //only move when playing
 		if(GameState.gameState == GameState.State.PLAYING) {
-            transform.position = Vector3.Lerp (transform.position, this.movementTarget, Time.deltaTime);
+            transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime);
         }
 		if (Vector3.Distance (transform.position, lastPos) > positionThreshold
 			|| Quaternion.Angle (transform.rotation, lastRot) > rotationThreshold) {

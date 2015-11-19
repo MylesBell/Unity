@@ -219,6 +219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blueTeam: {fileID: 1193707488}
   redTeam: {fileID: 1193707487}
+  numberOfGruntsToSpawn: 10
+  gruntSpawnInterval: 5
   numberOfChannels: 20
 --- !u!114 &1193707482
 MonoBehaviour:

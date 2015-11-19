@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 
 public class UnitFactory: NetworkBehaviour {
     
-	public GameObject CreateGrunt(GameObject prefab) {
-		GameObject gruntObject = Instantiate (prefab, Vector3.zero, Quaternion.identity) as GameObject;
+	public GameObject CreateGrunt(GameObject prefab, Vector3 basePosition) {
+		GameObject gruntObject = Instantiate (prefab, basePosition, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (gruntObject);
 		//grunt grunt = gruntobject.getcomponent<grunt> ();
 		//grunt.initialisegrunt (teamid, desiredposition, channelseparation);
