@@ -9,7 +9,7 @@ public class TargetSelect : NetworkBehaviour {
 	private Movement movement;
 	private float desiredZPosition;
 	private Vector3 desiredPosition;
-	private float channelOffset;
+	private float zSeperation;
 	
 	private Stats stats;
 	
@@ -17,12 +17,12 @@ public class TargetSelect : NetworkBehaviour {
 		stats = (Stats) GetComponent<Stats>();
 	}
 	
-	public void InitialiseTargetSelect (TeamID teamIDInput, Vector3 desiredPosition, float channelOffsetInput)
+	public void InitialiseTargetSelect (TeamID teamIDInput, Vector3 desiredPosition, float zSeperation)
 	{
 		teamID = teamIDInput;
 		this.desiredZPosition = desiredPosition.z;
         this.desiredPosition = desiredPosition;
-		channelOffset = channelOffsetInput;
+		this.zSeperation = zSeperation;
 		attack = GetComponent<Attack> ();
 		movement = GetComponent<Movement> ();
 		movement.SetTarget (desiredPosition);
@@ -31,10 +31,10 @@ public class TargetSelect : NetworkBehaviour {
 	public void MoveToZOffset(MoveDirection moveDirection){
         switch (moveDirection) {
             case MoveDirection.up:
-                if ((desiredZPosition + channelOffset) < Teams.maxZ) desiredZPosition += channelOffset;
+                if ((desiredZPosition + zSeperation) < Teams.maxZ) desiredZPosition += zSeperation;
                 break;
             case MoveDirection.down:
-                if ((desiredZPosition - channelOffset) > Teams.minZ) desiredZPosition -= channelOffset;
+                if ((desiredZPosition - zSeperation) > Teams.minZ) desiredZPosition -= zSeperation;
                 break;
         }
         desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
@@ -64,9 +64,9 @@ public class TargetSelect : NetworkBehaviour {
 		
 		if (distance < 2.0f) {
 			if (teamID == TeamID.blue){
-                desiredPosition += new Vector3(channelOffset,0,0);
+                desiredPosition += new Vector3(zSeperation,0,0);
 			}else{
-                desiredPosition -= new Vector3(channelOffset,0,0);
+                desiredPosition -= new Vector3(zSeperation,0,0);
 			}
 			movement.SetTarget(desiredPosition);
 		}
