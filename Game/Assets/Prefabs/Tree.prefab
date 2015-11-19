@@ -374,10 +374,6 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 735ef2eceac404b4b85eeafd8d9586ca, type: 2}
-    - target: {fileID: 0}
-      propertyPath: direction.y
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 103158}
