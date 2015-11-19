@@ -15,8 +15,9 @@ public class Attack : NetworkBehaviour {
 	}
 
 	void Update () {
-        if (isServer) { 
-		    if (target != null) {
+        if (isServer) {
+            stats = (Stats)GetComponent<Stats>();
+            if (target != null && GameState.gameState == GameState.State.PLAYING) {
 			    if ((timeTillAttack > 0)) {
 				    timeTillAttack -= Time.deltaTime;
 			    } else {
@@ -24,9 +25,8 @@ public class Attack : NetworkBehaviour {
 				    timeTillAttack = stats.attackCoolDown;
 			    }
 		    }
-		stats = (Stats) GetComponent<Stats>();
         }
-	}
+    }
 	
 	private void AttackTarget() {
 		if (targetInAttackArea()){

@@ -28,6 +28,18 @@ public class Movement : NetworkBehaviour{
 	}
 
 	void Update(){
+        switch (GameState.gameState) {
+            case GameState.State.IDLE:
+                if (isServer) synchPos = transform.position;
+                if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                break;
+            case GameState.State.PLAYING:
+                break;
+            case GameState.State.END:
+                if (isServer) synchPos = transform.position;
+                if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                break;
+        }
 		if (isServer) {
 			SeverSetNewPosition();
 		} else {
@@ -38,7 +50,10 @@ public class Movement : NetworkBehaviour{
 	}
 
 	private void SeverSetNewPosition(){
-		transform.position = Vector3.Lerp (transform.position, this.movementTarget, Time.deltaTime);
+        //only move when playing
+		if(GameState.gameState == GameState.State.PLAYING) {
+            transform.position = Vector3.Lerp (transform.position, this.movementTarget, Time.deltaTime);
+        }
 		if (Vector3.Distance (transform.position, lastPos) > positionThreshold
 			|| Quaternion.Angle (transform.rotation, lastRot) > rotationThreshold) {
 			lastPos = transform.position;
@@ -69,7 +84,7 @@ public class Movement : NetworkBehaviour{
 	}
 	
 	public void SetTarget (Vector3 movementTargetInput) {
-		movementTarget = movementTargetInput;
+        movementTarget = movementTargetInput;
 	}
 }
 

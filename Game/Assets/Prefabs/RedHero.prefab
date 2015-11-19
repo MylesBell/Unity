@@ -236,6 +236,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0
   minDistanceFromEnemy: 0
+  damage: 20
+  attackCoolDown: 1
+  attackRange: 5
+  targetSelectRange: 15
 --- !u!114 &11413352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -279,6 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af108031a4bd4c248b2aaf8701f2b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeroNameString: 
 --- !u!114 &11448390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -301,9 +306,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c330b945ab0b469d895f4f0abccd338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBarInitialLength: 10
+  healthBarInitialLength: 100
   healthBarTexture: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
-  maxHealth: 100
+  maxHealth: 1000
 --- !u!114 &11458742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -390,9 +395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
-  attackCoolDown: 1
-  attackRange: 5
 --- !u!114 &11495222
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -433,11 +435,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarInitialLength
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarTexture
