@@ -37,7 +37,7 @@ public class TargetSelect : NetworkBehaviour {
                 if ((desiredZPosition - zSeperation) > Teams.minZ) desiredZPosition -= zSeperation;
                 break;
         }
-        desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
+        desiredPosition = new Vector3(desiredPosition.x, desiredPosition.y, desiredZPosition);
         movement.SetTarget(desiredPosition);
 
 	}
@@ -59,16 +59,16 @@ public class TargetSelect : NetworkBehaviour {
 	}
 	
 	private void UpdateMoveTarget(){
-		Vector3 currentTarget = movement.GetTarget();
-		float distance = Vector3.Distance (currentTarget, transform.position);
+		float distance = Vector3.Distance (desiredPosition, transform.position);
 		
 		if (distance < 2.0f) {
 			if (teamID == TeamID.blue){
-                desiredPosition += new Vector3(zSeperation,0,0);
+                desiredPosition.x += zSeperation;
 			}else{
-                desiredPosition -= new Vector3(zSeperation,0,0);
+                desiredPosition.x -= zSeperation;
 			}
-			movement.SetTarget(desiredPosition);
+            desiredPosition.y = 0;
+            movement.SetTarget(desiredPosition);
 		}
 	}
 

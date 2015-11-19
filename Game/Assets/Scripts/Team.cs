@@ -40,7 +40,7 @@ public class Team : NetworkBehaviour {
         if (isServer) {
             if (Input.GetKeyUp(KeyCode.G)) {
                 float zPos = getZPosition();
-                grunts.AddLast(unitFactory.CreateGrunt(teamID, GetSpawnLocation(), GetTargetPosition(zPos), zPositionOffset));
+                grunts.AddLast(unitFactory.CreateGrunt(GruntPrefab, teamID, GetSpawnLocation(), GetTargetPosition(zPos), zPositionOffset));
             }
         }
     }
@@ -62,7 +62,7 @@ public class Team : NetworkBehaviour {
     }
 
     private Vector3 GetTargetPosition(float zPosition) {
-        return new Vector3(teamBase.transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 1, zPosition);
+        return new Vector3(teamBase.transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 0, zPosition);
     }
 
     private void destroyList(LinkedList<GameObject> objects) {
@@ -91,7 +91,7 @@ public class Team : NetworkBehaviour {
         }
 
         //Create bases
-        teamBase = unitFactory.CreateBase(teamID, basePosition);
+        teamBase = unitFactory.CreateBase(BasePrefab, teamID, basePosition);
 
         initialised = true;
     }
@@ -101,7 +101,7 @@ public class Team : NetworkBehaviour {
 	}
 
     public void CreatePlayer(string playerID, string playerName) {
-        GameObject hero = unitFactory.CreateHero(teamID, playerName, GetSpawnLocation(), GetTargetPosition(getZPosition()), zPositionOffset);
+        GameObject hero = unitFactory.CreateHero(HeroPrefab, teamID, playerName, GetSpawnLocation(), GetTargetPosition(getZPosition()), zPositionOffset);
         playerDict.Add(playerID, hero);
         numberOfHeros++;
     }
