@@ -49,9 +49,9 @@ public class Team : NetworkBehaviour {
     {
         Vector3 spawnLocation = Vector3.zero;
         if (teamID == TeamID.blue)
-            spawnLocation = teamBase.transform.position + new Vector3(4, 0, 0);
+            spawnLocation = teamBase.transform.position + new Vector3(4, 2, 0);
         else
-            spawnLocation = teamBase.transform.position - new Vector3(4, 0, 0);
+            spawnLocation = teamBase.transform.position - new Vector3(4, 2, 0);
         return spawnLocation;
     }
 
@@ -62,7 +62,7 @@ public class Team : NetworkBehaviour {
     }
 
     private Vector3 GetTargetPosition(float zPosition) {
-        return new Vector3(teamBase.transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 0, zPosition);
+        return new Vector3(teamBase.transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 1, zPosition);
     }
 
     private void destroyList(LinkedList<GameObject> objects) {

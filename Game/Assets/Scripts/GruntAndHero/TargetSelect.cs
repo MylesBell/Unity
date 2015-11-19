@@ -37,7 +37,7 @@ public class TargetSelect : NetworkBehaviour {
                 if ((desiredZPosition - zSeperation) > Teams.minZ) desiredZPosition -= zSeperation;
                 break;
         }
-        desiredPosition = new Vector3(desiredPosition.x, desiredPosition.y, desiredZPosition);
+        desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
         movement.SetTarget(desiredPosition);
 
 	}
@@ -67,7 +67,6 @@ public class TargetSelect : NetworkBehaviour {
 			}else{
                 desiredPosition.x -= zSeperation;
 			}
-            desiredPosition.y = 0;
             movement.SetTarget(desiredPosition);
 		}
 	}
