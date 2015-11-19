@@ -402,9 +402,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laneSegments:
-  - {fileID: 100002, guid: 2f4ff0c0b6aab284fa1a36e25ba14562, type: 3}
-  base1: {fileID: 100000, guid: 5510239bab1101248b568fcb300e3206, type: 3}
-  base2: {fileID: 100000, guid: 94e9939bec7eb9748b2d47d108c64b97, type: 3}
+  - {fileID: 198818, guid: b35eff09e3c54674d8d3d2f2b4ad9431, type: 2}
+  base1: {fileID: 146920, guid: 575e29bb987388a44af2f846fb554eaf, type: 2}
+  base2: {fileID: 197054, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
 --- !u!4 &1919932851
 Transform:
   m_ObjectHideFlags: 0
