@@ -38,11 +38,11 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
 
 		    // get the direction from the message
-		    Channel dest;
+		    MoveDirection dest;
 		    if(e.data.GetField("input").str == "left"){
-		    	dest = Channel.up;
+		    	dest = MoveDirection.up;
 		    } else {
-		    	dest = Channel.down;
+		    	dest = MoveDirection.down;
 		    }
             
 		    socketIOInputEvents.PlayerMoveChannel(e.data.GetField("uID").str, dest); // socket io id, channel direction

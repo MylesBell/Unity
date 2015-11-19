@@ -6,12 +6,12 @@ public class Grunt : NetworkBehaviour {
 
 	private TargetSelect targetSelect;
 
-	public void InitialiseGrunt(TeamID teamIDInput, Channel channelInput, Vector3 channelTarget, float channelOffset) {
+	public void InitialiseGrunt(TeamID teamIDInput, Vector3 desiredPosition, float channelOffset) {
         if (isServer) {
             //set Health to Max
             gameObject.GetComponent<Health>().initialiseHealth();
             targetSelect = GetComponent<TargetSelect> ();
-		    targetSelect.InitialiseTargetSelect (teamIDInput, channelInput, channelTarget, channelOffset);
+		    targetSelect.InitialiseTargetSelect (teamIDInput, desiredPosition, channelOffset);
         }
 	}
 }
