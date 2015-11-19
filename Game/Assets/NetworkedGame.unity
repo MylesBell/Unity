@@ -101,7 +101,6 @@ GameObject:
   - 114: {fileID: 971672732}
   - 114: {fileID: 971672731}
   - 114: {fileID: 971672730}
-  - 114: {fileID: 971672733}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -251,23 +250,6 @@ MonoBehaviour:
   shaderFXAAPreset3: {fileID: 4800000, guid: c182fa94a5a0a4c02870641efcd38cd5, type: 3}
   shaderFXAAII: {fileID: 4800000, guid: cd5b323dcc592457790ff18b528f5e67, type: 3}
   shaderFXAAIII: {fileID: 4800000, guid: c547503fff0e8482ea5793727057041c, type: 3}
---- !u!114 &971672733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 971672723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22b3a7095a744a428c134b5e26ad68e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mode: 0
-  quality: 1
-  blurArea: 1
-  maxBlurSize: 5
-  downsample: 0
-  tiltShiftShader: {fileID: 4800000, guid: bf34d2a25450349699e8ae6456fa7ca9, type: 3}
 --- !u!1 &1193707480
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,9 +468,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laneSegments:
-  - {fileID: 198818, guid: b35eff09e3c54674d8d3d2f2b4ad9431, type: 2}
-  base1: {fileID: 146920, guid: 575e29bb987388a44af2f846fb554eaf, type: 2}
-  base2: {fileID: 197054, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
+  - {fileID: 175212, guid: b35eff09e3c54674d8d3d2f2b4ad9431, type: 2}
+  base1: {fileID: 110192, guid: 830087544392c48218aadeba9fd1020a, type: 2}
+  base2: {fileID: 160050, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
+  sceneryObjects:
+  - {fileID: 133058, guid: 9295187c815e7462f9a1daabaf5c4b9b, type: 2}
+  - {fileID: 165532, guid: efdd03d14e7844780b9dd3df3f41673a, type: 2}
+  - {fileID: 103158, guid: ded6790f16e214c2a8e745443496f56a, type: 2}
+  terrainMask:
+    serializedVersion: 2
+    m_Bits: 256
+  minNumScenery: 200
+  maxNumScenery: 300
 --- !u!4 &1919932851
 Transform:
   m_ObjectHideFlags: 0
