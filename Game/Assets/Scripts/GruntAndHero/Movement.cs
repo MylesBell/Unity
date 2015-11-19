@@ -22,6 +22,8 @@ public class Movement : NetworkBehaviour{
 	void Start() {
         if (isServer) {
             gameObject.GetComponent<Rigidbody>().useGravity = true;
+        } else {
+            gameObject.GetComponent<Rigidbody>().detectCollisions = false;
         }
 		stats = (Stats) GetComponent<Stats>();
 		synchPos = transform.position;
