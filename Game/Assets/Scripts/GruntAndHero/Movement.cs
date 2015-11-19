@@ -54,6 +54,7 @@ public class Movement : NetworkBehaviour{
         //only move when playing
 		if(GameState.gameState == GameState.State.PLAYING) {
             transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime);
+            gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 10 - gameObject.GetComponent<Rigidbody>().velocity);
         }
 		if (Vector3.Distance (transform.position, lastPos) > positionThreshold
 			|| Quaternion.Angle (transform.rotation, lastRot) > rotationThreshold) {
