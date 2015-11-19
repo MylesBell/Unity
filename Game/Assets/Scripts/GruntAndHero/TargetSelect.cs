@@ -9,9 +9,15 @@ public class TargetSelect : NetworkBehaviour {
 	private Movement movement;
 	private Channel channel;
 	private Vector3 channelTarget;
-	private Vector3 channelOffset;
-
-	public void InitialiseTargetSelect (TeamID teamIDInput, Channel channelInput, Vector3 channelTargetInput, Vector3 channelOffsetInput)
+	private float channelOffset;
+	
+	private Stats stats;
+	
+	void Start() {
+		stats = (Stats) GetComponent<Stats>();
+	}
+	
+	public void InitialiseTargetSelect (TeamID teamIDInput, Channel channelInput, Vector3 channelTargetInput, float channelOffsetInput)
 	{
 		teamID = teamIDInput;
 		channel = channelInput;
@@ -23,24 +29,17 @@ public class TargetSelect : NetworkBehaviour {
 	}
 
 	public void MoveToChannel(Channel channelInput){
-		Debug.Log("event called");
 
-		if (channel == Channel.up){
-			channelTarget = channelTarget - new Vector3(0,0,20);
-			channel = Channel.down;
-		}else{
-			channelTarget = channelTarget + new Vector3(0,0,20);
-			channel = Channel.up;
-		}
-		movement.SetTarget (channelTarget);
-		/*if (channel != channelInput){
+		if (channel != channelInput){
 			channel = channelInput;
 			if (channelInput == Channel.up){
-				channelTarget = channelTarget - new Vector3(0,0,2*channelOffset.z);
+				channelTarget = channelTarget + new Vector3(0,0,2*channelOffset);
 			}else{
-				channelTarget = channelTarget + new Vector3(0,0,2*channelOffset.z);
-			}
-		}*/
+				channelTarget = channelTarget - new Vector3(0,0,2*channelOffset);
+			}      
+			movement.SetTarget (channelTarget);
+		}
+
 	}
 
 	void Update () {
@@ -65,9 +64,9 @@ public class TargetSelect : NetworkBehaviour {
 		
 		if (distance < 2.0f) {
 			if (teamID == TeamID.blue){
-				channelTarget += channelOffset;
+				channelTarget += new Vector3(channelOffset,0,0);
 			}else{
-				channelTarget -= channelOffset;
+				channelTarget -= new Vector3(channelOffset,0,0);
 			}
 			movement.SetTarget(channelTarget);
 		}
@@ -135,7 +134,7 @@ public class TargetSelect : NetworkBehaviour {
 	}
 
 	private bool TargetInRange(GameObject attackTarget){
-		return (Vector3.Distance (attackTarget.transform.position, transform.position) < 15.0f);
+		return (Vector3.Distance (attackTarget.transform.position, transform.position) < stats.targetSelectRange);
 	}
 
 	private GameObject FindClosestObjectWithTag(string type) {

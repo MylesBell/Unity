@@ -6,23 +6,23 @@ using UnityEngine.Networking;
 public class UnitFactory: NetworkBehaviour {
 	
 	public GameObject teamsObject, redBasePrefab, blueBasePrefab, blueHeroPrefab, redHeroPrefab, blueGruntPrefab, redGruntPrefab;
+
     
-	public GameObject CreateGrunt(TeamID teamID, Channel channel, Vector3 spawnLocation, Vector3 channelTarget, Vector3 channelOffset) {
+	public GameObject CreateGrunt(TeamID teamID, Channel channel, Vector3 spawnLocation, Vector3 channelTarget, float channelSeparation) {
 		GameObject gruntPrefab = teamID == TeamID.blue ? blueGruntPrefab : redGruntPrefab;
-		Debug.Log(spawnLocation);
 		GameObject gruntObject = Instantiate (gruntPrefab, spawnLocation, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (gruntObject);
 		Grunt grunt = gruntObject.GetComponent<Grunt> ();
-		grunt.InitialiseGrunt (teamID, channel, channelTarget, channelOffset);
+		grunt.InitialiseGrunt (teamID, channel, channelTarget, channelSeparation);
 		return gruntObject;
 	}
 
-	public GameObject CreateHero(TeamID teamID, string playerName, Channel channel, Vector3 spawnLocation, Vector3 channelTarget, Vector3 channelOffset) {
+	public GameObject CreateHero(TeamID teamID, string playerName, Channel channel, Vector3 spawnLocation, Vector3 channelTarget, float channelSeparation) {
 		GameObject heroPrefab = teamID == TeamID.blue ? blueHeroPrefab : redHeroPrefab;
 		GameObject heroObject = Instantiate (heroPrefab, spawnLocation, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (heroObject);
 		Hero hero = heroObject.GetComponent<Hero> ();
-		hero.InitialiseHero (teamID, playerName, channel, channelTarget, channelOffset);
+		hero.InitialiseHero (teamID, playerName, channel, channelTarget, channelSeparation);
 		return heroObject;
 	}
 

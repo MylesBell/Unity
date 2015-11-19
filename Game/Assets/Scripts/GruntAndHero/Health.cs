@@ -7,15 +7,19 @@ public class Health : NetworkBehaviour {
 	public Texture healthBarTexture;
 
 	public float maxHealth;
-	[SyncVar] private float currentHealth;
+	[SyncVar] public float currentHealth;
 	private float healthBarLength;
 	private float percentOfHealth;
 	private Vector3 entityLocation;
 
 	void Start(){
-		// if max heath isnt set, as can be set by later function
-		currentHealth = maxHealth;
-	}
+        currentHealth = maxHealth;
+    }
+
+    public void initialiseHealth() {
+        // if max heath isnt set, as can be set by later function
+        currentHealth = maxHealth;
+    }
 
 	void OnGUI () {
 		if (currentHealth > 0) {
@@ -30,7 +34,7 @@ public class Health : NetworkBehaviour {
 		if(Input.GetKeyUp (KeyCode.Q)) {
 			currentHealth -= 10.0f;
 		}
-		if (currentHealth <= 0) {
+		if (isServer && currentHealth <= 0) {
 			Destroy(gameObject);
 		}
 		percentOfHealth = currentHealth / maxHealth;

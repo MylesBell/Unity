@@ -18,7 +18,6 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 
     public float channelSeparation;
     private Vector3 blueBaseUpChannelStart, blueBaseDownChannelStart, redBaseUpChannelStart, redBaseDownChannelStart;
-    private Vector3 channelOffset;
 
     Dictionary<string,GameObject> playerDict = new Dictionary<string,GameObject>();
     private LinkedList<GameObject> redGrunts = new LinkedList<GameObject>();
@@ -29,39 +28,41 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
     private bool initialised;
 
 	void Start () {
-		numPlayers = 0;
-		numPlayersBlue = 0;
-		numPlayersRed = 0;
-		unitFactory = GetComponent<UnitFactory> ();
-        initialised = false;
-        channelOffset = new Vector3(channelSeparation, 0, 0);
+        if (isServer) { 
+		    numPlayers = 0;
+		    numPlayersBlue = 0;
+		    numPlayersRed = 0;
+		    unitFactory = GetComponent<UnitFactory> ();
+            initialised = false;
+        }
     }
 
     void Update() {
-        switch (GameState.gameState)
-        {
-            case GameState.State.IDLE:
-                if (!initialised) resetGame();
-                break;
-            case GameState.State.PLAYING:
-                break;
-            case GameState.State.END:
-                initialised = false;
-                break;
-        }
-        if (Input.GetKeyUp(KeyCode.P)) {
-            PlayerJoin("test", "Smith");
-        }
-        if (Input.GetKeyUp(KeyCode.G)) {
-            Channel channel = getChannel();
-            TeamID teamID = TeamID.blue;
-            blueGrunts.AddLast(unitFactory.CreateGrunt(teamID, channel, GetSpawnLocation(teamID), GetChannelTarget(teamID, channel), channelOffset));
-        }
-        if (Input.GetKeyUp(KeyCode.H))
-        {
-            Channel channel = getChannel();
-            TeamID teamID = TeamID.red;
-            redGrunts.AddLast(unitFactory.CreateGrunt(teamID, channel, GetSpawnLocation(teamID), GetChannelTarget(teamID, channel), channelOffset));
+        if (isServer) { 
+            switch (GameState.gameState) {
+                case GameState.State.IDLE:
+                    if (!initialised) resetGame();
+                    break;
+                case GameState.State.PLAYING:
+                    break;
+                case GameState.State.END:
+                    initialised = false;
+                    break;
+            }
+            if (Input.GetKeyUp(KeyCode.P)) {
+                PlayerJoin("test", "Smith");
+            }
+            if (Input.GetKeyUp(KeyCode.G)) {
+                Channel channel = getChannel();
+                TeamID teamID = TeamID.blue;
+                blueGrunts.AddLast(unitFactory.CreateGrunt(teamID, channel, GetSpawnLocation(teamID), GetChannelTarget(teamID, channel), channelSeparation));
+            }
+            if (Input.GetKeyUp(KeyCode.H))
+            {
+                Channel channel = getChannel();
+                TeamID teamID = TeamID.red;
+                redGrunts.AddLast(unitFactory.CreateGrunt(teamID, channel, GetSpawnLocation(teamID), GetChannelTarget(teamID, channel), channelSeparation));
+            }
         }
     }
 
@@ -81,11 +82,13 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 
         //Restart heros
         foreach (KeyValuePair<string,GameObject >  entry in playerDict) {
-            Hero hero = entry.Value.GetComponent<Hero>();
-            TeamID team = hero.getTeamID();
-            Channel channel = getChannel();
-            entry.Value.transform.position = GetSpawnLocation(team);
-            hero.InitialiseHero(team, hero.getHeroName(), channel, GetChannelTarget(team, channel), channelOffset);
+            if (entry.Value) {
+                Hero hero = entry.Value.GetComponent<Hero>();
+                TeamID team = hero.getTeamID();
+                Channel channel = getChannel();
+                entry.Value.transform.position = GetSpawnLocation(team);
+                hero.InitialiseHero(team, hero.getHeroName(), channel, GetChannelTarget(team, channel), channelSeparation);
+            }
         }
 
         //Create bases
@@ -110,7 +113,6 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
         blueBaseDownChannelStart = blueBasePosition + new Vector3(channelSeparation, 0, -channelSeparation);
         redBaseUpChannelStart = redBasePosition + new Vector3(-channelSeparation, 0, channelSeparation);
         redBaseDownChannelStart = redBasePosition + new Vector3(-channelSeparation, 0, -channelSeparation);
-        channelOffset = new Vector3(channelSeparation, 0, 0);
     }
 
     private Vector3 GetSpawnLocation (TeamID teamID) {
@@ -166,7 +168,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
             teamID = TeamID.red;
 			numPlayersRed++;
         }
-        GameObject hero = unitFactory.CreateHero(teamID, playerName, channel, GetSpawnLocation(teamID), GetChannelTarget(teamID, channel), channelOffset);
+        GameObject hero = unitFactory.CreateHero(teamID, playerName, channel, GetSpawnLocation(teamID), GetChannelTarget(teamID, channel), channelSeparation);
 
         playerDict.Add (playerID, hero);
 		numPlayers++;

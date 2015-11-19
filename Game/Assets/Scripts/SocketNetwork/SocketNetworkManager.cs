@@ -29,14 +29,23 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 	public void PlayerJoinHandler(SocketIOEvent e){
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerJoin("test", e.data.GetField("username").str);
+            socketIOInputEvents.PlayerJoin(e.data.GetField("uID").str, e.data.GetField("username").str); // socekt io id, name
         }
 	}
 
 	public void DirectionHandler(SocketIOEvent e){
         if (isServer) {
 		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-		    socketIOInputEvents.PlayerMoveChannel("test", Channel.up);
+
+		    // get the direction from the message
+		    Channel dest;
+		    if(e.data.GetField("input").str == "left"){
+		    	dest = Channel.up;
+		    } else {
+		    	dest = Channel.down;
+		    }
+            
+		    socketIOInputEvents.PlayerMoveChannel(e.data.GetField("uID").str, dest); // socket io id, channel direction
         }
 	}
 

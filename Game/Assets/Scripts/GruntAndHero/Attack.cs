@@ -6,11 +6,8 @@ public class Attack : NetworkBehaviour {
 
 	private GameObject target;
 	private float timeTillAttack;
-
-	// characteristics, move to stats later
-	public float damage = 20.0f;
-	public float attackCoolDown = 1.0f;
-	public float attackRange = 5.0f;
+	
+	private Stats stats;
 
 	void Start () {
 		timeTillAttack = 0;
@@ -18,28 +15,29 @@ public class Attack : NetworkBehaviour {
 	}
 
 	void Update () {
-        if (isServer && GameState.gameState == GameState.State.PLAYING) { 
-		    if (target != null) {
+        if (isServer) {
+            stats = (Stats)GetComponent<Stats>();
+            if (target != null && GameState.gameState == GameState.State.PLAYING) {
 			    if ((timeTillAttack > 0)) {
 				    timeTillAttack -= Time.deltaTime;
 			    } else {
 				    AttackTarget ();
-				    timeTillAttack = attackCoolDown;
+				    timeTillAttack = stats.attackCoolDown;
 			    }
 		    }
         }
-	}
+    }
 	
 	private void AttackTarget() {
 		if (targetInAttackArea()){
-			((Health)target.GetComponent ("Health")).reduceHealth(damage);
+			((Health)target.GetComponent ("Health")).reduceHealth(stats.damage);
 		}
 	}
 
 	private bool targetInAttackArea(){
 		float distance = Vector3.Distance (target.transform.position, transform.position);
 		
-		if (distance < attackRange) {
+		if (distance < stats.attackRange) {
 			return true;
 		}
 		return false;

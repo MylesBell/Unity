@@ -11,13 +11,14 @@ public class Hero : NetworkBehaviour, IHeroMovement {
         GameObject heroname = transform.FindChild("HeroName").gameObject;
         heroname.GetComponent<TextMesh>().text = HeroNameString;
     }
-    
-	public void InitialiseHero(TeamID teamIDInput, string playerName, Channel channelInput, Vector3 channelTarget, Vector3 channelOffset) {
-        teamID = teamIDInput;
+	public void InitialiseHero(TeamID teamIDInput, string playerName, Channel channelInput, Vector3 channelTarget, float channelOffset) {
         GameObject heroname = transform.FindChild("HeroName").gameObject;
         HeroNameString = playerName;
         heroname.GetComponent<TextMesh>().text = HeroNameString;
         if (isServer) {
+            teamID = teamIDInput;
+            //set Health to Max
+            gameObject.GetComponent<Health>().initialiseHealth();
             targetSelect = GetComponent<TargetSelect> ();
             targetSelect.InitialiseTargetSelect (teamIDInput, channelInput, channelTarget, channelOffset);
         }
