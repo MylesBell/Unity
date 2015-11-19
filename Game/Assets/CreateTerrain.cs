@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class CreatTerrain2 : NetworkBehaviour
+public class CreateTerrain : NetworkBehaviour
 {
 
     public GameObject[] laneSegments;
