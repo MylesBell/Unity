@@ -197,6 +197,8 @@ GameObject:
   - 114: {fileID: 1193707481}
   - 114: {fileID: 1193707485}
   - 114: {fileID: 1193707486}
+  - 114: {fileID: 1193707488}
+  - 114: {fileID: 1193707487}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -215,6 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993fb1fb1dcff45d5899b56bc9a131a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blueTeam: {fileID: 1193707488}
+  redTeam: {fileID: 1193707487}
   numberOfChannels: 20
 --- !u!114 &1193707482
 MonoBehaviour:
@@ -227,13 +231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e1bb11e9c66c41f1b93cdfc12dfc964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamsObject: {fileID: 1193707480}
-  redBasePrefab: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
-  blueBasePrefab: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
-  blueHeroPrefab: {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
-  redHeroPrefab: {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
-  blueGruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
-  redGruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
 --- !u!114 &1193707483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +298,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e081e24d05e2d1489d7ee00b530cc94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1193707487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193707480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2c2223b97ec4604b8fef367951f549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamID: 0
+  HeroPrefab: {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
+  BasePrefab: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
+  GruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
+--- !u!114 &1193707488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193707480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2c2223b97ec4604b8fef367951f549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamID: 1
+  HeroPrefab: {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
+  BasePrefab: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
+  GruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
 --- !u!1 &1305526078
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,7 +32,6 @@ public class Movement : NetworkBehaviour{
 	void Update(){
         switch (GameState.gameState) {
             case GameState.State.IDLE:
-                if (isServer) synchPos = transform.position;
                 if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 break;
             case GameState.State.PLAYING:
