@@ -16,13 +16,13 @@ public class EventMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (teams.GetHero (playerID) != null){
-			Channel channel;
+			MoveDirection moveDirection;
 			if (Input.GetKeyUp (KeyCode.UpArrow)) {
-				channel = Channel.up;
-				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (channel));
+                moveDirection = MoveDirection.up;
+				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (moveDirection));
 			} else if (Input.GetKeyUp (KeyCode.DownArrow)) {
-				channel = Channel.down;
-				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (channel));
+                moveDirection = MoveDirection.down;
+				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (moveDirection));
 			}
 		}
 	}

@@ -11,7 +11,7 @@ public class Hero : NetworkBehaviour, IHeroMovement {
         GameObject heroname = transform.FindChild("HeroName").gameObject;
         heroname.GetComponent<TextMesh>().text = HeroNameString;
     }
-	public void InitialiseHero(TeamID teamIDInput, string playerName, Channel channelInput, Vector3 channelTarget, float channelOffset) {
+	public void InitialiseHero(TeamID teamIDInput, string playerName, Vector3 desiredPosition, float channelOffset) {
         GameObject heroname = transform.FindChild("HeroName").gameObject;
         HeroNameString = playerName;
         heroname.GetComponent<TextMesh>().text = HeroNameString;
@@ -20,7 +20,7 @@ public class Hero : NetworkBehaviour, IHeroMovement {
             //set Health to Max
             gameObject.GetComponent<Health>().initialiseHealth();
             targetSelect = GetComponent<TargetSelect> ();
-            targetSelect.InitialiseTargetSelect (teamIDInput, channelInput, channelTarget, channelOffset);
+            targetSelect.InitialiseTargetSelect (teamIDInput, desiredPosition, channelOffset);
         }
 	}
 
@@ -43,10 +43,10 @@ public class Hero : NetworkBehaviour, IHeroMovement {
 	{
 		throw new System.NotImplementedException ();
 	}
-	public void PlayerMoveChannel (Channel channel)
+	public void PlayerMoveChannel (MoveDirection moveDirection)
 	{
         if (isServer) {
-            targetSelect.MoveToChannel(channel);
+            targetSelect.MoveToZOffset(moveDirection);
         }
 	}
 	#endregion
