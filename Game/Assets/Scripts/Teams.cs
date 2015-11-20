@@ -15,8 +15,10 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 
 	public Team blueTeam, redTeam;
 
+    public int gruntPoolSize;
     public int numberOfGruntsToSpawn;
     public int gruntSpawnInterval;
+    public int heroRespawnInterval;
 
     private float zPositionOffset;
     public int numberOfChannels;
@@ -57,8 +59,8 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
         int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
         Vector3 blueBaseV = new Vector3(50, 2, 50);
         Vector3 redBaseV = new Vector3(numScreens * 100 - 50, 2, 50);
-        blueTeam.Initialise(blueBaseV,zPositionOffset,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval);
-        redTeam.Initialise(redBaseV, zPositionOffset, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval);
+        blueTeam.Initialise(blueBaseV,zPositionOffset,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
+        redTeam.Initialise(redBaseV, zPositionOffset, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
 
         initialised = true;
     }

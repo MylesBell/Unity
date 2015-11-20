@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.Networking;
 using System.Collections.Generic;
 
@@ -15,6 +14,7 @@ public class Team : NetworkBehaviour {
     private int numberOfHeros;
 
     Dictionary<string, GameObject> playerDict = new Dictionary<string, GameObject>();
+    private List<Tuple<float,GameObject>> herosToRespawn = new List<Tuple<float, GameObject>>();
 
     private float zPositionOffset;
     private int numberOfChannels;
@@ -23,12 +23,12 @@ public class Team : NetworkBehaviour {
     public GameObject BasePrefab;
     public GameObject GruntPrefab;
 
-    public int gruntPoolSize;
-
+    private int gruntPoolSize;
     private int numberOfGruntsToSpawn;
-    private int spawnInterval;
+    private int gruntSpawnInterval;
+    private int heroRespawnInterval;
 
-    private float nextActionTime = 0.0f;
+    private float nextGruntRespawn = 0.0f;
 
 
     void Start() {
@@ -38,28 +38,40 @@ public class Team : NetworkBehaviour {
         Random.seed = (int)Time.time;
     } 
 
-    public void Initialise(Vector3 basePosition, float zPositionOffset, int numberOfChannels, int numberOfGruntsToSpawn, int spawnInterval) {
+    public void Initialise(Vector3 basePosition, float zPositionOffset, int numberOfChannels, int numberOfGruntsToSpawn, int spawnInterval, int gruntPoolSize, int heroRespawnInterval) {
         this.zPositionOffset = zPositionOffset;
         this.numberOfChannels = numberOfChannels;
         this.basePosition = basePosition;
         this.numberOfGruntsToSpawn = numberOfGruntsToSpawn;
-        this.spawnInterval = spawnInterval;
+        this.gruntSpawnInterval = spawnInterval;
+        this.gruntPoolSize = gruntPoolSize;
+        this.heroRespawnInterval = heroRespawnInterval;
         resetTeam();
     }
 
      void Update() {
         if (isServer && GameState.gameState == GameState.State.PLAYING) {
-            if ((nextActionTime > 0)) {
-                nextActionTime -= Time.deltaTime;
+            if ((nextGruntRespawn > 0)) {
+                nextGruntRespawn -= Time.deltaTime;
 			} else {
                 for (int i = 0; i < numberOfGruntsToSpawn; i++) spawnGrunt(i);
-                nextActionTime = spawnInterval;
+                nextGruntRespawn = gruntSpawnInterval;
 			}
+            lock (herosToRespawn) {
+                int itemsToRemove = 0;
+                foreach (Tuple<float,GameObject> tuple in herosToRespawn) {
+                    tuple.First -= Time.deltaTime;
+                    if (tuple.First <= 0) {
+                        HeroRespawn(tuple.Second);
+                        itemsToRemove++;
+                    }
+                }
+                if (itemsToRemove > 0) herosToRespawn.RemoveRange(0, itemsToRemove);
+            }
         }
     }
 
-    private Vector3 GetSpawnLocation()
-    {
+    private Vector3 GetSpawnLocation() {
         Vector3 spawnLocation = Vector3.zero;
         if (teamID == TeamID.blue)
             spawnLocation = teamBase.transform.position + new Vector3(4, 2, 0);
@@ -68,8 +80,7 @@ public class Team : NetworkBehaviour {
         return spawnLocation + new Vector3(0, 10, 0);
     }
 
-    private float getZPosition()
-    {
+    private float getZPosition() {
         int randomNumber = Random.Range(0, numberOfChannels);
         return randomNumber * zPositionOffset + Teams.minZ;
     }
@@ -82,20 +93,15 @@ public class Team : NetworkBehaviour {
         //Destroy base
         if (teamBase) Destroy(teamBase);
 
-        //Restart heros
-        foreach (KeyValuePair<string, GameObject> entry in playerDict)
-        {
-            if (entry.Value)
-            {
-                Hero hero = entry.Value.GetComponent<Hero>();
-                float zPos = getZPosition();
-                entry.Value.transform.position = GetSpawnLocation();
-                hero.InitialiseHero(teamID, hero.getHeroName(), GetTargetPosition(zPos), zPositionOffset);
-            }
-        }
-
         //Create base
         teamBase = unitFactory.CreateBase(BasePrefab, teamID, basePosition);
+
+        //Restart heros
+        foreach (KeyValuePair<string, GameObject> entry in playerDict) {
+            if (entry.Value) {
+                HeroRespawn(entry.Value);
+            }
+        }
 
         if(!gruntPoolInitialised) initialiseGruntPool();
     }
@@ -105,7 +111,7 @@ public class Team : NetworkBehaviour {
 	}
 
     public void CreatePlayer(string playerID, string playerName) {
-        GameObject hero = unitFactory.CreateHero(HeroPrefab, teamID, playerName, GetSpawnLocation(), GetTargetPosition(getZPosition()), zPositionOffset);
+        GameObject hero = unitFactory.CreateHero(HeroPrefab, this, playerName, GetSpawnLocation(), GetTargetPosition(getZPosition()), zPositionOffset);
         playerDict.Add(playerID, hero);
         numberOfHeros++;
     }
@@ -121,7 +127,7 @@ public class Team : NetworkBehaviour {
     private void spawnGrunt(int i) {
         GameObject grunt = getGrunt();
         Vector3 spawnLocation =  GetSpawnLocation() + new Vector3(teamID == TeamID.blue ? i : -i, 0, 0);
-        grunt.GetComponent<Grunt>().InitialiseGrunt(this, teamID, spawnLocation, GetTargetPosition(getZPosition()), zPositionOffset);
+        grunt.GetComponent<Grunt>().InitialiseGrunt(this, spawnLocation, GetTargetPosition(getZPosition()), zPositionOffset);
     }
 
     private GameObject getGrunt() {
@@ -143,7 +149,22 @@ public class Team : NetworkBehaviour {
         }
     }
 
+    private void HeroRespawn(GameObject hero) {
+        Vector3 spawnLocation = GetSpawnLocation();
+        hero.GetComponent<Hero>().resetHero(spawnLocation, GetTargetPosition(getZPosition()), zPositionOffset);
+    }
+
+    public void OnHeroDead(GameObject hero) {
+        lock (herosToRespawn) {
+            herosToRespawn.Add(new Tuple<float, GameObject>(heroRespawnInterval, hero));
+        }
+    }
+
     public int GetNumberOfHeros() {
         return numberOfHeros;
+    }
+
+    public TeamID GetTeamID() {
+        return teamID;
     }
 }

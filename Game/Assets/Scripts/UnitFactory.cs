@@ -13,11 +13,11 @@ public class UnitFactory: NetworkBehaviour {
 		return gruntObject;
 	}
 
-	public GameObject CreateHero(GameObject prefab, TeamID teamID, string playerName, Vector3 spawnLocation, Vector3 desiredPosition, float channelSeparation) {
+	public GameObject CreateHero(GameObject prefab, Team team, string playerName, Vector3 spawnLocation, Vector3 desiredPosition, float channelSeparation) {
 		GameObject heroObject = Instantiate (prefab, spawnLocation, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (heroObject);
 		Hero hero = heroObject.GetComponent<Hero> ();
-		hero.InitialiseHero (teamID, playerName, desiredPosition, channelSeparation);
+		hero.InitialiseHero (team, playerName, spawnLocation, desiredPosition, channelSeparation);
 		return heroObject;
 	}
 

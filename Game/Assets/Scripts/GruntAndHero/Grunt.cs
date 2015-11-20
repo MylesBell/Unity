@@ -13,7 +13,7 @@ public class Grunt : NetworkBehaviour, IDisableGO {
         gameObject.SetActive(active);
     }
     
-    public void InitialiseGrunt(Team team, TeamID teamIDInput, Vector3 spawnPosition, Vector3 desiredPosition, float channelOffset) {
+    public void InitialiseGrunt(Team team, Vector3 spawnPosition, Vector3 desiredPosition, float channelOffset) {
         if (isServer) {
             active = true;
             this.team = team;
@@ -21,8 +21,8 @@ public class Grunt : NetworkBehaviour, IDisableGO {
             gameObject.GetComponent<Movement>().initialiseMovement(spawnPosition);
             //set Health to Max
             gameObject.GetComponent<Health>().initialiseHealth();
-            targetSelect = GetComponent<TargetSelect> ();
-            targetSelect.InitialiseTargetSelect (teamIDInput, desiredPosition, channelOffset);
+            targetSelect = GetComponent<TargetSelect>();
+            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
         }

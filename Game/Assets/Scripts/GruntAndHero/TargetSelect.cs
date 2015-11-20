@@ -137,8 +137,7 @@ public class TargetSelect : NetworkBehaviour {
 	}
 
 	private GameObject FindClosestObjectWithTag(string type) {
-		GameObject[] gos;
-		gos = GameObject.FindGameObjectsWithTag(type);
+		GameObject[] gos = GameObject.FindGameObjectsWithTag(type);
 		GameObject closest = null;
 		float distance = Mathf.Infinity;
 		Vector3 position = transform.position;

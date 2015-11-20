@@ -35,9 +35,21 @@ public class Movement : NetworkBehaviour{
         synchPos = position;
         movementTarget = position;
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        CmdSetPositionOnClient();
     }
 
-	void Update(){
+    [Command]
+    public void CmdSetPositionOnClient() {
+        RpcRecievePosition(transform.position);
+    }
+
+    [ClientRpc]
+    public void RpcRecievePosition(Vector3 position) {
+        transform.position = position;
+        synchPos = position;
+    }
+
+    void Update(){
         switch (GameState.gameState) {
             case GameState.State.IDLE:
                 if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
