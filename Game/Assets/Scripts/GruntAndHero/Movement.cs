@@ -6,7 +6,7 @@ public class Movement : NetworkBehaviour{
 
 	private NavMeshAgent agent;
 
-	[SyncVar] private Vector3 movementTarget;
+	private Vector3 movementTarget;
 	[SyncVar] public bool isInitialised = false;
 	[SyncVar] private Vector3 synchPos;
 	[SyncVar] private float synchYRot;
@@ -29,7 +29,27 @@ public class Movement : NetworkBehaviour{
 		synchPos = transform.position;
 	}
 
-	void Update(){
+    public void initialiseMovement(Vector3 position) {
+        transform.position = position;
+        lastPos = position;
+        synchPos = position;
+        movementTarget = position;
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        CmdSetPositionOnClient();
+    }
+
+    [Command]
+    public void CmdSetPositionOnClient() {
+        RpcRecievePosition(transform.position);
+    }
+
+    [ClientRpc]
+    public void RpcRecievePosition(Vector3 position) {
+        transform.position = position;
+        synchPos = position;
+    }
+
+    void Update(){
         switch (GameState.gameState) {
             case GameState.State.IDLE:
                 if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
