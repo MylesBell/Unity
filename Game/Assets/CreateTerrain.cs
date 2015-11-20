@@ -65,7 +65,7 @@ public class CreateTerrain : NetworkBehaviour
 					float z_pos;
 					do {
 						z_pos = Random.Range(0,100);
-					} while (z_pos >= 35 && z_pos <=65);
+					} while (z_pos >= Teams.minZ && z_pos <= Teams.maxZ);
 					Vector3 location = (offset * i) + new Vector3(Random.Range(0,100),20.0f,z_pos);
 					RaycastHit terrainLevel;
 					if(Physics.Raycast(location, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))

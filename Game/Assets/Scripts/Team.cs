@@ -120,19 +120,27 @@ public class Team : NetworkBehaviour {
 
     private void spawnGrunt(int i) {
         GameObject grunt = getGrunt();
-        grunt.transform.position = GetSpawnLocation() + new Vector3(teamID == TeamID.blue ? i : -i, 0, 0);
-        grunt.GetComponent<Grunt>().InitialiseGrunt(teamID, GetTargetPosition(getZPosition()), zPositionOffset);
+        Vector3 spawnLocation =  GetSpawnLocation() + new Vector3(teamID == TeamID.blue ? i : -i, 0, 0);
+        grunt.GetComponent<Grunt>().InitialiseGrunt(this, teamID, spawnLocation, GetTargetPosition(getZPosition()), zPositionOffset);
     }
 
     private GameObject getGrunt() {
         GameObject grunt;
-        if (availableGrunts.Count > 0) {
-            grunt = availableGrunts.First.Value;
-            availableGrunts.RemoveFirst();
-        } else {
-            grunt = unitFactory.CreateGrunt(GruntPrefab, GetSpawnLocation());
+        lock (availableGrunts) { 
+            if (availableGrunts.Count > 0) {
+                grunt = availableGrunts.First.Value;
+                availableGrunts.RemoveFirst();
+            } else {
+                grunt = unitFactory.CreateGrunt(GruntPrefab, GetSpawnLocation());
+            }
         }
         return grunt;
+    }
+
+    public void OnGruntDead(GameObject grunt) {
+        lock (availableGrunts) {
+            availableGrunts.AddLast(grunt);
+        }
     }
 
     public int GetNumberOfHeros() {

@@ -19,6 +19,9 @@ public class Health : NetworkBehaviour {
     public void initialiseHealth() {
         // if max heath isnt set, as can be set by later function
         currentHealth = maxHealth;
+        entityLocation = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        percentOfHealth = currentHealth / maxHealth;
+        healthBarLength = percentOfHealth * healthBarInitialLength;
     }
 
 	void OnGUI () {
@@ -32,7 +35,10 @@ public class Health : NetworkBehaviour {
 	void Update () {
 		entityLocation =  Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		if (isServer && currentHealth <= 0) {
-			Destroy(gameObject);
+            if (gameObject.GetComponent<IDisableGO>() != null)
+                gameObject.GetComponent<IDisableGO>().disableGameObject();
+			else
+                Destroy(gameObject);
 		}
 		percentOfHealth = currentHealth / maxHealth;
 		healthBarLength = percentOfHealth * healthBarInitialLength;

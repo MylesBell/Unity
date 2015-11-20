@@ -184,7 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarInitialLength: 10
   healthBarTexture: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
-  maxHealth: 50
+  maxHealth: 10
   currentHealth: 0
 --- !u!114 &11486206
 MonoBehaviour:
@@ -266,7 +266,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 50
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_UseGravity
@@ -290,6 +290,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
