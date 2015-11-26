@@ -1,29 +1,22 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
 public class UnitFactory: NetworkBehaviour {
     
-	public GameObject CreateGrunt(GameObject prefab, Vector3 basePosition) {
-		GameObject gruntObject = Instantiate (prefab, basePosition, Quaternion.identity) as GameObject;
+	public GameObject CreateGrunt(GameObject prefab) {
+		GameObject gruntObject = Instantiate (prefab, Vector3.zero, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (gruntObject);
-		//grunt grunt = gruntobject.getcomponent<grunt> ();
-		//grunt.initialisegrunt (teamid, desiredposition, channelseparation);
 		return gruntObject;
 	}
 
-	public GameObject CreateHero(GameObject prefab, Team team, string playerName, Vector3 spawnLocation, Vector3 desiredPosition, float channelSeparation) {
-		GameObject heroObject = Instantiate (prefab, spawnLocation, Quaternion.identity) as GameObject;
+	public GameObject CreateHero(GameObject prefab) {
+		GameObject heroObject = Instantiate (prefab, Vector3.zero, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn (heroObject);
-		Hero hero = heroObject.GetComponent<Hero> ();
-		hero.InitialiseHero (team, playerName, spawnLocation, desiredPosition, channelSeparation);
 		return heroObject;
 	}
 
-    public GameObject CreateBase(GameObject prefab, TeamID teamID, Vector3 spawnLocation) {
-        GameObject baseTower = (GameObject)Instantiate(prefab, spawnLocation, Quaternion.identity);
-        baseTower.GetComponent<Base>().initialise(teamID);
+    public GameObject CreateBase(GameObject prefab) {
+        GameObject baseTower = (GameObject)Instantiate(prefab, Vector3.zero, Quaternion.identity);
         NetworkServer.Spawn(baseTower);
         return baseTower;
     }

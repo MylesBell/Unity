@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class GameState : MonoBehaviour {
     public enum State { IDLE, PLAYING, END };

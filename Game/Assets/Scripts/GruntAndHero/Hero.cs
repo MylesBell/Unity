@@ -1,38 +1,33 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Networking;
-using System;
 
-public class Hero : NetworkBehaviour, IHeroMovement, IDisableGO {
-    [SyncVar] public string HeroNameString = "";
+public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     private Team team;
 	private TargetSelect targetSelect;
     [SyncVar] private bool active = false;
 
     public void Start() {
-        GameObject heroname = transform.FindChild("HeroName").gameObject;
-        heroname.GetComponent<TextMesh>().text = HeroNameString;
         gameObject.SetActive(active);
     }
 
-	public void InitialiseHero(Team team, string playerName, Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset) {
-        GameObject heroname = transform.FindChild("HeroName").gameObject;
-        HeroNameString = playerName;
-        heroname.GetComponent<TextMesh>().text = HeroNameString;
+	public void InitialiseGameObject(Team team) {
         if (isServer) {
-            active = true;
             this.team = team;
-            gameObject.GetComponent<Attack>().initiliseAttack();
-            //set Health to Max
-            gameObject.GetComponent<Health>().initialiseHealth();
-            targetSelect = GetComponent<TargetSelect> ();
-            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
         }
     }
 
-    public void resetHero(Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset) {
+    public void setHeroName(string playerName) {
+        CmdSetPlayerName(playerName);
+        updateTextMesh(playerName);
+    }
+
+    private void updateTextMesh(string playerName) {
+        transform.FindChild("HeroName").gameObject.GetComponent<TextMesh>().text = playerName;
+    }
+
+    public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset) {
         if (isServer) {
             active = true;
             gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
@@ -55,13 +50,17 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDisableGO {
         gameObject.SetActive(active);
     }
 
-    void onDestroy() {
-        //fire event to SocketIo that hero is dead
+    [Command] public void CmdSetPlayerName(string playerName) {
+        RpcSetPlayerName(playerName);
     }
 
-    public string getHeroName()
-    {
-        return HeroNameString;
+    [ClientRpc]
+    public void RpcSetPlayerName(string playerName) {
+        updateTextMesh(playerName);
+    }
+
+    void onDestroy() {
+        //fire event to SocketIo that hero is dead
     }
 
     #region IHeroMovement implementation
@@ -77,7 +76,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDisableGO {
     }
     #endregion
 
-    public void disableGameObject() {
+    public void DisableGameObject() {
         active = false;
         gameObject.SetActive(active);
         CmdSetActiveState(active);
