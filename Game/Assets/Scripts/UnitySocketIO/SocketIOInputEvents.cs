@@ -18,14 +18,13 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 		ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin(playerID, playerName));
 	}
 
-	public void PlayerBack (string playerID)
+	public void PlayerChangeProgressDirection (string playerID, ProgressDirection progressDirection)
 	{
-		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerBack());
+		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerChangeProgressDirection(progressDirection));
 	}
 
 	public void PlayerMoveChannel (string playerID, MoveDirection moveDirection)
 	{
-		Debug.Log(teams.GetHero(playerID));
 		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveChannel(moveDirection));
 	}
 

@@ -9,6 +9,10 @@ public enum MoveDirection {
 	up, down
 }
 
+public enum ProgressDirection {
+	forward, backward
+}
+
 public class Teams : NetworkBehaviour, IPlayerJoin {
 
 	public Team blueTeam, redTeam;
