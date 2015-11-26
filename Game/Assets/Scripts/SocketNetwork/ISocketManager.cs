@@ -12,8 +12,6 @@ using SocketIO;
 
 public interface ISocketManager
 {
-	void TestBoopHandler (SocketIOEvent e);
-	
 	void CloseHandler (SocketIOEvent e);
 	
 	SocketIOComponent createSocket (string host, string port);

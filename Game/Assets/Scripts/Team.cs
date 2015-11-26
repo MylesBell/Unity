@@ -119,6 +119,7 @@ public class Team : NetworkBehaviour {
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(), GetTargetPosition(getZPosition()), zPositionOffset);
         playerDict.Add(playerID, hero);
         numberOfHeros++;
+		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState);
     }
 
     private void initialiseGruntPool() {

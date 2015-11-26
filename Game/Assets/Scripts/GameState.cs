@@ -4,6 +4,7 @@ public class GameState : MonoBehaviour {
     public enum State { IDLE, PLAYING, END };
 
     public static State gameState;
+	public static TeamID winningTeam;
 
     // Use this for initialization
     void Start () {
@@ -14,6 +15,7 @@ public class GameState : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyUp(KeyCode.S)) {
             gameState = gameState == State.IDLE ? State.PLAYING: gameState;
+			startGame ();
         }
 
         if (Input.GetKeyUp(KeyCode.E)) {
@@ -25,27 +27,19 @@ public class GameState : MonoBehaviour {
         }
     }
 
-    void onGameStateChange() {
-        //tell sockets io
-        switch (gameState) {
-            case State.IDLE:
-
-                break;
-            case State.PLAYING:
-
-                break;
-            case State.END:
-
-                break;
-        }
-    }
-
     public static void changeGameState(State state) {
         gameState = state;
+		SocketIOOutgoingEvents.GameStateChange (state);
     }
 
-    public static void endGame(TeamID winner) {
-        changeGameState(State.END);
-        Debug.Log(winner + " won!\n");
-    }
+	public static void endGame(TeamID winner) {
+		changeGameState(State.END);
+		GameState.winningTeam = winner;
+
+		Debug.Log(winner + " won!\n");
+	}
+
+	public static void startGame() {
+		changeGameState(State.PLAYING);
+	}
 }
