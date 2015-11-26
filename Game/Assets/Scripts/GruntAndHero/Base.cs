@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.Networking;
+﻿using UnityEngine.Networking;
 
 public class Base : NetworkBehaviour {
     private TeamID teamID;
