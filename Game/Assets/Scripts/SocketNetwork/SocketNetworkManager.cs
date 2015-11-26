@@ -38,14 +38,15 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
 
 		    // get the direction from the message
-		    MoveDirection dest;
-		    if(e.data.GetField("input").str == "left"){
-		    	dest = MoveDirection.up;
+			string input = e.data.GetField("input").str;
+			string playerID = e.data.GetField("uID").str;
+		    if(input == "up" || input == "down"){
+		    	MoveDirection dest = (input == "up" ? MoveDirection.up : MoveDirection.down);
+			    socketIOInputEvents.PlayerMoveChannel(playerID, dest); // socket io id, channel direction
 		    } else {
-		    	dest = MoveDirection.down;
+		    	ProgressDirection direction = (input == "forward" ? ProgressDirection.forward : ProgressDirection.backward);
+				socketIOInputEvents.PlayerChangeProgressDirection(playerID, direction); // socket io id, progress direction
 		    }
-            
-		    socketIOInputEvents.PlayerMoveChannel(e.data.GetField("uID").str, dest); // socket io id, channel direction
         }
 	}
 	

@@ -1,5 +1,4 @@
 // SocketIO methods to handle game events;
-using UnityEngine;
 
 public enum State { IDLE, PLAYING, END };
 
