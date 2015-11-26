@@ -34,8 +34,8 @@ public class Health : NetworkBehaviour {
 	void Update () {
 		entityLocation =  Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		if (isServer && currentHealth <= 0) {
-            if (gameObject.GetComponent<IDisableGO>() != null)
-                gameObject.GetComponent<IDisableGO>().disableGameObject();
+            if (gameObject.GetComponent<IDestroyableGameObject>() != null)
+                gameObject.GetComponent<IDestroyableGameObject>().DisableGameObject();
 			else
                 Destroy(gameObject);
 		}

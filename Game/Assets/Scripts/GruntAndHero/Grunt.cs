@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Grunt : NetworkBehaviour, IDisableGO {
+public class Grunt : NetworkBehaviour, IDestroyableGameObject {
 
-	private TargetSelect targetSelect;
     private Team team;
     [SyncVar] private bool active = false;
 
@@ -11,23 +10,29 @@ public class Grunt : NetworkBehaviour, IDisableGO {
         gameObject.SetActive(active);
     }
     
-    public void InitialiseGrunt(Team team, Vector3 spawnPosition, Vector3 desiredPosition, float channelOffset) {
+    public void InitialiseGameObject(Team team) {
+        if (isServer) {
+            this.team = team;
+            gameObject.SetActive(active);
+            CmdSetActiveState(active);
+        }
+	}
+
+    public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition, float channelOffset) {
         if (isServer) {
             active = true;
-            this.team = team;
             gameObject.GetComponent<Attack>().initiliseAttack();
             gameObject.GetComponent<Movement>().initialiseMovement(spawnPosition);
             //set Health to Max
             gameObject.GetComponent<Health>().initialiseHealth();
-            targetSelect = GetComponent<TargetSelect>();
-            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
+            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
         }
 	}
 
     void Update() {
-        if (isServer && GameState.gameState != GameState.State.PLAYING) disableGameObject(); //kill grunts at the end
+        if (isServer && GameState.gameState != GameState.State.PLAYING) DisableGameObject(); //kill grunts at the end
     }
 
     [Command]
@@ -40,7 +45,7 @@ public class Grunt : NetworkBehaviour, IDisableGO {
         gameObject.SetActive(active);
     }
 
-    public void disableGameObject() {
+    public void DisableGameObject() {
         active = false;
         gameObject.SetActive(active);
         CmdSetActiveState(active);
