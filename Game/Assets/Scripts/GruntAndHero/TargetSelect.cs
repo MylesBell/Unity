@@ -9,6 +9,7 @@ public class TargetSelect : NetworkBehaviour {
 	private float desiredZPosition;
 	private Vector3 desiredPosition;
 	private float zSeperation;
+	private ProgressDirection progressDirection;
 	
 	private Stats stats;
 	
@@ -22,9 +23,14 @@ public class TargetSelect : NetworkBehaviour {
 		this.desiredZPosition = desiredPosition.z;
         this.desiredPosition = desiredPosition;
 		this.zSeperation = zSeperation;
+		this.progressDirection = ProgressDirection.forward;
 		attack = GetComponent<Attack> ();
 		movement = GetComponent<Movement> ();
 		movement.SetTarget (desiredPosition);
+	}
+	
+	public void SetProgressDirection(ProgressDirection progressDirection){
+		this.progressDirection = progressDirection;
 	}
 
 	public void MoveToZOffset(MoveDirection moveDirection){
@@ -38,7 +44,6 @@ public class TargetSelect : NetworkBehaviour {
         }
         desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
         movement.SetTarget(desiredPosition);
-
 	}
 
 	void Update () {
@@ -62,9 +67,17 @@ public class TargetSelect : NetworkBehaviour {
 		
 		if (distance < 2.0f) {
 			if (teamID == TeamID.blue){
-                desiredPosition.x += zSeperation;
+				if (progressDirection == ProgressDirection.forward){
+                	desiredPosition.x += zSeperation;
+				}else{
+					desiredPosition.x -= zSeperation;
+				}
 			}else{
-                desiredPosition.x -= zSeperation;
+				if (progressDirection == ProgressDirection.forward){
+                	desiredPosition.x -= zSeperation;
+				}else{
+					desiredPosition.x += zSeperation;
+				}
 			}
             movement.SetTarget(desiredPosition);
 		}

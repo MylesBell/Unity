@@ -64,9 +64,11 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     }
 
     #region IHeroMovement implementation
-    public void PlayerBack ()
+    public void PlayerChangeProgressDirection (ProgressDirection progressDirection)
 	{
-		throw new System.NotImplementedException ();
+		if (isServer) {
+            targetSelect.SetProgressDirection(progressDirection);
+        }
 	}
 	public void PlayerMoveChannel (MoveDirection moveDirection)
 	{

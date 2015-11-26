@@ -1,6 +1,6 @@
 ﻿using UnityEngine.EventSystems;
 
 public interface IHeroMovement : IEventSystemHandler {
-	void PlayerBack ();
+	void PlayerChangeProgressDirection (ProgressDirection progressDirection);
 	void PlayerMoveChannel(MoveDirection moveDirection);
 }
