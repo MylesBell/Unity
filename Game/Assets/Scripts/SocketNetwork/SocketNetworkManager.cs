@@ -9,7 +9,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 
 	private static SocketIOComponent socket;
 	SocketIOInputEvents socketIOInputEvents;
-	private string hostName = "icantmiss.com";
+	private string hostName = "127.0.0.1";
 	private string portNumber = "1337";
 	public enum State { IDLE, PLAYING, END };
 	public static bool isInit = false;
@@ -55,22 +55,34 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		Debug.Log ("[SocketIO] State change");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
 		switch (state) {
-			case GameState.State.IDLE:
-				Debug.Log ("[SocketIO] Game is idle");
-				dataJSON.AddField("state", "idle");
-				socket.Emit ("gameStateUpdate", dataJSON);
-				break;
-			case GameState.State.PLAYING:
-				Debug.Log ("[SocketIO] Game is playing");
-				dataJSON.AddField("state", "playing");
-				socket.Emit ("gameStateUpdate", dataJSON);
-				break;
-			case GameState.State.END:
-				Debug.Log ("[SocketIO] Game is ended");
-				dataJSON.AddField("state", "end");
-				socket.Emit ("gameStateUpdate", dataJSON);
-				break;
+		case GameState.State.IDLE:
+			Debug.Log ("[SocketIO] Game is idle");
+			dataJSON.AddField("state", "idle");
+			socket.Emit ("gameStateUpdate", dataJSON);
+			break;
+		case GameState.State.PLAYING:
+			Debug.Log ("[SocketIO] Game is playing");
+			dataJSON.AddField("state", "playing");
+			socket.Emit ("gameStateUpdate", dataJSON);
+			break;
+		case GameState.State.END:
+			Debug.Log ("[SocketIO] Game is ended");
+			dataJSON.AddField("state", "end");
+			dataJSON.AddField("winner", (int)GameState.winningTeam);
+			Debug.Log ("[Winner] "+(int)GameState.winningTeam);
+			socket.Emit ("gameStateUpdate", dataJSON);
+			break;
 		}
+	}
+
+	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state)
+	{
+		Debug.Log ("[SocketIO] Player has joined");
+		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("playerID", playerID);
+		dataJSON.AddField("teamID", (int)teamID);
+		dataJSON.AddField ("state", (int)state);
+		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
 
 	public void CloseHandler(SocketIOEvent e)

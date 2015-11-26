@@ -5,6 +5,7 @@ public class GameState : MonoBehaviour {
     public enum State { IDLE, PLAYING, END };
 
     public static State gameState;
+	public static TeamID winningTeam;
 
     // Use this for initialization
     void Start () {
@@ -34,6 +35,8 @@ public class GameState : MonoBehaviour {
 
 	public static void endGame(TeamID winner) {
 		changeGameState(State.END);
+		GameState.winningTeam = winner;
+
 		Debug.Log(winner + " won!\n");
 	}
 

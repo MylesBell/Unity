@@ -114,6 +114,7 @@ public class Team : NetworkBehaviour {
         GameObject hero = unitFactory.CreateHero(HeroPrefab, this, playerName, GetSpawnLocation(), GetTargetPosition(getZPosition()), zPositionOffset);
         playerDict.Add(playerID, hero);
         numberOfHeros++;
+		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState);
     }
 
     private void initialiseGruntPool() {
