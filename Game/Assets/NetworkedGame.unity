@@ -84,7 +84,7 @@ NavMeshSettings:
     minRegionArea: 2
     cellSize: .166666672
     manualCellSize: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 74979f67efc734db49f6a8b6bb663221, type: 2}
 --- !u!1 &971672723
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +142,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: .300000012
+  near clip plane: -20
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -515,11 +515,13 @@ MonoBehaviour:
   - {fileID: 133058, guid: 9295187c815e7462f9a1daabaf5c4b9b, type: 2}
   - {fileID: 165532, guid: efdd03d14e7844780b9dd3df3f41673a, type: 2}
   - {fileID: 103158, guid: ded6790f16e214c2a8e745443496f56a, type: 2}
+  - {fileID: 156676, guid: 37ddc133724d14583bf2c55d17be82e2, type: 2}
+  - {fileID: 134034, guid: 6aa71e081f3c741b39cb0660f69a8582, type: 2}
   terrainMask:
     serializedVersion: 2
     m_Bits: 256
-  minNumScenery: 200
-  maxNumScenery: 300
+  minNumScenery: 150
+  maxNumScenery: 200
 --- !u!4 &1919932851
 Transform:
   m_ObjectHideFlags: 0

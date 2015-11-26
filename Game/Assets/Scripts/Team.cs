@@ -80,9 +80,9 @@ public class Team : NetworkBehaviour {
     private Vector3 GetSpawnLocation() {
         Vector3 spawnLocation = Vector3.zero;
         if (teamID == TeamID.blue)
-            spawnLocation = teamBase.transform.position + new Vector3(4, 2, 0);
+            spawnLocation = teamBase.transform.position + new Vector3(4, 0, 0);
         else
-            spawnLocation = teamBase.transform.position - new Vector3(4, 2, 0);
+            spawnLocation = teamBase.transform.position - new Vector3(4, 0, 0);
         return spawnLocation + new Vector3(0, 10, 0);
     }
 
