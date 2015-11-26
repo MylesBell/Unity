@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Networking;
-using System;
 
 public class Grunt : NetworkBehaviour, IDisableGO {
 

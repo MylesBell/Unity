@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class NameHero : MonoBehaviour {
 	// Update is called once per frame

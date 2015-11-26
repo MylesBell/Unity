@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public interface ISocketIOOutgoingEvents {
+﻿public interface ISocketIOOutgoingEvents {
 
 	// This is called when Game State changes from Setup to Idle or from End to Idle
 	void GameReady();

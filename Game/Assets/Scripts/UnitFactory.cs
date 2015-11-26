@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
 public class UnitFactory: NetworkBehaviour {
