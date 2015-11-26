@@ -38,7 +38,7 @@ public class Team : NetworkBehaviour {
             numberOfHeros = 0;
             Random.seed = (int)Time.time;
         }
-    } 
+    }
 
     public void Initialise(Vector3 basePosition, float zPositionOffset, int numberOfChannels, int numberOfGruntsToSpawn, int spawnInterval, int gruntPoolSize, int heroRespawnInterval) {
         this.zPositionOffset = zPositionOffset;
@@ -49,7 +49,8 @@ public class Team : NetworkBehaviour {
         this.gruntPoolSize = gruntPoolSize;
         this.heroRespawnInterval = heroRespawnInterval;
         //Create base
-        teamBase = unitFactory.CreateBase(BasePrefab, basePosition);
+        teamBase = unitFactory.CreateBase(BasePrefab);
+        teamBase.GetComponent<Base>().InitialiseGameObject(this);
 
         resetTeam();
     }
@@ -112,7 +113,7 @@ public class Team : NetworkBehaviour {
 	}
 
     public void CreatePlayer(string playerID, string playerName) {
-        GameObject hero = unitFactory.CreateHero(HeroPrefab, GetSpawnLocation());
+        GameObject hero = unitFactory.CreateHero(HeroPrefab);
         hero.GetComponent<Hero>().InitialiseGameObject(this);
         hero.GetComponent<Hero>().setHeroName(playerName);
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(), GetTargetPosition(getZPosition()), zPositionOffset);
@@ -122,7 +123,7 @@ public class Team : NetworkBehaviour {
 
     private void initialiseGruntPool() {
         for(int i = 0; i < gruntPoolSize; i++) {
-            GameObject grunt = unitFactory.CreateGrunt(GruntPrefab, GetSpawnLocation());
+            GameObject grunt = unitFactory.CreateGrunt(GruntPrefab);
             grunt.GetComponent<Grunt>().InitialiseGameObject(this);
             availableGrunts.AddLast(grunt);
         }
@@ -142,7 +143,7 @@ public class Team : NetworkBehaviour {
                 grunt = availableGrunts.First.Value;
                 availableGrunts.RemoveFirst();
             } else {
-                grunt = unitFactory.CreateGrunt(GruntPrefab, GetSpawnLocation());
+                grunt = unitFactory.CreateGrunt(GruntPrefab);
                 grunt.GetComponent<Grunt>().InitialiseGameObject(this);
             }
         }
