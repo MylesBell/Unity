@@ -9,14 +9,15 @@ public class Attack : NetworkBehaviour {
 	
 	private Stats stats;
 
-	void Start () {
-		timeTillAttack = 0;
-		target = null;
-	}
+    public void initiliseAttack() {
+        timeTillAttack = 0;
+        target = null;
+    }
 
 	void Update () {
         if (isServer) {
             stats = (Stats)GetComponent<Stats>();
+            if (target != null && !target.activeSelf) target = null; // check if target is still active, if not then null this
             if (target != null && GameState.gameState == GameState.State.PLAYING) {
 			    if ((timeTillAttack > 0)) {
 				    timeTillAttack -= Time.deltaTime;

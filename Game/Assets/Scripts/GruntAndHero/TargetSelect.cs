@@ -7,9 +7,9 @@ public class TargetSelect : NetworkBehaviour {
 	private TeamID teamID;
 	private Attack attack;
 	private Movement movement;
-	private Channel channel;
-	private Vector3 channelTarget;
-	private float channelOffset;
+	private float desiredZPosition;
+	private Vector3 desiredPosition;
+	private float zSeperation;
 	
 	private Stats stats;
 	
@@ -17,28 +17,28 @@ public class TargetSelect : NetworkBehaviour {
 		stats = (Stats) GetComponent<Stats>();
 	}
 	
-	public void InitialiseTargetSelect (TeamID teamIDInput, Channel channelInput, Vector3 channelTargetInput, float channelOffsetInput)
+	public void InitialiseTargetSelect (TeamID teamIDInput, Vector3 desiredPosition, float zSeperation)
 	{
 		teamID = teamIDInput;
-		channel = channelInput;
-		channelTarget = channelTargetInput;
-		channelOffset = channelOffsetInput;
+		this.desiredZPosition = desiredPosition.z;
+        this.desiredPosition = desiredPosition;
+		this.zSeperation = zSeperation;
 		attack = GetComponent<Attack> ();
 		movement = GetComponent<Movement> ();
-		movement.SetTarget (channelTarget);
+		movement.SetTarget (desiredPosition);
 	}
 
-	public void MoveToChannel(Channel channelInput){
-
-		if (channel != channelInput){
-			channel = channelInput;
-			if (channelInput == Channel.up){
-				channelTarget = channelTarget + new Vector3(0,0,2*channelOffset);
-			}else{
-				channelTarget = channelTarget - new Vector3(0,0,2*channelOffset);
-			}      
-			movement.SetTarget (channelTarget);
-		}
+	public void MoveToZOffset(MoveDirection moveDirection){
+        switch (moveDirection) {
+            case MoveDirection.up:
+                if ((desiredZPosition + zSeperation) < Teams.maxZ) desiredZPosition += zSeperation;
+                break;
+            case MoveDirection.down:
+                if ((desiredZPosition - zSeperation) > Teams.minZ) desiredZPosition -= zSeperation;
+                break;
+        }
+        desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
+        movement.SetTarget(desiredPosition);
 
 	}
 
@@ -53,22 +53,21 @@ public class TargetSelect : NetworkBehaviour {
                 movement.SetTarget(attack.getTarget().transform.position);
             }
             else {
-                UpdateChannelMoveTarget();
+                UpdateMoveTarget();
             }
         }
 	}
 	
-	private void UpdateChannelMoveTarget(){
-		Vector3 currentTarget = movement.GetTarget ();
-		float distance = Vector3.Distance (currentTarget, transform.position);
+	private void UpdateMoveTarget(){
+		float distance = Vector3.Distance (desiredPosition, transform.position);
 		
 		if (distance < 2.0f) {
 			if (teamID == TeamID.blue){
-				channelTarget += new Vector3(channelOffset,0,0);
+                desiredPosition.x += zSeperation;
 			}else{
-				channelTarget -= new Vector3(channelOffset,0,0);
+                desiredPosition.x -= zSeperation;
 			}
-			movement.SetTarget(channelTarget);
+            movement.SetTarget(desiredPosition);
 		}
 	}
 
@@ -138,8 +137,7 @@ public class TargetSelect : NetworkBehaviour {
 	}
 
 	private GameObject FindClosestObjectWithTag(string type) {
-		GameObject[] gos;
-		gos = GameObject.FindGameObjectsWithTag(type);
+		GameObject[] gos = GameObject.FindGameObjectsWithTag(type);
 		GameObject closest = null;
 		float distance = Mathf.Infinity;
 		Vector3 position = transform.position;

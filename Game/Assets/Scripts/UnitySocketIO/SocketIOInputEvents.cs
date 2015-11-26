@@ -24,10 +24,10 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerBack());
 	}
 
-	public void PlayerMoveChannel (string playerID, Channel channel)
+	public void PlayerMoveChannel (string playerID, MoveDirection moveDirection)
 	{
 		Debug.Log(teams.GetHero(playerID));
-		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveChannel(channel));
+		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveChannel(moveDirection));
 	}
 
 	#endregion

@@ -35,19 +35,19 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 	}
 	
 	public void DirectionHandler(SocketIOEvent e){
-		if (isServer) {
-			Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-			
-			// get the direction from the message
-			Channel dest;
-			if(e.data.GetField("input").str == "left"){
-				dest = Channel.up;
-			} else {
-				dest = Channel.down;
-			}
-			
-			socketIOInputEvents.PlayerMoveChannel(e.data.GetField("uID").str, dest); // socket io id, channel direction
-		}
+        if (isServer) {
+		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
+
+		    // get the direction from the message
+		    MoveDirection dest;
+		    if(e.data.GetField("input").str == "left"){
+		    	dest = MoveDirection.up;
+		    } else {
+		    	dest = MoveDirection.down;
+		    }
+            
+		    socketIOInputEvents.PlayerMoveChannel(e.data.GetField("uID").str, dest); // socket io id, channel direction
+        }
 	}
 	
 	public void GameStateHandler(GameState.State state)

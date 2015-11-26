@@ -33,7 +33,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129988}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106709}
   m_LocalPosition: {x: -11.6348324, y: 2.94232488, z: 9.33421421}
   m_LocalScale: {x: .5, y: .5, z: .5}
   m_Children: []
@@ -78,8 +78,8 @@ Rigidbody:
   m_GameObject: {fileID: 129988}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
+  m_Drag: 1
+  m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -110,6 +110,7 @@ MonoBehaviour:
   healthBarInitialLength: 10
   healthBarTexture: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
   maxHealth: 50
+  currentHealth: 0
 --- !u!114 &11420070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,6 +182,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0
   minDistanceFromEnemy: 0
+  damage: 20
+  attackCoolDown: 1
+  attackRange: 5
+  targetSelectRange: 4
 --- !u!114 &11470698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,9 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
-  attackCoolDown: 1
-  attackRange: 5
 --- !u!135 &13599662
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -264,6 +266,30 @@ Prefab:
       objectReference: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
     - target: {fileID: 0}
       propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: targetSelectRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.y
+      value: -.707106829
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.w
+      value: .707106709
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Drag
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

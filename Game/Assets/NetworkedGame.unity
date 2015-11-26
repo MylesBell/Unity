@@ -197,6 +197,8 @@ GameObject:
   - 114: {fileID: 1193707481}
   - 114: {fileID: 1193707485}
   - 114: {fileID: 1193707486}
+  - 114: {fileID: 1193707488}
+  - 114: {fileID: 1193707487}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -215,7 +217,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993fb1fb1dcff45d5899b56bc9a131a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  channelSeparation: 10
+  blueTeam: {fileID: 1193707488}
+  redTeam: {fileID: 1193707487}
+  gruntPoolSize: 30
+  numberOfGruntsToSpawn: 5
+  gruntSpawnInterval: 10
+  heroRespawnInterval: 5
+  numberOfChannels: 40
 --- !u!114 &1193707482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,13 +235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e1bb11e9c66c41f1b93cdfc12dfc964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamsObject: {fileID: 1193707480}
-  redBasePrefab: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
-  blueBasePrefab: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
-  blueHeroPrefab: {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
-  redHeroPrefab: {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
-  blueGruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
-  redGruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
 --- !u!114 &1193707483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +302,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e081e24d05e2d1489d7ee00b530cc94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1193707487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193707480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2c2223b97ec4604b8fef367951f549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamID: 0
+  HeroPrefab: {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
+  BasePrefab: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
+  GruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
+--- !u!114 &1193707488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193707480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2c2223b97ec4604b8fef367951f549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamID: 1
+  HeroPrefab: {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
+  BasePrefab: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
+  GruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
 --- !u!1 &1305526078
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,8 +412,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1919932851}
-  - 114: {fileID: 1919932850}
   - 114: {fileID: 1919932852}
+  - 114: {fileID: 1919932850}
   m_Layer: 0
   m_Name: TerrainSpawner
   m_TagString: Untagged
@@ -402,9 +433,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laneSegments:
-  - {fileID: 15600000, guid: 6eeaa04eebf2ccb448ed9ab25f3eef19, type: 2}
-  base1: {fileID: 15600000, guid: b7ce317412f3415448ee3e10bbe1889e, type: 2}
-  base2: {fileID: 15600000, guid: 5c8cff4bb2c4e724b86da5a5dbf11cd6, type: 2}
+  - {fileID: 175212, guid: b35eff09e3c54674d8d3d2f2b4ad9431, type: 2}
+  base1: {fileID: 110192, guid: 830087544392c48218aadeba9fd1020a, type: 2}
+  base2: {fileID: 160050, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
+  sceneryObjects:
+  - {fileID: 133058, guid: 9295187c815e7462f9a1daabaf5c4b9b, type: 2}
+  - {fileID: 165532, guid: efdd03d14e7844780b9dd3df3f41673a, type: 2}
+  - {fileID: 103158, guid: ded6790f16e214c2a8e745443496f56a, type: 2}
+  terrainMask:
+    serializedVersion: 2
+    m_Bits: 256
+  minNumScenery: 200
+  maxNumScenery: 300
 --- !u!4 &1919932851
 Transform:
   m_ObjectHideFlags: 0
