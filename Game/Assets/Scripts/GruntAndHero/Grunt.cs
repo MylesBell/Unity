@@ -32,7 +32,7 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
 	}
 
     void Update() {
-        if (isServer && GameState.gameState != GameState.State.PLAYING) DisableGameObject(); //kill grunts at the end
+        if (isServer && GameState.gameState == GameState.State.IDLE) DisableGameObject(); //kill grunts at restart
     }
 
     [Command]

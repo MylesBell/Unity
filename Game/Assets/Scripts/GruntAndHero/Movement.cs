@@ -72,8 +72,8 @@ public class Movement : NetworkBehaviour{
 	private void SeverSetNewPosition(){
         //only move when playing
 		if(GameState.gameState == GameState.State.PLAYING) {
-            transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime);
-            gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 10 - gameObject.GetComponent<Rigidbody>().velocity);
+            transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime * stats.movementSpeed / 5.0f);
+            //gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 10 - gameObject.GetComponent<Rigidbody>().velocity);
         }
 		if (Vector3.Distance (transform.position, lastPos) > positionThreshold
 			|| Quaternion.Angle (transform.rotation, lastRot) > rotationThreshold) {
