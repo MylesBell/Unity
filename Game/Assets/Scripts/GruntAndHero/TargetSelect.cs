@@ -122,11 +122,17 @@ public class TargetSelect : NetworkBehaviour {
 	
 	private GameObject GetEnemyBase(){
 		GameObject attackTarget = null;
-		if (teamID == TeamID.blue) {
-			attackTarget = FindClosestInRange("redBase");
-		} else {
-			attackTarget = FindClosestInRange("blueBase");
-		}
+        string tag = teamID == TeamID.blue ? "redBase" : "blueBase";
+        GameObject baseObject;
+        if ((baseObject = FindClosestObjectWithTag(tag)) != null)
+        {
+            if (teamID == TeamID.blue) {
+                attackTarget = baseObject.GetComponent<Collider>().bounds.Contains(transform.position + new Vector3(stats.targetSelectRange, 0, 0)) ? baseObject : null;
+            }
+            else {
+                attackTarget = baseObject.GetComponent<Collider>().bounds.Contains(transform.position - new Vector3(stats.targetSelectRange, 0, 0)) ? baseObject : null;
+            }
+        }
 		return attackTarget;
 	}
 
@@ -156,7 +162,7 @@ public class TargetSelect : NetworkBehaviour {
 		foreach (GameObject go in gos) {
 			Vector3 diff = go.transform.position - position;
 			float curDistance = diff.sqrMagnitude;
-			if (curDistance < distance) {
+			if (go.activeSelf && curDistance < distance) { //check if active
 				closest = go;
 				distance = curDistance;
 			}
