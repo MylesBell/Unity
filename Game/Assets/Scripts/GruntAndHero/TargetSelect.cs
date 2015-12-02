@@ -79,9 +79,9 @@ public class TargetSelect : NetworkBehaviour {
 					desiredPosition.x += zSeperation;
 				}
 			}
-            movement.SetTarget(desiredPosition);
-		}
-	}
+        }
+        movement.SetTarget(desiredPosition);
+    }
 
 	private bool hasAttackTarget(){
 		return (attack.getTarget () != null);
