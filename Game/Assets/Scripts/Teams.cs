@@ -25,7 +25,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
     private float zPositionOffset;
     public int numberOfChannels;
     public static int maxZ = 80;
-    public static int minZ = 25;
+    public static int minZ = 30;
 
     private bool initialised;
 

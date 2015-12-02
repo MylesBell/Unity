@@ -77,13 +77,13 @@ public class Team : NetworkBehaviour {
         }
     }
 
-    private Vector3 GetSpawnLocation() {
-        Vector3 spawnLocation = Vector3.zero;
+    private Vector3 GetSpawnLocation(float zPos) {
+        float xPos;
         if (teamID == TeamID.blue)
-            spawnLocation = teamBase.transform.position + new Vector3(4, 0, 0);
+            xPos = teamBase.transform.position.x + 2;
         else
-            spawnLocation = teamBase.transform.position - new Vector3(4, 0, 0);
-        return spawnLocation + new Vector3(0, 10, 0);
+            xPos = teamBase.transform.position.x - 2;
+        return new Vector3(xPos, 3, zPos);
     }
 
     private float getZPosition() {
@@ -114,9 +114,10 @@ public class Team : NetworkBehaviour {
 
     public void CreatePlayer(string playerID, string playerName) {
         GameObject hero = unitFactory.CreateHero(HeroPrefab);
+        float zPos = getZPosition();
         hero.GetComponent<Hero>().InitialiseGameObject(this);
         hero.GetComponent<Hero>().setHeroName(playerName);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(), GetTargetPosition(getZPosition()), zPositionOffset);
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos), GetTargetPosition(zPos), zPositionOffset);
         playerDict.Add(playerID, hero);
         numberOfHeros++;
 		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState);
@@ -133,8 +134,8 @@ public class Team : NetworkBehaviour {
 
     private void spawnGrunt(int i) {
         GameObject grunt = getGrunt();
-        Vector3 spawnLocation =  GetSpawnLocation() + new Vector3(teamID == TeamID.blue ? i : -i, 0, 0);
-        grunt.GetComponent<Grunt>().ResetGameObject(spawnLocation, GetTargetPosition(getZPosition()), zPositionOffset);
+        float zPos = getZPosition();
+        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos), GetTargetPosition(zPos), zPositionOffset);
     }
 
     private GameObject getGrunt() {
@@ -158,8 +159,8 @@ public class Team : NetworkBehaviour {
     }
 
     private void HeroRespawn(GameObject hero) {
-        Vector3 spawnLocation = GetSpawnLocation();
-        hero.GetComponent<Hero>().ResetGameObject(spawnLocation, GetTargetPosition(getZPosition()), zPositionOffset);
+        float zPos = getZPosition();
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos), GetTargetPosition(zPos), zPositionOffset);
     }
 
     public void OnHeroDead(GameObject hero) {

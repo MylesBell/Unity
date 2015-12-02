@@ -333,9 +333,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f92930b3f4e34b9fabd9379fa43af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 0
+  movementSpeed: 15
   minDistanceFromEnemy: 0
-  damage: 20
+  damage: 40
   attackCoolDown: 1
   attackRange: 5
   targetSelectRange: 4
@@ -397,8 +397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af108031a4bd4c248b2aaf8701f2b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HeroNameString: 
-  spawnInterval: 5
 --- !u!135 &13521646
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -522,6 +520,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: spawnInterval
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damage
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
