@@ -124,8 +124,7 @@ public class TargetSelect : NetworkBehaviour {
 		GameObject attackTarget = null;
         string tag = teamID == TeamID.blue ? "redBase" : "blueBase";
         GameObject baseObject;
-        if ((baseObject = FindClosestObjectWithTag(tag)) != null)
-        {
+        if ((baseObject = FindClosestObjectWithTag(tag)) != null) {
             if (teamID == TeamID.blue) {
                 attackTarget = baseObject.GetComponent<Collider>().bounds.Contains(transform.position + new Vector3(stats.targetSelectRange, 0, 0)) ? baseObject : null;
             }
