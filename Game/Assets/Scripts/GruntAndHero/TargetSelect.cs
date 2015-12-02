@@ -10,8 +10,11 @@ public class TargetSelect : NetworkBehaviour {
 	private Vector3 desiredPosition;
 	private float zSeperation;
 	private ProgressDirection progressDirection;
-	
-	private Stats stats;
+
+    private string attackGruntTag;
+    private string attackHeroTag;
+    private string attackBaseTag;
+    private Stats stats;
 	
 	void Start() {
 		stats = (Stats) GetComponent<Stats>();
@@ -27,7 +30,10 @@ public class TargetSelect : NetworkBehaviour {
 		attack = GetComponent<Attack> ();
 		movement = GetComponent<Movement> ();
 		movement.SetTarget (desiredPosition);
-	}
+        attackGruntTag = teamID == TeamID.blue ? "redGrunt" : "blueGrunt";
+        attackHeroTag = teamID == TeamID.blue ? "redHero" : "blueHero";
+        attackBaseTag = teamID == TeamID.blue ? "redBase" : "blueBase";
+    }
 	
 	public void SetProgressDirection(ProgressDirection progressDirection){
 		this.progressDirection = progressDirection;
@@ -54,7 +60,7 @@ public class TargetSelect : NetworkBehaviour {
             }
 
             if (hasAttackTarget()) {
-                movement.SetTarget(attack.getTarget().transform.position);
+                movement.SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
             }
             else {
                 UpdateMoveTarget();
@@ -88,84 +94,42 @@ public class TargetSelect : NetworkBehaviour {
 	}
 
 	private GameObject GetNewAttackTarget(){
-		GameObject attackTarget;
-		// targets entities in priority order
-		attackTarget = GetClosestEnemyGrunt ();
-		if (attackTarget == null) {
-			attackTarget = GetClosestEnemyHero();
-		}
-		if (attackTarget == null) {
-			attackTarget = GetEnemyBase();
-		}
-		return attackTarget;
-	}
-	
-	private GameObject GetClosestEnemyGrunt(){
-		GameObject attackTarget = null;
-		if (teamID == TeamID.blue) {
-			attackTarget = FindClosestInRange("redGrunt");
-		} else {
-			attackTarget = FindClosestInRange("blueGrunt");
-		}
-		return attackTarget;
-	}
-	
-	private GameObject GetClosestEnemyHero(){
-		GameObject attackTarget = null;
-		if (teamID == TeamID.blue) {
-			attackTarget = FindClosestInRange("redHero");
-		} else {
-			attackTarget = FindClosestInRange("blueHero");
-		}
-		return attackTarget;
-	}
-	
-	private GameObject GetEnemyBase(){
-		GameObject attackTarget = null;
-        string tag = teamID == TeamID.blue ? "redBase" : "blueBase";
-        GameObject baseObject;
-        if ((baseObject = FindClosestObjectWithTag(tag)) != null) {
-            if (teamID == TeamID.blue) {
-                attackTarget = baseObject.GetComponent<Collider>().bounds.Contains(transform.position + new Vector3(stats.targetSelectRange, 0, 0)) ? baseObject : null;
-            }
-            else {
-                attackTarget = baseObject.GetComponent<Collider>().bounds.Contains(transform.position - new Vector3(stats.targetSelectRange, 0, 0)) ? baseObject : null;
+        Collider closestBase = null;
+        Collider closestHero = null;
+        Collider closestGrunt = null;
+        float currentDistanceBase = Mathf.Infinity;
+        float currentDistanceHero = Mathf.Infinity;
+        float currentDistanceGrunt = Mathf.Infinity;
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.targetSelectRange);
+        foreach(Collider collider in hitColliders) {
+            if (collider.gameObject.activeSelf) { //check if active
+                if (string.Equals(collider.gameObject.tag, attackGruntTag)) {
+                    closestGrunt = closestCollider(closestGrunt, collider, ref currentDistanceGrunt);
+                } else if (string.Equals(collider.gameObject.tag, attackHeroTag)) {
+                    closestHero = closestCollider(closestHero, collider, ref currentDistanceHero);
+                } else if (string.Equals(collider.gameObject.tag, attackBaseTag)) {
+                    closestBase = closestCollider(closestBase, collider, ref currentDistanceBase);
+                }
             }
         }
-		return attackTarget;
-	}
+        // targets entities in priority order
+        if (closestBase) return closestBase.gameObject;
+        if (closestHero) return closestHero.gameObject;
+        if (closestGrunt) return closestGrunt.gameObject;
+        return null;
+    }
 
-	private GameObject FindClosestInRange(string type){
-		GameObject attackTarget = FindClosestObjectWithTag (type);
+    private Collider closestCollider(Collider currentCollider, Collider newCollider, ref float currentDistance) {
+        float newDistance = distanceToCollider(newCollider);
+        if(currentCollider == null || newDistance < currentDistance) {
+            currentDistance = newDistance;
+            return newCollider;
+        }
+        return currentCollider;
+    }
 
-		if (attackTarget == null) {
-			return attackTarget;
-		}
-
-		if (TargetInRange (attackTarget)) {
-			return attackTarget;
-		}
-
-		return null;
-	}
-
-	private bool TargetInRange(GameObject attackTarget){
-		return (Vector3.Distance (attackTarget.transform.position, transform.position) < stats.targetSelectRange);
-	}
-
-	private GameObject FindClosestObjectWithTag(string type) {
-		GameObject[] gos = GameObject.FindGameObjectsWithTag(type);
-		GameObject closest = null;
-		float distance = Mathf.Infinity;
-		Vector3 position = transform.position;
-		foreach (GameObject go in gos) {
-			Vector3 diff = go.transform.position - position;
-			float curDistance = diff.sqrMagnitude;
-			if (go.activeSelf && curDistance < distance) { //check if active
-				closest = go;
-				distance = curDistance;
-			}
-		}
-		return closest;
-	}
+    private float distanceToCollider(Collider collider) {
+        return Vector3.Distance(collider.ClosestPointOnBounds(transform.position), transform.position);
+    }
 }

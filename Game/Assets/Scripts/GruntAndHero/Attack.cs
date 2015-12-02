@@ -35,7 +35,7 @@ public class Attack : NetworkBehaviour {
 	}
 
 	private bool targetInAttackArea(){
-		float distance = Vector3.Distance (target.transform.position, transform.position);
+		float distance = Vector3.Distance(target.GetComponent<Collider>().ClosestPointOnBounds(transform.position), transform.position);
 		
 		if (distance < stats.attackRange) {
 			return true;
