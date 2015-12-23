@@ -15,7 +15,7 @@ public class Movement : NetworkBehaviour{
 	public float lerpRate = 10f;
 	public float positionThreshold = 0.5f;
 	public float rotationThreshold = 5f;
-	
+
 	private Stats stats;
 
 	void Start() {

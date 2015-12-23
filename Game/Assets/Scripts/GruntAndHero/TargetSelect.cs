@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,6 +16,8 @@ public class TargetSelect : NetworkBehaviour {
     private string attackHeroTag;
     private string attackBaseTag;
     private Stats stats;
+    
+    private Dictionary<GameObject, float> collidersToIgnore = new Dictionary<GameObject, float>();
 	
 	void Start() {
 		stats = (Stats) GetComponent<Stats>();
@@ -37,6 +40,7 @@ public class TargetSelect : NetworkBehaviour {
 	
 	public void SetProgressDirection(ProgressDirection progressDirection){
 		this.progressDirection = progressDirection;
+        if(hasAttackTarget() && GetComponent<Rigidbody>().velocity.magnitude < stats.maximumVelocityBeforeIgnore) findAndIgnoreCloseColliders();
 	}
 
 	public void MoveToZOffset(MoveDirection moveDirection){
@@ -45,26 +49,27 @@ public class TargetSelect : NetworkBehaviour {
                 desiredZPosition = ((desiredZPosition + zSeperation) < Teams.maxZ + Teams.topOffset) ? desiredZPosition + zSeperation : Teams.maxZ + Teams.topOffset; 
                 break;
             case MoveDirection.down:
-                desiredZPosition = ((desiredZPosition + zSeperation) > Teams.maxZ + Teams.bottomOffset) ? desiredZPosition - zSeperation : Teams.minZ + Teams.bottomOffset; 
+                desiredZPosition = ((desiredZPosition - zSeperation) > Teams.minZ + Teams.bottomOffset) ? desiredZPosition - zSeperation : Teams.minZ + Teams.bottomOffset; 
                 break;
         }
         desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
         movement.SetTarget(desiredPosition);
+        if(hasAttackTarget() && GetComponent<Rigidbody>().velocity.magnitude < stats.maximumVelocityBeforeIgnore) findAndIgnoreCloseColliders();
 	}
 
 	void Update () {
-        if (isServer)
-        {
-            if (!hasAttackTarget()) {
-                attack.setTarget(GetNewAttackTarget());
-            }
+        if (isServer) {
+            attack.setTarget(GetNewAttackTarget());
 
             if (hasAttackTarget()) {
                 movement.SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
-            }
-            else {
+            } else {
                 UpdateMoveTarget();
             }
+        }
+        foreach(GameObject key in collidersToIgnore.Keys) {
+            collidersToIgnore[key] -= Time.deltaTime;
+            if(collidersToIgnore[key] < 0) collidersToIgnore.Remove(key);
         }
 	}
 	
@@ -103,7 +108,7 @@ public class TargetSelect : NetworkBehaviour {
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.targetSelectRange);
         foreach(Collider collider in hitColliders) {
-            if (collider.gameObject.activeSelf) { //check if active
+            if (collider.gameObject.activeSelf && !collidersToIgnore.ContainsKey(collider.gameObject)) { //check if active
                 if (string.Equals(collider.gameObject.tag, attackGruntTag)) {
                     closestGrunt = closestCollider(closestGrunt, collider, ref currentDistanceGrunt);
                 } else if (string.Equals(collider.gameObject.tag, attackHeroTag)) {
@@ -131,5 +136,18 @@ public class TargetSelect : NetworkBehaviour {
 
     private float distanceToCollider(Collider collider) {
         return Vector3.Distance(collider.ClosestPointOnBounds(transform.position), transform.position);
+    }
+    
+    private void findAndIgnoreCloseColliders(){
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.ignoreRange);
+        foreach(Collider collider in hitColliders) {
+            if (collider.gameObject.activeSelf) { //check if active
+                if (string.Equals(collider.gameObject.tag, attackGruntTag)
+                    || string.Equals(collider.gameObject.tag, attackHeroTag)
+                    || string.Equals(collider.gameObject.tag, attackBaseTag)) {
+                    collidersToIgnore.Add(collider.gameObject, stats.runAwayTime);
+                }
+            }
+        }
     }
 }
