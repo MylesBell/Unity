@@ -51,8 +51,6 @@ public class Team : NetworkBehaviour {
         //Create base
         teamBase = unitFactory.CreateBase(BasePrefab);
         teamBase.GetComponent<Base>().InitialiseGameObject(this);
-
-        resetTeam();
     }
 
      void Update() {
@@ -88,14 +86,14 @@ public class Team : NetworkBehaviour {
 
     private float getZPosition() {
         int randomNumber = Random.Range(0, numberOfChannels);
-        return randomNumber * zPositionOffset + Teams.minZ;
+        return randomNumber * zPositionOffset + Teams.minZ + Teams.bottomOffset;
     }
 
     private Vector3 GetTargetPosition(float zPosition) {
         return new Vector3(teamBase.transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 0, zPosition);
     }
 
-    private void resetTeam() {
+    public void resetTeam() {
         teamBase.GetComponent<Base>().ResetGameObject(basePosition, Vector3.zero, 0.0f);
 
         //Restart heros

@@ -24,15 +24,24 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 
     private float zPositionOffset;
     public int numberOfChannels;
-    public static int maxZ = 80;
-    public static int minZ = 30;
+    public static float maxZ = 80;
+    public static float minZ = 30;
+    
+    public static float topOffset = -5;
+    public static float bottomOffset = 5;
 
     private bool initialised;
 
 	void Start () {
         if (isServer) {
             initialised = false;
-            zPositionOffset = (maxZ - minZ) / numberOfChannels;
+            zPositionOffset = ((maxZ+topOffset) - (minZ+bottomOffset)) / numberOfChannels;
+            int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
+            Vector3 blueBaseV = new Vector3(50, 0, 50);
+            Vector3 redBaseV = new Vector3(numScreens * 100 - 50, 0, 50);
+            blueTeam.Initialise(blueBaseV,zPositionOffset,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
+            redTeam.Initialise(redBaseV, zPositionOffset, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
+
         }
     }
 
@@ -58,12 +67,8 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 	}
 
     private void resetGame() {
-        int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
-        Vector3 blueBaseV = new Vector3(50, 0, 50);
-        Vector3 redBaseV = new Vector3(numScreens * 100 - 50, 0, 50);
-        blueTeam.Initialise(blueBaseV,zPositionOffset,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
-        redTeam.Initialise(redBaseV, zPositionOffset, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
-
+        blueTeam.resetTeam();
+        redTeam.resetTeam();
         initialised = true;
     }
 
