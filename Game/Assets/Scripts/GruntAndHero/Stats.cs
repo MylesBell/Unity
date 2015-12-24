@@ -12,4 +12,8 @@ public class Stats : NetworkBehaviour{
 	
 	// target select
 	public float targetSelectRange = 15.0f;	
+    
+    public float ignoreRange = 5f;
+    public float runAwayTime = 2f;
+    public float maximumVelocityBeforeIgnore = 1f;
 }

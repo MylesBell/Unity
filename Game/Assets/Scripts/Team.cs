@@ -102,8 +102,10 @@ public class Team : NetworkBehaviour {
                 HeroRespawn(entry.Value);
             }
         }
-
+        
         if(!gruntPoolInitialised) initialiseGruntPool();
+        //make sure grunts spawn as soon as game starts
+        nextGruntRespawn = -1;
     }
 
 	public bool TryGetHero(string playerID, out GameObject hero) {
