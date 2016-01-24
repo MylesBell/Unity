@@ -1,8 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 public class CreateTerrain : NetworkBehaviour
 {
+    public class MyMsgType
+    {
+        public static short RequestSceneryCode = MsgType.Highest + 1;
+        public static short SendSceneryCode = (short)(RequestSceneryCode + 1);
+    }
+
+    [System.Serializable]
+    public class RequestSceneryMessage : MessageBase {
+        public int screenNumber;
+    }
+
+    [System.Serializable]
+    public class NetworkTreeMessage : MessageBase {
+        public int index;
+        public Vector3 position;
+        public Quaternion rotation;
+        public Vector3 scale;
+    }
 
     public GameObject[] laneSegments;
     public GameObject base1;
@@ -11,8 +30,12 @@ public class CreateTerrain : NetworkBehaviour
 	public LayerMask terrainMask;
 	public int minNumScenery = 100;
 	public int maxNumScenery = 200;
+    private List<NetworkTreeMessage>[] screenScenery;
 
     void Start() {
+        //register handlers for messages
+        if (isServer) NetworkServer.RegisterHandler(MyMsgType.RequestSceneryCode, onRequestScenery);
+        if (isClient) NetworkManager.singleton.client.RegisterHandler(MyMsgType.SendSceneryCode, onRecieverScenery);
         int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
         int screenNumber = PlayerPrefs.GetInt("screen", -1);
 
@@ -20,9 +43,8 @@ public class CreateTerrain : NetworkBehaviour
         Vector3 offset = new Vector3(100, 0, 0);
 
 		GenerateTerrain (screenNumber, numScreens, chunks, offset);
-
-		PopulateScenery (screenNumber, numScreens, offset);
-
+		if (isServer) PopulateScenery (screenNumber, numScreens, offset);
+        else RequestScenery(screenNumber);
     }
 
 	void GenerateTerrain(int screenNumber, int numScreens, GameObject[] chunks, Vector3 offset) {
@@ -51,32 +73,65 @@ public class CreateTerrain : NetworkBehaviour
 	}
 
 	void PopulateScenery(int screenNumber, int numScreens, Vector3 offset) {
+        screenScenery = new List<NetworkTreeMessage>[numScreens];
 
 		for (int i = 0; i < numScreens; i++) {
-			if (isServer || screenNumber == i) {
+            int numObjects = Random.Range(minNumScenery,maxNumScenery);
+            screenScenery[i] = new List<NetworkTreeMessage>();
+            for (int j = 0; j < numObjects; j++) {
 
-				int numObjects = Random.Range(minNumScenery,maxNumScenery);
+                int index = Random.Range(0,sceneryObjects.Length);
+                float z_pos;
+                do {
+                    z_pos = Random.Range(0, 100);
+                } while (z_pos >= (Teams.minZ - 5) && z_pos <= Teams.maxZ);
+                Vector3 position = (offset * i) + new Vector3(Random.Range(0,100),20.0f,z_pos);
+                RaycastHit terrainLevel;
+                if(Physics.Raycast(position, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))
+                    position = terrainLevel.point;
+                Quaternion rotation = Quaternion.Euler(0.0f,Random.Range(0,360),0.0f);
+                Vector3 scale = new Vector3(Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f));
 
-				for (int j = 0; j < numObjects; j++) {
+                //spawn on server
+                scenerySpawner(index, position, rotation, scale);
+                //create a message for the client
+                //the constructor has to have no parameters though
+                NetworkTreeMessage msg = new NetworkTreeMessage();
+                msg.index = index;
+                msg.position = position;
+                msg.rotation = rotation;
+                msg.scale = scale;
 
-					int index = Random.Range(0,sceneryObjects.Length);
-					float z_pos;
-					do {
-						z_pos = Random.Range(0, 100);
-					} while (z_pos >= (Teams.minZ - 5) && z_pos <= Teams.maxZ);
-					Vector3 location = (offset * i) + new Vector3(Random.Range(0,100),20.0f,z_pos);
-					RaycastHit terrainLevel;
-					if(Physics.Raycast(location, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))
-						location = terrainLevel.point;
-					Quaternion rotation = Quaternion.Euler(0.0f,Random.Range(0,360),0.0f);
-					Vector3 scale = new Vector3(Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f));
-
-					GameObject scenery = (GameObject)Instantiate(sceneryObjects[index],location, rotation);
-					scenery.transform.localScale = scale;
-				}
-			}
-		}
-
+                screenScenery[i].Add(msg);
+            }
+        }
 	}
 
+    private void RequestScenery(int screenNumber){
+        RequestSceneryMessage msg = new RequestSceneryMessage();
+        msg.screenNumber = screenNumber;
+        Debug.Log("Client requested scenery");
+        NetworkManager.singleton.client.Send(MyMsgType.RequestSceneryCode, msg);
+    }
+
+    public void onRequestScenery(NetworkMessage netMsg) {
+        RequestSceneryMessage msg = netMsg.ReadMessage<RequestSceneryMessage>();
+        Debug.Log("Request from screen " + msg.screenNumber + " Recieved");
+        //send back the messages
+        foreach(NetworkTreeMessage thisTree in screenScenery[msg.screenNumber]){
+            NetworkServer.SendToClient(netMsg.conn.connectionId, MyMsgType.SendSceneryCode, thisTree);
+        }
+    }
+
+    public void onRecieverScenery(NetworkMessage netMsg) {
+        //recieve message and spawn on client
+        NetworkTreeMessage msg = netMsg.ReadMessage<NetworkTreeMessage>();
+        scenerySpawner(msg.index, msg.position, msg.rotation, msg.scale);
+    }
+
+    GameObject scenerySpawner(int index, Vector3 position, Quaternion rotation, Vector3 scale){
+        GameObject scenery = (GameObject)Instantiate(sceneryObjects[index], position, rotation);
+        scenery.transform.localScale = scale;
+        return scenery;
+    }
 }
