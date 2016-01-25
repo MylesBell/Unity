@@ -45,6 +45,7 @@ public class CreateTerrain : NetworkBehaviour
         if (isServer) NetworkServer.RegisterHandler(MyMsgType.RequestSceneryCode, onRequestScenery);
         NetworkManager.singleton.client.RegisterHandler(MyMsgType.SendSceneryCode, onRecieverScenery);
         
+        Random.seed = (int)Time.time;
         
         int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
         int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);

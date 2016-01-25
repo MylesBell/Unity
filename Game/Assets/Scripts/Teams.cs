@@ -22,27 +22,36 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
     public int gruntSpawnInterval;
     public int heroRespawnInterval;
 
-    private float zPositionOffset;
+    private float zPositionOffsetRight;
+    private float zPositionOffsetLeft;
     public int numberOfChannels;
     public static float maxZRight = 80;
     public static float minZRight = 30;
     public static float maxZLeft = 370;
     public static float minZLeft = 320;
     
-    public static float topOffset = -5;
-    public static float bottomOffset = 5;
+    public static float topOffsetRight = -5;
+    public static float bottomOffsetRight = 5;
+    public static float topOffsetLeft = 5;
+    public static float bottomOffsetLeft = -5;
 
     private bool initialised;
 
 	void Start () {
         if (isServer) {
             initialised = false;
-            zPositionOffset = ((maxZRight+topOffset) - (minZRight+bottomOffset)) / numberOfChannels;
-            int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
-            Vector3 blueBaseV = new Vector3(50, 0, 50);
-            Vector3 redBaseV = new Vector3(numScreens * 100 - 50, 0, 50);
-            blueTeam.Initialise(blueBaseV,zPositionOffset,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
-            redTeam.Initialise(redBaseV, zPositionOffset, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
+            zPositionOffsetRight = ((maxZRight+topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
+            zPositionOffsetLeft = ((maxZLeft+topOffsetLeft) - (minZLeft+bottomOffsetLeft)) / numberOfChannels;
+            int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
+            int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
+            bool hasLeftLane = PlayerPrefs.GetInt("numberofscreens-left", 0) > 1;
+            bool hasRightLane = PlayerPrefs.GetInt("numberofscreens-right", 0) > 1;
+            int blueBaseXPosLeft = 50;
+            int blueBaseXPosRight = 50;
+            int redBaseXPosLeft = numScreensLeft * 100 - 50;
+            int redBaseXPosRight = numScreensRight * 100 - 50;
+            blueTeam.Initialise(hasLeftLane, hasRightLane, blueBaseXPosLeft, blueBaseXPosRight, zPositionOffsetRight,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
+            redTeam.Initialise(hasLeftLane,hasRightLane, redBaseXPosLeft, redBaseXPosRight, zPositionOffsetRight, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
 
         }
     }
