@@ -11,8 +11,8 @@ public class GraniteNetworkManager : NetworkManager {
     public void Start() {
         //check for CLI
         string[] args = System.Environment.GetCommandLineArgs();
-        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreens = false, hasScreenNumber = false;
-        string type = "", IP = "", port = "", numberOfScreens = "", screenNumber = "";
+        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreensLeft = false, hasNumberOfScreensRight = false, hasScreenNumber = false;
+        string type = "", IP = "", port = "", numberOfScreensLeft = "", numberOfScreensRight = "", screenNumber = "";
         foreach (string flag in args) {
             string[] splitFlag;
             if (flag.Contains("--type")) {
@@ -27,10 +27,14 @@ public class GraniteNetworkManager : NetworkManager {
                 splitFlag = flag.Split('=');
                 port = splitFlag[1];
                 hasPort = true;
-            } else if (flag.Contains("--number-of-screens")) {
+            } else if (flag.Contains("--number-of-screens-left")) {
                 splitFlag = flag.Split('=');
-                numberOfScreens = splitFlag[1];
-                hasNumberOfScreens = true;
+                numberOfScreensLeft = splitFlag[1];
+                hasNumberOfScreensLeft = true;
+            } else if (flag.Contains("--number-of-screens-right")) {
+                splitFlag = flag.Split('=');
+                numberOfScreensRight = splitFlag[1];
+                hasNumberOfScreensRight = true;
             } else if (flag.Contains("--screen-number")) {
                 splitFlag = flag.Split('=');
                 screenNumber = splitFlag[1];
@@ -40,10 +44,10 @@ public class GraniteNetworkManager : NetworkManager {
         if (hasType) {
             switch (type) {
                 case "host":
-                    if (hasIP && hasPort && hasNumberOfScreens) StartupHost(IP, port, numberOfScreens);
+                    if (hasIP && hasPort && (hasNumberOfScreensLeft || hasNumberOfScreensRight)) StartupHost(IP, port, numberOfScreensLeft, numberOfScreensLeft);
                     break;
                 case "client":
-                    if (hasIP && hasPort && hasScreenNumber && hasNumberOfScreens) JoinScreen(IP, port, screenNumber, numberOfScreens);
+                    if (hasIP && hasPort && hasScreenNumber && (hasNumberOfScreensLeft || hasNumberOfScreensRight)) JoinScreen(IP, port, screenNumber, hasNumberOfScreensLeft ? numberOfScreensLeft : numberOfScreensLeft);
                     break;
                 default:
                     Debug.Log("Running GUI\n");
@@ -61,7 +65,7 @@ public class GraniteNetworkManager : NetworkManager {
         NetworkManager.singleton.StartHost();
     }
 
-    public void StartupHost(string IPAddress, string portNumber, string numberOfScreens) {
+    public void StartupHost(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight) {
         SetIPAddress(IPAddress);
         SetPort(portNumber);
         SetNumberOfScreens(numberOfScreens);
