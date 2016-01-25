@@ -30,7 +30,8 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 	public void PlayerJoinHandler(SocketIOEvent e){
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerJoin(e.data.GetField("uID").str, e.data.GetField("username").str); // socket io id, name
+            //check the game code
+            socketIOInputEvents.PlayerJoin(e.data.GetField("uID").str, e.data.GetField("username").str, e.data.GetField("gamecode").str); // socekt io id, name
         }
 	}
     
@@ -87,9 +88,20 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 	{
 		Debug.Log ("[SocketIO] Player has joined");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("ok", 1);
 		dataJSON.AddField("playerID", playerID);
 		dataJSON.AddField("teamID", (int)teamID);
 		dataJSON.AddField ("state", (int)state);
+		socket.Emit ("gamePlayerJoined", dataJSON);
+	}
+    
+    public void PlayerJoinFailInvalidGameCode(string playerID)
+	{
+		Debug.Log ("[SocketIO] Player has joined");
+		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("ok", 0);
+		dataJSON.AddField("playerID", playerID);
+		dataJSON.AddField("msg", "Invalid game code.");
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     

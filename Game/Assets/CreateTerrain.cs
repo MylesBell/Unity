@@ -7,7 +7,7 @@ public class CreateTerrain : NetworkBehaviour
     public class MyMsgType
     {
         public static short RequestSceneryCode = MsgType.Highest + 1;
-        public static short SendSceneryCode = (short)(RequestSceneryCode + 1);
+        public static short SendSceneryCode = MsgType.Highest + 2;
     }
 
     [System.Serializable]
@@ -35,7 +35,7 @@ public class CreateTerrain : NetworkBehaviour
     void Start() {
         //register handlers for messages
         if (isServer) NetworkServer.RegisterHandler(MyMsgType.RequestSceneryCode, onRequestScenery);
-        if (isClient) NetworkManager.singleton.client.RegisterHandler(MyMsgType.SendSceneryCode, onRecieverScenery);
+        NetworkManager.singleton.client.RegisterHandler(MyMsgType.SendSceneryCode, onRecieverScenery);
         int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
         int screenNumber = PlayerPrefs.GetInt("screen", -1);
 
@@ -45,6 +45,7 @@ public class CreateTerrain : NetworkBehaviour
 		GenerateTerrain (screenNumber, numScreens, chunks, offset);
 		if (isServer) PopulateScenery (screenNumber, numScreens, offset);
         else RequestScenery(screenNumber);
+        if(!isServer) Debug.Log("[ "+ screenNumber + "] MsgType " + MyMsgType.SendSceneryCode);
     }
 
 	void GenerateTerrain(int screenNumber, int numScreens, GameObject[] chunks, Vector3 offset) {
@@ -110,13 +111,14 @@ public class CreateTerrain : NetworkBehaviour
     private void RequestScenery(int screenNumber){
         RequestSceneryMessage msg = new RequestSceneryMessage();
         msg.screenNumber = screenNumber;
-        Debug.Log("Client requested scenery");
         NetworkManager.singleton.client.Send(MyMsgType.RequestSceneryCode, msg);
+        Debug.Log("Client requested scenery");
     }
 
     public void onRequestScenery(NetworkMessage netMsg) {
+        Debug.Log("[host] Request received.");
         RequestSceneryMessage msg = netMsg.ReadMessage<RequestSceneryMessage>();
-        Debug.Log("Request from screen " + msg.screenNumber + " Recieved");
+        Debug.Log("[host] Request from screen " + msg.screenNumber + " Recieved");
         //send back the messages
         foreach(NetworkTreeMessage thisTree in screenScenery[msg.screenNumber]){
             NetworkServer.SendToClient(netMsg.conn.connectionId, MyMsgType.SendSceneryCode, thisTree);
@@ -125,6 +127,7 @@ public class CreateTerrain : NetworkBehaviour
 
     public void onRecieverScenery(NetworkMessage netMsg) {
         //recieve message and spawn on client
+        Debug.Log("Client received message");
         NetworkTreeMessage msg = netMsg.ReadMessage<NetworkTreeMessage>();
         scenerySpawner(msg.index, msg.position, msg.rotation, msg.scale);
     }
