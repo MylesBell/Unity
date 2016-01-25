@@ -73,11 +73,16 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
     }
 
 	#region IPlayerJoin implementation
-	public void PlayerJoin (string playerID, string playerName) {
-		if (blueTeam.GetNumberOfHeros() < redTeam.GetNumberOfHeros()) {
-            blueTeam.CreatePlayer(playerID, playerName);
-		} else {
-            redTeam.CreatePlayer(playerID, playerName);
+	public void PlayerJoin (string playerID, string playerName, string gameCode) {
+        
+        if(PlayerPrefs.GetString("gameCode", "") == gameCode) {
+            if (blueTeam.GetNumberOfHeros() < redTeam.GetNumberOfHeros()) {
+                blueTeam.CreatePlayer(playerID, playerName);
+            } else {
+                redTeam.CreatePlayer(playerID, playerName);
+            }
+        } else {
+	        SocketIOOutgoingEvents.PlayerJoinFailInvalidGameCode (playerID);
         }
 	}
 	#endregion
