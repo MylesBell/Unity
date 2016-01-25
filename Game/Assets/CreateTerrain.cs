@@ -55,7 +55,7 @@ public class CreateTerrain : NetworkBehaviour
         //set up left lane
         if(numScreensLeft > 0) {
 		    GenerateTerrain (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
-            if (isServer) PopulateScenery (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
+            if (isServer) screenSceneryLeft = PopulateScenery (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
             else RequestScenery(screenNumber, ComputerLane.LEFT);
         
         }
@@ -63,7 +63,7 @@ public class CreateTerrain : NetworkBehaviour
         //set up right lane
         if(numScreensRight > 0) {
 		    GenerateTerrain (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
-            if (isServer) PopulateScenery (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
+            if (isServer) screenSceneryRight = PopulateScenery (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
             else RequestScenery(screenNumber, ComputerLane.RIGHT);
         }
         
