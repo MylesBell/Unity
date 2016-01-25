@@ -11,8 +11,8 @@ public class GraniteNetworkManager : NetworkManager {
     public void Start() {
         //check for CLI
         string[] args = System.Environment.GetCommandLineArgs();
-        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreens = false, hasScreenNumber = false;
-        string type = "", IP = "", port = "", numberOfScreens = "", screenNumber = "";
+        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreens = false, hasScreenNumber = false, hasGameCode = false;
+        string type = "", IP = "", port = "", numberOfScreens = "", screenNumber = "", gameCode = "";
         foreach (string flag in args) {
             string[] splitFlag;
             if (flag.Contains("--type")) {
@@ -35,12 +35,16 @@ public class GraniteNetworkManager : NetworkManager {
                 splitFlag = flag.Split('=');
                 screenNumber = splitFlag[1];
                 hasScreenNumber = true;
+            } else if (flag.Contains("--game-code")) {
+                splitFlag = flag.Split('=');
+                gameCode = splitFlag[1];
+                hasGameCode = true;
             }
         }
         if (hasType) {
             switch (type) {
                 case "host":
-                    if (hasIP && hasPort && hasNumberOfScreens) StartupHost(IP, port, numberOfScreens);
+                    if (hasIP && hasPort && hasNumberOfScreens && hasGameCode) StartupHost(IP, port, numberOfScreens, gameCode);
                     break;
                 case "client":
                     if (hasIP && hasPort && hasScreenNumber && hasNumberOfScreens) JoinScreen(IP, port, screenNumber, numberOfScreens);
@@ -61,12 +65,13 @@ public class GraniteNetworkManager : NetworkManager {
         NetworkManager.singleton.StartHost();
     }
 
-    public void StartupHost(string IPAddress, string portNumber, string numberOfScreens) {
+    public void StartupHost(string IPAddress, string portNumber, string numberOfScreens, string gameCode) {
         SetIPAddress(IPAddress);
         SetPort(portNumber);
         SetNumberOfScreens(numberOfScreens);
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
+        PlayerPrefs.SetString("gameCode", gameCode);
         NetworkManager.singleton.StartHost();
     }
 
