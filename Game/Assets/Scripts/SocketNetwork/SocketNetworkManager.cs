@@ -20,6 +20,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 			socketIOInputEvents = new SocketIOInputEvents ();
 			socket = createSocket (hostName, portNumber);
 			socket.On ("playerJoin", PlayerJoinHandler);
+            socket.On ("playerLeave", PlayerLeaveHandler);
 			socket.On ("playerDirection", DirectionHandler);
 			socket.On ("open", OpenHandler);
 			socket.On ("close", CloseHandler);
@@ -29,10 +30,17 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 	public void PlayerJoinHandler(SocketIOEvent e){
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerJoin(e.data.GetField("uID").str, e.data.GetField("username").str); // socekt io id, name
+            socketIOInputEvents.PlayerJoin(e.data.GetField("uID").str, e.data.GetField("username").str); // socket io id, name
         }
 	}
-	
+    
+    public void PlayerLeaveHandler(SocketIOEvent e) {
+        if (isServer) {
+            Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
+            socketIOInputEvents.PlayerLeave(e.data.GetField("uID").str); //socket io id
+        }
+    }
+ 	
 	public void DirectionHandler(SocketIOEvent e){
         if (isServer) {
 		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
@@ -84,6 +92,16 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		dataJSON.AddField ("state", (int)state);
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
+    
+    public void PlayerLeaveHandler(string playerID, TeamID teamID, GameState.State state)
+    {
+        Debug.Log ("[SocketIO] Player has left");
+        JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("playerID", playerID);
+		dataJSON.AddField("teamID", (int)teamID);
+		dataJSON.AddField ("state", (int)state);
+		socket.Emit ("gamePlayerLeft", dataJSON);
+    }
 
 	public void CloseHandler(SocketIOEvent e)
 	{	
