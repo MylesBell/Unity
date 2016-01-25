@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class CreateTerrain : NetworkBehaviour
 {
     
-    enum ComputerLane {LEFT, RIGHT};
+    public enum ComputerLane {LEFT, RIGHT};
     public class MyMsgType
     {
         public static short RequestSceneryCode = MsgType.Highest + 1;
@@ -15,6 +15,7 @@ public class CreateTerrain : NetworkBehaviour
     [System.Serializable]
     public class RequestSceneryMessage : MessageBase {
         public int screenNumber;
+        public ComputerLane computerLane;
     }
 
     [System.Serializable]
@@ -36,7 +37,8 @@ public class CreateTerrain : NetworkBehaviour
 	public LayerMask terrainMask;
 	public int minNumScenery = 100;
 	public int maxNumScenery = 200;
-    private List<NetworkTreeMessage>[] screenScenery;
+    private List<NetworkTreeMessage>[] screenSceneryLeft;
+    private List<NetworkTreeMessage>[] screenSceneryRight;
 
     void Start() {
         //register handlers for messages
@@ -54,7 +56,7 @@ public class CreateTerrain : NetworkBehaviour
         if(numScreensLeft > 0) {
 		    GenerateTerrain (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
             if (isServer) PopulateScenery (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
-            else RequestScenery(screenNumber);
+            else RequestScenery(screenNumber, ComputerLane.LEFT);
         
         }
         
@@ -62,7 +64,7 @@ public class CreateTerrain : NetworkBehaviour
         if(numScreensRight > 0) {
 		    GenerateTerrain (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
             if (isServer) PopulateScenery (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
-            else RequestScenery(screenNumber);
+            else RequestScenery(screenNumber, ComputerLane.RIGHT);
         }
         
         if(!isServer) Debug.Log("[ "+ screenNumber + "] MsgType " + MyMsgType.SendSceneryCode);
@@ -74,7 +76,7 @@ public class CreateTerrain : NetworkBehaviour
 		if (isServer || screenNumber == 0)
 		{
 			// create the first base
-			chunks[0] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? base1Left : base1Right);
+			chunks[0] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? base1Left : base1Right, laneOffset, Quaternion.identity);
 		}
 		
 		
@@ -95,20 +97,21 @@ public class CreateTerrain : NetworkBehaviour
 		}
 	}
 
-	void PopulateScenery(int screenNumber, int numScreens, Vector3 offset, ComputerLane computerLane) {
-        screenScenery = new List<NetworkTreeMessage>[numScreens];
-
+	List<NetworkTreeMessage>[] PopulateScenery(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
+        List<NetworkTreeMessage>[] screenScenery = new List<NetworkTreeMessage>[numScreens];
+        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 300 : 0));
+        
 		for (int i = 0; i < numScreens; i++) {
             int numObjects = Random.Range(minNumScenery,maxNumScenery);
             screenScenery[i] = new List<NetworkTreeMessage>();
             for (int j = 0; j < numObjects; j++) {
-
                 int index = Random.Range(0,sceneryObjects.Length);
                 float z_pos;
                 do {
-                    z_pos = Random.Range(0, 100);
-                } while (z_pos >= (Teams.minZ - 5) && z_pos <= Teams.maxZ);
-                Vector3 position = (offset * i) + new Vector3(Random.Range(0,100),20.0f,z_pos);
+                    z_pos = Random.Range(0, 100) + laneOffset.z;
+                } while (z_pos >= (computerLane == ComputerLane.LEFT ? Teams.minZLeft : Teams.minZRight - 5)
+                        && z_pos <= (computerLane == ComputerLane.LEFT ? Teams.maxZLeft + 5 : Teams.maxZRight));
+                Vector3 position = (chunkOffset * i) + new Vector3(Random.Range(0,100),40.0f,z_pos);
                 RaycastHit terrainLevel;
                 if(Physics.Raycast(position, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))
                     position = terrainLevel.point;
@@ -128,11 +131,13 @@ public class CreateTerrain : NetworkBehaviour
                 screenScenery[i].Add(msg);
             }
         }
+        return screenScenery;
 	}
 
-    private void RequestScenery(int screenNumber){
+    private void RequestScenery(int screenNumber, ComputerLane computerLane){
         RequestSceneryMessage msg = new RequestSceneryMessage();
         msg.screenNumber = screenNumber;
+        msg.computerLane = computerLane;
         NetworkManager.singleton.client.Send(MyMsgType.RequestSceneryCode, msg);
         Debug.Log("Client requested scenery");
     }
@@ -140,9 +145,9 @@ public class CreateTerrain : NetworkBehaviour
     public void onRequestScenery(NetworkMessage netMsg) {
         Debug.Log("[host] Request received.");
         RequestSceneryMessage msg = netMsg.ReadMessage<RequestSceneryMessage>();
-        Debug.Log("[host] Request from screen " + msg.screenNumber + " Recieved");
+        Debug.Log("[host] Request from screen " + msg.screenNumber + " for lane " + msg.computerLane + " recieved");
         //send back the messages
-        foreach(NetworkTreeMessage thisTree in screenScenery[msg.screenNumber]){
+        foreach(NetworkTreeMessage thisTree in (msg.computerLane == ComputerLane.LEFT ?  screenSceneryLeft : screenSceneryRight)[msg.screenNumber]){
             NetworkServer.SendToClient(netMsg.conn.connectionId, MyMsgType.SendSceneryCode, thisTree);
         }
     }

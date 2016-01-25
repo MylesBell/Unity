@@ -24,8 +24,10 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 
     private float zPositionOffset;
     public int numberOfChannels;
-    public static float maxZ = 80;
-    public static float minZ = 30;
+    public static float maxZRight = 80;
+    public static float minZRight = 30;
+    public static float maxZLeft = 370;
+    public static float minZLeft = 320;
     
     public static float topOffset = -5;
     public static float bottomOffset = 5;
@@ -35,7 +37,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 	void Start () {
         if (isServer) {
             initialised = false;
-            zPositionOffset = ((maxZ+topOffset) - (minZ+bottomOffset)) / numberOfChannels;
+            zPositionOffset = ((maxZRight+topOffset) - (minZRight+bottomOffset)) / numberOfChannels;
             int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
             Vector3 blueBaseV = new Vector3(50, 0, 50);
             Vector3 redBaseV = new Vector3(numScreens * 100 - 50, 0, 50);

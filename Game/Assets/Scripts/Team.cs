@@ -86,7 +86,7 @@ public class Team : NetworkBehaviour {
 
     private float getZPosition() {
         int randomNumber = Random.Range(0, numberOfChannels);
-        return randomNumber * zPositionOffset + Teams.minZ + Teams.bottomOffset;
+        return randomNumber * zPositionOffset + Teams.minZRight + Teams.bottomOffset;
     }
 
     private Vector3 GetTargetPosition(float zPosition) {

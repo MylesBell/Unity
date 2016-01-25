@@ -9,6 +9,8 @@ public class GraniteNetworkManager : NetworkManager {
     public InputField NumberOfScreensInputField;
 
     public void Start() {
+        //reset 
+        PlayerPrefs.DeleteAll();
         //check for CLI
         string[] args = System.Environment.GetCommandLineArgs();
         bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreensLeft = false, hasNumberOfScreensRight = false, hasScreenNumber = false, hasGameCode = false;
@@ -48,7 +50,7 @@ public class GraniteNetworkManager : NetworkManager {
         if (hasType) {
             switch (type) {
                 case "host":
-                    if (hasIP && hasPort && (hasNumberOfScreensLeft || hasNumberOfScreensRight) && hasGameCode) StartupHost(IP, port, numberOfScreensLeft, numberOfScreensLeft, gameCode);
+                    if (hasIP && hasPort && (hasNumberOfScreensLeft || hasNumberOfScreensRight) && hasGameCode) StartupHost(IP, port, numberOfScreensLeft, numberOfScreensRight, gameCode);
                     break;
                 case "client":
                     if (hasIP && hasPort && hasScreenNumber && (hasNumberOfScreensLeft || hasNumberOfScreensRight)) JoinScreen(IP, port, numberOfScreensLeft, numberOfScreensRight, screenNumber);
@@ -136,7 +138,7 @@ public class GraniteNetworkManager : NetworkManager {
     }
 
     public void SetNumberOfScreens() {
-        SetNumberOfScreens(NumberOfScreensInputField.text, "right");
+        SetNumberOfScreens(NumberOfScreensInputField.text, "left");
     }
 
     public void SetNumberOfScreens(string numberOfScreens, string side) {

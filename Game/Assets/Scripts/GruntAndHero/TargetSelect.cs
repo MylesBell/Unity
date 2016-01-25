@@ -46,10 +46,10 @@ public class TargetSelect : NetworkBehaviour {
 	public void MoveToZOffset(MoveDirection moveDirection){
         switch (moveDirection) {
             case MoveDirection.up:
-                desiredZPosition = ((desiredZPosition + zSeperation) < Teams.maxZ + Teams.topOffset) ? desiredZPosition + zSeperation : Teams.maxZ + Teams.topOffset; 
+                desiredZPosition = ((desiredZPosition + zSeperation) < Teams.maxZRight + Teams.topOffset) ? desiredZPosition + zSeperation : Teams.maxZRight + Teams.topOffset; 
                 break;
             case MoveDirection.down:
-                desiredZPosition = ((desiredZPosition - zSeperation) > Teams.minZ + Teams.bottomOffset) ? desiredZPosition - zSeperation : Teams.minZ + Teams.bottomOffset; 
+                desiredZPosition = ((desiredZPosition - zSeperation) > Teams.maxZRight + Teams.bottomOffset) ? desiredZPosition - zSeperation : Teams.minZRight + Teams.bottomOffset; 
                 break;
         }
         desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
