@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 public class CreateTerrain : NetworkBehaviour
 {
+    
+    enum ComputerLane {LEFT, RIGHT};
     public class MyMsgType
     {
         public static short RequestSceneryCode = MsgType.Highest + 1;
-        public static short SendSceneryCode = (short)(RequestSceneryCode + 1);
+        public static short SendSceneryCode = MsgType.Highest + 2;
     }
 
     [System.Serializable]
@@ -23,9 +25,13 @@ public class CreateTerrain : NetworkBehaviour
         public Vector3 scale;
     }
 
-    public GameObject[] laneSegments;
-    public GameObject base1;
-    public GameObject base2;
+    public GameObject[] laneSegmentsLeft;
+    public GameObject base1Left;
+    public GameObject base2Left;
+    
+    public GameObject[] laneSegmentsRight;
+    public GameObject base1Right;
+    public GameObject base2Right;
 	public GameObject[] sceneryObjects;
 	public LayerMask terrainMask;
 	public int minNumScenery = 100;
@@ -35,23 +41,40 @@ public class CreateTerrain : NetworkBehaviour
     void Start() {
         //register handlers for messages
         if (isServer) NetworkServer.RegisterHandler(MyMsgType.RequestSceneryCode, onRequestScenery);
-        if (isClient) NetworkManager.singleton.client.RegisterHandler(MyMsgType.SendSceneryCode, onRecieverScenery);
-        int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
+        NetworkManager.singleton.client.RegisterHandler(MyMsgType.SendSceneryCode, onRecieverScenery);
+        
+        
+        int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
+        int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
         int screenNumber = PlayerPrefs.GetInt("screen", -1);
-
-        GameObject[] chunks = new GameObject[numScreens];
-        Vector3 offset = new Vector3(100, 0, 0);
-
-		GenerateTerrain (screenNumber, numScreens, chunks, offset);
-		if (isServer) PopulateScenery (screenNumber, numScreens, offset);
-        else RequestScenery(screenNumber);
+        
+        Vector3 chunkOffset = new Vector3(100, 0, 0);
+        
+        //set up left lane
+        if(numScreensLeft > 0) {
+		    GenerateTerrain (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
+            if (isServer) PopulateScenery (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
+            else RequestScenery(screenNumber);
+        
+        }
+        
+        //set up right lane
+        if(numScreensRight > 0) {
+		    GenerateTerrain (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
+            if (isServer) PopulateScenery (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
+            else RequestScenery(screenNumber);
+        }
+        
+        if(!isServer) Debug.Log("[ "+ screenNumber + "] MsgType " + MyMsgType.SendSceneryCode);
     }
 
-	void GenerateTerrain(int screenNumber, int numScreens, GameObject[] chunks, Vector3 offset) {
+	void GenerateTerrain(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
+        GameObject[] chunks = new GameObject[numScreens];
+        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 300 : 0));
 		if (isServer || screenNumber == 0)
 		{
 			// create the first base
-			chunks[0] = (GameObject)Instantiate(base1);
+			chunks[0] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? base1Left : base1Right);
 		}
 		
 		
@@ -61,18 +84,18 @@ public class CreateTerrain : NetworkBehaviour
 			if (isServer || screenNumber == chunkIndex)
 			{
 				// should randomly generate where the 0 is between 0->|laneSegments| to get random lane segments 
-				chunks[chunkIndex] = (GameObject)Instantiate(laneSegments[0], offset * chunkIndex, Quaternion.identity);
+				chunks[chunkIndex] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? laneSegmentsLeft[0] : laneSegmentsRight[0], chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
 			}
 		}
 		
 		if (isServer || screenNumber == (numScreens - 1))
 		{
 			// create last base
-			chunks[numScreens - 1] = (GameObject)Instantiate(base2, offset * (numScreens - 1), Quaternion.identity);
+			chunks[numScreens - 1] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? base2Left : base2Right, chunkOffset * (numScreens - 1) + laneOffset, Quaternion.identity);
 		}
 	}
 
-	void PopulateScenery(int screenNumber, int numScreens, Vector3 offset) {
+	void PopulateScenery(int screenNumber, int numScreens, Vector3 offset, ComputerLane computerLane) {
         screenScenery = new List<NetworkTreeMessage>[numScreens];
 
 		for (int i = 0; i < numScreens; i++) {
@@ -110,13 +133,14 @@ public class CreateTerrain : NetworkBehaviour
     private void RequestScenery(int screenNumber){
         RequestSceneryMessage msg = new RequestSceneryMessage();
         msg.screenNumber = screenNumber;
-        Debug.Log("Client requested scenery");
         NetworkManager.singleton.client.Send(MyMsgType.RequestSceneryCode, msg);
+        Debug.Log("Client requested scenery");
     }
 
     public void onRequestScenery(NetworkMessage netMsg) {
+        Debug.Log("[host] Request received.");
         RequestSceneryMessage msg = netMsg.ReadMessage<RequestSceneryMessage>();
-        Debug.Log("Request from screen " + msg.screenNumber + " Recieved");
+        Debug.Log("[host] Request from screen " + msg.screenNumber + " Recieved");
         //send back the messages
         foreach(NetworkTreeMessage thisTree in screenScenery[msg.screenNumber]){
             NetworkServer.SendToClient(netMsg.conn.connectionId, MyMsgType.SendSceneryCode, thisTree);
@@ -125,6 +149,7 @@ public class CreateTerrain : NetworkBehaviour
 
     public void onRecieverScenery(NetworkMessage netMsg) {
         //recieve message and spawn on client
+        Debug.Log("Client received message");
         NetworkTreeMessage msg = netMsg.ReadMessage<NetworkTreeMessage>();
         scenerySpawner(msg.index, msg.position, msg.rotation, msg.scale);
     }

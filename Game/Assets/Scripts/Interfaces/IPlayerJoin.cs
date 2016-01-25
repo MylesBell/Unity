@@ -2,5 +2,5 @@
 
 public interface IPlayerJoin : IEventSystemHandler {
 	// returns a Hero object
-	void PlayerJoin(string playerID, string playerName);
+	void PlayerJoin(string playerID, string playerName, string gameCode);
 }

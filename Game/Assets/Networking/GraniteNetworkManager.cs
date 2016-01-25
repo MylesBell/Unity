@@ -11,8 +11,8 @@ public class GraniteNetworkManager : NetworkManager {
     public void Start() {
         //check for CLI
         string[] args = System.Environment.GetCommandLineArgs();
-        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreensLeft = false, hasNumberOfScreensRight = false, hasScreenNumber = false;
-        string type = "", IP = "", port = "", numberOfScreensLeft = "", numberOfScreensRight = "", screenNumber = "";
+        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreensLeft = false, hasNumberOfScreensRight = false, hasScreenNumber = false, hasGameCode = false;
+        string type = "", IP = "", port = "", numberOfScreensLeft = "0", numberOfScreensRight = "0", screenNumber = "", gameCode = "";
         foreach (string flag in args) {
             string[] splitFlag;
             if (flag.Contains("--type")) {
@@ -39,15 +39,19 @@ public class GraniteNetworkManager : NetworkManager {
                 splitFlag = flag.Split('=');
                 screenNumber = splitFlag[1];
                 hasScreenNumber = true;
+            } else if (flag.Contains("--game-code")) {
+                splitFlag = flag.Split('=');
+                gameCode = splitFlag[1];
+                hasGameCode = true;
             }
         }
         if (hasType) {
             switch (type) {
                 case "host":
-                    if (hasIP && hasPort && (hasNumberOfScreensLeft || hasNumberOfScreensRight)) StartupHost(IP, port, numberOfScreensLeft, numberOfScreensLeft);
+                    if (hasIP && hasPort && (hasNumberOfScreensLeft || hasNumberOfScreensRight) && hasGameCode) StartupHost(IP, port, numberOfScreensLeft, numberOfScreensLeft, gameCode);
                     break;
                 case "client":
-                    if (hasIP && hasPort && hasScreenNumber && (hasNumberOfScreensLeft || hasNumberOfScreensRight)) JoinScreen(IP, port, screenNumber, hasNumberOfScreensLeft ? numberOfScreensLeft : numberOfScreensLeft);
+                    if (hasIP && hasPort && hasScreenNumber && (hasNumberOfScreensLeft || hasNumberOfScreensRight)) JoinScreen(IP, port, numberOfScreensLeft, numberOfScreensRight, screenNumber);
                     break;
                 default:
                     Debug.Log("Running GUI\n");
@@ -65,12 +69,14 @@ public class GraniteNetworkManager : NetworkManager {
         NetworkManager.singleton.StartHost();
     }
 
-    public void StartupHost(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight) {
+    public void StartupHost(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight, string gameCode) {
         SetIPAddress(IPAddress);
         SetPort(portNumber);
-        SetNumberOfScreens(numberOfScreens);
+        SetNumberOfScreens(numberOfScreensLeft, "left");
+        SetNumberOfScreens(numberOfScreensRight, "right");
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
+        PlayerPrefs.SetString("gameCode", gameCode);
         NetworkManager.singleton.StartHost();
     }
 
@@ -84,12 +90,13 @@ public class GraniteNetworkManager : NetworkManager {
         NetworkManager.singleton.StartClient();
     }
 
-    public void JoinScreen(string IPAddress, string portNumber, string screenNumber, string numberOfScreens) {
+    public void JoinScreen(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight, string screenNumber) {
         SetIPAddress(IPAddress);
         SetPort(portNumber);
         SetScreen(screenNumber);
         SetLane();
-        SetNumberOfScreens(numberOfScreens);
+        SetNumberOfScreens(numberOfScreensLeft, "left");
+        SetNumberOfScreens(numberOfScreensRight, "right");
         PlayerPrefs.SetInt("isServer", 0);
         NetworkManager.singleton.StartClient();
     }
@@ -129,13 +136,13 @@ public class GraniteNetworkManager : NetworkManager {
     }
 
     public void SetNumberOfScreens() {
-        SetNumberOfScreens(NumberOfScreensInputField.text);
+        SetNumberOfScreens(NumberOfScreensInputField.text, "right");
     }
 
-    public void SetNumberOfScreens(string numberOfScreens) {
-        Debug.Log("Number of screens is: " + numberOfScreens);
-        int screens = 2;
+    public void SetNumberOfScreens(string numberOfScreens, string side) {
+        Debug.Log("Number of screens, side " + side + " is: " + numberOfScreens);
+        int screens = 0;
         int.TryParse(numberOfScreens, out screens);
-        PlayerPrefs.SetInt("numberofscreens", screens);
+        PlayerPrefs.SetInt("numberofscreens-" + side, screens);
     }
 }
