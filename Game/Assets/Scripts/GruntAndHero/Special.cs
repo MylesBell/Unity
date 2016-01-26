@@ -34,8 +34,8 @@ public class Special : NetworkBehaviour{
     }
     
     private void radialDamage(){
-        float damageRadius = 10.0f;
-        float damage = 50.0f;
+        float damageRadius = 7.0f;
+        float damage = 30.0f;
         
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, damageRadius);
         foreach(Collider collider in hitColliders) {
