@@ -23,9 +23,10 @@ public static class SocketIOOutgoingEvents {
 	}
 
 
-	public static void HeroDeath ()
+	public static void PlayerDied (string playerID)
 	{
-		throw new System.NotImplementedException ();
+		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
+		socketIOManager.PlayerDied (playerID);
 	}
 
 }

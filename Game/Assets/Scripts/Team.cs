@@ -116,6 +116,7 @@ public class Team : NetworkBehaviour {
         GameObject hero = unitFactory.CreateHero(HeroPrefab);
         float zPos = getZPosition();
         hero.GetComponent<Hero>().InitialiseGameObject(this);
+		hero.GetComponent<Hero>().setplayerID (playerID);
         hero.GetComponent<Hero>().setHeroName(playerName);
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos), GetTargetPosition(zPos), zPositionOffset);
         playerDict.Add(playerID, hero);
