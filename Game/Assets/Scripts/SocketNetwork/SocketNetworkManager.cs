@@ -105,6 +105,14 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     
+	public void PlayerDied(string playerID)
+	{
+		Debug.Log ("[SocketIO] Player has died");
+		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("playerID", playerID);
+		socket.Emit ("gamePlayerDied", dataJSON);
+	}
+
     public void PlayerLeaveHandler(string playerID, TeamID teamID, GameState.State state)
     {
         Debug.Log ("[SocketIO] Player has left");
