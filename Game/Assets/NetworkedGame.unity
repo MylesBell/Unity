@@ -518,11 +518,14 @@ MonoBehaviour:
   - {fileID: 175212, guid: b35eff09e3c54674d8d3d2f2b4ad9431, type: 2}
   base1Right: {fileID: 110192, guid: 830087544392c48218aadeba9fd1020a, type: 2}
   base2Right: {fileID: 160050, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
+  groundMaterial: {fileID: 2100000, guid: 0e7ce98afff294a2f9aa916270a1eec7, type: 2}
+  sandMaterial: {fileID: 2100000, guid: bc7157999ea194f45a2797c56ec9c7a1, type: 2}
   sceneryObjects:
-  - {fileID: 133058, guid: 9295187c815e7462f9a1daabaf5c4b9b, type: 2}
+  - {fileID: 194014, guid: 31b1e74b9b72248a697572cb9d0fa77d, type: 2}
   - {fileID: 165532, guid: efdd03d14e7844780b9dd3df3f41673a, type: 2}
   - {fileID: 103158, guid: ded6790f16e214c2a8e745443496f56a, type: 2}
   - {fileID: 156676, guid: 37ddc133724d14583bf2c55d17be82e2, type: 2}
+  - {fileID: 133058, guid: 9295187c815e7462f9a1daabaf5c4b9b, type: 2}
   - {fileID: 134034, guid: 6aa71e081f3c741b39cb0660f69a8582, type: 2}
   terrainMask:
     serializedVersion: 2

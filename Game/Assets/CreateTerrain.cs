@@ -25,7 +25,7 @@ public class CreateTerrain : NetworkBehaviour
         public Quaternion rotation;
         public Vector3 scale;
     }
-
+    
     public GameObject[] laneSegmentsLeft;
     public GameObject base1Left;
     public GameObject base2Left;
@@ -33,6 +33,8 @@ public class CreateTerrain : NetworkBehaviour
     public GameObject[] laneSegmentsRight;
     public GameObject base1Right;
     public GameObject base2Right;
+    public Material groundMaterial;
+    public Material sandMaterial;
 	public GameObject[] sceneryObjects;
 	public LayerMask terrainMask;
 	public int minNumScenery = 100;
@@ -86,8 +88,9 @@ public class CreateTerrain : NetworkBehaviour
 		{
 			if (isServer || screenNumber == chunkIndex)
 			{
-				// should randomly generate where the 0 is between 0->|laneSegments| to get random lane segments 
+				// should randomly generate where the 0 is between 0->|laneSegments| to get random lane segments
 				chunks[chunkIndex] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? laneSegmentsLeft[0] : laneSegmentsRight[0], chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
+                chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = chunkIndex < numScreens / 2? sandMaterial: groundMaterial;
 			}
 		}
 		
@@ -106,7 +109,7 @@ public class CreateTerrain : NetworkBehaviour
             int numObjects = Random.Range(minNumScenery,maxNumScenery);
             screenScenery[i] = new List<NetworkTreeMessage>();
             for (int j = 0; j < numObjects; j++) {
-                int index = Random.Range(0,sceneryObjects.Length);
+                int index = i < numScreens/2? Random.Range(0,2) : Random.Range(2,sceneryObjects.Length);
                 float z_pos;
                 do {
                     z_pos = Random.Range(0, 100) + laneOffset.z;
