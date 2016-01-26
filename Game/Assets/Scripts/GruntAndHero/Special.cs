@@ -10,7 +10,6 @@ public class Special : NetworkBehaviour{
         
         if (Input.GetKeyUp(KeyCode.X)) {
             EmitSpecial(SpecialType.fire);
-            Debug.Log("fired fire");
         }
     }
     
@@ -31,5 +30,27 @@ public class Special : NetworkBehaviour{
     private void FireRing(){
         GameObject fireRingParticle = (GameObject) Instantiate(FireRingParticle, gameObject.transform.position, FireRingParticle.transform.rotation);
         Destroy(fireRingParticle, fireRingParticle.GetComponent<ParticleSystem>().startLifetime);
+        radialDamage();
+    }
+    
+    private void radialDamage(){
+        float damageRadius = 10.0f;
+        float damage = 50.0f;
+        
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, damageRadius);
+        foreach(Collider collider in hitColliders) {
+            if (checkColliderWantsToBeHit(collider)){
+                ((Health)collider.gameObject.GetComponent ("Health")).reduceHealth(damage);
+            }
+        }
+    }
+    
+    private bool checkColliderWantsToBeHit(Collider collider){
+        
+        if (collider.gameObject.tag.Contains("TeamBase") || collider.gameObject.tag.Contains("Grunt")
+            || collider.gameObject.tag.Contains("Hero") && !collider.gameObject.tag.Equals(tag)){
+            return true;
+        }
+        return false;
     }
 }
