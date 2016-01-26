@@ -214,8 +214,8 @@ public class Team : NetworkBehaviour {
     }
     
     private ComputerLane getSpawnLane(){
-        if(hasLeftLane && hasRightLane) return Random.Range(0, 1) >= 0.5f ? ComputerLane.LEFT : ComputerLane.RIGHT;
-        if(hasLeftLane) return ComputerLane.LEFT;
-        return ComputerLane.RIGHT;
+        // if(hasLeftLane && hasRightLane) return Random.Range(0, 1) >= 0.5f ? ComputerLane.LEFT : ComputerLane.RIGHT;
+        // if(hasLeftLane) return ComputerLane.LEFT;
+        return ComputerLane.LEFT;
     }
 }

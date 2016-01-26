@@ -40,8 +40,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     }
     
     private void setTextMeshDirection(ComputerLane computerLane){
-        Vector3 rotation = computerLane == ComputerLane.RIGHT ? new Vector3(0,0,0) : new Vector3(180,180,0);
-        transform.FindChild("HeroName").gameObject.GetComponent<TextMesh>().transform.rotation = Quaternion.Euler(rotation);
+        transform.FindChild("HeroName").gameObject.GetComponent<NameHero>().setTextRotation(computerLane == ComputerLane.RIGHT ? new Vector3(0,0,0) : new Vector3(0,180,0));
     }
 
     public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset) {
