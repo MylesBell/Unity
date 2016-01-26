@@ -43,13 +43,13 @@ public class TargetSelect : NetworkBehaviour {
         if(hasAttackTarget() && GetComponent<Rigidbody>().velocity.magnitude < stats.maximumVelocityBeforeIgnore) findAndIgnoreCloseColliders();
 	}
 
-	public void MoveToZOffset(MoveDirection moveDirection){
+	public void MoveToZOffset(MoveDirection moveDirection, float maxZ, float minZ){
         switch (moveDirection) {
             case MoveDirection.up:
-                desiredZPosition = ((desiredZPosition + zSeperation) < Teams.maxZRight + Teams.topOffsetRight) ? desiredZPosition + zSeperation : Teams.maxZRight + Teams.topOffsetRight; 
+                desiredZPosition = ((desiredZPosition + zSeperation) < maxZ + Teams.topOffsetRight) ? desiredZPosition + zSeperation : maxZ + Teams.topOffsetRight; 
                 break;
             case MoveDirection.down:
-                desiredZPosition = ((desiredZPosition - zSeperation) > Teams.maxZRight + Teams.bottomOffsetRight) ? desiredZPosition - zSeperation : Teams.minZRight + Teams.bottomOffsetRight; 
+                desiredZPosition = ((desiredZPosition - zSeperation) > minZ + Teams.bottomOffsetRight) ? desiredZPosition - zSeperation : minZ + Teams.bottomOffsetRight; 
                 break;
         }
         desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);

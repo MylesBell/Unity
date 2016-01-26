@@ -110,8 +110,8 @@ public class CreateTerrain : NetworkBehaviour
                 float z_pos;
                 do {
                     z_pos = Random.Range(0, 100) + laneOffset.z;
-                } while (z_pos >= (computerLane == ComputerLane.LEFT ? Teams.minZLeft : Teams.minZRight - 5)
-                        && z_pos <= (computerLane == ComputerLane.LEFT ? Teams.maxZLeft + 5 : Teams.maxZRight));
+                } while (z_pos >= (computerLane == ComputerLane.LEFT ? Teams.minZLeft : Teams.minZRight) - 2
+                        && z_pos <= (computerLane == ComputerLane.LEFT ? Teams.maxZLeft : Teams.maxZRight) + 2);
                 Vector3 position = (chunkOffset * i) + new Vector3(Random.Range(0,100),40.0f,z_pos);
                 RaycastHit terrainLevel;
                 if(Physics.Raycast(position, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))

@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     private Team team;
 	private TargetSelect targetSelect;
+    private CreateTerrain.ComputerLane computerLane;
     [SyncVar] private bool active = false;
 
     public void Start() {
@@ -73,7 +74,8 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
 	public void PlayerMoveChannel (MoveDirection moveDirection)
 	{
         if (isServer) {
-            targetSelect.MoveToZOffset(moveDirection);
+            targetSelect.MoveToZOffset(moveDirection, computerLane == CreateTerrain.ComputerLane.LEFT ? Teams.maxZLeft : Teams.maxZRight,
+                                                      computerLane == CreateTerrain.ComputerLane.LEFT ? Teams.minZLeft : Teams.minZRight);
         }
     }
     #endregion
@@ -83,5 +85,13 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
         gameObject.SetActive(active);
         CmdSetActiveState(active);
         team.OnHeroDead(gameObject);
+    }
+    
+    public void setComputerLane(CreateTerrain.ComputerLane computerLane){
+        this.computerLane = computerLane;
+    }
+    
+    public CreateTerrain.ComputerLane getComputerLane(){
+        return computerLane;
     }
 }

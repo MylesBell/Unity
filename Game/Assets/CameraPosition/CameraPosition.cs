@@ -43,7 +43,7 @@ public class CameraPosition : MonoBehaviour {
             {
                 transform.Translate(new Vector3(-speed * Time.deltaTime, 0, 0));
             }
-            if(Input.GetKey(KeyCode.V)){
+            if(Input.GetKeyDown(KeyCode.V)){
                 //switch view to other lane
                 transform.rotation = Quaternion.Euler(currentLane == CreateTerrain.ComputerLane.RIGHT ? rotationLeft : rotationRight);
                 Vector3 v3 = transform.position;

@@ -30,10 +30,10 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
     public static float maxZLeft = 370;
     public static float minZLeft = 320;
     
-    public static float topOffsetRight = -5;
-    public static float bottomOffsetRight = 5;
-    public static float topOffsetLeft = 5;
-    public static float bottomOffsetLeft = -5;
+    public static float topOffsetRight = -1;
+    public static float bottomOffsetRight = 1;
+    public static float topOffsetLeft = 1;
+    public static float bottomOffsetLeft = -1;
 
     private bool initialised;
 
@@ -50,8 +50,8 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
             int blueBaseXPosRight = 50;
             int redBaseXPosLeft = numScreensLeft * 100 - 50;
             int redBaseXPosRight = numScreensRight * 100 - 50;
-            blueTeam.Initialise(hasLeftLane, hasRightLane, blueBaseXPosLeft, blueBaseXPosRight, zPositionOffsetRight,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
-            redTeam.Initialise(hasLeftLane,hasRightLane, redBaseXPosLeft, redBaseXPosRight, zPositionOffsetRight, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
+            blueTeam.Initialise(hasLeftLane, hasRightLane, blueBaseXPosLeft, blueBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
+            redTeam.Initialise(hasLeftLane,hasRightLane, redBaseXPosLeft, redBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
 
         }
     }
