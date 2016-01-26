@@ -8,7 +8,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 
 	private static SocketIOComponent socket;
 	SocketIOInputEvents socketIOInputEvents;
-	private string hostName = "127.0.0.1";
+	private string hostName = "icantmiss.com";
 	private string portNumber = "1337";
 	public enum State { IDLE, PLAYING, END };
 	public static bool isInit = false;
