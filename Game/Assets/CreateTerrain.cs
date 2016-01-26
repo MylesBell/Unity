@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+    
+public enum ComputerLane {LEFT, RIGHT}
 
 public class CreateTerrain : NetworkBehaviour
 {
-    
-    public enum ComputerLane {LEFT, RIGHT};
     public class MyMsgType
     {
         public static short RequestSceneryCode = MsgType.Highest + 1;

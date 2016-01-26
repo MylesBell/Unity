@@ -5,7 +5,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     private Team team;
 	private string playerID;
 	private TargetSelect targetSelect;
-    private CreateTerrain.ComputerLane computerLane;
+    private ComputerLane computerLane;
     [SyncVar] private bool active = false;
 
     public void Start() {
@@ -85,8 +85,10 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
 	public void PlayerMoveChannel (MoveDirection moveDirection)
 	{
         if (isServer) {
-            targetSelect.MoveToZOffset(moveDirection, computerLane == CreateTerrain.ComputerLane.LEFT ? Teams.maxZLeft + Teams.topOffsetLeft : Teams.maxZRight + Teams.topOffsetRight,
-                                                      computerLane == CreateTerrain.ComputerLane.LEFT ? Teams.minZLeft + Teams.bottomOffsetLeft : Teams.minZRight + Teams.bottomOffsetRight);
+            //flip this on the left lane
+            if (computerLane == ComputerLane.LEFT) moveDirection = moveDirection == MoveDirection.up ? MoveDirection.down : MoveDirection.up;
+            targetSelect.MoveToZOffset(moveDirection, computerLane == ComputerLane.LEFT ? Teams.maxZLeft + Teams.topOffsetLeft : Teams.maxZRight + Teams.topOffsetRight,
+                                                      computerLane == ComputerLane.LEFT ? Teams.minZLeft + Teams.bottomOffsetLeft : Teams.minZRight + Teams.bottomOffsetRight);
         }
     }
     #endregion
@@ -98,11 +100,11 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
         team.OnHeroDead(gameObject);
     }
     
-    public void setComputerLane(CreateTerrain.ComputerLane computerLane){
+    public void setComputerLane(ComputerLane computerLane){
         this.computerLane = computerLane;
     }
     
-    public CreateTerrain.ComputerLane getComputerLane(){
+    public ComputerLane getComputerLane(){
         return computerLane;
     }
 }

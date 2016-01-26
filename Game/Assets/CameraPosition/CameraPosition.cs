@@ -9,7 +9,7 @@ public class CameraPosition : MonoBehaviour {
 
     private bool isServer;
     
-    private CreateTerrain.ComputerLane currentLane;
+    private ComputerLane currentLane;
 
     // Use this for initialization
     void Start () {
@@ -27,7 +27,7 @@ public class CameraPosition : MonoBehaviour {
         Quaternion rotation = Quaternion.identity;
         print(transform.rotation.eulerAngles);
         transform.rotation = Quaternion.Euler(numScreensLeft > 0 ? rotationLeft : rotationRight);
-        currentLane = numScreensLeft > 0 ? CreateTerrain.ComputerLane.LEFT : CreateTerrain.ComputerLane.RIGHT;
+        currentLane = numScreensLeft > 0 ? ComputerLane.LEFT : ComputerLane.RIGHT;
     }
 
     // Update is called once per frame
@@ -45,11 +45,11 @@ public class CameraPosition : MonoBehaviour {
             }
             if(Input.GetKeyDown(KeyCode.V)){
                 //switch view to other lane
-                transform.rotation = Quaternion.Euler(currentLane == CreateTerrain.ComputerLane.RIGHT ? rotationLeft : rotationRight);
+                transform.rotation = Quaternion.Euler(currentLane == ComputerLane.RIGHT ? rotationLeft : rotationRight);
                 Vector3 v3 = transform.position;
-                v3.z = currentLane == CreateTerrain.ComputerLane.RIGHT ? initialPositionLeft.z : initialPositionRight.z;
+                v3.z = currentLane == ComputerLane.RIGHT ? initialPositionLeft.z : initialPositionRight.z;
                 transform.position = v3;
-                currentLane = currentLane == CreateTerrain.ComputerLane.RIGHT ? CreateTerrain.ComputerLane.LEFT : CreateTerrain.ComputerLane.RIGHT;
+                currentLane = currentLane == ComputerLane.RIGHT ? ComputerLane.LEFT : ComputerLane.RIGHT;
             }
         }
 
