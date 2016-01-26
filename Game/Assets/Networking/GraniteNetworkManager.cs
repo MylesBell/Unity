@@ -6,7 +6,9 @@ public class GraniteNetworkManager : NetworkManager {
     public InputField IPAddressInput;
     public InputField PortNumberInput;
     public InputField ScreenNumberInput;
-    public InputField NumberOfScreensInputField;
+    public InputField NumberOfScreensLeftInputField;
+    public InputField NumberOfScreensRightInputField;
+    public InputField GameCodeInputField;
 
     public void Start() {
         //reset 
@@ -66,9 +68,9 @@ public class GraniteNetworkManager : NetworkManager {
         SetIPAddress();
         SetPort();
         SetNumberOfScreens();
+        SetGameCode();
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
-        PlayerPrefs.SetString("gameCode", "ABCD");
         NetworkManager.singleton.StartHost();
     }
 
@@ -79,7 +81,7 @@ public class GraniteNetworkManager : NetworkManager {
         SetNumberOfScreens(numberOfScreensRight, "right");
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
-        PlayerPrefs.SetString("gameCode", gameCode);
+        SetGameCode(gameCode);
         NetworkManager.singleton.StartHost();
     }
 
@@ -87,7 +89,6 @@ public class GraniteNetworkManager : NetworkManager {
         SetIPAddress();
         SetPort();
         SetScreen();
-        SetLane();
         SetNumberOfScreens();
         PlayerPrefs.SetInt("isServer", 0);
         NetworkManager.singleton.StartClient();
@@ -97,7 +98,6 @@ public class GraniteNetworkManager : NetworkManager {
         SetIPAddress(IPAddress);
         SetPort(portNumber);
         SetScreen(screenNumber);
-        SetLane();
         SetNumberOfScreens(numberOfScreensLeft, "left");
         SetNumberOfScreens(numberOfScreensRight, "right");
         PlayerPrefs.SetInt("isServer", 0);
@@ -123,9 +123,6 @@ public class GraniteNetworkManager : NetworkManager {
         Debug.Log("Port Number is: " + port);
         NetworkManager.singleton.networkPort = port;
     }
-    public void SetLane() {
-
-    }
 
     public void SetScreen() {
         SetScreen(ScreenNumberInput.text);
@@ -138,8 +135,18 @@ public class GraniteNetworkManager : NetworkManager {
         PlayerPrefs.SetInt("screen", screen);
     }
 
+    public void SetGameCode() {
+        SetGameCode(GameCodeInputField.text);
+    }
+
+    public void SetGameCode(string gameCode) {
+        Debug.Log("Game code is: " + gameCode);
+        PlayerPrefs.SetString("gameCode", gameCode);
+    }
+
     public void SetNumberOfScreens() {
-        SetNumberOfScreens(NumberOfScreensInputField.text, "left");
+        SetNumberOfScreens(NumberOfScreensLeftInputField.text, "left");
+        SetNumberOfScreens(NumberOfScreensRightInputField.text, "right");
     }
 
     public void SetNumberOfScreens(string numberOfScreens, string side) {
