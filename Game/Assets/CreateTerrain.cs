@@ -26,6 +26,8 @@ public class CreateTerrain : NetworkBehaviour
     public GameObject[] laneSegments;
     public GameObject base1;
     public GameObject base2;
+    public Material groundMaterial;
+    public Material sandMaterial;
 	public GameObject[] sceneryObjects;
 	public LayerMask terrainMask;
 	public int minNumScenery = 100;
@@ -63,6 +65,7 @@ public class CreateTerrain : NetworkBehaviour
 			{
 				// should randomly generate where the 0 is between 0->|laneSegments| to get random lane segments 
 				chunks[chunkIndex] = (GameObject)Instantiate(laneSegments[0], offset * chunkIndex, Quaternion.identity);
+                chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = chunkIndex < numScreens / 2? sandMaterial: groundMaterial;
 			}
 		}
 		
@@ -81,7 +84,7 @@ public class CreateTerrain : NetworkBehaviour
             screenScenery[i] = new List<NetworkTreeMessage>();
             for (int j = 0; j < numObjects; j++) {
 
-                int index = Random.Range(0,sceneryObjects.Length);
+                int index = i < numScreens/2? Random.Range(0,2) : Random.Range(2,sceneryObjects.Length);
                 float z_pos;
                 do {
                     z_pos = Random.Range(0, 100);
