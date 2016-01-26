@@ -21,7 +21,12 @@ public static class SocketIOOutgoingEvents {
 		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
 		socketIOManager.PlayerJoinFailInvalidGameCode (playerID);
 	}
-
+    
+    public static void PlayerHasLeft (string playerID, TeamID teamID, GameState.State state)
+    {
+        SocketNetworkManager socketIOManager = new SocketNetworkManager ();
+        socketIOManager.PlayerLeaveHandler (playerID, teamID, state);
+    }
 
 	public static void PlayerDied (string playerID)
 	{

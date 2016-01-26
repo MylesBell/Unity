@@ -62,7 +62,7 @@ public class GraniteNetworkManager : NetworkManager {
         SetNumberOfScreens();
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
-		PlayerPrefs.SetString ("gameCode", "ABCD");
+        PlayerPrefs.SetString("gameCode", "ABCD");
         NetworkManager.singleton.StartHost();
     }
 
