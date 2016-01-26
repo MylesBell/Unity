@@ -214,8 +214,16 @@ public class Team : NetworkBehaviour {
     }
     
     private ComputerLane getSpawnLane(){
-        // if(hasLeftLane && hasRightLane) return Random.Range(0, 1) >= 0.5f ? ComputerLane.LEFT : ComputerLane.RIGHT;
-        // if(hasLeftLane) return ComputerLane.LEFT;
-        return ComputerLane.LEFT;
+        if(hasLeftLane && hasRightLane) return Random.Range(0, 1) >= 0.5f ? ComputerLane.LEFT : ComputerLane.RIGHT;
+        if(hasLeftLane) return ComputerLane.LEFT;
+        return ComputerLane.RIGHT;
+    }
+    
+    public void PlayerSwitchBase(string playerID){
+        GameObject hero;
+        TryGetHero(playerID, out hero);
+        ComputerLane newLane = hero.GetComponent<Hero>().getComputerLane() == ComputerLane.RIGHT ? ComputerLane.LEFT : ComputerLane.RIGHT;
+        float zPos = getZPosition(newLane);
+        hero.GetComponent<Hero>().switchLane(newLane, GetSpawnLocation(zPos,newLane), GetTargetPosition(zPos,newLane), (newLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
     }
 }

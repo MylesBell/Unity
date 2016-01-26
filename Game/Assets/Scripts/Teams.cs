@@ -13,7 +13,7 @@ public enum ProgressDirection {
 	forward, backward
 }
 
-public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
+public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchBase {
 
 	public Team blueTeam, redTeam;
 
@@ -107,6 +107,17 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
         else
             redTeam.RemovePlayer(playerID);
             
+    }
+    #endregion
+
+    #region IPlayerSwitchBase implementation
+    public void PlayerSwitchBase(string playerID)
+    {
+        GameObject hero;
+        if (blueTeam.TryGetHero(playerID, out hero))
+            blueTeam.PlayerSwitchBase(playerID);
+        else
+            redTeam.PlayerSwitchBase(playerID);
     }
     #endregion
 }

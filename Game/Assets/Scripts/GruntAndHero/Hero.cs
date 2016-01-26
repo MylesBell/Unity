@@ -123,4 +123,14 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     public ComputerLane getComputerLane(){
         return computerLane;
     }
+    
+    public void switchLane(ComputerLane newLane, Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset){
+        if (isServer) {
+            gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
+            gameObject.GetComponent<Attack>().initiliseAttack();
+            targetSelect = GetComponent<TargetSelect> ();
+            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
+            setComputerLane(newLane);
+        }
+    }
 }
