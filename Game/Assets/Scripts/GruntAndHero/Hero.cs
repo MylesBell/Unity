@@ -38,6 +38,11 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     private void updateTextMesh(string playerName) {
         transform.FindChild("HeroName").gameObject.GetComponent<TextMesh>().text = playerName;
     }
+    
+    private void setTextMeshDirection(ComputerLane computerLane){
+        Vector3 rotation = computerLane == ComputerLane.RIGHT ? new Vector3(0,0,0) : new Vector3(180,180,0);
+        transform.FindChild("HeroName").gameObject.GetComponent<TextMesh>().transform.rotation = Quaternion.Euler(rotation);
+    }
 
     public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset) {
         if (isServer) {
@@ -69,6 +74,16 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     [ClientRpc]
     public void RpcSetPlayerName(string playerName) {
         updateTextMesh(playerName);
+    }
+    
+    [Command]
+    public void CmdSetTextMeshDirection(ComputerLane computerLane) {
+        RpcSetTextMeshDirection(computerLane);
+    }
+
+    [ClientRpc]
+    public void RpcSetTextMeshDirection(ComputerLane computerLane) {
+        setTextMeshDirection(computerLane);
     }
 
     void onDestroy() {
@@ -102,6 +117,8 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     
     public void setComputerLane(ComputerLane computerLane){
         this.computerLane = computerLane;
+        setTextMeshDirection(computerLane);
+        CmdSetTextMeshDirection(computerLane);
     }
     
     public ComputerLane getComputerLane(){
