@@ -138,8 +138,7 @@ public class Team : NetworkBehaviour {
         hero.GetComponent<Hero>().setHeroName(playerName);
         
         //Choose random lane
-        //TODO: check valid lanes first
-        CreateTerrain.ComputerLane computerLane = Random.Range(0, 1) >= 0.5f ? CreateTerrain.ComputerLane.LEFT : CreateTerrain.ComputerLane.RIGHT;
+        CreateTerrain.ComputerLane computerLane = getSpawnLane();
         hero.GetComponent<Hero>().setComputerLane(computerLane);
         
         float zPos = getZPosition(computerLane);
@@ -202,5 +201,11 @@ public class Team : NetworkBehaviour {
 
     public TeamID GetTeamID() {
         return teamID;
+    }
+    
+    private CreateTerrain.ComputerLane getSpawnLane(){
+        // if(hasLeftLane && hasRightLane) return Random.Range(0, 1) >= 0.5f ? CreateTerrain.ComputerLane.LEFT : CreateTerrain.ComputerLane.RIGHT;
+        // if(hasLeftLane) return CreateTerrain.ComputerLane.LEFT;
+        return CreateTerrain.ComputerLane.LEFT;
     }
 }

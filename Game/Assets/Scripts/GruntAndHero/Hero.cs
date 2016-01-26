@@ -74,8 +74,8 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
 	public void PlayerMoveChannel (MoveDirection moveDirection)
 	{
         if (isServer) {
-            targetSelect.MoveToZOffset(moveDirection, computerLane == CreateTerrain.ComputerLane.LEFT ? Teams.maxZLeft : Teams.maxZRight,
-                                                      computerLane == CreateTerrain.ComputerLane.LEFT ? Teams.minZLeft : Teams.minZRight);
+            targetSelect.MoveToZOffset(moveDirection, computerLane == CreateTerrain.ComputerLane.LEFT ? Teams.maxZLeft + Teams.topOffsetLeft : Teams.maxZRight + Teams.topOffsetRight,
+                                                      computerLane == CreateTerrain.ComputerLane.LEFT ? Teams.minZLeft + Teams.bottomOffsetLeft : Teams.minZRight + Teams.bottomOffsetRight);
         }
     }
     #endregion
