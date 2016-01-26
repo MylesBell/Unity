@@ -17,6 +17,11 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 	{
 		ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin(playerID, playerName, gameCode));
 	}
+    
+    public void PlayerLeave (string playerID)
+    {
+        ExecuteEvents.Execute<IPlayerLeave> (teamsObject, null, (x,y) => x.PlayerLeave(playerID));
+    }
 
 	public void PlayerChangeProgressDirection (string playerID, ProgressDirection progressDirection)
 	{

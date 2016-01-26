@@ -20,6 +20,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 			socketIOInputEvents = new SocketIOInputEvents ();
 			socket = createSocket (hostName, portNumber);
 			socket.On ("playerJoin", PlayerJoinHandler);
+            socket.On ("playerLeave", PlayerLeaveHandler);
 			socket.On ("playerDirection", DirectionHandler);
 			socket.On ("open", OpenHandler);
 			socket.On ("close", CloseHandler);
@@ -33,7 +34,14 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
             socketIOInputEvents.PlayerJoin(e.data.GetField("uID").str, e.data.GetField("username").str, e.data.GetField("gamecode").str); // socekt io id, name
         }
 	}
-	
+    
+    public void PlayerLeaveHandler(SocketIOEvent e) {
+        if (isServer) {
+            Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
+            socketIOInputEvents.PlayerLeave(e.data.GetField("uID").str); //socket io id
+        }
+    }
+ 	
 	public void DirectionHandler(SocketIOEvent e){
         if (isServer) {
 		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
@@ -58,17 +66,17 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		switch (state) {
 		case GameState.State.IDLE:
 			Debug.Log ("[SocketIO] Game is idle");
-			dataJSON.AddField("state", "idle");
+			dataJSON.AddField("state", (int)state);
 			socket.Emit ("gameStateUpdate", dataJSON);
 			break;
 		case GameState.State.PLAYING:
 			Debug.Log ("[SocketIO] Game is playing");
-			dataJSON.AddField("state", "playing");
+			dataJSON.AddField("state", (int)state);
 			socket.Emit ("gameStateUpdate", dataJSON);
 			break;
 		case GameState.State.END:
 			Debug.Log ("[SocketIO] Game is ended");
-			dataJSON.AddField("state", "end");
+			dataJSON.AddField("state", (int)state);
 			dataJSON.AddField("winner", (int)GameState.winningTeam);
 			Debug.Log ("[Winner] "+(int)GameState.winningTeam);
 			socket.Emit ("gameStateUpdate", dataJSON);
@@ -97,6 +105,23 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     
+	public void PlayerDied(string playerID)
+	{
+		Debug.Log ("[SocketIO] Player has died");
+		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("playerID", playerID);
+		socket.Emit ("gamePlayerDied", dataJSON);
+	}
+
+    public void PlayerLeaveHandler(string playerID, TeamID teamID, GameState.State state)
+    {
+        Debug.Log ("[SocketIO] Player has left");
+        JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("playerID", playerID);
+		dataJSON.AddField("teamID", (int)teamID);
+		dataJSON.AddField ("state", (int)state);
+		socket.Emit ("gamePlayerLeft", dataJSON);
+    }
 
 	public void CloseHandler(SocketIOEvent e)
 	{	

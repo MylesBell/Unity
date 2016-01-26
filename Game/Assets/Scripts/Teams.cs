@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public enum TeamID {
@@ -13,7 +14,7 @@ public enum ProgressDirection {
 	forward, backward
 }
 
-public class Teams : NetworkBehaviour, IPlayerJoin {
+public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
 
 	public Team blueTeam, redTeam;
 
@@ -96,5 +97,17 @@ public class Teams : NetworkBehaviour, IPlayerJoin {
 	        SocketIOOutgoingEvents.PlayerJoinFailInvalidGameCode (playerID);
         }
 	}
-	#endregion
+    #endregion
+
+    #region IPlayerLeave implementation
+    public void PlayerLeave(string playerID)
+    {
+        GameObject hero;
+        if (blueTeam.TryGetHero(playerID, out hero))
+            blueTeam.RemovePlayer(playerID);
+        else
+            redTeam.RemovePlayer(playerID);
+            
+    }
+    #endregion
 }

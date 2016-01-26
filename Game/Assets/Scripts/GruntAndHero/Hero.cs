@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 
 public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     private Team team;
+	private string playerID;
 	private TargetSelect targetSelect;
     private CreateTerrain.ComputerLane computerLane;
     [SyncVar] private bool active = false;
@@ -18,6 +19,16 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
             CmdSetActiveState(active);
         }
     }
+
+	public void setplayerID(string playerIDParam){
+		this.playerID = playerIDParam;
+	}
+
+
+	public string getplayerID(){
+		return this.playerID;
+	}
+
 
     public void setHeroName(string playerName) {
         CmdSetPlayerName(playerName);

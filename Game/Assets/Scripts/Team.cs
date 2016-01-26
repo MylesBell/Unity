@@ -135,6 +135,7 @@ public class Team : NetworkBehaviour {
         GameObject hero = unitFactory.CreateHero(HeroPrefab);
         
         hero.GetComponent<Hero>().InitialiseGameObject(this);
+		hero.GetComponent<Hero>().setplayerID (playerID);
         hero.GetComponent<Hero>().setHeroName(playerName);
         
         //Choose random lane
@@ -146,6 +147,15 @@ public class Team : NetworkBehaviour {
         playerDict.Add(playerID, hero);
         numberOfHeros++;
 		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState);
+    }
+    
+    public void RemovePlayer(string playerID) {
+        GameObject hero;
+        TryGetHero(playerID, out hero);
+        playerDict.Remove(playerID);
+        numberOfHeros--;
+        Destroy(hero.gameObject);
+        SocketIOOutgoingEvents.PlayerHasLeft (playerID, GetTeamID(), GameState.gameState);
     }
 
     private void initialiseGruntPool() {
