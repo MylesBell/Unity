@@ -66,17 +66,17 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		switch (state) {
 		case GameState.State.IDLE:
 			Debug.Log ("[SocketIO] Game is idle");
-			dataJSON.AddField("state", "idle");
+			dataJSON.AddField("state", (int)state);
 			socket.Emit ("gameStateUpdate", dataJSON);
 			break;
 		case GameState.State.PLAYING:
 			Debug.Log ("[SocketIO] Game is playing");
-			dataJSON.AddField("state", "playing");
+			dataJSON.AddField("state", (int)state);
 			socket.Emit ("gameStateUpdate", dataJSON);
 			break;
 		case GameState.State.END:
 			Debug.Log ("[SocketIO] Game is ended");
-			dataJSON.AddField("state", "end");
+			dataJSON.AddField("state", (int)state);
 			dataJSON.AddField("winner", (int)GameState.winningTeam);
 			Debug.Log ("[Winner] "+(int)GameState.winningTeam);
 			socket.Emit ("gameStateUpdate", dataJSON);
