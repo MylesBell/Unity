@@ -27,6 +27,11 @@ public static class SocketIOOutgoingEvents {
         SocketNetworkManager socketIOManager = new SocketNetworkManager ();
         socketIOManager.PlayerLeaveHandler (playerID, teamID, state);
     }
+    
+    public static void PlayerHealthHasChanged (string playerID, float amount) {
+        SocketNetworkManager socketIOManager = new SocketNetworkManager ();
+        socketIOManager.PlayerChangeHealthHandler (playerID, amount);
+    }
 
 	public static void PlayerDied (string playerID)
 	{
