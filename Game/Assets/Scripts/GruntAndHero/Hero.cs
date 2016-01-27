@@ -7,6 +7,8 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
 	private TargetSelect targetSelect;
     private ComputerLane computerLane;
     [SyncVar] private bool active = false;
+    
+    private string playerName;
 
     public void Start() {
         gameObject.SetActive(active);
@@ -31,6 +33,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
 
 
     public void setHeroName(string playerName) {
+        this.playerName = playerName;
         CmdSetPlayerName(playerName);
         updateTextMesh(playerName);
     }
@@ -122,6 +125,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
         this.computerLane = computerLane;
         setTextMeshDirection(computerLane);
         CmdSetTextMeshDirection(computerLane);
+        setHeroName(playerName);
     }
     
     public ComputerLane getComputerLane(){
