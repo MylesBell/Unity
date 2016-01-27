@@ -35,7 +35,7 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 
 	public void PlayerSwitchBase (string playerID)
 	{
-		ExecuteEvents.Execute<IPlayerSwitchBase> (teams.GetHero(playerID), null, (x,y) => x.PlayerSwitchBase(playerID));
+		ExecuteEvents.Execute<IPlayerSwitchBase> (teamsObject, null, (x,y) => x.PlayerSwitchBase(playerID));
 	}
 
 	#endregion

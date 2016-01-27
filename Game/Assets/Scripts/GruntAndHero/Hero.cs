@@ -93,6 +93,10 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     public void PlayerChangeProgressDirection (ProgressDirection progressDirection)
 	{
 		if (isServer) {
+            //the progress direction appears as right and left on the mobile app (we get forwards and backwards resp.)
+            //flip it accoridngly
+            if(team.GetTeamID() == TeamID.red && computerLane == ComputerLane.LEFT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
+            if(team.GetTeamID() == TeamID.blue && computerLane == ComputerLane.RIGHT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
             targetSelect.SetProgressDirection(progressDirection);
         }
 	}
