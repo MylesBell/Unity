@@ -41,7 +41,6 @@ public class Team : NetworkBehaviour {
             unitFactory = gameObject.GetComponent<UnitFactory>();
             gruntPoolInitialised = false;
             numberOfHeros = 0;
-            Random.seed = (int)Time.time;
         }
     }
 
@@ -216,7 +215,9 @@ public class Team : NetworkBehaviour {
     }
     
     private ComputerLane getSpawnLane(){
-        if(hasLeftLane && hasRightLane) return Random.Range(0, 1) >= 0.5f ? ComputerLane.LEFT : ComputerLane.RIGHT;
+        float range = Random.Range(0f, 1f);
+        Debug.Log("Random number generated " + range);
+        if(hasLeftLane && hasRightLane) return range >= 0.5f ? ComputerLane.LEFT : ComputerLane.RIGHT;
         if(hasLeftLane) return ComputerLane.LEFT;
         return ComputerLane.RIGHT;
     }
