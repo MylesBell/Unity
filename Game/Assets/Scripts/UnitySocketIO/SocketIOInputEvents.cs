@@ -32,6 +32,11 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 	{
 		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveChannel(moveDirection));
 	}
+    
+    public void PlayerUseSpecial(string playerID, SpecialType specialType)
+    {
+        ExecuteEvents.Execute<IPlayerSpecial> (teams.GetHero(playerID), null, (x,y) => x.PlayerSpecial(specialType));
+    }
 
 	#endregion
 
