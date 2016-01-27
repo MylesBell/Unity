@@ -9,6 +9,8 @@ public class GraniteNetworkManager : NetworkManager {
     public InputField NumberOfScreensLeftInputField;
     public InputField NumberOfScreensRightInputField;
     public InputField GameCodeInputField;
+    
+    public Dropdown ClientLaneDropdown;
 
     public void Start() {
         //reset 
@@ -91,6 +93,7 @@ public class GraniteNetworkManager : NetworkManager {
         SetScreen();
         SetNumberOfScreens();
         PlayerPrefs.SetInt("isServer", 0);
+        SetLane();
         NetworkManager.singleton.StartClient();
     }
 
@@ -154,5 +157,12 @@ public class GraniteNetworkManager : NetworkManager {
         int screens = 0;
         int.TryParse(numberOfScreens, out screens);
         PlayerPrefs.SetInt("numberofscreens-" + side, screens);
+    }
+    
+    public void SetLane(){
+        //0 is left and 1 is right
+        int selectedLane = ClientLaneDropdown.value;
+        if(selectedLane == 0) SetNumberOfScreens("0", "right");
+        else SetNumberOfScreens("0", "left");
     }
 }
