@@ -143,7 +143,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
     
     public void PlayerChangeHealthHandler(string playerID, float amount)
     {
-        Debug.Log ("SocketIO] Player health changed");
+        Debug.Log ("[SocketIO] Player health has changed");
         JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
         dataJSON.AddField("playerID", playerID);
         dataJSON.AddField("amount", amount);
