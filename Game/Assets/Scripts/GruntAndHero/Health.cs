@@ -57,9 +57,19 @@ public class Health : NetworkBehaviour {
 
 	public void reduceHealth(float amountToReduce){
 		currentHealth -= amountToReduce;
+        if(gameObject.GetComponent<Hero>() != null) {
+            Hero hero = gameObject.GetComponent<Hero>();
+            string playerID = hero.getplayerID();
+            SocketIOOutgoingEvents.PlayerHealthHasChanged(playerID, -amountToReduce);
+        }
 	}
 
 	public void IncreaseHealth(float amountToIncrease){
 		currentHealth += amountToIncrease;
+        if(gameObject.GetComponent<Hero>() != null) {
+            Hero hero = gameObject.GetComponent<Hero>();
+            string playerID = hero.getplayerID();
+            SocketIOOutgoingEvents.PlayerHealthHasChanged(playerID, amountToIncrease);
+        }
 	}
 }

@@ -141,6 +141,15 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		socket.Emit ("gamePlayerLeft", dataJSON);
     }
     
+    public void PlayerChangeHealthHandler(string playerID, float amount)
+    {
+        Debug.Log ("[SocketIO] Player health has changed");
+        JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+        dataJSON.AddField("playerID", playerID);
+        dataJSON.AddField("amount", amount);
+        socket.Emit ("gamePlayerChangeHealth", dataJSON);
+    }
+    
     public void PlayerSpecialHandler(SocketIOEvent e){
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
