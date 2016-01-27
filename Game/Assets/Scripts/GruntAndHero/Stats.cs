@@ -16,4 +16,8 @@ public class Stats : NetworkBehaviour{
     public float ignoreRange = 5f;
     public float runAwayTime = 2f;
     public float maximumVelocityBeforeIgnore = 1f;
+    
+    // special abilities
+    public float fireAttackRadius = 6.0f;
+    public float fireAttackDamage = 30.0f;
 }

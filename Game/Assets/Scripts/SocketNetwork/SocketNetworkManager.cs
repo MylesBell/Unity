@@ -25,6 +25,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 			socket.On ("playerSwitchBase", PlayerSwitchBase);
 			socket.On ("open", OpenHandler);
 			socket.On ("close", CloseHandler);
+            socket.On ("playerSpecial", PlayerSpecialHandler);
 		}
 	}
 
@@ -139,6 +140,13 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		dataJSON.AddField ("state", (int)state);
 		socket.Emit ("gamePlayerLeft", dataJSON);
     }
+    
+    public void PlayerSpecialHandler(SocketIOEvent e){
+        if (isServer) {
+            Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
+            socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str, SpecialType.fire);
+        }
+	}
 
 	public void CloseHandler(SocketIOEvent e)
 	{	

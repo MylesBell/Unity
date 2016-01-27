@@ -12,9 +12,9 @@ public class TargetSelect : NetworkBehaviour {
 	private float zSeperation;
 	private ProgressDirection progressDirection;
 
-    private string attackGruntTag;
-    private string attackHeroTag;
-    private string attackBaseTag;
+    public string attackGruntTag;
+    public string attackHeroTag;
+    public string attackBaseTag;
     private string homeBaseTag;
     private Stats stats;
     

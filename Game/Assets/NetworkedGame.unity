@@ -242,9 +242,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -511,9 +509,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laneSegmentsLeft:
-  - {fileID: 175212, guid: 1d7e0abcc59f744d6944599e807db3b2, type: 2}
-  base1Left: {fileID: 110192, guid: 6af3b7dd7d0004f0e9e7b449502f9918, type: 2}
-  base2Left: {fileID: 160050, guid: 2e6f63a34b37744fd9f30692dd99f871, type: 2}
+  - {fileID: 175212, guid: 5c06b010779e64001a996b67538d1696, type: 2}
+  base1Left: {fileID: 110192, guid: 044786a0879f04c718f1cf6c097fe4f8, type: 2}
+  base2Left: {fileID: 160050, guid: 2a453036efd95446c8303f0b3fc85ccf, type: 2}
   laneSegmentsRight:
   - {fileID: 175212, guid: b35eff09e3c54674d8d3d2f2b4ad9431, type: 2}
   base1Right: {fileID: 110192, guid: 830087544392c48218aadeba9fd1020a, type: 2}
