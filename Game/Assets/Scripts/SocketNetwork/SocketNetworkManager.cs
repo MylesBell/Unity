@@ -22,6 +22,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 			socket.On ("playerJoin", PlayerJoinHandler);
             socket.On ("playerLeave", PlayerLeaveHandler);
 			socket.On ("playerDirection", DirectionHandler);
+			socket.On ("playerSwitchBase", PlayerSwitchBase);
 			socket.On ("open", OpenHandler);
 			socket.On ("close", CloseHandler);
 		}
@@ -58,6 +59,13 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		    }
         }
 	}
+    
+    public void PlayerSwitchBase(SocketIOEvent e) {
+        if (isServer) {
+            Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
+            socketIOInputEvents.PlayerSwitchBase(e.data.GetField("uID").str); //socket io id
+        }
+    }
 	
 	public void GameStateHandler(GameState.State state)
 	{
@@ -111,6 +119,15 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
 		dataJSON.AddField("playerID", playerID);
 		socket.Emit ("gamePlayerDied", dataJSON);
+	}
+    
+	public void PlayerNearBase(string playerID, bool nearBase)
+	{
+		Debug.Log ("[SocketIO] Player has died");
+		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("playerID", playerID);
+		dataJSON.AddField("nearBase", nearBase ? 1 : 0);
+		socket.Emit ("playerNearBase", dataJSON);
 	}
 
     public void PlayerLeaveHandler(string playerID, TeamID teamID, GameState.State state)

@@ -34,4 +34,10 @@ public static class SocketIOOutgoingEvents {
 		socketIOManager.PlayerDied (playerID);
 	}
 
+	public static void PlayerNearBase (string playerID, bool nearBase)
+	{
+		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
+		socketIOManager.PlayerNearBase (playerID, nearBase);
+	}
+
 }

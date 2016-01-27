@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public enum TeamID {
@@ -14,7 +13,7 @@ public enum ProgressDirection {
 	forward, backward
 }
 
-public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
+public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchBase {
 
 	public Team blueTeam, redTeam;
 
@@ -23,25 +22,36 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
     public int gruntSpawnInterval;
     public int heroRespawnInterval;
 
-    private float zPositionOffset;
+    private float zPositionOffsetRight;
+    private float zPositionOffsetLeft;
     public int numberOfChannels;
-    public static float maxZ = 80;
-    public static float minZ = 30;
+    public static float maxZRight = 80;
+    public static float minZRight = 30;
+    public static float maxZLeft = 370;
+    public static float minZLeft = 320;
     
-    public static float topOffset = -5;
-    public static float bottomOffset = 5;
+    public static float topOffsetRight = -1;
+    public static float bottomOffsetRight = 1;
+    public static float topOffsetLeft = 1;
+    public static float bottomOffsetLeft = -1;
 
     private bool initialised;
 
 	void Start () {
         if (isServer) {
             initialised = false;
-            zPositionOffset = ((maxZ+topOffset) - (minZ+bottomOffset)) / numberOfChannels;
-            int numScreens = PlayerPrefs.GetInt("numberofscreens", 2);
-            Vector3 blueBaseV = new Vector3(50, 0, 50);
-            Vector3 redBaseV = new Vector3(numScreens * 100 - 50, 0, 50);
-            blueTeam.Initialise(blueBaseV,zPositionOffset,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
-            redTeam.Initialise(redBaseV, zPositionOffset, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
+            zPositionOffsetRight = ((maxZRight+topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
+            zPositionOffsetLeft = ((maxZLeft+topOffsetLeft) - (minZLeft+bottomOffsetLeft)) / numberOfChannels;
+            int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
+            int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
+            bool hasLeftLane = PlayerPrefs.GetInt("numberofscreens-left", 0) > 1;
+            bool hasRightLane = PlayerPrefs.GetInt("numberofscreens-right", 0) > 1;
+            int blueBaseXPosLeft = 50;
+            int blueBaseXPosRight = 50;
+            int redBaseXPosLeft = numScreensLeft * 100 - 50;
+            int redBaseXPosRight = numScreensRight * 100 - 50;
+            blueTeam.Initialise(hasLeftLane, hasRightLane, blueBaseXPosLeft, blueBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
+            redTeam.Initialise(hasLeftLane,hasRightLane, redBaseXPosLeft, redBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
 
         }
     }
@@ -97,6 +107,17 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
         else
             redTeam.RemovePlayer(playerID);
             
+    }
+    #endregion
+
+    #region IPlayerSwitchBase implementation
+    public void PlayerSwitchBase(string playerID)
+    {
+        GameObject hero;
+        if (blueTeam.TryGetHero(playerID, out hero))
+            blueTeam.PlayerSwitchBase(playerID);
+        else
+            redTeam.PlayerSwitchBase(playerID);
     }
     #endregion
 }
