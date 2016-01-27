@@ -38,6 +38,11 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
         ExecuteEvents.Execute<IPlayerSpecial> (teams.GetHero(playerID), null, (x,y) => x.PlayerSpecial(specialType));
     }
 
+	public void PlayerSwitchBase (string playerID)
+	{
+		ExecuteEvents.Execute<IPlayerSwitchBase> (teamsObject, null, (x,y) => x.PlayerSwitchBase(playerID));
+	}
+
 	#endregion
 
 

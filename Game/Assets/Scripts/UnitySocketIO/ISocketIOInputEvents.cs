@@ -3,4 +3,5 @@ public interface ISocketIOInputEvents{
 	void PlayerChangeProgressDirection (string playerID, ProgressDirection progressDirection);
 	void PlayerMoveChannel (string playerID, MoveDirection moveDirection);
     void PlayerUseSpecial(string playerID, SpecialType specialType);
+	void PlayerSwitchBase (string playerID);
 }

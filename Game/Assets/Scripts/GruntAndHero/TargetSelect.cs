@@ -15,7 +15,10 @@ public class TargetSelect : NetworkBehaviour {
     public string attackGruntTag;
     public string attackHeroTag;
     public string attackBaseTag;
+    private string homeBaseTag;
     private Stats stats;
+    
+    private bool nearBaseLast;
     
     private Dictionary<GameObject, float> collidersToIgnore = new Dictionary<GameObject, float>();
 	
@@ -31,25 +34,28 @@ public class TargetSelect : NetworkBehaviour {
 		this.zSeperation = zSeperation;
 		this.progressDirection = ProgressDirection.forward;
 		attack = GetComponent<Attack> ();
-		movement = GetComponent<Movement> ();
+		movement = GetComponent<Movement>();
 		movement.SetTarget (desiredPosition);
         attackGruntTag = teamID == TeamID.blue ? "redGrunt" : "blueGrunt";
         attackHeroTag = teamID == TeamID.blue ? "redHero" : "blueHero";
         attackBaseTag = teamID == TeamID.blue ? "redBase" : "blueBase";
+        homeBaseTag = teamID == TeamID.blue ? "blueBase" : "redBase";
+        nearBaseLast = false;
     }
 	
 	public void SetProgressDirection(ProgressDirection progressDirection){
 		this.progressDirection = progressDirection;
+        desiredPosition = transform.position;
         if(hasAttackTarget() && GetComponent<Rigidbody>().velocity.magnitude < stats.maximumVelocityBeforeIgnore) findAndIgnoreCloseColliders();
 	}
 
-	public void MoveToZOffset(MoveDirection moveDirection){
+	public void MoveToZOffset(MoveDirection moveDirection, float maxZ, float minZ){
         switch (moveDirection) {
             case MoveDirection.up:
-                desiredZPosition = ((desiredZPosition + zSeperation) < Teams.maxZ + Teams.topOffset) ? desiredZPosition + zSeperation : Teams.maxZ + Teams.topOffset; 
+                desiredZPosition = ((desiredZPosition + zSeperation) < maxZ) ? desiredZPosition + zSeperation : maxZ; 
                 break;
             case MoveDirection.down:
-                desiredZPosition = ((desiredZPosition - zSeperation) > Teams.minZ + Teams.bottomOffset) ? desiredZPosition - zSeperation : Teams.minZ + Teams.bottomOffset; 
+                desiredZPosition = ((desiredZPosition - zSeperation) > minZ) ? desiredZPosition - zSeperation : minZ; 
                 break;
         }
         desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
@@ -59,13 +65,19 @@ public class TargetSelect : NetworkBehaviour {
 
 	void Update () {
         if (isServer) {
-            attack.setTarget(GetNewAttackTarget());
-
+            bool nearBaseCurrent;
+            attack.setTarget(GetNewAttackTarget(out nearBaseCurrent));
+            
+            //do movement
             if (hasAttackTarget()) {
                 movement.SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
             } else {
                 UpdateMoveTarget();
             }
+            
+            //do near base event for heros only
+            if(GetComponent<Hero>() && nearBaseCurrent != nearBaseLast) SocketIOOutgoingEvents.PlayerNearBase (GetComponent<Hero>().getplayerID(), nearBaseCurrent);
+            nearBaseLast = nearBaseCurrent;
         }
         foreach(GameObject key in collidersToIgnore.Keys) {
             collidersToIgnore[key] -= Time.deltaTime;
@@ -98,13 +110,14 @@ public class TargetSelect : NetworkBehaviour {
 		return (attack.getTarget () != null);
 	}
 
-	private GameObject GetNewAttackTarget(){
+	private GameObject GetNewAttackTarget(out bool nearHomeBase){
         Collider closestBase = null;
         Collider closestHero = null;
         Collider closestGrunt = null;
         float currentDistanceBase = Mathf.Infinity;
         float currentDistanceHero = Mathf.Infinity;
         float currentDistanceGrunt = Mathf.Infinity;
+        nearHomeBase = false;
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.targetSelectRange);
         foreach(Collider collider in hitColliders) {
@@ -115,6 +128,8 @@ public class TargetSelect : NetworkBehaviour {
                     closestHero = closestCollider(closestHero, collider, ref currentDistanceHero);
                 } else if (string.Equals(collider.gameObject.tag, attackBaseTag)) {
                     closestBase = closestCollider(closestBase, collider, ref currentDistanceBase);
+                } else if (string.Equals(collider.gameObject.tag, homeBaseTag)) {
+                    nearHomeBase = true;
                 }
             }
         }
