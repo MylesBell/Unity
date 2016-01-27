@@ -152,10 +152,12 @@ public class Team : NetworkBehaviour {
     public void RemovePlayer(string playerID) {
         GameObject hero;
         TryGetHero(playerID, out hero);
-        playerDict.Remove(playerID);
-        numberOfHeros--;
-        Destroy(hero.gameObject);
-        SocketIOOutgoingEvents.PlayerHasLeft (playerID, GetTeamID(), GameState.gameState);
+        if(hero){
+            playerDict.Remove(playerID);
+            numberOfHeros--;
+            Destroy(hero.gameObject);
+            SocketIOOutgoingEvents.PlayerHasLeft (playerID, GetTeamID(), GameState.gameState);
+        }
     }
 
     private void initialiseGruntPool() {
