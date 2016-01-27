@@ -1,23 +1,17 @@
 fileFormatVersion: 2
-guid: 307c5d3ebc1c6e842a2cbfc9af6f97bf
-timeCreated: 1445374821
+guid: 9ada47afdf38f94489ebcfaa5c668ff0
+timeCreated: 1453731151
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: pSphere1
-    100004: pTorus1
-    400000: //RootNode
-    400002: pSphere1
-    400004: pTorus1
-    2300000: pSphere1
-    2300002: pTorus1
-    3300000: pSphere1
-    3300002: pTorus1
-    4300000: pTorus1
-    4300002: pSphere1
-    9500000: //RootNode
+    100000: default
+    100002: //RootNode
+    400000: default
+    400002: //RootNode
+    2300000: default
+    3300000: default
+    4300000: default
   materials:
     importMaterials: 1
     materialName: 0
@@ -57,9 +51,9 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 60
+    normalSmoothAngle: 0
     splitTangentsAcrossUV: 1
-    normalImportMode: 0
+    normalImportMode: 1
     tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0
@@ -76,7 +70,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

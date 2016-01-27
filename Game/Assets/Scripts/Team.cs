@@ -5,10 +5,14 @@ using System.Collections.Generic;
 public class Team : NetworkBehaviour {
 
     public TeamID teamID;
-    private Vector3 basePosition;
+    private Vector3 basePositionRight;
+    private Vector3 basePositionLeft;
+    private bool hasLeftLane;
+    private bool hasRightLane;
     UnitFactory unitFactory;
     private bool gruntPoolInitialised;
-    private GameObject teamBase;
+    private GameObject teamBaseRight;
+    private GameObject teamBaseLeft;
     private LinkedList<GameObject> availableGrunts = new LinkedList<GameObject>();
 
     private int numberOfHeros;
@@ -16,7 +20,8 @@ public class Team : NetworkBehaviour {
     Dictionary<string, GameObject> playerDict = new Dictionary<string, GameObject>();
     private List<Tuple<float,GameObject>> herosToRespawn = new List<Tuple<float, GameObject>>();
 
-    private float zPositionOffset;
+    private float zPositionOffsetRight;
+    private float zPositionOffsetLeft;
     private int numberOfChannels;
 
     public GameObject HeroPrefab;
@@ -40,17 +45,27 @@ public class Team : NetworkBehaviour {
         }
     }
 
-    public void Initialise(Vector3 basePosition, float zPositionOffset, int numberOfChannels, int numberOfGruntsToSpawn, int spawnInterval, int gruntPoolSize, int heroRespawnInterval) {
-        this.zPositionOffset = zPositionOffset;
+    public void Initialise(bool hasLeftLane, bool hasRightLane, int positionXLeft, int positionXRight, float zPositionOffsetLeft, float zPositionOffsetRight, int numberOfChannels, int numberOfGruntsToSpawn, int spawnInterval, int gruntPoolSize, int heroRespawnInterval) {
+        this.hasLeftLane = hasLeftLane;
+        this.hasRightLane = hasRightLane;
+        this.zPositionOffsetRight = zPositionOffsetRight;
+        this.zPositionOffsetLeft = zPositionOffsetLeft;
         this.numberOfChannels = numberOfChannels;
-        this.basePosition = basePosition;
+        this.basePositionRight = new Vector3(positionXRight,0,50);
+        this.basePositionLeft = new Vector3(positionXLeft,0,350);
         this.numberOfGruntsToSpawn = numberOfGruntsToSpawn;
         this.gruntSpawnInterval = spawnInterval;
         this.gruntPoolSize = gruntPoolSize;
         this.heroRespawnInterval = heroRespawnInterval;
         //Create base
-        teamBase = unitFactory.CreateBase(BasePrefab);
-        teamBase.GetComponent<Base>().InitialiseGameObject(this);
+        if(hasRightLane) {
+            teamBaseRight = unitFactory.CreateBase(BasePrefab);
+            teamBaseRight.GetComponent<Base>().InitialiseGameObject(this);
+        }
+        if(hasLeftLane) {
+            teamBaseLeft = unitFactory.CreateBase(BasePrefab);
+            teamBaseLeft.GetComponent<Base>().InitialiseGameObject(this);
+        }
     }
 
      void Update() {
@@ -58,7 +73,10 @@ public class Team : NetworkBehaviour {
             if ((nextGruntRespawn > 0)) {
                 nextGruntRespawn -= Time.deltaTime;
 			} else {
-                for (int i = 0; i < numberOfGruntsToSpawn; i++) spawnGrunt(i);
+                for (int i = 0; i < numberOfGruntsToSpawn; i++) {
+                    if(hasRightLane) spawnGrunt(i, ComputerLane.RIGHT);
+                    if(hasLeftLane) spawnGrunt(i, ComputerLane.LEFT);
+                }
                 nextGruntRespawn = gruntSpawnInterval;
 			}
             lock (herosToRespawn) {
@@ -75,26 +93,27 @@ public class Team : NetworkBehaviour {
         }
     }
 
-    private Vector3 GetSpawnLocation(float zPos) {
+    private Vector3 GetSpawnLocation(float zPos, ComputerLane computerLane) {
         float xPos;
         if (teamID == TeamID.blue)
-            xPos = teamBase.transform.position.x + 2;
+            xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + 2;
         else
-            xPos = teamBase.transform.position.x - 2;
+            xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x - 2;
         return new Vector3(xPos, 3, zPos);
     }
 
-    private float getZPosition() {
+    private float getZPosition(ComputerLane computerLane) {
         int randomNumber = Random.Range(0, numberOfChannels);
-        return randomNumber * zPositionOffset + Teams.minZ + Teams.bottomOffset;
+        return computerLane == ComputerLane.LEFT ? randomNumber * zPositionOffsetLeft + Teams.minZLeft + Teams.bottomOffsetLeft : randomNumber * zPositionOffsetRight + Teams.minZRight + Teams.bottomOffsetRight;
     }
 
-    private Vector3 GetTargetPosition(float zPosition) {
-        return new Vector3(teamBase.transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 0, zPosition);
+    private Vector3 GetTargetPosition(float zPosition, ComputerLane computerLane) {
+        return new Vector3((computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + (teamID == TeamID.blue ? 4 : -4) , 0, zPosition);
     }
 
     public void resetTeam() {
-        teamBase.GetComponent<Base>().ResetGameObject(basePosition, Vector3.zero, 0.0f);
+        if(hasRightLane) teamBaseRight.GetComponent<Base>().ResetGameObject(basePositionRight, Vector3.zero, 0.0f);
+        if(hasLeftLane) teamBaseLeft.GetComponent<Base>().ResetGameObject(basePositionLeft, Vector3.zero, 0.0f);
 
         //Restart heros
         foreach (KeyValuePair<string, GameObject> entry in playerDict) {
@@ -114,11 +133,17 @@ public class Team : NetworkBehaviour {
 
     public void CreatePlayer(string playerID, string playerName) {
         GameObject hero = unitFactory.CreateHero(HeroPrefab);
-        float zPos = getZPosition();
+        
         hero.GetComponent<Hero>().InitialiseGameObject(this);
 		hero.GetComponent<Hero>().setplayerID (playerID);
         hero.GetComponent<Hero>().setHeroName(playerName);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos), GetTargetPosition(zPos), zPositionOffset);
+        
+        //Choose random lane
+        ComputerLane computerLane = getSpawnLane();
+        hero.GetComponent<Hero>().setComputerLane(computerLane);
+        
+        float zPos = getZPosition(computerLane);
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
         playerDict.Add(playerID, hero);
         numberOfHeros++;
 		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState);
@@ -142,10 +167,10 @@ public class Team : NetworkBehaviour {
         gruntPoolInitialised = true;
     }
 
-    private void spawnGrunt(int i) {
+    private void spawnGrunt(int i, ComputerLane computerLane) {
         GameObject grunt = getGrunt();
-        float zPos = getZPosition();
-        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos), GetTargetPosition(zPos), zPositionOffset);
+        float zPos = getZPosition(computerLane);
+        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
     }
 
     private GameObject getGrunt() {
@@ -169,8 +194,9 @@ public class Team : NetworkBehaviour {
     }
 
     private void HeroRespawn(GameObject hero) {
-        float zPos = getZPosition();
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos), GetTargetPosition(zPos), zPositionOffset);
+        ComputerLane computerLane = hero.GetComponent<Hero>().getComputerLane();
+        float zPos = getZPosition(computerLane);
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos,computerLane), GetTargetPosition(zPos,computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
     }
 
     public void OnHeroDead(GameObject hero) {
@@ -185,5 +211,19 @@ public class Team : NetworkBehaviour {
 
     public TeamID GetTeamID() {
         return teamID;
+    }
+    
+    private ComputerLane getSpawnLane(){
+        if(hasLeftLane && hasRightLane) return Random.Range(0, 1) >= 0.5f ? ComputerLane.LEFT : ComputerLane.RIGHT;
+        if(hasLeftLane) return ComputerLane.LEFT;
+        return ComputerLane.RIGHT;
+    }
+    
+    public void PlayerSwitchBase(string playerID){
+        GameObject hero;
+        TryGetHero(playerID, out hero);
+        ComputerLane newLane = hero.GetComponent<Hero>().getComputerLane() == ComputerLane.RIGHT ? ComputerLane.LEFT : ComputerLane.RIGHT;
+        float zPos = getZPosition(newLane);
+        hero.GetComponent<Hero>().switchLane(newLane, GetSpawnLocation(zPos,newLane), GetTargetPosition(zPos,newLane), (newLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
     }
 }
