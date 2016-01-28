@@ -141,4 +141,8 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
             setComputerLane(newLane);
         }
     }
+    
+    public bool hasTwoLanes(){
+        return team.hasTwoLanes();
+    }
 }
