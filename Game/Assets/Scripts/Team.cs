@@ -145,7 +145,7 @@ public class Team : NetworkBehaviour {
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
         playerDict.Add(playerID, hero);
         numberOfHeros++;
-		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState);
+		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState, hero.GetComponent<Health>().maxHealth);
     }
     
     public void RemovePlayer(string playerID) {
@@ -208,8 +208,9 @@ public class Team : NetworkBehaviour {
             string playerID = hero.GetComponent<Hero>().getplayerID();
             System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
             double respawnTimeStamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + heroRespawnInterval;
-            // print(respawnTimeStamp);
+            print(respawnTimeStamp);
             SocketIOOutgoingEvents.PlayerDied(playerID, respawnTimeStamp.ToString("0.####"));
+            hero.GetComponent<Special>().resetSpecial();
         }
     }
 

@@ -9,6 +9,10 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     [SyncVar] private bool active = false;
     
     private string playerName;
+    
+    public int firstUpdate = 5;
+    private int nextUpgrade = 0;
+    
 
     public void Start() {
         gameObject.SetActive(active);
@@ -19,6 +23,15 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
             this.team = team;
             gameObject.SetActive(active);
             CmdSetActiveState(active);
+        }
+    }
+    
+    public void Update(){
+        if(isServer){
+            if(GameState.gameState == GameState.State.PLAYING){
+                //do hero upgrade
+                upgradeHero();
+            }
         }
     }
 
@@ -53,10 +66,12 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
             gameObject.GetComponent<Attack>().initiliseAttack();
             //set Health to Max
             gameObject.GetComponent<Health>().initialiseHealth();
+            gameObject.GetComponent<Stats>().ResetKillStreak();
             targetSelect = GetComponent<TargetSelect> ();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
+            nextUpgrade = firstUpdate;
         }
     }
 
@@ -144,5 +159,14 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     
     public bool hasTwoLanes(){
         return team.hasTwoLanes();
+    }
+    
+    private void upgradeHero(){
+        int killStreak = gameObject.GetComponent<Stats>().GetKillStreak();
+        if(killStreak >= nextUpgrade){
+            gameObject.GetComponent<Special>().UpgradeFireAttack();
+            nextUpgrade = nextUpgrade * 2;
+            print("Upgraded");
+        }
     }
 }
