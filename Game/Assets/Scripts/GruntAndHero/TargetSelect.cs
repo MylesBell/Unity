@@ -80,9 +80,13 @@ public class TargetSelect : NetworkBehaviour {
             if(GetComponent<Hero>() && GetComponent<Hero>().hasTwoLanes() && nearBaseCurrent != nearBaseLast) SocketIOOutgoingEvents.PlayerNearBase (GetComponent<Hero>().getplayerID(), nearBaseCurrent);
             nearBaseLast = nearBaseCurrent;
         }
+        List<GameObject> keysToDelete = new List<GameObject>();
         foreach(GameObject key in collidersToIgnore.Keys) {
             collidersToIgnore[key] -= Time.deltaTime;
-            if(collidersToIgnore[key] < 0) collidersToIgnore.Remove(key);
+            if(collidersToIgnore[key] < 0) keysToDelete.Add(key);
+        }
+        foreach(GameObject key in keysToDelete){
+            if(collidersToIgnore.ContainsKey(key)) collidersToIgnore.Remove(key);
         }
 	}
 	
