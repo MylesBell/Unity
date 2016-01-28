@@ -34,13 +34,6 @@ public class Health : NetworkBehaviour {
 	void Update () {
 		entityLocation =  Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		if (isServer && currentHealth <= 0) {
-			// They die
-			if(gameObject.GetComponent<Hero>() != null) {
-				Hero hero = gameObject.GetComponent<Hero>();
-				string playerID = hero.getplayerID();
-				SocketIOOutgoingEvents.PlayerDied (playerID);
-			}
-
             if (gameObject.GetComponent<IDestroyableGameObject>() != null)
                 gameObject.GetComponent<IDestroyableGameObject>().DisableGameObject();
 			else

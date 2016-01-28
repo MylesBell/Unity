@@ -196,13 +196,20 @@ public class Team : NetworkBehaviour {
 
     private void HeroRespawn(GameObject hero) {
         ComputerLane computerLane = hero.GetComponent<Hero>().getComputerLane();
+        string playerID = hero.GetComponent<Hero>().getplayerID();
         float zPos = getZPosition(computerLane);
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos,computerLane), GetTargetPosition(zPos,computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
+        SocketIOOutgoingEvents.PlayerRespawn(playerID);
     }
 
     public void OnHeroDead(GameObject hero) {
         lock (herosToRespawn) {
             herosToRespawn.Add(new Tuple<float, GameObject>(heroRespawnInterval, hero));
+            string playerID = hero.GetComponent<Hero>().getplayerID();
+            System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+            double respawnTimeStamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + heroRespawnInterval;
+            // print(respawnTimeStamp);
+            SocketIOOutgoingEvents.PlayerDied(playerID, respawnTimeStamp.ToString("0.####"));
         }
     }
 
