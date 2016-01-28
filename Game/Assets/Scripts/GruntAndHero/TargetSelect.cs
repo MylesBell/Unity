@@ -41,6 +41,7 @@ public class TargetSelect : NetworkBehaviour {
         attackBaseTag = teamID == TeamID.blue ? "redBase" : "blueBase";
         homeBaseTag = teamID == TeamID.blue ? "blueBase" : "redBase";
         nearBaseLast = false;
+        if(GetComponent<Hero>()) SocketIOOutgoingEvents.PlayerNearBase (GetComponent<Hero>().getplayerID(), false);
     }
 	
 	public void SetProgressDirection(ProgressDirection progressDirection){
@@ -76,7 +77,7 @@ public class TargetSelect : NetworkBehaviour {
             }
             
             //do near base event for heros only
-            if(GetComponent<Hero>() && nearBaseCurrent != nearBaseLast) SocketIOOutgoingEvents.PlayerNearBase (GetComponent<Hero>().getplayerID(), nearBaseCurrent);
+            if(GetComponent<Hero>() && GetComponent<Hero>().hasTwoLanes() && nearBaseCurrent != nearBaseLast) SocketIOOutgoingEvents.PlayerNearBase (GetComponent<Hero>().getplayerID(), nearBaseCurrent);
             nearBaseLast = nearBaseCurrent;
         }
         foreach(GameObject key in collidersToIgnore.Keys) {

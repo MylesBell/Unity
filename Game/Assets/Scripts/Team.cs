@@ -229,4 +229,14 @@ public class Team : NetworkBehaviour {
         float zPos = getZPosition(newLane);
         hero.GetComponent<Hero>().switchLane(newLane, GetSpawnLocation(zPos,newLane), GetTargetPosition(zPos,newLane), (newLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
     }
+    
+    public bool leftLaneExists(){
+        return hasLeftLane;
+    }
+    public bool rightLaneExists(){
+        return hasRightLane;
+    }
+    public bool hasTwoLanes(){
+        return hasRightLane && hasLeftLane;
+    }
 }
