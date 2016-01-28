@@ -93,7 +93,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		}
 	}
 
-	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state)
+	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state, float maxHealth)
 	{
 		Debug.Log ("[SocketIO] Player has joined");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
@@ -101,6 +101,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		dataJSON.AddField("playerID", playerID);
 		dataJSON.AddField("teamID", (int)teamID);
 		dataJSON.AddField ("state", (int)state);
+        dataJSON.AddField ("maxHealth", maxHealth);
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     
