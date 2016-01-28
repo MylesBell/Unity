@@ -20,4 +20,29 @@ public class Stats : NetworkBehaviour{
     // special abilities
     public float fireAttackRadius = 6.0f;
     public float fireAttackDamage = 30.0f;
+    
+    
+    private int currentKillStreak = 0;
+    private object killStreakLock = new object();
+    public void ResetKillStreak(){
+        lock(killStreakLock){
+            currentKillStreak = 0;
+        }
+    }
+    public int GetKillStreak(){
+        int val;
+        lock(killStreakLock){
+            val = currentKillStreak;
+        }
+        return val;
+    }
+    public void IncrementKillStreak(){
+        lock(killStreakLock){
+            currentKillStreak++;
+        }
+    }
+    
+    public void resetFireAttackRadius(){
+        fireAttackRadius = 6.0f;
+    }
 }

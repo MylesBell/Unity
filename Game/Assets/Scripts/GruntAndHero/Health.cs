@@ -48,8 +48,9 @@ public class Health : NetworkBehaviour {
 		maxHealth = maxHealthInput;
 	}
 
-	public void reduceHealth(float amountToReduce){
+	public void ReduceHealth(float amountToReduce, out bool killedPlayer){
 		currentHealth -= amountToReduce;
+        killedPlayer = currentHealth > 0;
         if(gameObject.GetComponent<Hero>() != null) {
             Hero hero = gameObject.GetComponent<Hero>();
             string playerID = hero.getplayerID();

@@ -11,6 +11,8 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
     private string attackGruntTag;
     private string attackHeroTag;
     private string attackBaseTag;
+    private Vector3 originalScale = new Vector3(1,1,1);
+    private Vector3 currentScale = new Vector3(1,1,1);
     
     void Start() {
         stats = gameObject.GetComponent<Stats>();
@@ -55,6 +57,7 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
     [ClientRpc]
     public void RpcPlayFireParticleSystem() {
         GameObject fireRingParticle = (GameObject) Instantiate(FireRingParticle, gameObject.transform.position, FireRingParticle.transform.rotation);
+        fireRingParticle.transform.localScale = currentScale;
         Destroy(fireRingParticle, fireRingParticle.GetComponent<ParticleSystem>().startLifetime);
     }
     
@@ -63,7 +66,9 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
         foreach(Collider collider in hitColliders) {
             if (CheckColliderWantsToBeHit(collider)){
-                ((Health)collider.gameObject.GetComponent<Health>()).reduceHealth(damage);
+                bool killedObject;
+                ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
+                if(killedObject) stats.IncrementKillStreak();
             }
         }
     }
@@ -78,8 +83,13 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
     }
     
     // to increase size of fire particle attack the scale is increased, then the damage area is incremented
-    void upgradeFireAttack(Stats stats){
-        FireRingParticle.GetComponent<ParticleSystem>().transform.localScale += new Vector3(1.0f, 1.0f, 0);
+    public void UpgradeFireAttack(){
+        currentScale += new Vector3(1.0f, 1.0f, 0);
         stats.fireAttackRadius += 3.0f;
+    }
+    
+    public void resetSpecial(){
+        currentScale = originalScale;
+        if(stats) stats.resetFireAttackRadius();
     }
 }

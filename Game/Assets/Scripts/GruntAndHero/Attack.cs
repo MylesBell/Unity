@@ -30,7 +30,9 @@ public class Attack : NetworkBehaviour {
 	
 	private void AttackTarget() {
 		if (targetInAttackArea()){
-			((Health)target.GetComponent ("Health")).reduceHealth(stats.damage);
+            bool killedObject;
+			((Health)target.GetComponent ("Health")).ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
+            if(killedObject) stats.IncrementKillStreak();
 		}
 	}
 
