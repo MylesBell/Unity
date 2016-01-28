@@ -114,17 +114,26 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     
-	public void PlayerDied(string playerID)
+	public void PlayerDied(string playerID, string respawnTimestamp)
 	{
 		Debug.Log ("[SocketIO] Player has died");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
 		dataJSON.AddField("playerID", playerID);
+        dataJSON.AddField("respawnTimestamp", respawnTimestamp);
 		socket.Emit ("gamePlayerDied", dataJSON);
+	}
+    
+	public void PlayerRespawn(string playerID)
+	{
+		Debug.Log ("[SocketIO] Player has respawned");
+		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("playerID", playerID);
+		socket.Emit ("gamePlayerRespawn", dataJSON);
 	}
     
 	public void PlayerNearBase(string playerID, bool nearBase)
 	{
-		Debug.Log ("[SocketIO] Player has died");
+		Debug.Log ("[SocketIO] Player is nearBase");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
 		dataJSON.AddField("playerID", playerID);
 		dataJSON.AddField("nearBase", nearBase ? 1 : 0);

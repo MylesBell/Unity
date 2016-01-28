@@ -80,7 +80,8 @@ public class TargetSelect : NetworkBehaviour {
             nearBaseLast = nearBaseCurrent;
         }
         List<GameObject> keysToDelete = new List<GameObject>();
-        foreach(GameObject key in collidersToIgnore.Keys) {
+        List<GameObject> keys = new List<GameObject>(collidersToIgnore.Keys);
+        foreach(GameObject key in keys) {
             collidersToIgnore[key] -= Time.deltaTime;
             if(collidersToIgnore[key] < 0) keysToDelete.Add(key);
         }
