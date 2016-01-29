@@ -24,7 +24,7 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<Attack>().initiliseAttack();
             gameObject.GetComponent<Movement>().initialiseMovement(spawnPosition);
             //set Health to Max
-            gameObject.GetComponent<Health>().initialiseHealth();
+            gameObject.GetComponent<Health>().InitialiseHealth();
             gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
             gameObject.SetActive(active);
             CmdSetActiveState(active);

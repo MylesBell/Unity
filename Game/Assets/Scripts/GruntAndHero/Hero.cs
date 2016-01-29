@@ -49,7 +49,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
             gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
             //set Health to Max
-            gameObject.GetComponent<Health>().initialiseHealth();
+            gameObject.GetComponent<Health>().InitialiseHealth();
             targetSelect = GetComponent<TargetSelect> ();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
             gameObject.SetActive(active);
