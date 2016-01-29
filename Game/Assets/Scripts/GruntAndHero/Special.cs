@@ -50,12 +50,12 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
     }
     
     private void FireRing(){
-        RpcPlayFireParticleSystem();
+        RpcPlayFireParticleSystem(currentScale);
         CmdRadialDamage(stats.fireAttackRadius, stats.fireAttackDamage);
     }
 
     [ClientRpc]
-    public void RpcPlayFireParticleSystem() {
+    public void RpcPlayFireParticleSystem(Vector3 currentScale) {
         GameObject fireRingParticle = (GameObject) Instantiate(FireRingParticle, gameObject.transform.position, FireRingParticle.transform.rotation);
         fireRingParticle.transform.localScale = currentScale;
         Destroy(fireRingParticle, fireRingParticle.GetComponent<ParticleSystem>().startLifetime);
