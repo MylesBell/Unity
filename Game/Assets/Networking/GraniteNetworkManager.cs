@@ -73,6 +73,7 @@ public class GraniteNetworkManager : NetworkManager {
         SetGameCode();
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
+        NetworkManager.singleton.maxConnections = PlayerPrefs.GetInt("numberofscreens-left", 0) + PlayerPrefs.GetInt("numberofscreens-right", 0);
         NetworkManager.singleton.StartHost();
     }
 
@@ -84,6 +85,7 @@ public class GraniteNetworkManager : NetworkManager {
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
         SetGameCode(gameCode);
+        NetworkManager.singleton.maxConnections = PlayerPrefs.GetInt("numberofscreens-left", 0) + PlayerPrefs.GetInt("numberofscreens-right", 0);
         NetworkManager.singleton.StartHost();
     }
 
