@@ -7,6 +7,12 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
 	private TargetSelect targetSelect;
     private ComputerLane computerLane;
     [SyncVar] private bool active = false;
+    
+    private string playerName;
+    
+    public int firstUpgrade = 5;
+    private int nextUpgrade = 1;
+    
 
     public void Start() {
         gameObject.SetActive(active);
@@ -17,6 +23,15 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
             this.team = team;
             gameObject.SetActive(active);
             CmdSetActiveState(active);
+        }
+    }
+    
+    public void Update(){
+        if(isServer){
+            if(GameState.gameState == GameState.State.PLAYING){
+                //do hero upgrade
+                upgradeHero();
+            }
         }
     }
 
@@ -31,6 +46,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
 
 
     public void setHeroName(string playerName) {
+        this.playerName = playerName;
         CmdSetPlayerName(playerName);
         updateTextMesh(playerName);
     }
@@ -48,12 +64,16 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
             active = true;
             gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
+            
             //set Health to Max
             gameObject.GetComponent<Health>().InitialiseHealth();
+            gameObject.GetComponent<Stats>().ResetKillStreak();
+
             targetSelect = GetComponent<TargetSelect> ();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
+            nextUpgrade = firstUpgrade;
         }
     }
 
@@ -95,8 +115,8 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
 		if (isServer) {
             //the progress direction appears as right and left on the mobile app (we get forwards and backwards resp.)
             //flip it accoridngly
-            if(team.GetTeamID() == TeamID.red && computerLane == ComputerLane.LEFT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
-            if(team.GetTeamID() == TeamID.blue && computerLane == ComputerLane.RIGHT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
+            if(team.GetTeamID() == TeamID.red && computerLane == ComputerLane.RIGHT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
+            if(team.GetTeamID() == TeamID.blue && computerLane == ComputerLane.LEFT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
             targetSelect.SetProgressDirection(progressDirection);
         }
 	}
@@ -122,6 +142,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
         this.computerLane = computerLane;
         setTextMeshDirection(computerLane);
         CmdSetTextMeshDirection(computerLane);
+        setHeroName(playerName);
     }
     
     public ComputerLane getComputerLane(){
@@ -135,6 +156,19 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
             targetSelect = GetComponent<TargetSelect> ();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
             setComputerLane(newLane);
+        }
+    }
+    
+    public bool hasTwoLanes(){
+        return team.hasTwoLanes();
+    }
+    
+    private void upgradeHero(){
+        int killStreak = gameObject.GetComponent<Stats>().GetKillStreak();
+        if(killStreak >= nextUpgrade){
+            gameObject.GetComponent<Special>().UpgradeSpecials();
+            nextUpgrade = nextUpgrade * 2;
+            print("Upgraded");
         }
     }
 }

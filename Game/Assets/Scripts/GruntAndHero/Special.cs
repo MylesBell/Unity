@@ -9,21 +9,25 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
     public GameObject FireRingPrefab;
     public GameObject HealRingPrefab;
     
-    private GameObject healthRingSystem;
+    private GameObject healRingSystem;
     
     private Stats stats;
     
     private string attackGruntTag;
     private string attackHeroTag;
     private string attackBaseTag;
+
     private string ownGruntTag;
     private string ownHeroTag;
     private string ownBaseTag;
+
+    private Vector3 originalScale = new Vector3(1,1,1);
+    private Vector3 currentScale = new Vector3(1,1,1);
     
     void Start() {
-        healthRingSystem = (GameObject) Instantiate(HealRingPrefab, gameObject.transform.position, HealRingPrefab.transform.rotation);
-        healthRingSystem.SetActive(false);
-        healthRingSystem.transform.parent = gameObject.transform;
+        healRingSystem = (GameObject) Instantiate(HealRingPrefab, gameObject.transform.position, HealRingPrefab.transform.rotation);
+        healRingSystem.SetActive(false);
+        healRingSystem.transform.parent = gameObject.transform;
         
         stats = gameObject.GetComponent<Stats>();
         
@@ -67,14 +71,15 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
     }
     
     private void FireRing(){
-        RpcPlayFireParticleSystem();
+        RpcPlayFireParticleSystem(currentScale);
         CmdRadialDamage(stats.fireAttackRadius, stats.fireAttackDamage);
     }
 
     [ClientRpc]
-    public void RpcPlayFireParticleSystem() {
-        GameObject fireRingAnimation = (GameObject) Instantiate(FireRingPrefab, gameObject.transform.position, FireRingPrefab.transform.rotation);
-        Destroy(fireRingAnimation, fireRingAnimation.GetComponent<ParticleSystem>().startLifetime);
+    public void RpcPlayFireParticleSystem(Vector3 currentScale) {
+        GameObject fireRingParticle = (GameObject) Instantiate(FireRingPrefab, gameObject.transform.position, FireRingPrefab.transform.rotation);
+        fireRingParticle.transform.localScale = currentScale;
+        Destroy(fireRingParticle, fireRingParticle.GetComponent<ParticleSystem>().startLifetime);
     }
     
     [Command]
@@ -82,25 +87,28 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
         foreach(Collider collider in hitColliders) {
             if (CheckColliderWantsToAttack(collider)){
-                ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage);
+                bool killedObject;
+                ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
+                if(killedObject) stats.IncrementKillStreak();
             }
         }
     }
     
-     private void HealRing(){
-        RpcPlayHealthRingSystem();
-        CmdRadialHeal(stats.fireAttackRadius, stats.fireAttackDamage);
+    private void HealRing(){
+        RpcPlayHealRingSystem();
+        CmdRadialHeal(stats.healRingRadius, stats.healRingHealth);
     }
 
     [ClientRpc]
-    public void RpcPlayHealthRingSystem() {
-        StartCoroutine(PlayHealthRingSystem());
+    public void RpcPlayHealRingSystem() {
+        StartCoroutine(PlayHealRingSystem());
     }
     
-    private IEnumerator PlayHealthRingSystem(){
-        healthRingSystem.SetActive(true);
+    private IEnumerator PlayHealRingSystem(){
+        healRingSystem.SetActive(true);
+        healRingSystem.transform.rotation = HealRingPrefab.transform.rotation;
         yield return new WaitForSeconds(2.0f);
-        healthRingSystem.SetActive(false);
+        healRingSystem.SetActive(false);
     }
     
     [Command]
@@ -131,19 +139,27 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
         return false;
     }
     
-    void upgradeSpecials(){
-        upgradeFireAttack();
-        upgradeHealthRing();
+    public void UpgradeSpecials(){
+        UpgradeFireAttack();
+        UpgradeHealthRing();
     }
     
     // to increase size of fire particle attack the scale is increased, then the damage area is incremented
-    void upgradeFireAttack(){
-        FireRingPrefab.GetComponent<ParticleSystem>().transform.localScale += new Vector3(1.0f, 1.0f, 0);
+    private void UpgradeFireAttack(){
+        currentScale += new Vector3(1.0f, 1.0f, 0);
         stats.fireAttackRadius += 3.0f;
     }
     
-    void upgradeHealthRing(){
-        healthRingSystem.transform.localScale += new Vector3(1.0f, 1.0f, 0);
-        stats.fireAttackRadius += 3.0f;
+    private void UpgradeHealthRing(){
+        healRingSystem.transform.localScale += new Vector3(1.0f, 1.0f, 0);
+        stats.healRingRadius += 3.0f;
+    }
+    
+    public void ResetSpecials(){
+        currentScale = originalScale;
+        if(stats){
+            stats.resetFireAttackRadius();
+            stats.resetHealRingRadius();
+        }
     }
 }

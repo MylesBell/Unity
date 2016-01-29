@@ -93,7 +93,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		}
 	}
 
-	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state)
+	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state, float maxHealth)
 	{
 		Debug.Log ("[SocketIO] Player has joined");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
@@ -101,6 +101,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		dataJSON.AddField("playerID", playerID);
 		dataJSON.AddField("teamID", (int)teamID);
 		dataJSON.AddField ("state", (int)state);
+        dataJSON.AddField ("maxHealth", maxHealth);
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     
@@ -114,17 +115,26 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     
-	public void PlayerDied(string playerID)
+	public void PlayerDied(string playerID, string respawnTimestamp)
 	{
 		Debug.Log ("[SocketIO] Player has died");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
 		dataJSON.AddField("playerID", playerID);
+        dataJSON.AddField("respawnTimestamp", respawnTimestamp);
 		socket.Emit ("gamePlayerDied", dataJSON);
+	}
+    
+	public void PlayerRespawn(string playerID)
+	{
+		Debug.Log ("[SocketIO] Player has respawned");
+		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		dataJSON.AddField("playerID", playerID);
+		socket.Emit ("gamePlayerRespawn", dataJSON);
 	}
     
 	public void PlayerNearBase(string playerID, bool nearBase)
 	{
-		Debug.Log ("[SocketIO] Player has died");
+		Debug.Log ("[SocketIO] Player is nearBase");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
 		dataJSON.AddField("playerID", playerID);
 		dataJSON.AddField("nearBase", nearBase ? 1 : 0);
@@ -139,6 +149,15 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		dataJSON.AddField("teamID", (int)teamID);
 		dataJSON.AddField ("state", (int)state);
 		socket.Emit ("gamePlayerLeft", dataJSON);
+    }
+    
+    public void PlayerChangeHealthHandler(string playerID, float amount)
+    {
+        Debug.Log ("[SocketIO] Player health has changed");
+        JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+        dataJSON.AddField("playerID", playerID);
+        dataJSON.AddField("amount", amount);
+        socket.Emit ("gamePlayerChangeHealth", dataJSON);
     }
     
     public void PlayerSpecialHandler(SocketIOEvent e){

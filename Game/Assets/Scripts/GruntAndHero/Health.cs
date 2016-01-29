@@ -34,13 +34,6 @@ public class Health : NetworkBehaviour {
 	void Update () {
 		entityLocation =  Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		if (isServer && currentHealth <= 0) {
-			// They die
-			if(gameObject.GetComponent<Hero>() != null) {
-				Hero hero = gameObject.GetComponent<Hero>();
-				string playerID = hero.getplayerID();
-				SocketIOOutgoingEvents.PlayerDied (playerID);
-			}
-
             if (gameObject.GetComponent<IDestroyableGameObject>() != null)
                 gameObject.GetComponent<IDestroyableGameObject>().DisableGameObject();
 			else
@@ -55,11 +48,23 @@ public class Health : NetworkBehaviour {
 		maxHealth = maxHealthInput;
 	}
 
-	public void ReduceHealth(float amountToReduce){
+
+	public void ReduceHealth(float amountToReduce, out bool killedPlayer){
 		currentHealth -= amountToReduce;
+        killedPlayer = currentHealth > 0;
+        if(gameObject.GetComponent<Hero>() != null) {
+            Hero hero = gameObject.GetComponent<Hero>();
+            string playerID = hero.getplayerID();
+            SocketIOOutgoingEvents.PlayerHealthHasChanged(playerID, -amountToReduce);
+        }
 	}
 
 	public void IncreaseHealth(float amountToIncrease){
 		currentHealth += amountToIncrease;
+        if(gameObject.GetComponent<Hero>() != null) {
+            Hero hero = gameObject.GetComponent<Hero>();
+            string playerID = hero.getplayerID();
+            SocketIOOutgoingEvents.PlayerHealthHasChanged(playerID, amountToIncrease);
+        }
 	}
 }

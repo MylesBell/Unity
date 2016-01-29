@@ -10,10 +10,10 @@ public static class SocketIOOutgoingEvents {
 		socketIOManager.GameStateHandler (state);
 	}
 
-	public static void PlayerHasJoined (string playerID, TeamID teamID, GameState.State state)
+	public static void PlayerHasJoined (string playerID, TeamID teamID, GameState.State state, float maxHealth)
 	{
 		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
-		socketIOManager.PlayerJoinHandler (playerID, teamID, state);
+		socketIOManager.PlayerJoinHandler (playerID, teamID, state, maxHealth);
 	}
     
     public static void PlayerJoinFailInvalidGameCode (string playerID)
@@ -27,17 +27,28 @@ public static class SocketIOOutgoingEvents {
         SocketNetworkManager socketIOManager = new SocketNetworkManager ();
         socketIOManager.PlayerLeaveHandler (playerID, teamID, state);
     }
+    
+    public static void PlayerHealthHasChanged (string playerID, float amount) {
+        SocketNetworkManager socketIOManager = new SocketNetworkManager ();
+        socketIOManager.PlayerChangeHealthHandler (playerID, amount);
+    }
 
-	public static void PlayerDied (string playerID)
+	public static void PlayerDied (string playerID, string respawnTimestamp)
 	{
 		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
-		socketIOManager.PlayerDied (playerID);
+		socketIOManager.PlayerDied (playerID, respawnTimestamp);
 	}
 
 	public static void PlayerNearBase (string playerID, bool nearBase)
 	{
 		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
 		socketIOManager.PlayerNearBase (playerID, nearBase);
+	}
+
+	public static void PlayerRespawn (string playerID)
+	{
+		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
+		socketIOManager.PlayerRespawn (playerID);
 	}
 
 }
