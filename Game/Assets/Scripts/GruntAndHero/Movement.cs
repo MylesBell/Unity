@@ -8,15 +8,17 @@ public class Movement : NetworkBehaviour{
 	private Vector3 movementTarget;
 	[SyncVar] public bool isInitialised = false;
 	[SyncVar] private Vector3 synchPos;
-	[SyncVar] private float synchYRot;
+	[SyncVar] private Vector3 synchRot;
 	
 	private Vector3 lastPos;
 	private Quaternion lastRot;
-	public float lerpRate = 10f;
+	public float lerpRate = 5f;
 	public float positionThreshold = 0.5f;
 	public float rotationThreshold = 5f;
 
 	private Stats stats;
+    
+    private LayerMask terrainMask = -1;
 
 	void Start() {
         if (isServer) {
@@ -81,7 +83,7 @@ public class Movement : NetworkBehaviour{
 			lastRot = transform.rotation;
 		
 			synchPos = transform.position;
-			synchYRot = transform.localEulerAngles.y;
+			synchRot = transform.localEulerAngles;
 		}
 		/*float step = speed * Time.deltaTime;
 		transform.position = Vector3.MoveTowards(transform.position, movementTarget, step);*/
@@ -89,7 +91,7 @@ public class Movement : NetworkBehaviour{
 
 	private void ClientMoveToPosition(){
 		transform.position = Vector3.Lerp (transform.position, synchPos, Time.deltaTime * lerpRate);
-		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler (new Vector3 (0, synchYRot, 0)), Time.deltaTime * lerpRate);
+		transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler(synchRot), Time.deltaTime * lerpRate);
 	}
 
 	private bool NotTooClose(){
@@ -105,6 +107,9 @@ public class Movement : NetworkBehaviour{
 	}
 	
 	public void SetTarget (Vector3 movementTargetInput) {
+        RaycastHit terrainLevel;
+        movementTargetInput.y = 20f;
+        if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)) movementTargetInput = terrainLevel.point;
         movementTarget = movementTargetInput;
 	}
 }

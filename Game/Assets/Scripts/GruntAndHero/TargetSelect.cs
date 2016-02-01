@@ -47,6 +47,7 @@ public class TargetSelect : NetworkBehaviour {
 	public void SetProgressDirection(ProgressDirection progressDirection){
 		this.progressDirection = progressDirection;
         desiredPosition = transform.position;
+        movement.SetTarget(desiredPosition);
         if(hasAttackTarget() && GetComponent<Rigidbody>().velocity.magnitude < stats.maximumVelocityBeforeIgnore) findAndIgnoreCloseColliders();
 	}
 
