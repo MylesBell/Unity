@@ -60,7 +60,7 @@ public class CreateTerrain : NetworkBehaviour
 		    GenerateTerrain (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
             if (isServer) screenSceneryLeft = PopulateScenery (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
             else RequestScenery(screenNumber, ComputerLane.LEFT);
-        
+            GenerateLongPathGrid(numScreensRight,chunkOffset,ComputerLane.LEFT);
         }
         
         //set up right lane
@@ -68,9 +68,11 @@ public class CreateTerrain : NetworkBehaviour
 		    GenerateTerrain (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
             if (isServer) screenSceneryRight = PopulateScenery (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
             else RequestScenery(screenNumber, ComputerLane.RIGHT);
+            GenerateLongPathGrid(numScreensRight,chunkOffset,ComputerLane.RIGHT);            
         }
         
         if(!isServer) Debug.Log("[ "+ screenNumber + "] MsgType " + MyMsgType.SendSceneryCode);
+        
     }
 
 	void GenerateTerrain(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
@@ -137,6 +139,13 @@ public class CreateTerrain : NetworkBehaviour
         }
         return screenScenery;
 	}
+    
+    void GenerateLongPathGrid(int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
+        float xCentre = numScreens * chunkOffset.x / 2;
+        Vector3 gridCentre = new Vector3(xCentre,0,(computerLane == ComputerLane.LEFT ? 350 : 50));
+        
+        GetComponent<NavGridGenerator>().CreateLongPathGrid(gridCentre, new Vector2(numScreens * chunkOffset.x,100), computerLane);
+    }
 
     private void RequestScenery(int screenNumber, ComputerLane computerLane){
         RequestSceneryMessage msg = new RequestSceneryMessage();

@@ -10,12 +10,13 @@ GameObject:
   - 4: {fileID: 419266}
   - 33: {fileID: 3336304}
   - 23: {fileID: 2302050}
-  m_Layer: 0
+  - 136: {fileID: 13626418}
+  m_Layer: 9
   m_Name: Cactus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &419266
 Transform:
@@ -62,13 +63,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194014}
   m_Mesh: {fileID: 4300000, guid: b316f4b7437a84545a24a328c9c12afe, type: 3}
+--- !u!136 &13626418
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194014}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2.15151024
+  m_Height: 5.6578269
+  m_Direction: 1
+  m_Center: {x: -.000497341156, y: 2.17291331, z: -8.94069672e-08}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 194014}

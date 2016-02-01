@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3375988}
   - 23: {fileID: 2350462}
   - 136: {fileID: 13693920}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -100,6 +102,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
