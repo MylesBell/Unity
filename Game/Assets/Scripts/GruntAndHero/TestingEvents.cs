@@ -17,11 +17,11 @@ public class EventMovement : MonoBehaviour {
 		if (teams.GetHero (playerID) != null){
 			MoveDirection moveDirection;
 			if (Input.GetKeyUp (KeyCode.UpArrow)) {
-                moveDirection = MoveDirection.up;
-				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (moveDirection));
+                // moveDirection = MoveDirection.up;
+				// ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (moveDirection));
 			} else if (Input.GetKeyUp (KeyCode.DownArrow)) {
-                moveDirection = MoveDirection.down;
-				ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (moveDirection));
+                // moveDirection = MoveDirection.down;
+				// ExecuteEvents.Execute<IHeroMovement> (teams.GetHero (playerID), null, (x,y) => x.PlayerMoveChannel (moveDirection));
 			}
 		}
 	}

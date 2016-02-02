@@ -8,7 +8,6 @@ public class TargetSelect : NetworkBehaviour {
 	private float desiredZPosition;
 	private Vector3 desiredPosition;
 	private float zSeperation;
-	private ProgressDirection progressDirection;
 
     public string attackGruntTag;
     public string attackHeroTag;
@@ -32,7 +31,6 @@ public class TargetSelect : NetworkBehaviour {
 		this.desiredZPosition = desiredPosition.z;
         this.desiredPosition = desiredPosition;
 		this.zSeperation = zSeperation;
-		this.progressDirection = ProgressDirection.forward;
 		attack = GetComponent<Attack> ();
         attackGruntTag = teamID == TeamID.blue ? "redGrunt" : "blueGrunt";
         attackHeroTag = teamID == TeamID.blue ? "redHero" : "blueHero";
@@ -68,17 +66,9 @@ public class TargetSelect : NetworkBehaviour {
 		
 		if (distance < 2.0f) {
 			if (teamID == TeamID.blue){
-				if (progressDirection == ProgressDirection.forward){
-                	desiredPosition.x += zSeperation;
-				}else{
-					desiredPosition.x -= zSeperation;
-				}
+                desiredPosition.x += zSeperation;
 			}else{
-				if (progressDirection == ProgressDirection.forward){
-                	desiredPosition.x -= zSeperation;
-				}else{
-					desiredPosition.x += zSeperation;
-				}
+                desiredPosition.x -= zSeperation;
 			}
         }
         gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
