@@ -45,34 +45,7 @@ public class GruntMovement : NetworkBehaviour{
                 transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime * stats.movementSpeed / 5.0f);
             }
         }
-		// if (isServer) {
-		// 	SeverSetNewPosition();
-		// } else {
-		// 	if(NotTooClose()){
-		// 		ClientMoveToPosition();
-		// 	}
-		// }
 	}
-
-	// private void SeverSetNewPosition(){
-    //     //only move when playing
-	// 	if(GameState.gameState == GameState.State.PLAYING) {
-    //         transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime * stats.movementSpeed / 5.0f);
-    //     }
-	// 	if (Vector3.Distance (transform.position, lastPos) > positionThreshold
-	// 		|| Quaternion.Angle (transform.rotation, lastRot) > rotationThreshold) {
-	// 		lastPos = transform.position;
-	// 		lastRot = transform.rotation;
-		
-	// 		synchPos = transform.position;
-	// 		synchRot = transform.localEulerAngles;
-	// 	}
-	// }
-
-	// private void ClientMoveToPosition(){
-	// 	transform.position = Vector3.Lerp (transform.position, synchPos, Time.deltaTime * lerpRate);
-	// 	transform.rotation = Quaternion.Lerp (transform.rotation, Quaternion.Euler(synchRot), Time.deltaTime * lerpRate);
-	// }
 
 	private bool NotTooClose(){
 		if (Vector3.Distance (transform.position, movementTarget) > stats.minDistanceFromEnemy) {

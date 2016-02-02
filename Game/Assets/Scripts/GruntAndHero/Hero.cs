@@ -103,10 +103,6 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
         setTextMeshDirection(computerLane);
     }
 
-    void onDestroy() {
-        //fire event to SocketIo that hero is dead
-    }
-
     #region IHeroMovement implementation
     public void PlayerChangeProgressDirection (ProgressDirection progressDirection)
 	{
