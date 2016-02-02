@@ -45,7 +45,8 @@ public class TargetSelect : NetworkBehaviour {
 	public void SetProgressDirection(ProgressDirection progressDirection){
 		this.progressDirection = progressDirection;
         desiredPosition = transform.position;
-    }
+        movement.SetTarget(desiredPosition);
+     }
 
 	public void MoveToZOffset(MoveDirection moveDirection, float maxZ, float minZ){
         switch (moveDirection) {

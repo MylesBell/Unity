@@ -30,10 +30,10 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchB
     public static float maxZLeft = 370;
     public static float minZLeft = 320;
     
-    public static float topOffsetRight = -1;
-    public static float bottomOffsetRight = 1;
-    public static float topOffsetLeft = 1;
-    public static float bottomOffsetLeft = -1;
+    public static float topOffsetRight = 3;
+    public static float bottomOffsetRight = 5;
+    public static float topOffsetLeft = 3;
+    public static float bottomOffsetLeft = 5;
 
     private bool initialised;
 
