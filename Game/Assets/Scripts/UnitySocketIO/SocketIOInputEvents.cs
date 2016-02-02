@@ -23,19 +23,13 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
     {
         ExecuteEvents.Execute<IPlayerLeave> (teamsObject, null, (x,y) => x.PlayerLeave(playerID));
     }
-    
-    
+       
     // movement
 	public void PlayerMovement (string playerID, MoveDirection moveDirection)
 	{
 		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMovement(moveDirection));
 	}
 
-	public void PlayerStopMovement (string playerID)
-	{
-		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerStopMovement());
-	}
-    
     // special
     public void PlayerUseSpecial(string playerID, SpecialType specialType)
     {

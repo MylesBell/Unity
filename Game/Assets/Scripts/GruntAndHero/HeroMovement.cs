@@ -15,8 +15,4 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
         throw new NotImplementedException();
     }
 
-    public void PlayerStopMovement()
-    {
-        throw new NotImplementedException();
-    }
 }

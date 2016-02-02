@@ -2,5 +2,4 @@
 
 public interface IHeroMovement : IEventSystemHandler {
 	void PlayerMovement (MoveDirection moveDirection);
-	void PlayerStopMovement ();
 }
