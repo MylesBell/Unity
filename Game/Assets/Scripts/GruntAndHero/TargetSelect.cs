@@ -19,8 +19,6 @@ public class TargetSelect : NetworkBehaviour {
     private Stats stats;
     
     private bool nearBaseLast;
-    
-    private Dictionary<GameObject, float> collidersToIgnore = new Dictionary<GameObject, float>();
 	
 	void Start() {
 		stats = (Stats) GetComponent<Stats>();
@@ -47,8 +45,7 @@ public class TargetSelect : NetworkBehaviour {
 	public void SetProgressDirection(ProgressDirection progressDirection){
 		this.progressDirection = progressDirection;
         desiredPosition = transform.position;
-        if(hasAttackTarget() && GetComponent<Rigidbody>().velocity.magnitude < stats.maximumVelocityBeforeIgnore) findAndIgnoreCloseColliders();
-	}
+    }
 
 	public void MoveToZOffset(MoveDirection moveDirection, float maxZ, float minZ){
         switch (moveDirection) {
@@ -61,33 +58,26 @@ public class TargetSelect : NetworkBehaviour {
         }
         desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
         movement.SetTarget(desiredPosition);
-        if(hasAttackTarget() && GetComponent<Rigidbody>().velocity.magnitude < stats.maximumVelocityBeforeIgnore) findAndIgnoreCloseColliders();
-	}
+    }
 
 	void Update () {
         if (isServer) {
             bool nearBaseCurrent;
             attack.setTarget(GetNewAttackTarget(out nearBaseCurrent));
             
-            //do movement
-            if (hasAttackTarget()) {
-                movement.SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
-            } else {
-                UpdateMoveTarget();
+            //automatic movement for grunts
+            if(gameObject.GetComponent<Grunt>()){
+                //do movement
+                if (hasAttackTarget()) {
+                    movement.SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
+                } else {
+                    UpdateMoveTarget();
+                }
             }
             
             //do near base event for heros only
             if(GetComponent<Hero>() && GetComponent<Hero>().hasTwoLanes() && nearBaseCurrent != nearBaseLast) SocketIOOutgoingEvents.PlayerNearBase (GetComponent<Hero>().getplayerID(), nearBaseCurrent);
             nearBaseLast = nearBaseCurrent;
-        }
-        List<GameObject> keysToDelete = new List<GameObject>();
-        List<GameObject> keys = new List<GameObject>(collidersToIgnore.Keys);
-        foreach(GameObject key in keys) {
-            collidersToIgnore[key] -= Time.deltaTime;
-            if(collidersToIgnore[key] < 0) keysToDelete.Add(key);
-        }
-        foreach(GameObject key in keysToDelete){
-            if(collidersToIgnore.ContainsKey(key)) collidersToIgnore.Remove(key);
         }
 	}
 	
@@ -127,7 +117,7 @@ public class TargetSelect : NetworkBehaviour {
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.targetSelectRange);
         foreach(Collider collider in hitColliders) {
-            if (collider.gameObject.activeSelf && !collidersToIgnore.ContainsKey(collider.gameObject)) { //check if active
+            if (collider.gameObject.activeSelf) { //check if active
                 if (string.Equals(collider.gameObject.tag, attackGruntTag)) {
                     closestGrunt = closestCollider(closestGrunt, collider, ref currentDistanceGrunt);
                 } else if (string.Equals(collider.gameObject.tag, attackHeroTag)) {
@@ -157,18 +147,5 @@ public class TargetSelect : NetworkBehaviour {
 
     private float distanceToCollider(Collider collider) {
         return Vector3.Distance(collider.ClosestPointOnBounds(transform.position), transform.position);
-    }
-    
-    private void findAndIgnoreCloseColliders(){
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.ignoreRange);
-        foreach(Collider collider in hitColliders) {
-            if (collider.gameObject.activeSelf) { //check if active
-                if (string.Equals(collider.gameObject.tag, attackGruntTag)
-                    || string.Equals(collider.gameObject.tag, attackHeroTag)
-                    || string.Equals(collider.gameObject.tag, attackBaseTag)) {
-                    collidersToIgnore.Add(collider.gameObject, stats.runAwayTime);
-                }
-            }
-        }
     }
 }
