@@ -62,8 +62,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset) {
         if (isServer) {
             active = true;
-            // gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
-            gameObject.transform.position = spawnLocation;
+            gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
             //set Health to Max
             gameObject.GetComponent<Health>().initialiseHealth();

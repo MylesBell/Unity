@@ -15,6 +15,7 @@ GameObject:
   - 114: {fileID: 11446168}
   - 114: {fileID: 11448390}
   - 114: {fileID: 11490844}
+  - 114: {fileID: 11449696}
   - 114: {fileID: 11471860}
   - 114: {fileID: 11454082}
   - 54: {fileID: 5478138}
@@ -119,9 +120,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -145,9 +144,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -332,6 +329,17 @@ MonoBehaviour:
   attackGruntTag: 
   attackHeroTag: 
   attackBaseTag: 
+--- !u!114 &11449696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e84da38144544bb8b00f6fb47760d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11454082
 MonoBehaviour:
   m_ObjectHideFlags: 1
