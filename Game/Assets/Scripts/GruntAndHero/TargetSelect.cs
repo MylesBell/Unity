@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -6,7 +5,6 @@ public class TargetSelect : NetworkBehaviour {
 
 	private TeamID teamID;
 	private Attack attack;
-	private Movement movement;
 	private float desiredZPosition;
 	private Vector3 desiredPosition;
 	private float zSeperation;
@@ -21,44 +19,27 @@ public class TargetSelect : NetworkBehaviour {
     private bool nearBaseLast;
 	
 	void Start() {
+        if (isServer) {
+            gameObject.GetComponent<Rigidbody>().useGravity = true;
+        } else {
+            gameObject.GetComponent<Rigidbody>().detectCollisions = false;
+        }
 		stats = (Stats) GetComponent<Stats>();
 	}
 	
-	public void InitialiseTargetSelect (TeamID teamIDInput, Vector3 desiredPosition, float zSeperation)
-	{
+	public void InitialiseTargetSelect (TeamID teamIDInput, Vector3 desiredPosition, float zSeperation)	{
 		teamID = teamIDInput;
 		this.desiredZPosition = desiredPosition.z;
         this.desiredPosition = desiredPosition;
 		this.zSeperation = zSeperation;
 		this.progressDirection = ProgressDirection.forward;
 		attack = GetComponent<Attack> ();
-		movement = GetComponent<Movement>();
-		movement.SetTarget (desiredPosition);
         attackGruntTag = teamID == TeamID.blue ? "redGrunt" : "blueGrunt";
         attackHeroTag = teamID == TeamID.blue ? "redHero" : "blueHero";
         attackBaseTag = teamID == TeamID.blue ? "redBase" : "blueBase";
         homeBaseTag = teamID == TeamID.blue ? "blueBase" : "redBase";
         nearBaseLast = false;
         if(GetComponent<Hero>()) SocketIOOutgoingEvents.PlayerNearBase (GetComponent<Hero>().getplayerID(), false);
-    }
-	
-	public void SetProgressDirection(ProgressDirection progressDirection){
-		this.progressDirection = progressDirection;
-        desiredPosition = transform.position;
-        movement.SetTarget(desiredPosition);
-     }
-
-	public void MoveToZOffset(MoveDirection moveDirection, float maxZ, float minZ){
-        switch (moveDirection) {
-            case MoveDirection.up:
-                desiredZPosition = ((desiredZPosition + zSeperation) < maxZ) ? desiredZPosition + zSeperation : maxZ; 
-                break;
-            case MoveDirection.down:
-                desiredZPosition = ((desiredZPosition - zSeperation) > minZ) ? desiredZPosition - zSeperation : minZ; 
-                break;
-        }
-        desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
-        movement.SetTarget(desiredPosition);
     }
 
 	void Update () {
@@ -70,7 +51,7 @@ public class TargetSelect : NetworkBehaviour {
             if(gameObject.GetComponent<Grunt>()){
                 //do movement
                 if (hasAttackTarget()) {
-                    movement.SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
+                    gameObject.GetComponent<GruntMovement>().SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
                 } else {
                     UpdateMoveTarget();
                 }
@@ -100,7 +81,7 @@ public class TargetSelect : NetworkBehaviour {
 				}
 			}
         }
-        movement.SetTarget(desiredPosition);
+        gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
     }
 
 	private bool hasAttackTarget(){

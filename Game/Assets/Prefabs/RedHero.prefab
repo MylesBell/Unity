@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11446168}
   - 114: {fileID: 11448390}
   - 114: {fileID: 11490844}
-  - 114: {fileID: 11495222}
+  - 114: {fileID: 11471860}
   - 114: {fileID: 11454082}
   - 54: {fileID: 5478138}
   - 114: {fileID: 11412706}
@@ -379,6 +379,20 @@ MonoBehaviour:
     i15: 46
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &11471860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8c41e5f30e674d0e8778f632b8cb49a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerpRate: 5
+  positionThreshold: .5
+  rotationThreshold: 5
 --- !u!114 &11478922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -433,21 +447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11495222
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3803b6d1f32a146e792f38c381ed9888, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInitialised: 0
-  lerpRate: 10
-  positionThreshold: .5
-  rotationThreshold: 5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -555,6 +554,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lerpRate
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

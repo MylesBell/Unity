@@ -257,11 +257,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 149832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3803b6d1f32a146e792f38c381ed9888, type: 3}
+  m_Script: {fileID: 11500000, guid: e8c41e5f30e674d0e8778f632b8cb49a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInitialised: 0
-  lerpRate: 10
+  lerpRate: 5
   positionThreshold: .5
   rotationThreshold: 5
 --- !u!114 &11416126
@@ -587,6 +586,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lerpRate
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

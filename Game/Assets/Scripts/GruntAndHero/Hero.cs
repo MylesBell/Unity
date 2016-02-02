@@ -62,7 +62,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset) {
         if (isServer) {
             active = true;
-            gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
+            // gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
             //set Health to Max
             gameObject.GetComponent<Health>().initialiseHealth();
@@ -115,7 +115,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
             //flip it accoridngly
             if(team.GetTeamID() == TeamID.red && computerLane == ComputerLane.RIGHT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
             if(team.GetTeamID() == TeamID.blue && computerLane == ComputerLane.LEFT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
-            targetSelect.SetProgressDirection(progressDirection);
+            // targetSelect.SetProgressDirection(progressDirection);
         }
 	}
 	public void PlayerMoveChannel (MoveDirection moveDirection)
@@ -123,8 +123,8 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
         if (isServer) {
             //flip this on the left lane
             if (computerLane == ComputerLane.LEFT) moveDirection = moveDirection == MoveDirection.up ? MoveDirection.down : MoveDirection.up;
-            targetSelect.MoveToZOffset(moveDirection, computerLane == ComputerLane.LEFT ? Teams.maxZLeft + Teams.topOffsetLeft : Teams.maxZRight + Teams.topOffsetRight,
-                                                      computerLane == ComputerLane.LEFT ? Teams.minZLeft + Teams.bottomOffsetLeft : Teams.minZRight + Teams.bottomOffsetRight);
+            // targetSelect.MoveToZOffset(moveDirection, computerLane == ComputerLane.LEFT ? Teams.maxZLeft + Teams.topOffsetLeft : Teams.maxZRight + Teams.topOffsetRight,
+            //                                           computerLane == ComputerLane.LEFT ? Teams.minZLeft + Teams.bottomOffsetLeft : Teams.minZRight + Teams.bottomOffsetRight);
         }
     }
     #endregion
@@ -149,7 +149,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     
     public void switchLane(ComputerLane newLane, Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset){
         if (isServer) {
-            gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
+            // gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
             targetSelect = GetComponent<TargetSelect> ();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
