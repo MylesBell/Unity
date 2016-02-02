@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
+public class Hero : NetworkBehaviour, IDestroyableGameObject {
     private Team team;
 	private string playerID;
 	private TargetSelect targetSelect;
@@ -106,28 +106,6 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     void onDestroy() {
         //fire event to SocketIo that hero is dead
     }
-
-    #region IHeroMovement implementation
-    public void PlayerChangeProgressDirection (ProgressDirection progressDirection)
-	{
-		if (isServer) {
-            //the progress direction appears as right and left on the mobile app (we get forwards and backwards resp.)
-            //flip it accoridngly
-            if(team.GetTeamID() == TeamID.red && computerLane == ComputerLane.RIGHT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
-            if(team.GetTeamID() == TeamID.blue && computerLane == ComputerLane.LEFT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
-            targetSelect.SetProgressDirection(progressDirection);
-        }
-	}
-	public void PlayerMoveChannel (MoveDirection moveDirection)
-	{
-        if (isServer) {
-            //flip this on the left lane
-            if (computerLane == ComputerLane.LEFT) moveDirection = moveDirection == MoveDirection.up ? MoveDirection.down : MoveDirection.up;
-            targetSelect.MoveToZOffset(moveDirection, computerLane == ComputerLane.LEFT ? Teams.maxZLeft + Teams.topOffsetLeft : Teams.maxZRight + Teams.topOffsetRight,
-                                                      computerLane == ComputerLane.LEFT ? Teams.minZLeft + Teams.bottomOffsetLeft : Teams.minZRight + Teams.bottomOffsetRight);
-        }
-    }
-    #endregion
 
     public void DisableGameObject() {
         active = false;

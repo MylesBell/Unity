@@ -5,14 +5,6 @@ public enum TeamID {
 	red, blue
 }
 
-public enum MoveDirection {
-	up, down
-}
-
-public enum ProgressDirection {
-	forward, backward
-}
-
 public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchBase {
 
 	public Team blueTeam, redTeam;
