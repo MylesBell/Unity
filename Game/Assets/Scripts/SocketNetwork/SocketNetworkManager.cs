@@ -138,7 +138,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
 		dataJSON.AddField("playerID", playerID);
 		dataJSON.AddField("nearBase", nearBase ? 1 : 0);
-		socket.Emit ("playerNearBase", dataJSON);
+		socket.Emit ("gamePlayerNearBase", dataJSON);
 	}
 
     public void PlayerLeaveHandler(string playerID, TeamID teamID, GameState.State state)
