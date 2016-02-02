@@ -589,10 +589,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navigator: {fileID: 2138952201}
-  nodeRadius: 3
+  nodeRadius: 1
   unwalkableLayer:
     serializedVersion: 2
     m_Bits: 512
+  onlyDrawNavPath: 1
 --- !u!1 &2067802818
 GameObject:
   m_ObjectHideFlags: 0

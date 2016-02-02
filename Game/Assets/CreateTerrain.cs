@@ -144,7 +144,7 @@ public class CreateTerrain : NetworkBehaviour
         float xCentre = numScreens * chunkOffset.x / 2;
         Vector3 gridCentre = new Vector3(xCentre,0,(computerLane == ComputerLane.LEFT ? 350 : 50));
         
-        GetComponent<NavGridGenerator>().CreateLongPathGrid(gridCentre, new Vector2(numScreens * chunkOffset.x,100), computerLane);
+        GetComponent<NavGridManager>().CreateLongPathGrid(gridCentre, new Vector2(numScreens * chunkOffset.x,100), computerLane);
     }
 
     private void RequestScenery(int screenNumber, ComputerLane computerLane){

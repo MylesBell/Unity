@@ -30,6 +30,12 @@ public class LongPathGrid {
         }
     }
     
+    public int MaxSize {
+        get {
+            return gridSizeX * gridSizeY;
+        }
+    }
+    
     public GridNode GetGridNodeFromWorldPoint(Vector3 worldPoint) {
         float percentX = Mathf.Abs(gridWorldOrigin.x - worldPoint.x) / gridWorldSize.x;
         float percentY = Mathf.Abs(gridWorldOrigin.z - worldPoint.z)  / gridWorldSize.y;
