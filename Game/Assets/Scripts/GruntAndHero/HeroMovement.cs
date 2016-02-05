@@ -14,11 +14,13 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 
 	private Stats stats;
     
-    private LayerMask terrainMask = -1;
+    public LayerMask terrainMask;
     
     private MoveDirection moveDirection = MoveDirection.NONE;
     
     private float moveUnit = 0.1f;
+    
+    private ComputerLane computerLane;
 
 	void Start() {
 		stats = (Stats) GetComponent<Stats>();
@@ -29,6 +31,10 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
         movementTarget = position;
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         CmdSetPositionOnClient();
+    }
+    
+    public void setComputerLane(ComputerLane computerLane){
+        this.computerLane = computerLane;
     }
 
     [Command]
@@ -87,7 +93,7 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
                 newPosition.z += Mathf.Sqrt(moveUnit);
                 break;
          }
-         transform.position = newPosition; //AdjustToTerrain(newPosition);
+         transform.position = AdjustToTerrain(newPosition);
     }
     
 	private bool NotTooClose(){
@@ -112,6 +118,11 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     // implement movement interface
     public void PlayerMovement(MoveDirection moveDirection)
     {
+        //see if need to flip the direction
+        if(moveDirection != MoveDirection.NONE && computerLane == ComputerLane.LEFT){
+            int newDirection = ((int) moveDirection + 4 ) % 8;
+            moveDirection = (MoveDirection) newDirection;
+        }
         this.moveDirection = moveDirection;
     }
 

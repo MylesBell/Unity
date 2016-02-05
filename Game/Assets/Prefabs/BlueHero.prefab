@@ -303,6 +303,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e84da38144544bb8b00f6fb47760d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  terrainMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &11431772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -598,6 +601,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: lerpRate
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: terrainMask.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
