@@ -7,7 +7,6 @@ public class LongPathGrid {
     public Vector3 gridWorldCentre;
     public Vector3 gridWorldOrigin;
     public GridNode[,] grid;
-    public List<GridNode> path;
     
     int gridSizeX, gridSizeY;
     
