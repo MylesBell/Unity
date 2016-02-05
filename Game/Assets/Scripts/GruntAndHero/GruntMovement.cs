@@ -6,7 +6,7 @@ public class GruntMovement : NetworkBehaviour{
 
 	private Stats stats;
     
-    private LayerMask terrainMask = -1;
+    private LayerMask terrainMask = 256;
 
 	void Start() {
 		stats = (Stats) GetComponent<Stats>();
@@ -63,6 +63,7 @@ public class GruntMovement : NetworkBehaviour{
         RaycastHit terrainLevel;
         movementTargetInput.y = 20f;
         if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)) movementTargetInput = terrainLevel.point;
+        movementTargetInput.y += GetComponent<Renderer>().bounds.size.y/2;
         movementTarget = movementTargetInput;
 	}
 }

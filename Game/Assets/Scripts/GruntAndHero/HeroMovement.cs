@@ -14,7 +14,7 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 
 	private Stats stats;
     
-    public LayerMask terrainMask;
+    private LayerMask terrainMask = 256;
     
     private MoveDirection moveDirection = MoveDirection.NONE;
     
@@ -111,7 +111,10 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 	private Vector3 AdjustToTerrain (Vector3 movementTargetInput) {
         RaycastHit terrainLevel;
         movementTargetInput.y = 20f;
-        if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)) movementTargetInput = terrainLevel.point;
+        if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)){
+            movementTargetInput = terrainLevel.point;
+        }
+        movementTargetInput.y += GetComponent<Renderer>().bounds.size.y/2;
         return movementTargetInput;
 	}
 
