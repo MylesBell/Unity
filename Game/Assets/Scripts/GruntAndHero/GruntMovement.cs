@@ -67,4 +67,3 @@ public class GruntMovement : NetworkBehaviour{
         movementTarget = movementTargetInput;
 	}
 }
-

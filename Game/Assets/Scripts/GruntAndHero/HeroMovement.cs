@@ -18,13 +18,17 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     
     private MoveDirection moveDirection = MoveDirection.NONE;
     
-    private float moveUnit = 0.1f;
+    private float moveUnit = 2f;
     
     private ComputerLane computerLane;
+    
+    private Rigidbody rb;
 
-	void Start() {
-		stats = (Stats) GetComponent<Stats>();
-	}
+    void Start ()
+    {
+        rb = GetComponent<Rigidbody>();
+        stats = (Stats) GetComponent<Stats>();
+    }
 
     public void initialiseMovement(Vector3 position) {
         transform.position = position;
@@ -47,7 +51,7 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
         transform.position = position;
     }
 
-    void Update(){
+    void FixedUpdate(){
         switch (GameState.gameState) {
             case GameState.State.IDLE:
                 if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -62,38 +66,40 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 	}
     
     private void updatePosition(){
-         Vector3 newPosition = transform.position;
+         Vector3 movement = Vector3.zero;
          switch (moveDirection){
              case MoveDirection.E:
-                newPosition.x += moveUnit;
+                movement.x += moveUnit;
                 break;
              case MoveDirection.SE:
-                newPosition.x += Mathf.Sqrt(moveUnit);
-                newPosition.z -= Mathf.Sqrt(moveUnit);
+                movement.x += Mathf.Sqrt(moveUnit);
+                movement.z -= Mathf.Sqrt(moveUnit);
                 break;
              case MoveDirection.S:
-                newPosition.z -= moveUnit;
+                movement.z -= moveUnit;
                 break;
              case MoveDirection.SW:
-                newPosition.x -= Mathf.Sqrt(moveUnit);
-                newPosition.z -= Mathf.Sqrt(moveUnit);
+                movement.x -= Mathf.Sqrt(moveUnit);
+                movement.z -= Mathf.Sqrt(moveUnit);
                 break;
              case MoveDirection.W:
-                newPosition.x -= moveUnit;
+                movement.x -= moveUnit;
                 break;
              case MoveDirection.NW:
-                newPosition.x -= Mathf.Sqrt(moveUnit);
-                newPosition.z += Mathf.Sqrt(moveUnit);
+                movement.x -= Mathf.Sqrt(moveUnit);
+                movement.z += Mathf.Sqrt(moveUnit);
                 break;
              case MoveDirection.N:
-                newPosition.z += moveUnit;
+                movement.z += moveUnit;
                 break;
              case MoveDirection.NE:
-                newPosition.x += Mathf.Sqrt(moveUnit);
-                newPosition.z += Mathf.Sqrt(moveUnit);
+                movement.x += Mathf.Sqrt(moveUnit);
+                movement.z += Mathf.Sqrt(moveUnit);
                 break;
          }
-         transform.position = AdjustToTerrain(newPosition);
+         
+         rb.AddForce (movement * stats.movementSpeed, ForceMode.Acceleration);
+         
     }
     
 	private bool NotTooClose(){
