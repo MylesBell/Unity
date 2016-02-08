@@ -5,14 +5,6 @@ public enum TeamID {
 	red, blue
 }
 
-public enum MoveDirection {
-	up, down
-}
-
-public enum ProgressDirection {
-	forward, backward
-}
-
 public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchBase {
 
 	public Team blueTeam, redTeam;
@@ -30,18 +22,18 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchB
     public static float maxZLeft = 370;
     public static float minZLeft = 320;
     
-    public static float topOffsetRight = -1;
-    public static float bottomOffsetRight = 1;
-    public static float topOffsetLeft = 1;
-    public static float bottomOffsetLeft = -1;
+    public static float topOffsetRight = 3;
+    public static float bottomOffsetRight = 5;
+    public static float topOffsetLeft = 3;
+    public static float bottomOffsetLeft = 5;
 
     private bool initialised;
 
 	void Start () {
         if (isServer) {
             initialised = false;
-            zPositionOffsetRight = ((maxZRight+topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
-            zPositionOffsetLeft = ((maxZLeft+topOffsetLeft) - (minZLeft+bottomOffsetLeft)) / numberOfChannels;
+            zPositionOffsetRight = ((maxZRight-topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
+            zPositionOffsetLeft = ((maxZLeft-topOffsetLeft) - (minZLeft+bottomOffsetLeft)) / numberOfChannels;
             int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
             int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
             bool hasLeftLane = PlayerPrefs.GetInt("numberofscreens-left", 0) > 1;

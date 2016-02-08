@@ -49,15 +49,15 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
 
 		    // get the direction from the message
-			string input = e.data.GetField("input").str;
+			int input = (int)e.data.GetField("input").n;
 			string playerID = e.data.GetField("uID").str;
-		    if(input == "up" || input == "down"){
-		    	MoveDirection dest = (input == "up" ? MoveDirection.up : MoveDirection.down);
-			    socketIOInputEvents.PlayerMoveChannel(playerID, dest); // socket io id, channel direction
-		    } else {
-		    	ProgressDirection direction = (input == "forward" ? ProgressDirection.forward : ProgressDirection.backward);
-				socketIOInputEvents.PlayerChangeProgressDirection(playerID, direction); // socket io id, progress direction
-		    }
+            
+            MoveDirection moveDirection;
+            
+            if (input == -1) moveDirection = MoveDirection.NONE;
+            else moveDirection = (MoveDirection) input;
+            
+			socketIOInputEvents.PlayerMovement(playerID, moveDirection);
         }
 	}
     
