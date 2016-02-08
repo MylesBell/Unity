@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 public class Stats : NetworkBehaviour{
 	// movement
 	public float movementSpeed = 5.0f;
+    public float movementAcceleration = 8.0f;
 	public float minDistanceFromEnemy = 2.0f;
 	
 	// attack

@@ -42,7 +42,7 @@ public class GruntMovement : NetworkBehaviour{
         }
         if (isServer && NotTooClose()){
             if(GameState.gameState == GameState.State.PLAYING) {
-                transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime * stats.movementSpeed / 5.0f);
+                transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime * stats.movementSpeed);
             }
         }
 	}

@@ -16,17 +16,14 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     
     private LayerMask terrainMask = 256;
     
-    private MoveDirection moveDirection = MoveDirection.NONE;
-    
-    private float moveUnit = 2f;
+    public MoveDirection moveDirection;
+    public Vector3 currentMovement;
+    public float moveUnit = 1.0f;
     
     private ComputerLane computerLane;
-    
-    private Rigidbody rb;
 
     void Start ()
     {
-        rb = GetComponent<Rigidbody>();
         stats = (Stats) GetComponent<Stats>();
     }
 
@@ -34,6 +31,7 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
         transform.position = position;
         movementTarget = position;
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        moveDirection = MoveDirection.NONE;
         CmdSetPositionOnClient();
     }
     
@@ -66,40 +64,58 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 	}
     
     private void updatePosition(){
+        
+         if (moveDirection != MoveDirection.NONE){
+             currentMovement = getMovementUpdate();
+         }else{
+             currentMovement = getIdleMovementUpdate();
+         }
+         
+         transform.position = AdjustToTerrain(currentMovement * Time.deltaTime + transform.position);     
+    }
+    
+    private Vector3 getMovementUpdate(){
          Vector3 movement = Vector3.zero;
          switch (moveDirection){
              case MoveDirection.E:
                 movement.x += moveUnit;
                 break;
              case MoveDirection.SE:
-                movement.x += Mathf.Sqrt(moveUnit);
-                movement.z -= Mathf.Sqrt(moveUnit);
+                movement.x += moveUnit;
+                movement.z -= moveUnit;
                 break;
              case MoveDirection.S:
                 movement.z -= moveUnit;
                 break;
              case MoveDirection.SW:
-                movement.x -= Mathf.Sqrt(moveUnit);
-                movement.z -= Mathf.Sqrt(moveUnit);
+                movement.x -= moveUnit;
+                movement.z -= moveUnit;
                 break;
              case MoveDirection.W:
                 movement.x -= moveUnit;
                 break;
              case MoveDirection.NW:
-                movement.x -= Mathf.Sqrt(moveUnit);
-                movement.z += Mathf.Sqrt(moveUnit);
+                movement.x -= moveUnit;
+                movement.z += moveUnit;
                 break;
              case MoveDirection.N:
                 movement.z += moveUnit;
                 break;
              case MoveDirection.NE:
-                movement.x += Mathf.Sqrt(moveUnit);
-                movement.z += Mathf.Sqrt(moveUnit);
+                movement.x += moveUnit;
+                movement.z += moveUnit;
                 break;
          }
+         movement = movement.normalized;
          
-         rb.AddForce (movement * stats.movementSpeed, ForceMode.Acceleration);
-         
+         currentMovement = Vector3.MoveTowards(currentMovement, movement * stats.movementSpeed, stats.movementAcceleration * Time.deltaTime);
+         return currentMovement;
+    }
+    
+    private Vector3 getIdleMovementUpdate(){
+        // Apply friction to slow us to a halt
+        currentMovement = Vector3.MoveTowards(currentMovement, Vector3.zero, 10.0f * Time.deltaTime);
+        return currentMovement;
     }
     
 	private bool NotTooClose(){
@@ -107,11 +123,6 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 			return true;
 		}
 		return false;
-	}
-
-	// getters and setters
-	public Vector3 GetTarget(){
-		return movementTarget;
 	}
 	
 	private Vector3 AdjustToTerrain (Vector3 movementTargetInput) {
