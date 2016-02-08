@@ -32,8 +32,8 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchB
 	void Start () {
         if (isServer) {
             initialised = false;
-            zPositionOffsetRight = ((maxZRight+topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
-            zPositionOffsetLeft = ((maxZLeft+topOffsetLeft) - (minZLeft+bottomOffsetLeft)) / numberOfChannels;
+            zPositionOffsetRight = ((maxZRight-topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
+            zPositionOffsetLeft = ((maxZLeft-topOffsetLeft) - (minZLeft+bottomOffsetLeft)) / numberOfChannels;
             int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
             int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
             bool hasLeftLane = PlayerPrefs.GetInt("numberofscreens-left", 0) > 1;
