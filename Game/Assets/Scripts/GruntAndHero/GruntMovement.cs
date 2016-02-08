@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 
 public class GruntMovement : NetworkBehaviour{
 	private Vector3 movementTarget;
+    private Vector3 currentMovement;
 
 	private Stats stats;
     
@@ -42,7 +43,9 @@ public class GruntMovement : NetworkBehaviour{
         }
         if (isServer && NotTooClose()){
             if(GameState.gameState == GameState.State.PLAYING) {
-                transform.position = Vector3.Lerp (transform.position, movementTarget, Time.deltaTime * stats.movementSpeed);
+                currentMovement = Vector3.MoveTowards (currentMovement,
+                    (movementTarget - transform.position).normalized * stats.movementSpeed, Time.deltaTime * stats.movementAcceleration);
+                transform.position = AdjustToTerrain(currentMovement * Time.deltaTime + transform.position);
             }
         }
 	}
@@ -60,10 +63,14 @@ public class GruntMovement : NetworkBehaviour{
 	}
 	
 	public void SetTarget (Vector3 movementTargetInput) {
+        movementTarget = movementTargetInput;
+	}
+    
+    private Vector3 AdjustToTerrain(Vector3 movementTargetInput){
         RaycastHit terrainLevel;
         movementTargetInput.y = 20f;
         if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)) movementTargetInput = terrainLevel.point;
         movementTargetInput.y += GetComponent<Renderer>().bounds.size.y/2;
-        movementTarget = movementTargetInput;
-	}
+        return movementTargetInput;
+    }
 }

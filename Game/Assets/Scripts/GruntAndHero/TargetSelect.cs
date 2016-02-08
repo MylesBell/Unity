@@ -50,6 +50,7 @@ public class TargetSelect : NetworkBehaviour {
                 //do movement
                 if (hasAttackTarget()) {
                     gameObject.GetComponent<GruntMovement>().SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
+                    desiredPosition.x = transform.position.x;
                 } else {
                     UpdateMoveTarget();
                 }
@@ -62,6 +63,7 @@ public class TargetSelect : NetworkBehaviour {
 	}
 	
 	private void UpdateMoveTarget(){
+        
 		float distance = Vector3.Distance (desiredPosition, transform.position);
 		
 		if (distance < 2.0f) {
