@@ -49,9 +49,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
 
 		    // get the direction from the message
-			int input = (int)e.data.GetField("input").n;//(int)MoveDirection.NONE;
-            // string jsabfa = e.data.GetField("input");
-            // int.TryParse(e.data.GetField("input").n, out input);
+			int input = (int)e.data.GetField("input").n;
 			string playerID = e.data.GetField("uID").str;
             
             MoveDirection moveDirection;

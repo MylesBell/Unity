@@ -117,13 +117,6 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
         currentMovement = Vector3.MoveTowards(currentMovement, Vector3.zero, 10.0f * Time.deltaTime);
         return currentMovement;
     }
-    
-	private bool NotTooClose(){
-		if (Vector3.Distance (transform.position, movementTarget) > stats.minDistanceFromEnemy) {
-			return true;
-		}
-		return false;
-	}
 	
 	private Vector3 AdjustToTerrain (Vector3 movementTargetInput) {
         RaycastHit terrainLevel;
