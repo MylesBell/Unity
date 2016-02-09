@@ -21,5 +21,6 @@ VSCode
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+Game/ProjectSettings/UnityAnalyticsManager.asset
 
 *.DS_Store

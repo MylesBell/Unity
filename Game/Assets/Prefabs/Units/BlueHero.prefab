@@ -25,16 +25,17 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 22485974}
-  - 135: {fileID: 13521646}
+  - 33: {fileID: 3349382}
+  - 65: {fileID: 6558714}
   - 23: {fileID: 2306862}
   - 114: {fileID: 11432016}
   - 114: {fileID: 11470932}
   - 114: {fileID: 11431772}
   - 114: {fileID: 11400890}
+  - 114: {fileID: 11424946}
   - 114: {fileID: 11415468}
   - 114: {fileID: 11459170}
   - 54: {fileID: 5439950}
-  - 33: {fileID: 3349382}
   - 222: {fileID: 22263394}
   - 114: {fileID: 11434996}
   - 114: {fileID: 11471958}
@@ -106,7 +107,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -130,7 +133,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -142,7 +147,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 149832}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &5439950
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -156,8 +161,20 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!65 &6558714
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149832}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .999999881, y: 1, z: .999999881}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!102 &10212794
 TextMesh:
   serializedVersion: 3
@@ -241,11 +258,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 149832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3803b6d1f32a146e792f38c381ed9888, type: 3}
+  m_Script: {fileID: 11500000, guid: e8c41e5f30e674d0e8778f632b8cb49a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInitialised: 0
-  lerpRate: 10
+  lerpRate: 5
   positionThreshold: .5
   rotationThreshold: 5
 --- !u!114 &11416126
@@ -280,6 +296,20 @@ MonoBehaviour:
     i15: 119
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &11424946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e84da38144544bb8b00f6fb47760d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDirection: 8
+  currentMovement: {x: 0, y: 0, z: 0}
+  moveUnit: 1
 --- !u!114 &11431772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -337,7 +367,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f92930b3f4e34b9fabd9379fa43af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 15
+  movementSpeed: 8
+  movementAcceleration: 10
   minDistanceFromEnemy: 0
   damage: 40
   attackCoolDown: 1
@@ -406,6 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af108031a4bd4c248b2aaf8701f2b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstUpdate: 5
 --- !u!114 &11471958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -417,20 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11bf8c0bd16744496b6b1f85c9f56d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireRingPrefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
-  HealRingPrefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
---- !u!135 &13521646
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 149832}
-  m_Material: {fileID: 13400000, guid: 82468697bc9fc4cf8b2718a687f9e3b4, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: .5
-  m_Center: {x: 0, y: 0, z: 0}
+  FireRingParticle: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
 --- !u!222 &22263394
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -445,7 +464,7 @@ RectTransform:
   m_GameObject: {fileID: 149832}
   m_LocalRotation: {x: 0, y: .707106829, z: 0, w: .707106709}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 491372}
   - {fileID: 461954}
@@ -537,7 +556,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Constraints
-      value: 0
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spawnInterval
@@ -545,7 +564,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSpeed
-      value: 15
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage
@@ -569,17 +588,29 @@ Prefab:
       objectReference: {fileID: 19856920, guid: 23afd99e3375d45d2b4e47c6c78d6d23,
         type: 2}
     - target: {fileID: 0}
-      propertyPath: HealRingAnimation
+      propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 105050, guid: 849817580fdca4bd182f602f088df622, type: 2}
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 0}
-      propertyPath: HealRingPrefab
-      value: 
-      objectReference: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: FireRingPrefab
-      value: 
-      objectReference: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lerpRate
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: terrainMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149832}
