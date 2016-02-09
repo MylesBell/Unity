@@ -45,7 +45,10 @@ public class GruntMovement : NetworkBehaviour{
             if(GameState.gameState == GameState.State.PLAYING) {
                 currentMovement = Vector3.MoveTowards (currentMovement,
                     (movementTarget - transform.position).normalized * stats.movementSpeed, Time.deltaTime * stats.movementAcceleration);
-                transform.position = AdjustToTerrain(currentMovement * Time.deltaTime + transform.position);
+                Vector3 newPosition = currentMovement * Time.deltaTime + transform.position;
+                transform.LookAt(new Vector3(newPosition.x,transform.position.y,newPosition.z));
+                newPosition = AdjustToTerrain(newPosition);
+                transform.position = newPosition;
             }
         }
 	}
@@ -70,7 +73,7 @@ public class GruntMovement : NetworkBehaviour{
         RaycastHit terrainLevel;
         movementTargetInput.y = 20f;
         if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)) movementTargetInput = terrainLevel.point;
-        movementTargetInput.y += GetComponent<Renderer>().bounds.size.y/2;
+        movementTargetInput.y += GetComponent<BoxCollider>().bounds.size.y/2;
         return movementTargetInput;
     }
 }
