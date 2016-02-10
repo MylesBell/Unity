@@ -6,6 +6,7 @@ public enum SpecialType { fire, water, air };
 public class Special : NetworkBehaviour, IPlayerSpecial {
     
     public GameObject FireRingParticle;
+    public GameObject LevelUpParticle;
     
     private Stats stats;
     private string attackGruntTag;
@@ -50,12 +51,12 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
     }
     
     private void FireRing(){
-        RpcPlayFireParticleSystem(currentScale);
+        RpcPlayFireParticleSystem();
         CmdRadialDamage(stats.fireAttackRadius, stats.fireAttackDamage);
     }
 
     [ClientRpc]
-    public void RpcPlayFireParticleSystem(Vector3 currentScale) {
+    public void RpcPlayFireParticleSystem() {
         GameObject fireRingParticle = (GameObject) Instantiate(FireRingParticle, gameObject.transform.position, FireRingParticle.transform.rotation);
         fireRingParticle.transform.localScale = currentScale;
         Destroy(fireRingParticle, fireRingParticle.GetComponent<ParticleSystem>().startLifetime);
@@ -82,13 +83,28 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
         return false;
     }
     
+    public void UpgradeSpecials(){
+        // play upgrade animation
+        RpcPlayLevelUp();
+        
+        // upgarde all specials
+        UpgradeFireAttack();
+    }
+    
     // to increase size of fire particle attack the scale is increased, then the damage area is incremented
-    public void UpgradeFireAttack(){
+    private void UpgradeFireAttack(){
         currentScale += new Vector3(1.0f, 1.0f, 0);
         stats.fireAttackRadius += 3.0f;
     }
     
-    public void resetSpecial(){
+    [ClientRpc]
+    public void RpcPlayLevelUp() {
+        GameObject levelUpParticle = (GameObject) Instantiate(LevelUpParticle, gameObject.transform.position, LevelUpParticle.transform.rotation);
+        levelUpParticle.transform.localScale = currentScale;
+        Destroy(levelUpParticle, levelUpParticle.GetComponent<ParticleSystem>().startLifetime);
+    }
+    
+    public void resetSpecials(){
         currentScale = originalScale;
         if(stats) stats.resetFireAttackRadius();
     }
