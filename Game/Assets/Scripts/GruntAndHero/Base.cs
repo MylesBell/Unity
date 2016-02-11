@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 public class Base : NetworkBehaviour, IDestroyableGameObject {
     private Team team;
-    [SyncVar] private bool active = false;
+    [SyncVar] private bool active = true;
 
     void Start() {
         gameObject.SetActive(active);
@@ -17,7 +17,7 @@ public class Base : NetworkBehaviour, IDestroyableGameObject {
     public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition, float channelOffset) {
         if (isServer) {
             active = true;
-            gameObject.GetComponent<Health>().initialiseHealth();
+            gameObject.GetComponent<BaseHealth>().initialiseHealth(team);
             gameObject.SetActive(active);
             gameObject.transform.position = spawnPosition;
             CmdSetActiveState(active, spawnPosition);

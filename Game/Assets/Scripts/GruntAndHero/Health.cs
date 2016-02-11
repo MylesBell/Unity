@@ -15,7 +15,7 @@ public class Health : NetworkBehaviour {
         currentHealth = maxHealth;
     }
 
-    public void initialiseHealth() {
+    public virtual void initialiseHealth() {
         // if max heath isnt set, as can be set by later function
         currentHealth = maxHealth;
         entityLocation = Camera.main.WorldToScreenPoint(gameObject.transform.position);
