@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 public class Health : NetworkBehaviour {
 	public float healthBarInitialLength;
-	public Texture healthBarHighTexture, healthBarMedTexture, healthBarLowTexture;
+	public Texture healthBarHighTexture, healthBarMedTexture, healthBarLowTexture, healthBarBackTexture;
 
 	public float maxHealth;
 	[SyncVar] public float currentHealth;
@@ -31,6 +31,9 @@ public class Health : NetworkBehaviour {
             else if (currentHealth > 0.2 * maxHealth)
                 healthBarTexture = healthBarMedTexture;
             else healthBarTexture = healthBarLowTexture;
+			GUI.DrawTexture(new Rect(entityLocation.x - (healthBarInitialLength/2) ,
+			                         Screen.height - entityLocation.y - 10,
+			                         healthBarInitialLength, 2), healthBarBackTexture);
 			GUI.DrawTexture(new Rect(entityLocation.x - (healthBarInitialLength/2) ,
 			                         Screen.height - entityLocation.y - 10,
 			                         healthBarLength, 2), healthBarTexture);
