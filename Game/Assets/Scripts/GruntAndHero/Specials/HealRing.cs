@@ -35,9 +35,6 @@ public class HealRing : Special
 
     [ClientRpc]
     private void RpcPlayHealRingSystem() {
-        if (gameObject.activeSelf.Equals(false)){
-            Debug.Log("really not bloody active, lazy todger");
-        }
         StartCoroutine(PlayHealRingSystem());
     }
     
