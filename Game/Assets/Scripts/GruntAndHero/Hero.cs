@@ -143,7 +143,6 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         if(killStreak >= nextUpgrade){
             gameObject.GetComponent<Special>().UpgradeSpecials();
             nextUpgrade = nextUpgrade * 2;
-            print("Upgraded");
         }
     }
 }
