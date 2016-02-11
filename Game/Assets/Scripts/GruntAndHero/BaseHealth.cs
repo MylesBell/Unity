@@ -4,7 +4,7 @@ public class BaseHealth : Health {
     Team team;
     BaseHealth otherBase;
     
-    public void initialiseHealth(Team team) {
+    public void InitialiseHealth(Team team) {
         this.team = team;
         GameObject[] bases = GameObject.FindGameObjectsWithTag(gameObject.tag);
         
@@ -13,7 +13,7 @@ public class BaseHealth : Health {
                 otherBase = other.GetComponent<BaseHealth>();
             }
         }
-        base.initialiseHealth();
+        base.InitialiseHealth();
     }
 	public new void ReduceHealth(float amountToReduce, out bool killedPlayer){
 		currentHealth -= amountToReduce;

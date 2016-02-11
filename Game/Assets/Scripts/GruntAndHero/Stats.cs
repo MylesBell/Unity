@@ -13,7 +13,6 @@ public class Stats : NetworkBehaviour{
 	
 	// target select
 	public float targetSelectRange = 15.0f;	
-    
     public float ignoreRange = 5f;
     public float runAwayTime = 2f;
     public float maximumVelocityBeforeIgnore = 1f;
@@ -21,7 +20,8 @@ public class Stats : NetworkBehaviour{
     // special abilities
     public float fireAttackRadius = 6.0f;
     public float fireAttackDamage = 30.0f;
-    
+    public float healRingRadius = 6.0f;
+    public float healRingHealth = 30.0f;
     
     private int currentKillStreak = 0;
     private object killStreakLock = new object();
@@ -43,7 +43,11 @@ public class Stats : NetworkBehaviour{
         }
     }
     
-    public void resetFireAttackRadius(){
+    public void ResetFireAttackRadius(){
         fireAttackRadius = 6.0f;
+    }
+    
+    public void ResetHealRingRadius(){
+        healRingRadius = 6.0f;
     }
 }

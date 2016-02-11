@@ -211,7 +211,7 @@ public class Team : NetworkBehaviour {
             double respawnTimeStamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + heroRespawnInterval;
             print(respawnTimeStamp);
             SocketIOOutgoingEvents.PlayerDied(playerID, respawnTimeStamp.ToString("0.####"));
-            hero.GetComponent<Special>().resetSpecials();
+            hero.GetComponent<Special>().ResetSpecials();
         }
     }
 

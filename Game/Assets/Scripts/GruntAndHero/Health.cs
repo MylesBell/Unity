@@ -14,8 +14,8 @@ public class Health : NetworkBehaviour {
 	void Start(){
         currentHealth = maxHealth;
     }
-
-    public virtual void initialiseHealth() {
+    
+    public virtual void InitialiseHealth() {
         // if max heath isnt set, as can be set by later function
         currentHealth = maxHealth;
         entityLocation = Camera.main.WorldToScreenPoint(gameObject.transform.position);
@@ -44,9 +44,10 @@ public class Health : NetworkBehaviour {
 	}
 
 	// use to set max and inc or dec health
-	public void setMaxHealth(float maxHealthInput){
+	public void SetMaxHealth(float maxHealthInput){
 		maxHealth = maxHealthInput;
 	}
+
 
 	public void ReduceHealth(float amountToReduce, out bool killedPlayer){
 		currentHealth -= amountToReduce;
