@@ -139,7 +139,6 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
         return false;
     }
     
-    
     private void HealRing(){
         RpcPlayHealRingSystem();
         CmdRadialHeal(stats.healRingRadius, stats.healRingHealth);
@@ -187,8 +186,8 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
     public void ResetSpecials(){
         currentScale = originalScale;
         if(stats){
-            stats.resetFireAttackRadius();
-            stats.resetHealRingRadius();
+            stats.ResetFireAttackRadius();
+            stats.ResetHealRingRadius();
         }
     }
 }

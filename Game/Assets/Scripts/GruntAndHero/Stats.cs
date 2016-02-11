@@ -43,11 +43,11 @@ public class Stats : NetworkBehaviour{
         }
     }
     
-    public void resetFireAttackRadius(){
+    public void ResetFireAttackRadius(){
         fireAttackRadius = 6.0f;
     }
     
-    public void resetHealRingRadius(){
-        fireAttackRadius = 6.0f;
+    public void ResetHealRingRadius(){
+        healRingRadius = 6.0f;
     }
 }
