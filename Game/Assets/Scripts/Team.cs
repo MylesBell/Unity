@@ -66,16 +66,18 @@ public class Team : NetworkBehaviour {
     }
 
      void Update() {
-        if (isServer && GameState.gameState == GameState.State.PLAYING) {
-            if ((nextGruntRespawn > 0)) {
-                nextGruntRespawn -= Time.deltaTime;
-			} else {
-                for (int i = 0; i < numberOfGruntsToSpawn; i++) {
-                    if(hasRightLane) spawnGrunt(i, ComputerLane.RIGHT);
-                    if(hasLeftLane) spawnGrunt(i, ComputerLane.LEFT);
+        if (isServer) {
+            if(GameState.gameState == GameState.State.PLAYING){
+                if ((nextGruntRespawn > 0)) {
+                    nextGruntRespawn -= Time.deltaTime;
+                } else {
+                    for (int i = 0; i < numberOfGruntsToSpawn; i++) {
+                        if(hasRightLane) spawnGrunt(i, ComputerLane.RIGHT);
+                        if(hasLeftLane) spawnGrunt(i, ComputerLane.LEFT);
+                    }
+                    nextGruntRespawn = gruntSpawnInterval;
                 }
-                nextGruntRespawn = gruntSpawnInterval;
-			}
+            }
             lock (herosToRespawn) {
                 int itemsToRemove = 0;
                 foreach (Tuple<float,GameObject> tuple in herosToRespawn) {
