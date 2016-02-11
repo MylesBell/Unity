@@ -163,7 +163,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
     public void PlayerSpecialHandler(SocketIOEvent e){
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str, SpecialType.fire);
+            socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str, SpecialType.one);
         }
 	}
 

@@ -16,13 +16,8 @@ public class Stats : NetworkBehaviour{
     public float ignoreRange = 5f;
     public float runAwayTime = 2f;
     public float maximumVelocityBeforeIgnore = 1f;
-    
-    // special abilities
-    public float fireAttackRadius = 6.0f;
-    public float fireAttackDamage = 30.0f;
-    public float healRingRadius = 6.0f;
-    public float healRingHealth = 30.0f;
-    
+        
+    // kill streaks
     private int currentKillStreak = 0;
     private object killStreakLock = new object();
     public void ResetKillStreak(){
@@ -41,13 +36,5 @@ public class Stats : NetworkBehaviour{
         lock(killStreakLock){
             currentKillStreak++;
         }
-    }
-    
-    public void ResetFireAttackRadius(){
-        fireAttackRadius = 6.0f;
-    }
-    
-    public void ResetHealRingRadius(){
-        healRingRadius = 6.0f;
     }
 }

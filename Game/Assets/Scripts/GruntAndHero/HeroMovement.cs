@@ -1,7 +1,5 @@
 
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
 public enum MoveDirection {

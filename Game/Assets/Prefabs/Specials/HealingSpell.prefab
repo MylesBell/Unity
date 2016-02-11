@@ -9,6 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400192}
   - 95: {fileID: 9543760}
+  - 114: {fileID: 11468818}
+  - 114: {fileID: 11474698}
   m_Layer: 0
   m_Name: HealingSpell
   m_TagString: Untagged
@@ -105,6 +107,54 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11468818
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 62
+    i1: 208
+    i2: 16
+    i3: 242
+    i4: 143
+    i5: 104
+    i6: 196
+    i7: 63
+    i8: 152
+    i9: 11
+    i10: 56
+    i11: 219
+    i12: 98
+    i13: 77
+    i14: 31
+    i15: 162
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11474698
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9659008fc2ca48b4b7c63d81fd03fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specials: {fileID: 0}
+  stats: {fileID: 0}
+  currentScale: {x: 0, y: 0, z: 0}
+  ringRadius: 6
+  healAmount: 30
 --- !u!198 &19837346
 ParticleSystem:
   m_ObjectHideFlags: 1
