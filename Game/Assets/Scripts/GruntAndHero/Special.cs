@@ -31,7 +31,7 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
     private Vector3 currentScale = new Vector3(1,1,1);
     
     void Start() {
-        initialiseSpecials();
+        InitialiseSpecials();
         
         stats = gameObject.GetComponent<Stats>();
         
@@ -44,7 +44,7 @@ public class Special : NetworkBehaviour, IPlayerSpecial {
         ownBaseTag = targetSelect.teamID == TeamID.red ? "redBase" : "blueBase";
     }
     
-    private void initialiseSpecials(){
+    private void InitialiseSpecials(){
         healRingSystem = (GameObject) Instantiate(HealRingPrefab, gameObject.transform.position, HealRingPrefab.transform.rotation);
         healRingSystem.SetActive(false);
         healRingSystem.transform.parent = gameObject.transform;
