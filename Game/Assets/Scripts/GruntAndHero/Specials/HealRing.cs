@@ -10,7 +10,6 @@ public class HealRing : Special
     override public void InitialiseSpecial()
     {   
         currentScale = new Vector3(1.0f, 1.0f, 0);
-        gameObject.SetActive(false);
         gameObject.transform.parent = gameObject.transform;
     }
 
@@ -36,6 +35,9 @@ public class HealRing : Special
 
     [ClientRpc]
     private void RpcPlayHealRingSystem() {
+        if (gameObject.activeSelf.Equals(false)){
+            Debug.Log("really not bloody active, lazy todger");
+        }
         StartCoroutine(PlayHealRingSystem());
     }
     
@@ -62,10 +64,14 @@ public class HealRing : Special
     
     private bool CheckColliderWantsToHeal(Collider collider){
         
-        if (collider.gameObject.tag.Equals(specials.ownGruntTag) || collider.gameObject.tag.Equals(specials.ownHeroTag)
-            || collider.gameObject.tag.Equals(specials.ownBaseTag)){
-            return true;
+        // check gameobejct exists first (aka not default)
+        if (collider.gameObject.Equals(default(GameObject))) {
+            if (collider.gameObject.tag.Equals(specials.ownGruntTag) || collider.gameObject.tag.Equals(specials.ownHeroTag)
+              || collider.gameObject.tag.Equals(specials.ownBaseTag)){
+                return true;
+            }
         }
+        
         return false;
     }
 }
