@@ -79,7 +79,9 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchB
 	public void PlayerJoin (string playerID, string playerName, string gameCode) {
         
         if(PlayerPrefs.GetString("gameCode", "") == gameCode) {
-            if (blueTeam.GetNumberOfHeros() < redTeam.GetNumberOfHeros()) {
+            int blueHeroes = blueTeam.GetNumberOfHeros();
+            int redHeroes = redTeam.GetNumberOfHeros();
+            if (blueHeroes < redHeroes) {
                 blueTeam.CreatePlayer(playerID, playerName);
             } else {
                 redTeam.CreatePlayer(playerID, playerName);

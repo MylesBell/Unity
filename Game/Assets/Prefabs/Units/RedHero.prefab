@@ -248,8 +248,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11bf8c0bd16744496b6b1f85c9f56d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireRingParticle: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
-  LevelUpParticle: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
+  FireRingPrefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+  HealRingPrefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+  LevelUpPrefab: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
 --- !u!114 &11412706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -273,6 +274,8 @@ MonoBehaviour:
   maximumVelocityBeforeIgnore: 1
   fireAttackRadius: 6
   fireAttackDamage: 30
+  healRingRadius: 6
+  healRingHealth: 30
 --- !u!114 &11413352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -316,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af108031a4bd4c248b2aaf8701f2b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstUpdate: 5
+  firstUpgrade: 5
 --- !u!114 &11448390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,6 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c088faab0134dca80aff73729c5305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 0
   attackGruntTag: 
   attackHeroTag: 
   attackBaseTag: 
@@ -578,6 +582,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: LevelUpParticle
+      value: 
+      objectReference: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: LevelUpPrefab
       value: 
       objectReference: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
     m_RemovedComponents: []

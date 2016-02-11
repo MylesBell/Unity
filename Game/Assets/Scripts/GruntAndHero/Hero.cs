@@ -10,8 +10,8 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     
     private string playerName;
     
-    public int firstUpdate = 5;
-    private int nextUpgrade = 0;
+    public int firstUpgrade = 5;
+    private int nextUpgrade = 1;
     
 
     public void Start() {
@@ -64,14 +64,16 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             active = true;
             gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
+            
             //set Health to Max
-            gameObject.GetComponent<Health>().initialiseHealth();
+            gameObject.GetComponent<Health>().InitialiseHealth();
             gameObject.GetComponent<Stats>().ResetKillStreak();
+
             targetSelect = GetComponent<TargetSelect> ();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
-            nextUpgrade = firstUpdate;
+            nextUpgrade = firstUpgrade;
         }
     }
 

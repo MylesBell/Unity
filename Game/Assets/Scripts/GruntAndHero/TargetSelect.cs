@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 public class TargetSelect : NetworkBehaviour {
 
-	private TeamID teamID;
+	public TeamID teamID;
 	private Attack attack;
 	private float desiredZPosition;
 	private Vector3 desiredPosition;

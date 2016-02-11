@@ -17,7 +17,7 @@ public class Base : NetworkBehaviour, IDestroyableGameObject {
     public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition, float channelOffset) {
         if (isServer) {
             active = true;
-            gameObject.GetComponent<Health>().initialiseHealth();
+            gameObject.GetComponent<Health>().InitialiseHealth();
             gameObject.SetActive(active);
             gameObject.transform.position = spawnPosition;
             CmdSetActiveState(active, spawnPosition);
