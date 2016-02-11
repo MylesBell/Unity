@@ -248,11 +248,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 182580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c330b945ab0b469d895f4f0abccd338, type: 3}
+  m_Script: {fileID: 11500000, guid: e8281540c73044146a63563bb7a5ac63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBarInitialLength: 100
-  healthBarTexture: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
+  healthBarInitialLength: 50
+  healthBarHighTexture: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c,
+    type: 3}
+  healthBarMedTexture: {fileID: 2800000, guid: 192d7c1dc8a2f4334a32beabc71aeb81, type: 3}
+  healthBarLowTexture: {fileID: 2800000, guid: c4b48ec9a5dee409cba6c0d5bb8990db, type: 3}
+  healthBarBackTexture: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b,
+    type: 3}
   maxHealth: 5000
   currentHealth: 0
 --- !u!1001 &100100000
@@ -268,7 +273,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarInitialLength
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarTexture
@@ -290,6 +295,22 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarHighTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
+    - target: {fileID: 0}
+      propertyPath: healthBarMedTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 192d7c1dc8a2f4334a32beabc71aeb81, type: 3}
+    - target: {fileID: 0}
+      propertyPath: healthBarLowTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: c4b48ec9a5dee409cba6c0d5bb8990db, type: 3}
+    - target: {fileID: 0}
+      propertyPath: healthBarBackTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 182580}

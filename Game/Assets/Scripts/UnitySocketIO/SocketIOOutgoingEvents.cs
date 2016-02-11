@@ -10,10 +10,10 @@ public static class SocketIOOutgoingEvents {
 		socketIOManager.GameStateHandler (state);
 	}
 
-	public static void PlayerHasJoined (string playerID, TeamID teamID, GameState.State state, float maxHealth)
+	public static void PlayerHasJoined (string playerID, TeamID teamID, GameState.State state, float playerMaxHealth, float baseMaxHealth)
 	{
 		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
-		socketIOManager.PlayerJoinHandler (playerID, teamID, state, maxHealth);
+		socketIOManager.PlayerJoinHandler (playerID, teamID, state, playerMaxHealth, baseMaxHealth);
 	}
     
     public static void PlayerJoinFailInvalidGameCode (string playerID)
@@ -49,6 +49,12 @@ public static class SocketIOOutgoingEvents {
 	{
 		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
 		socketIOManager.PlayerRespawn (playerID);
+	}
+
+	public static void BaseHealthHasChanged (string playerID, float maxHealth, float currentHealth)
+	{
+		SocketNetworkManager socketIOManager = new SocketNetworkManager ();
+		socketIOManager.BaseHealthHasChanged (playerID, maxHealth, currentHealth);
 	}
 
 }
