@@ -36,6 +36,7 @@ public class Team : NetworkBehaviour {
     private float nextGruntRespawn = 0.0f;
 
 
+
     void Start() {
         if (isServer) {
             unitFactory = gameObject.GetComponent<UnitFactory>();
@@ -57,14 +58,11 @@ public class Team : NetworkBehaviour {
         this.gruntPoolSize = gruntPoolSize;
         this.heroRespawnInterval = heroRespawnInterval;
         //Create base
-        if(hasRightLane) {
-            teamBaseRight = unitFactory.CreateBase(BasePrefab);
-            teamBaseRight.GetComponent<Base>().InitialiseGameObject(this);
-        }
-        if(hasLeftLane) {
-            teamBaseLeft = unitFactory.CreateBase(BasePrefab);
-            teamBaseLeft.GetComponent<Base>().InitialiseGameObject(this);
-        }
+        if(hasRightLane) teamBaseRight = unitFactory.CreateBase(BasePrefab);
+        if(hasLeftLane) teamBaseLeft = unitFactory.CreateBase(BasePrefab);
+        //Initialise GameObjects
+        if(hasRightLane) teamBaseRight.GetComponent<Base>().InitialiseGameObject(this);
+        if(hasLeftLane) teamBaseLeft.GetComponent<Base>().InitialiseGameObject(this);
     }
 
      void Update() {
@@ -145,7 +143,10 @@ public class Team : NetworkBehaviour {
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
         playerDict.Add(playerID, hero);
         numberOfHeros++;
-		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState, hero.GetComponent<Health>().maxHealth);
+		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState,
+                                                hero.GetComponent<Health>().maxHealth,
+                                                hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
+                                                              teamBaseRight.GetComponent<BaseHealth>().maxHealth);
     }
     
     public void RemovePlayer(string playerID) {
@@ -246,5 +247,11 @@ public class Team : NetworkBehaviour {
     }
     public bool hasTwoLanes(){
         return hasRightLane && hasLeftLane;
+    }
+    
+    public void BaseHealthChange(float maxHealth, float currentHealth){
+        foreach(string playerID in playerDict.Keys) {
+            SocketIOOutgoingEvents.BaseHealthHasChanged(playerID, maxHealth, currentHealth);
+        }
     }
 }
