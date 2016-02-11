@@ -31,9 +31,9 @@ public class Health : NetworkBehaviour {
             else if (currentHealth > 0.2 * maxHealth)
                 healthBarTexture = healthBarMedTexture;
             else healthBarTexture = healthBarLowTexture;
-			GUI.DrawTexture(new Rect(entityLocation.x - (healthBarInitialLength/2) ,
-			                         Screen.height - entityLocation.y - 10,
-			                         healthBarInitialLength, 2), healthBarBackTexture);
+			GUI.DrawTexture(new Rect(entityLocation.x - (healthBarInitialLength/2) - 1,
+			                         Screen.height - entityLocation.y - 11,
+			                         healthBarInitialLength + 2, 4), healthBarBackTexture);
 			GUI.DrawTexture(new Rect(entityLocation.x - (healthBarInitialLength/2) ,
 			                         Screen.height - entityLocation.y - 10,
 			                         healthBarLength, 2), healthBarTexture);
