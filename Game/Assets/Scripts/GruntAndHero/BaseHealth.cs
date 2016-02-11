@@ -29,5 +29,6 @@ public class BaseHealth : Health {
 	public new void IncreaseHealth(float amountToIncrease){
 		currentHealth += amountToIncrease;
         if(otherBase) otherBase.ChangeFromOtherBase(amountToIncrease);
+        team.BaseHealthChange(maxHealth, currentHealth);
 	}
 }
