@@ -52,7 +52,7 @@ public class Team : NetworkBehaviour {
         this.zPositionOffsetLeft = zPositionOffsetLeft;
         this.numberOfChannels = numberOfChannels;
         this.basePositionRight = new Vector3(positionXRight,0,50);
-        this.basePositionLeft = new Vector3(positionXLeft,0,350);
+        this.basePositionLeft = new Vector3(positionXLeft,0,150);
         this.numberOfGruntsToSpawn = numberOfGruntsToSpawn;
         this.gruntSpawnInterval = spawnInterval;
         this.gruntPoolSize = gruntPoolSize;

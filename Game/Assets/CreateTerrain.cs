@@ -75,7 +75,7 @@ public class CreateTerrain : NetworkBehaviour
 
 	void GenerateTerrain(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
         GameObject[] chunks = new GameObject[numScreens];
-        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 300 : 0));
+        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 100 : 0));
 		if (isServer || screenNumber == 0)
 		{
 			// create the first base
@@ -103,7 +103,7 @@ public class CreateTerrain : NetworkBehaviour
 
 	List<NetworkTreeMessage>[] PopulateScenery(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
         List<NetworkTreeMessage>[] screenScenery = new List<NetworkTreeMessage>[numScreens];
-        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 300 : 0));
+        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 100 : 0));
         
 		for (int i = 0; i < numScreens; i++) {
             int numObjects = Random.Range(minNumScenery,maxNumScenery);
