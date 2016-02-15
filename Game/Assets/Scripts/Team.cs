@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Team : NetworkBehaviour {
 
     public TeamID teamID;
+    public MusicScreenController musicScreenController;
     private Vector3 basePositionRight;
     private Vector3 basePositionLeft;
     private bool hasLeftLane;
@@ -255,5 +256,15 @@ public class Team : NetworkBehaviour {
         foreach(string playerID in playerDict.Keys) {
             SocketIOOutgoingEvents.BaseHealthHasChanged(playerID, maxHealth, currentHealth);
         }
+    }
+    
+    public void OnUnitVisible(bool isHero){
+        if(teamID == TeamID.blue) musicScreenController.IncrementBlueTeam(isHero);
+        else                      musicScreenController.IncrementRedTeam(isHero);
+    }
+    
+    public void OnUnitInvisible(bool isHero){
+        if(teamID == TeamID.blue) musicScreenController.IncrementBlueTeam(isHero);
+        else                      musicScreenController.IncrementRedTeam(isHero);
     }
 }

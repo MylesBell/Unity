@@ -242,7 +242,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -275,6 +277,9 @@ GameObject:
   - 114: {fileID: 1193707486}
   - 114: {fileID: 1193707488}
   - 114: {fileID: 1193707487}
+  - 82: {fileID: 1193707491}
+  - 114: {fileID: 1193707490}
+  - 114: {fileID: 1193707489}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -390,6 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
+  musicScreenController: {fileID: 1193707489}
   HeroPrefab: {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
   BasePrefab: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
   GruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
@@ -405,9 +411,104 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 1
+  musicScreenController: {fileID: 1193707489}
   HeroPrefab: {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
   BasePrefab: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
   GruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
+--- !u!114 &1193707489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193707480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 381c067576e47404f9d9421738353d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1193707490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193707480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b699a59abe984b99a6ec4a585368ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MusicClipForVikings: {fileID: 0}
+  MusicClipForCowboys: {fileID: 0}
+--- !u!82 &1193707491
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193707480}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1305526078
 GameObject:
   m_ObjectHideFlags: 0

@@ -51,4 +51,11 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
         CmdSetActiveState(active);
         team.OnGruntDead(gameObject);
     }
+    
+    void OnBecameVisible(){
+        team.OnUnitVisible(false);
+    }
+    void OnBecameInvisible(){
+        team.OnUnitInvisible(false);
+    }
 }

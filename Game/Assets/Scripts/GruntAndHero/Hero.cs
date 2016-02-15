@@ -145,4 +145,11 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             nextUpgrade = nextUpgrade * 2;
         }
     }
+    
+    void OnBecameVisible(){
+        team.OnUnitVisible(true);
+    }
+    void OnBecameInvisible(){
+        team.OnUnitInvisible(true);
+    }
 }
