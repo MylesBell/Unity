@@ -10,6 +10,8 @@ GameObject:
   - 4: {fileID: 440130}
   - 198: {fileID: 19856920}
   - 199: {fileID: 19900912}
+  - 114: {fileID: 11401320}
+  - 114: {fileID: 11454850}
   m_Layer: 0
   m_Name: FlameRing
   m_TagString: Untagged
@@ -23,12 +25,60 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 128652}
-  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106709}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11401320
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 35
+    i1: 175
+    i2: 217
+    i3: 158
+    i4: 51
+    i5: 117
+    i6: 212
+    i7: 93
+    i8: 43
+    i9: 78
+    i10: 71
+    i11: 198
+    i12: 199
+    i13: 141
+    i14: 109
+    i15: 35
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11454850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d1b7fabd8464d6f84c293e4f5c033b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specials: {fileID: 0}
+  stats: {fileID: 0}
+  currentScale: {x: 0, y: 0, z: 0}
+  ringRadius: 6
+  damageAmount: 30
 --- !u!198 &19856920
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1095,9 +1145,7 @@ ParticleSystemRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1248,11 +1296,11 @@ Prefab:
       objectReference: {fileID: 2100000, guid: f294bcc86b0b14ed0a119d604ba6e1ff, type: 2}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.x
-      value: -.0087265363
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.w
-      value: .999961913
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x

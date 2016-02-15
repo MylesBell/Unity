@@ -141,7 +141,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     private void upgradeHero(){
         int killStreak = gameObject.GetComponent<Stats>().GetKillStreak();
         if(killStreak >= nextUpgrade){
-            gameObject.GetComponent<Special>().UpgradeSpecials();
+            gameObject.GetComponent<Specials>().UpgradeSpecials();
             nextUpgrade = nextUpgrade * 2;
         }
     }
