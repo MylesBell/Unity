@@ -22,7 +22,6 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 			socket.On ("playerJoin", PlayerJoinHandler);
             socket.On ("playerLeave", PlayerLeaveHandler);
 			socket.On ("playerDirection", DirectionHandler);
-			socket.On ("playerSwitchBase", PlayerSwitchBase);
 			socket.On ("open", OpenHandler);
 			socket.On ("close", CloseHandler);
             socket.On ("playerSpecial", PlayerSpecialHandler);
@@ -60,13 +59,6 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 			socketIOInputEvents.PlayerMovement(playerID, moveDirection);
         }
 	}
-    
-    public void PlayerSwitchBase(SocketIOEvent e) {
-        if (isServer) {
-            Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerSwitchBase(e.data.GetField("uID").str); //socket io id
-        }
-    }
 	
 	public void GameStateHandler(GameState.State state)
 	{

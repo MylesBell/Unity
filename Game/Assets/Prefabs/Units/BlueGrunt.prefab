@@ -349,7 +349,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190686}
-  m_LocalRotation: {x: .735600233, y: .652053237, z: .103213191, w: .151875108}
+  m_LocalRotation: {x: .735600173, y: .652053177, z: .103213176, w: .151875094}
   m_LocalPosition: {x: -.0864999965, y: -.125899985, z: .157899991}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -554,6 +554,8 @@ MonoBehaviour:
   maximumVelocityBeforeIgnore: 1
   fireAttackRadius: 6
   fireAttackDamage: 30
+  healRingRadius: 6
+  healRingHealth: 30
 --- !u!114 &11442344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -576,6 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c088faab0134dca80aff73729c5305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamID: 0
   attackGruntTag: 
   attackHeroTag: 
   attackBaseTag: 
@@ -838,6 +841,10 @@ Prefab:
       propertyPath: healthBarBackTexture
       value: 
       objectReference: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129988}

@@ -27,12 +27,20 @@ public class CreateTerrain : NetworkBehaviour
     }
     
     public GameObject[] laneSegmentsLeft;
-    public GameObject base1Left;
-    public GameObject base2Left;
+    public GameObject base1LeftNoTunnel;
+    public GameObject base2LeftNoTunnel;
+    public GameObject base1LeftTunnel;
+    public GameObject base2LeftTunnel;
     
     public GameObject[] laneSegmentsRight;
-    public GameObject base1Right;
-    public GameObject base2Right;
+    public GameObject base1RightNoTunnel;
+    public GameObject base2RightNoTunnel;
+    public GameObject base1RightTunnel;
+    public GameObject base2RightTunnel;
+    private GameObject base1Left;
+    private GameObject base2Left;
+    private GameObject base1Right;
+    private GameObject base2Right;
     public Material groundMaterial;
     public Material sandMaterial;
 	public GameObject[] sceneryObjects;
@@ -41,6 +49,8 @@ public class CreateTerrain : NetworkBehaviour
 	public int maxNumScenery = 200;
     private List<NetworkTreeMessage>[] screenSceneryLeft;
     private List<NetworkTreeMessage>[] screenSceneryRight;
+    
+    private bool MultipleLanes;
 
     void Start() {
         //register handlers for messages
@@ -52,6 +62,12 @@ public class CreateTerrain : NetworkBehaviour
         int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
         int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
         int screenNumber = PlayerPrefs.GetInt("screen", -1);
+        
+        MultipleLanes = numScreensLeft > 0 && numScreensRight > 0;
+        base1Left = MultipleLanes ? base1LeftTunnel : base1LeftNoTunnel;
+        base1Right = MultipleLanes ? base1RightTunnel : base1RightNoTunnel;
+        base2Left = MultipleLanes ? base2LeftTunnel : base2LeftNoTunnel;
+        base2Right = MultipleLanes ? base2RightTunnel : base2RightNoTunnel;
         
         Vector3 chunkOffset = new Vector3(100, 0, 0);
         
@@ -75,7 +91,7 @@ public class CreateTerrain : NetworkBehaviour
 
 	void GenerateTerrain(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
         GameObject[] chunks = new GameObject[numScreens];
-        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 100 : 0));
+        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 200 : 0));
 		if (isServer || screenNumber == 0)
 		{
 			// create the first base
@@ -103,37 +119,37 @@ public class CreateTerrain : NetworkBehaviour
 
 	List<NetworkTreeMessage>[] PopulateScenery(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
         List<NetworkTreeMessage>[] screenScenery = new List<NetworkTreeMessage>[numScreens];
-        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 100 : 0));
+        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 200 : 0));
         
 		for (int i = 0; i < numScreens; i++) {
             int numObjects = Random.Range(minNumScenery,maxNumScenery);
             screenScenery[i] = new List<NetworkTreeMessage>();
-            for (int j = 0; j < numObjects; j++) {
-                int index = i < numScreens/2? Random.Range(0,2) : Random.Range(2,sceneryObjects.Length);
-                float z_pos;
-                do {
-                    z_pos = Random.Range(0, 100) + laneOffset.z;
-                } while (z_pos >= (computerLane == ComputerLane.LEFT ? Teams.minZLeft : Teams.minZRight) - 2
-                        && z_pos <= (computerLane == ComputerLane.LEFT ? Teams.maxZLeft : Teams.maxZRight) + 2);
-                Vector3 position = (chunkOffset * i) + new Vector3(Random.Range(0,100),40.0f,z_pos);
-                RaycastHit terrainLevel;
-                if(Physics.Raycast(position, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))
-                    position = terrainLevel.point;
-                Quaternion rotation = Quaternion.Euler(0.0f,Random.Range(0,360),0.0f);
-                Vector3 scale = new Vector3(Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f));
+            // for (int j = 0; j < numObjects; j++) {
+            //     int index = i < numScreens/2? Random.Range(0,2) : Random.Range(2,sceneryObjects.Length);
+            //     float z_pos;
+            //     do {
+            //         z_pos = Random.Range(0, 100) + laneOffset.z;
+            //     } while (z_pos >= (computerLane == ComputerLane.LEFT ? Teams.minZLeft : Teams.minZRight) - 2
+            //             && z_pos <= (computerLane == ComputerLane.LEFT ? Teams.maxZLeft : Teams.maxZRight) + 2);
+            //     Vector3 position = (chunkOffset * i) + new Vector3(Random.Range(0,100),40.0f,z_pos);
+            //     RaycastHit terrainLevel;
+            //     if(Physics.Raycast(position, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))
+            //         position = terrainLevel.point;
+            //     Quaternion rotation = Quaternion.Euler(0.0f,Random.Range(0,360),0.0f);
+            //     Vector3 scale = new Vector3(Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f));
 
-                //spawn on server
-                scenerySpawner(index, position, rotation, scale);
-                //create a message for the client
-                //the constructor has to have no parameters though
-                NetworkTreeMessage msg = new NetworkTreeMessage();
-                msg.index = index;
-                msg.position = position;
-                msg.rotation = rotation;
-                msg.scale = scale;
+            //     //spawn on server
+            //     scenerySpawner(index, position, rotation, scale);
+            //     //create a message for the client
+            //     //the constructor has to have no parameters though
+            //     NetworkTreeMessage msg = new NetworkTreeMessage();
+            //     msg.index = index;
+            //     msg.position = position;
+            //     msg.rotation = rotation;
+            //     msg.scale = scale;
 
-                screenScenery[i].Add(msg);
-            }
+            //     screenScenery[i].Add(msg);
+            // }
         }
         return screenScenery;
 	}

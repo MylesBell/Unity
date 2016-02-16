@@ -19,8 +19,8 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchB
     public int numberOfChannels;
     public static float maxZRight = 80;
     public static float minZRight = 30;
-    public static float maxZLeft = 170;
-    public static float minZLeft = 120;
+    public static float maxZLeft = 270;
+    public static float minZLeft = 220;
     
     public static float topOffsetRight = 3;
     public static float bottomOffsetRight = 5;
