@@ -58,7 +58,7 @@ public class CreateTerrain : NetworkBehaviour
         NetworkManager.singleton.client.RegisterHandler(MyMsgType.SendSceneryCode, onRecieverScenery);
         
         Random.seed = (int)Time.time;
-        
+        int lane = PlayerPrefs.GetInt("lane", 0);
         int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
         int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
         int screenNumber = PlayerPrefs.GetInt("screen", -1);
@@ -72,7 +72,7 @@ public class CreateTerrain : NetworkBehaviour
         Vector3 chunkOffset = new Vector3(100, 0, 0);
         
         //set up left lane
-        if(numScreensLeft > 0) {
+        if((isServer || lane == 0) && numScreensLeft > 0) {
 		    GenerateTerrain (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
             if (isServer) screenSceneryLeft = PopulateScenery (numScreensLeft, chunkOffset, ComputerLane.LEFT);
             else RequestScenery(screenNumber, ComputerLane.LEFT);
@@ -80,7 +80,7 @@ public class CreateTerrain : NetworkBehaviour
         }
         
         //set up right lane
-        if(numScreensRight > 0) {
+        if((isServer || lane == 1) && numScreensRight > 0) {
 		    GenerateTerrain (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
             if (isServer) screenSceneryRight = PopulateScenery (numScreensRight, chunkOffset, ComputerLane.RIGHT);
             else RequestScenery(screenNumber, ComputerLane.RIGHT);
