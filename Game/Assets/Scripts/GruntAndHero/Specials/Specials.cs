@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -22,6 +23,9 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     private Special specialTwo;
     private Special specialThree;
     
+    // chosen identifiers
+    public List<int> chosenNumbers;
+    
     // required tags
     public string attackGruntTag;
     public string attackHeroTag;
@@ -39,19 +43,34 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         ownGruntTag = targetSelect.teamID == TeamID.red ? "redGrunt" : "blueGrunt";
         ownHeroTag = targetSelect.teamID == TeamID.red ? "redHero" : "blueHero";
         ownBaseTag = targetSelect.teamID == TeamID.red ? "redBase" : "blueBase";
-        
-        InitialiseSpecials();
     }
     
-    private void InitialiseSpecials(){
+    public void InitialiseSpecials(){
+        // get number of powers
+        int numberOfSpecials = specialFiles.Length;
+        chosenNumbers = new List<int>();
         
-        GameObject specialObject = (GameObject) Instantiate(specialFiles[0].prefab, gameObject.transform.position, specialFiles[0].prefab.transform.rotation);
+        // choose three random powers and initialise them all
+        int specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
+        chosenNumbers.Add(specialValue);
+        GameObject specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
+            specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
         specialOne = specialObject.GetComponent<Special>();
-        specialObject = (GameObject) Instantiate(specialFiles[1].prefab, gameObject.transform.position, specialFiles[1].prefab.transform.rotation);
+        
+        // two
+        specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
+        chosenNumbers.Add(specialValue);
+        specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
+            specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
         specialTwo = specialObject.GetComponent<Special>();
-        specialObject = (GameObject) Instantiate(specialFiles[2].prefab, gameObject.transform.position, specialFiles[2].prefab.transform.rotation);
+        
+        // three
+        specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
+        chosenNumbers.Add(specialValue);
+        specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
+            specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
         specialThree = specialObject.GetComponent<Special>();
         
@@ -62,6 +81,16 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         specialOne.InitialiseSpecial();
         specialTwo.InitialiseSpecial();
         specialThree.InitialiseSpecial();
+    }
+    
+    private int getUniqueRandomInRange(int numberOfSpecials, List<int> chosenNumbers){
+        int number;
+        
+        do{
+            number = Random.Range(0, numberOfSpecials);
+        }while (chosenNumbers.Contains(number));
+        
+        return number;
     }
     
     void Update() {
