@@ -36,12 +36,7 @@ public static class SocketIOOutgoingEvents {
 	{
 		socketIOManager.PlayerDied (playerID, respawnTimestamp);
 	}
-
-	public static void PlayerNearBase (string playerID, bool nearBase)
-	{
-		socketIOManager.PlayerNearBase (playerID, nearBase);
-	}
-
+    
 	public static void PlayerRespawn (string playerID)
 	{
 		socketIOManager.PlayerRespawn (playerID);

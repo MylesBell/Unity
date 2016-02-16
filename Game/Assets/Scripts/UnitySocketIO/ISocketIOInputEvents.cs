@@ -5,6 +5,4 @@ public interface ISocketIOInputEvents{
 	void PlayerMovement (string playerID, MoveDirection moveDirection);
     
     void PlayerUseSpecial(string playerID, SpecialType specialType);
-    
-	void PlayerSwitchBase (string playerID);
 }

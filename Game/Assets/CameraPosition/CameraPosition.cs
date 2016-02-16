@@ -2,9 +2,9 @@
 
 public class CameraPosition : MonoBehaviour {
     public float speed;
-    private Vector3 initialPositionLeft = new Vector3(50f,32f,377.5f);
+    private Vector3 initialPositionLeft = new Vector3(50f,32f,277.5f);
     private Vector3 rotationLeft = new Vector3(40f, 180f, 0f);
-    private Vector3 initialPositionRight = new Vector3(50f,32f,17.5f);
+    private Vector3 initialPositionRight = new Vector3(50f,32f,22.5f);
     private Vector3 rotationRight = new Vector3(40.0f, 0f, 0f);
 
     private bool isServer;
