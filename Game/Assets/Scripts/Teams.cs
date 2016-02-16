@@ -5,7 +5,7 @@ public enum TeamID {
 	red, blue
 }
 
-public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchBase {
+public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
 
 	public Team blueTeam, redTeam;
 
@@ -103,15 +103,5 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchB
             
     }
     #endregion
-
-    #region IPlayerSwitchBase implementation
-    public void PlayerSwitchBase(string playerID)
-    {
-        GameObject hero;
-        if (blueTeam.TryGetHero(playerID, out hero))
-            blueTeam.PlayerSwitchBase(playerID);
-        else
-            redTeam.PlayerSwitchBase(playerID);
-    }
-    #endregion
+    
 }
