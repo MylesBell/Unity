@@ -85,7 +85,8 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		}
 	}
 
-	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state, float playerMaxHealth, float baseMaxHealth)
+	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state, float playerMaxHealth,
+        float baseMaxHealth, int specialOne, int specialTwo, int specialThree)
 	{
 		Debug.Log ("[SocketIO] Player has joined");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
@@ -95,6 +96,10 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		dataJSON.AddField ("state", (int)state);
         dataJSON.AddField ("playerMaxHealth", playerMaxHealth);
         dataJSON.AddField ("baseMaxHealth", baseMaxHealth);
+        dataJSON.AddField ("specialOne", specialOne);
+        dataJSON.AddField ("specialTwo", specialTwo);
+        dataJSON.AddField ("specialThree", specialThree);
+
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     
@@ -166,7 +171,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
     public void PlayerSpecialHandler(SocketIOEvent e){
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str, SpecialType.fire);
+            socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str, SpecialType.one);
         }
 	}
 

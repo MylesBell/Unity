@@ -137,6 +137,8 @@ public class Team : NetworkBehaviour {
 		hero.GetComponent<Hero>().setplayerID (playerID);
         hero.GetComponent<Hero>().setHeroName(playerName);
         
+        hero.GetComponent<Specials>().InitialiseSpecials();
+        
         //Choose random lane
         ComputerLane computerLane = getSpawnLane();
         hero.GetComponent<Hero>().setComputerLane(computerLane);
@@ -145,10 +147,15 @@ public class Team : NetworkBehaviour {
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane));
         playerDict.Add(playerID, hero);
         numberOfHeros++;
+        
+        // get chosen specials
 		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState,
                                                 hero.GetComponent<Health>().maxHealth,
                                                 hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
-                                                              teamBaseRight.GetComponent<BaseHealth>().maxHealth);
+                                                              teamBaseRight.GetComponent<BaseHealth>().maxHealth,
+                                                hero.GetComponent<Specials>().chosenNumbers[0],
+                                                hero.GetComponent<Specials>().chosenNumbers[1],
+                                                hero.GetComponent<Specials>().chosenNumbers[2]);
     }
     
     public void RemovePlayer(string playerID) {
@@ -213,7 +220,7 @@ public class Team : NetworkBehaviour {
             double respawnTimeStamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + heroRespawnInterval;
             print(respawnTimeStamp);
             SocketIOOutgoingEvents.PlayerDied(playerID, respawnTimeStamp.ToString("0.####"));
-            hero.GetComponent<Special>().ResetSpecials();
+            hero.GetComponent<Specials>().ResetSpecials();
         }
     }
 

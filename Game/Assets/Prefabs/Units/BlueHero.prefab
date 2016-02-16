@@ -378,10 +378,6 @@ MonoBehaviour:
   ignoreRange: 3
   runAwayTime: 2
   maximumVelocityBeforeIgnore: 1
-  fireAttackRadius: 6
-  fireAttackDamage: 30
-  healRingRadius: 6
-  healRingHealth: 30
 --- !u!114 &11459170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -457,9 +453,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11bf8c0bd16744496b6b1f85c9f56d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireRingPrefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
-  HealRingPrefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
   LevelUpPrefab: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
+  specialFiles:
+  - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    special: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    identifier: 0
+  - prefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+    special: {fileID: 11474698, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+    identifier: 1
+  - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    special: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    identifier: 2
+  attackGruntTag: 
+  attackHeroTag: 
+  attackBaseTag: 
+  ownGruntTag: 
+  ownHeroTag: 
+  ownBaseTag: 
 --- !u!222 &22263394
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -492,6 +502,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_ReceiveShadows
       value: 0
@@ -650,8 +664,39 @@ Prefab:
       value: 
       objectReference: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
     - target: {fileID: 0}
-      propertyPath: m_IsTrigger
-      value: 0
+      propertyPath: specialFiles.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[1].special
+      value: 
+      objectReference: {fileID: 11474698, guid: 3ed010f28f68c43f980b38db624d1fa2,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[2].special
+      value: 
+      objectReference: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[0].special
+      value: 
+      objectReference: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[1].identifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[2].identifier
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
