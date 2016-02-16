@@ -11,6 +11,8 @@ GameObject:
   - 33: {fileID: 3382566}
   - 65: {fileID: 6593290}
   - 23: {fileID: 2322442}
+  - 114: {fileID: 11410836}
+  - 114: {fileID: 11462488}
   m_Layer: 0
   m_Name: GateToHell
   m_TagString: Untagged
@@ -388,6 +390,49 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11410836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 28
+    i1: 240
+    i2: 236
+    i3: 227
+    i4: 221
+    i5: 171
+    i6: 84
+    i7: 36
+    i8: 89
+    i9: 254
+    i10: 168
+    i11: 49
+    i12: 89
+    i13: 44
+    i14: 234
+    i15: 225
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11462488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410c6583c1493469f9a265f5ec67655b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
