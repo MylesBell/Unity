@@ -18,14 +18,14 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
         }
 	}
 
-    public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition, float channelOffset) {
+    public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition) {
         if (isServer) {
             active = true;
             gameObject.GetComponent<Attack>().initiliseAttack();
             gameObject.GetComponent<GruntMovement>().initialiseMovement(spawnPosition);
             //set Health to Max
             gameObject.GetComponent<Health>().InitialiseHealth();
-            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
+            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
         }
@@ -50,12 +50,5 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
         gameObject.SetActive(active);
         CmdSetActiveState(active);
         team.OnGruntDead(gameObject);
-    }
-    
-    void OnBecameVisible(){
-        team.OnUnitVisible(false);
-    }
-    void OnBecameInvisible(){
-        team.OnUnitInvisible(false);
     }
 }

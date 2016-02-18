@@ -7,8 +7,6 @@ public enum MoveDirection {
 
 public class HeroMovement : NetworkBehaviour, IHeroMovement
 {
-    private Vector3 movementTarget;
-
 	private Stats stats;
     
     private LayerMask terrainMask = 256;
@@ -26,7 +24,6 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 
     public void initialiseMovement(Vector3 position) {
         transform.position = position;
-        movementTarget = position;
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         moveDirection = MoveDirection.NONE;
         CmdSetPositionOnClient();

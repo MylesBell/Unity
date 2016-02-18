@@ -5,7 +5,7 @@ public enum TeamID {
 	red, blue
 }
 
-public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchBase {
+public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
 
 	public Team blueTeam, redTeam;
 
@@ -19,8 +19,8 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchB
     public int numberOfChannels;
     public static float maxZRight = 80;
     public static float minZRight = 30;
-    public static float maxZLeft = 370;
-    public static float minZLeft = 320;
+    public static float maxZLeft = 270;
+    public static float minZLeft = 220;
     
     public static float topOffsetRight = 3;
     public static float bottomOffsetRight = 5;
@@ -38,10 +38,10 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchB
             int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
             bool hasLeftLane = PlayerPrefs.GetInt("numberofscreens-left", 0) > 1;
             bool hasRightLane = PlayerPrefs.GetInt("numberofscreens-right", 0) > 1;
-            int blueBaseXPosLeft = 50;
-            int blueBaseXPosRight = 50;
-            int redBaseXPosLeft = numScreensLeft * 100 - 50;
-            int redBaseXPosRight = numScreensRight * 100 - 50;
+            int blueBaseXPosLeft = 25;
+            int blueBaseXPosRight = 25;
+            int redBaseXPosLeft = numScreensLeft * 100 - 25;
+            int redBaseXPosRight = numScreensRight * 100 - 25;
             blueTeam.Initialise(hasLeftLane, hasRightLane, blueBaseXPosLeft, blueBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
             redTeam.Initialise(hasLeftLane,hasRightLane, redBaseXPosLeft, redBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
 
@@ -103,15 +103,5 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IPlayerSwitchB
             
     }
     #endregion
-
-    #region IPlayerSwitchBase implementation
-    public void PlayerSwitchBase(string playerID)
-    {
-        GameObject hero;
-        if (blueTeam.TryGetHero(playerID, out hero))
-            blueTeam.PlayerSwitchBase(playerID);
-        else
-            redTeam.PlayerSwitchBase(playerID);
-    }
-    #endregion
+    
 }

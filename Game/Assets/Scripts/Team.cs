@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class Team : NetworkBehaviour {
 
     public TeamID teamID;
-    public MusicScreenController musicScreenController;
     private Vector3 basePositionRight;
     private Vector3 basePositionLeft;
     private bool hasLeftLane;
@@ -53,7 +52,7 @@ public class Team : NetworkBehaviour {
         this.zPositionOffsetLeft = zPositionOffsetLeft;
         this.numberOfChannels = numberOfChannels;
         this.basePositionRight = new Vector3(positionXRight,0,50);
-        this.basePositionLeft = new Vector3(positionXLeft,0,350);
+        this.basePositionLeft = new Vector3(positionXLeft,0,250);
         this.numberOfGruntsToSpawn = numberOfGruntsToSpawn;
         this.gruntSpawnInterval = spawnInterval;
         this.gruntPoolSize = gruntPoolSize;
@@ -112,8 +111,8 @@ public class Team : NetworkBehaviour {
     }
 
     public void resetTeam() {
-        if(hasRightLane) teamBaseRight.GetComponent<Base>().ResetGameObject(basePositionRight, Vector3.zero, 0.0f);
-        if(hasLeftLane) teamBaseLeft.GetComponent<Base>().ResetGameObject(basePositionLeft, Vector3.zero, 0.0f);
+        if(hasRightLane) teamBaseRight.GetComponent<Base>().ResetGameObject(basePositionRight, Vector3.zero);
+        if(hasLeftLane) teamBaseLeft.GetComponent<Base>().ResetGameObject(basePositionLeft, Vector3.zero);
 
         //Restart heros
         foreach (KeyValuePair<string, GameObject> entry in playerDict) {
@@ -138,18 +137,25 @@ public class Team : NetworkBehaviour {
 		hero.GetComponent<Hero>().setplayerID (playerID);
         hero.GetComponent<Hero>().setHeroName(playerName);
         
+        hero.GetComponent<Specials>().InitialiseSpecials();
+        
         //Choose random lane
         ComputerLane computerLane = getSpawnLane();
         hero.GetComponent<Hero>().setComputerLane(computerLane);
         
         float zPos = getZPosition(computerLane);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane));
         playerDict.Add(playerID, hero);
         numberOfHeros++;
+        
+        // get chosen specials
 		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState,
                                                 hero.GetComponent<Health>().maxHealth,
                                                 hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
-                                                              teamBaseRight.GetComponent<BaseHealth>().maxHealth);
+                                                              teamBaseRight.GetComponent<BaseHealth>().maxHealth,
+                                                hero.GetComponent<Specials>().chosenNumbers[0],
+                                                hero.GetComponent<Specials>().chosenNumbers[1],
+                                                hero.GetComponent<Specials>().chosenNumbers[2]);
     }
     
     public void RemovePlayer(string playerID) {
@@ -175,7 +181,7 @@ public class Team : NetworkBehaviour {
     private void spawnGrunt(int i, ComputerLane computerLane) {
         GameObject grunt = getGrunt();
         float zPos = getZPosition(computerLane);
-        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
+        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane));
     }
 
     private GameObject getGrunt() {
@@ -202,7 +208,7 @@ public class Team : NetworkBehaviour {
         ComputerLane computerLane = hero.GetComponent<Hero>().getComputerLane();
         string playerID = hero.GetComponent<Hero>().getplayerID();
         float zPos = getZPosition(computerLane);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos,computerLane), GetTargetPosition(zPos,computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos,computerLane), GetTargetPosition(zPos,computerLane));
         SocketIOOutgoingEvents.PlayerRespawn(playerID);
     }
 
@@ -214,7 +220,7 @@ public class Team : NetworkBehaviour {
             double respawnTimeStamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + heroRespawnInterval;
             print(respawnTimeStamp);
             SocketIOOutgoingEvents.PlayerDied(playerID, respawnTimeStamp.ToString("0.####"));
-            hero.GetComponent<Special>().ResetSpecials();
+            hero.GetComponent<Specials>().ResetSpecials();
         }
     }
 
@@ -234,14 +240,6 @@ public class Team : NetworkBehaviour {
         return ComputerLane.RIGHT;
     }
     
-    public void PlayerSwitchBase(string playerID){
-        GameObject hero;
-        TryGetHero(playerID, out hero);
-        ComputerLane newLane = hero.GetComponent<Hero>().getComputerLane() == ComputerLane.RIGHT ? ComputerLane.LEFT : ComputerLane.RIGHT;
-        float zPos = getZPosition(newLane);
-        hero.GetComponent<Hero>().switchLane(newLane, GetSpawnLocation(zPos,newLane), GetTargetPosition(zPos,newLane), (newLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
-    }
-    
     public bool leftLaneExists(){
         return hasLeftLane;
     }
@@ -256,15 +254,5 @@ public class Team : NetworkBehaviour {
         foreach(string playerID in playerDict.Keys) {
             SocketIOOutgoingEvents.BaseHealthHasChanged(playerID, maxHealth, currentHealth);
         }
-    }
-    
-    public void OnUnitVisible(bool isHero){
-        if(teamID == TeamID.blue) musicScreenController.IncrementBlueTeam(isHero);
-        else                      musicScreenController.IncrementRedTeam(isHero);
-    }
-    
-    public void OnUnitInvisible(bool isHero){
-        if(teamID == TeamID.blue) musicScreenController.IncrementBlueTeam(isHero);
-        else                      musicScreenController.IncrementRedTeam(isHero);
     }
 }

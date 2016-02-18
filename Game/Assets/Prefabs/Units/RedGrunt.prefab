@@ -215,7 +215,7 @@ GameObject:
   - 54: {fileID: 5429052}
   - 114: {fileID: 11458384}
   - 95: {fileID: 9522064}
-  - 23: {fileID: 2399516}
+  - 114: {fileID: 11442452}
   m_Layer: 0
   m_Name: RedGrunt
   m_TagString: redGrunt
@@ -248,7 +248,7 @@ GameObject:
   - 4: {fileID: 486226}
   m_Layer: 0
   m_Name: vik
-  m_TagString: Untagged
+  m_TagString: redViking
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -768,32 +768,6 @@ Transform:
   - {fileID: 482572}
   m_Father: {fileID: 493830}
   m_RootOrder: 1
---- !u!23 &2399516
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129988}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
 --- !u!54 &5429052
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -853,6 +827,7 @@ MonoBehaviour:
   attackGruntTag: 
   attackHeroTag: 
   attackBaseTag: 
+  GruntMovementForwardMovePerUpdate: 1
 --- !u!114 &11405730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -898,6 +873,17 @@ MonoBehaviour:
   lerpRate: 5
   positionThreshold: .5
   rotationThreshold: 5
+--- !u!114 &11442452
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e61e905678b4ee4aee2c7659891663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11454656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -962,10 +948,6 @@ MonoBehaviour:
   ignoreRange: 5
   runAwayTime: 2
   maximumVelocityBeforeIgnore: 1
-  fireAttackRadius: 6
-  fireAttackDamage: 30
-  healRingRadius: 6
-  healRingHealth: 30
 --- !u!114 &11470698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1042,7 +1024,7 @@ Prefab:
       objectReference: {fileID: 411286, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: redGrunt
+      value: redViking
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarInitialLength
@@ -1140,6 +1122,14 @@ Prefab:
       propertyPath: healthBarBackTexture
       value: 
       objectReference: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129988}

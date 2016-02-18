@@ -39,6 +39,7 @@ GameObject:
   - 222: {fileID: 22263394}
   - 114: {fileID: 11434996}
   - 114: {fileID: 11471958}
+  - 114: {fileID: 11428720}
   m_Layer: 0
   m_Name: BlueHero
   m_TagString: blueHero
@@ -223,7 +224,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 2
+  m_Lightmapping: 4
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -310,6 +311,17 @@ MonoBehaviour:
   moveDirection: 8
   currentMovement: {x: 0, y: 0, z: 0}
   moveUnit: 1
+--- !u!114 &11428720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e61e905678b4ee4aee2c7659891663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11431772
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -325,6 +337,7 @@ MonoBehaviour:
   attackGruntTag: 
   attackHeroTag: 
   attackBaseTag: 
+  GruntMovementForwardMovePerUpdate: 1
 --- !u!114 &11432016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -378,10 +391,6 @@ MonoBehaviour:
   ignoreRange: 3
   runAwayTime: 2
   maximumVelocityBeforeIgnore: 1
-  fireAttackRadius: 6
-  fireAttackDamage: 30
-  healRingRadius: 6
-  healRingHealth: 30
 --- !u!114 &11459170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -457,9 +466,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11bf8c0bd16744496b6b1f85c9f56d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireRingPrefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
-  HealRingPrefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
   LevelUpPrefab: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
+  specialFiles:
+  - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    special: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    identifier: 0
+  - prefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+    special: {fileID: 11474698, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+    identifier: 1
+  - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    special: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    identifier: 2
+  chosenNumbers: 
+  attackGruntTag: 
+  attackHeroTag: 
+  attackBaseTag: 
+  ownGruntTag: 
+  ownHeroTag: 
+  ownBaseTag: 
 --- !u!222 &22263394
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -492,6 +516,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_ReceiveShadows
       value: 0
@@ -650,7 +678,38 @@ Prefab:
       value: 
       objectReference: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
     - target: {fileID: 0}
-      propertyPath: m_Lightmapping
+      propertyPath: specialFiles.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[1].special
+      value: 
+      objectReference: {fileID: 11474698, guid: 3ed010f28f68c43f980b38db624d1fa2,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[2].special
+      value: 
+      objectReference: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[0].special
+      value: 
+      objectReference: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[1].identifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[2].identifier
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []

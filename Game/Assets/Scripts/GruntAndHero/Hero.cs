@@ -59,7 +59,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         transform.FindChild("HeroName").gameObject.GetComponent<NameHero>().setTextRotation(computerLane == ComputerLane.RIGHT ? new Vector3(0,0,0) : new Vector3(0,180,0));
     }
 
-    public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset) {
+    public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition) {
         if (isServer) {
             active = true;
             gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
@@ -70,7 +70,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<Stats>().ResetKillStreak();
 
             targetSelect = GetComponent<TargetSelect> ();
-            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
+            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
             nextUpgrade = firstUpgrade;
@@ -124,12 +124,15 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         return computerLane;
     }
     
-    public void switchLane(ComputerLane newLane, Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset){
+    public void switchLane(){
         if (isServer) {
-            // gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
+            ComputerLane newLane = computerLane == ComputerLane.LEFT ? ComputerLane.RIGHT : ComputerLane.LEFT;
             gameObject.GetComponent<Attack>().initiliseAttack();
             targetSelect = GetComponent<TargetSelect> ();
-            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
+            Vector3 desiredPosition = transform.position;
+            desiredPosition.z = newLane == ComputerLane.LEFT ? 205f : 95f;
+            gameObject.GetComponent<HeroMovement>().initialiseMovement(desiredPosition);
+            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
             setComputerLane(newLane);
         }
     }
@@ -141,15 +144,8 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     private void upgradeHero(){
         int killStreak = gameObject.GetComponent<Stats>().GetKillStreak();
         if(killStreak >= nextUpgrade){
-            gameObject.GetComponent<Special>().UpgradeSpecials();
+            gameObject.GetComponent<Specials>().UpgradeSpecials();
             nextUpgrade = nextUpgrade * 2;
         }
-    }
-    
-    void OnBecameVisible(){
-        team.OnUnitVisible(true);
-    }
-    void OnBecameInvisible(){
-        team.OnUnitInvisible(true);
     }
 }

@@ -109,7 +109,7 @@ GameObject:
   - 54: {fileID: 5456998}
   - 114: {fileID: 11417552}
   - 95: {fileID: 9580440}
-  - 23: {fileID: 2397834}
+  - 114: {fileID: 11444290}
   m_Layer: 0
   m_Name: BlueGrunt
   m_TagString: blueGrunt
@@ -187,7 +187,7 @@ GameObject:
   - 4: {fileID: 494882}
   m_Layer: 0
   m_Name: cowboy
-  m_TagString: Untagged
+  m_TagString: blueCowboy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -350,7 +350,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190686}
-  m_LocalRotation: {x: .735600173, y: .652053177, z: .103213176, w: .151875094}
+  m_LocalRotation: {x: .735600233, y: .652053237, z: .103213176, w: .151875108}
   m_LocalPosition: {x: -.0864999965, y: -.125899985, z: .157899991}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -488,32 +488,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 494882}
   m_RootOrder: 3
---- !u!23 &2397834
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129988}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
 --- !u!54 &5456998
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -579,10 +553,6 @@ MonoBehaviour:
   ignoreRange: 5
   runAwayTime: 2
   maximumVelocityBeforeIgnore: 1
-  fireAttackRadius: 6
-  fireAttackDamage: 30
-  healRingRadius: 6
-  healRingHealth: 30
 --- !u!114 &11442344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -592,6 +562,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 261723a5cac2448c5bd7aba96c1e4b05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11444290
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e61e905678b4ee4aee2c7659891663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11445054
@@ -609,6 +590,7 @@ MonoBehaviour:
   attackGruntTag: 
   attackHeroTag: 
   attackBaseTag: 
+  GruntMovementForwardMovePerUpdate: 1
 --- !u!114 &11454656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -770,7 +752,7 @@ Prefab:
       objectReference: {fileID: 2800000, guid: 473bb01074f1d4e2ba54feba3b09775c, type: 3}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: blueGrunt
+      value: blueCowboy
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarInitialLength
@@ -815,7 +797,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+      objectReference: {fileID: 4300000, guid: 78f91393701e3954bab04243ffca326b, type: 3}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
       value: 2
@@ -868,6 +850,14 @@ Prefab:
       propertyPath: healthBarBackTexture
       value: 
       objectReference: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129988}
