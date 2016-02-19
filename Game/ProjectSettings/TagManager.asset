@@ -10,6 +10,7 @@ TagManager:
   - redBase
   - blueHero
   - redHero
+  - musicPlayer
   layers:
   - Default
   - TransparentFX

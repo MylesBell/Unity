@@ -23,7 +23,6 @@ public class CameraPosition : MonoBehaviour {
         Vector3 v3 = lane == 0 ? initialPositionLeft : initialPositionRight; //get current pos
         v3.x = width / 2 + width*screenNumber; //offset the camera correctly
         transform.position = v3;
-        Quaternion rotation = Quaternion.identity;
         print(transform.rotation.eulerAngles);
         transform.rotation = Quaternion.Euler(lane == 0 ? rotationLeft : rotationRight);
         currentLane = lane == 0 ? ComputerLane.LEFT : ComputerLane.RIGHT;
