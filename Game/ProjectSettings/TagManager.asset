@@ -11,8 +11,6 @@ TagManager:
   - blueHero
   - redHero
   - musicPlayer
-  - redViking
-  - blueCowboy
   layers:
   - Default
   - TransparentFX

@@ -248,7 +248,7 @@ GameObject:
   - 4: {fileID: 486226}
   m_Layer: 0
   m_Name: vik
-  m_TagString: redViking
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1024,7 +1024,7 @@ Prefab:
       objectReference: {fileID: 411286, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: redViking
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarInitialLength
