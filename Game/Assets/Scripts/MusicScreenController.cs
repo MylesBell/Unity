@@ -20,6 +20,7 @@ public class MusicScreenController : MonoBehaviour {
     private Coroutine CrossFadeCoroutine;
     
 	void Start () {
+        if(MusicClips.Length == 0) enabled = false;
         redHeroCount = 0;
         redGruntCount = 0;
         blueHeroCount = 0;
