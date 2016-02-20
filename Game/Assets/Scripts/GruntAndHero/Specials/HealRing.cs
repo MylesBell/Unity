@@ -35,6 +35,7 @@ public class HealRing : Special
 
     [ClientRpc]
     private void RpcPlayHealRingSystem() {
+        gameObject.SetActive(true);
         StartCoroutine(PlayHealRingSystem());
     }
     

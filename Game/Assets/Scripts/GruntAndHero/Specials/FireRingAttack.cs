@@ -35,6 +35,7 @@ public class FireRingAttack : Special
     
     [ClientRpc]
     public void RpcPlayFireParticleSystem() {
+        gameObject.SetActive(true);
         StartCoroutine(PlayFireRingSystem());
     }
     

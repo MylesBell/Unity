@@ -57,6 +57,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
         specialOne = specialObject.GetComponent<Special>();
+        RpcSetParent(specialObject,gameObject);
         
         // two
         specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
@@ -65,6 +66,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
         specialTwo = specialObject.GetComponent<Special>();
+        RpcSetParent(specialObject,gameObject);
         
         // three
         specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
@@ -73,6 +75,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
         specialThree = specialObject.GetComponent<Special>();
+        RpcSetParent(specialObject,gameObject);
         
         specialOne.transform.parent = gameObject.transform;
         specialTwo.transform.parent = gameObject.transform;
@@ -131,6 +134,12 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         specialOne.UpgradeSpecial();
         specialTwo.UpgradeSpecial();
         specialThree.UpgradeSpecial();
+    }
+    
+    [ClientRpc]
+    
+    public void RpcSetParent(GameObject child, GameObject parent) {
+        child.transform.parent = parent.transform;
     }
 
     [ClientRpc]
