@@ -25,6 +25,8 @@ public class MusicScreenController : NetworkBehaviour {
     
     private bool musicStarted = false;
     
+    private System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+    
 	void Start () {
         if(MusicClips.Length == 0) enabled = false;
         else {
@@ -62,7 +64,6 @@ public class MusicScreenController : NetworkBehaviour {
     
 	void Update () {
         if(!musicStarted && Input.GetKeyDown(KeyCode.M)){
-            System.DateTime epochStart = new System.DateTime(1970, 1, 1, 1, 0, 0, System.DateTimeKind.Utc);
             double startMusicTimestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + musicStartSecondsOffset;
             RpcStartMusicLoops(startMusicTimestamp);
         }
@@ -106,7 +107,6 @@ public class MusicScreenController : NetworkBehaviour {
     }
     
     void StartMusicLoops(double startTimestamp) {
-        System.DateTime epochStart = new System.DateTime(1970, 1, 1, 1, 0, 0, System.DateTimeKind.Utc);
         double timestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds;
         baseClipAudioSource.PlayDelayed((float)(startTimestamp - timestamp));
         foreach (AudioSource audioSource in audioSources) {
