@@ -116,7 +116,7 @@ MonoBehaviour:
   baseClip: {fileID: 0}
   MusicClips: []
   crossFadeDuration: 1
-  musicStartSecondsOffset: 4
+  musicStartSecondsOffset: 3
 --- !u!114 &925133112
 MonoBehaviour:
   m_ObjectHideFlags: 0

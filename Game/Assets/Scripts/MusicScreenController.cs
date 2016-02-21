@@ -19,6 +19,7 @@ public class MusicScreenController : NetworkBehaviour {
     private AudioSource baseClipAudioSource;
     private AudioSource[] audioSources;
     private int defaultClipIndex;
+    private int previousClipIndex;
     private int playingClipIndex;
     private bool isCrossFadeRunning = false;
     private Coroutine CrossFadeCoroutine;
@@ -83,7 +84,12 @@ public class MusicScreenController : NetworkBehaviour {
                 else                     newClipIndex = 0;
             }
             if(newClipIndex != playingClipIndex){
+                if(isCrossFadeRunning) {
+                    StopCoroutine(CrossFadeCoroutine);
+                    audioSources[previousClipIndex].volume = 0f;
+                }
                 CrossFadeCoroutine = StartCoroutine(CrossFade(audioSources[playingClipIndex], audioSources[newClipIndex], crossFadeDuration));
+                previousClipIndex = playingClipIndex;
                 playingClipIndex = newClipIndex;
             }
         }
@@ -92,9 +98,10 @@ public class MusicScreenController : NetworkBehaviour {
     private IEnumerator CrossFade(AudioSource currentAudioSource, AudioSource newAudioSource, float duration){
         isCrossFadeRunning = true;
         float fTimeCounter = 0f;
+        float startVolume = currentAudioSource.volume;
         while (!(Mathf.Approximately(fTimeCounter, duration))) {
             fTimeCounter = Mathf.Clamp01(fTimeCounter + Time.deltaTime);
-            currentAudioSource.volume = 1f - fTimeCounter;
+            currentAudioSource.volume = Mathf.Clamp01(startVolume - fTimeCounter);
             newAudioSource.volume = fTimeCounter;
             yield return new WaitForSeconds(0.02f);
         }
