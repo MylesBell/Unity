@@ -282,8 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f92930b3f4e34b9fabd9379fa43af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 8
-  movementAcceleration: 10
+  movementSpeed: 11
+  movementAcceleration: 50
   minDistanceFromEnemy: 0
   damage: 40
   attackCoolDown: 1
@@ -570,7 +570,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSpeed
-      value: 8
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage
@@ -671,6 +671,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[2].identifier
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementAcceleration
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
