@@ -47,10 +47,12 @@ public class HealRing : Special
     
     [Command]
     private void CmdRadialHeal(float radius, float heal){
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.parent.position, radius);
         foreach(Collider collider in hitColliders) {
-            if (CheckColliderWantsToHeal(collider)){
+            bool isNotGrunt;
+            if (CheckColliderWantsToHeal(collider, out isNotGrunt)){
                 Health health = (Health)collider.gameObject.GetComponent<Health>();
+                heal = isNotGrunt? 2 * heal : heal;
                 if (health.currentHealth + heal > health.maxHealth){
                     health.currentHealth = health.maxHealth;
                 }else{
@@ -60,16 +62,20 @@ public class HealRing : Special
         }
     }
     
-    private bool CheckColliderWantsToHeal(Collider collider){
+    private bool CheckColliderWantsToHeal(Collider collider, out bool isNotGrunt){
         
         // check gameobejct exists first (aka not default)
-        if (collider.gameObject.Equals(default(GameObject))) {
-            if (collider.gameObject.tag.Equals(specials.ownGruntTag) || collider.gameObject.tag.Equals(specials.ownHeroTag)
+        if (!collider.gameObject.Equals(default(GameObject))) {
+            if (collider.gameObject.tag.Equals(specials.ownGruntTag)){
+               isNotGrunt = false;
+               return true;
+            } else if (collider.gameObject.tag.Equals(specials.ownHeroTag)
               || collider.gameObject.tag.Equals(specials.ownBaseTag)){
+                isNotGrunt = true;
                 return true;
             }
         }
-        
+        isNotGrunt = false;
         return false;
     }
 }

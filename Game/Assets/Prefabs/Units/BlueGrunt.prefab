@@ -350,7 +350,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190686}
-  m_LocalRotation: {x: .735600173, y: .652053177, z: .103213161, w: .151875094}
+  m_LocalRotation: {x: .735600233, y: .652053237, z: .103213169, w: .151875108}
   m_LocalPosition: {x: -.0864999965, y: -.125899985, z: .157899991}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -543,8 +543,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f92930b3f4e34b9fabd9379fa43af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  movementAcceleration: 5
+  movementSpeed: 8
+  movementAcceleration: 20
   minDistanceFromEnemy: 0
   damage: 20
   attackCoolDown: 1
@@ -792,7 +792,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSpeed
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Mesh
@@ -824,7 +824,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementAcceleration
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Avatar
