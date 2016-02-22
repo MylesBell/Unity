@@ -474,8 +474,8 @@ MonoBehaviour:
   - prefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
     special: {fileID: 11474698, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
     identifier: 1
-  - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
-    special: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+  - prefab: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
+    special: {fileID: 11400728, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
     identifier: 2
   chosenNumbers: 
   attackGruntTag: 
@@ -688,7 +688,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[2].prefab
       value: 
-      objectReference: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+      objectReference: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[1].special
       value: 
@@ -697,7 +697,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[2].special
       value: 
-      objectReference: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23,
+      objectReference: {fileID: 11400728, guid: 50756da2de3ac4aefa9a23ea397f3d4f,
         type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[0].special
