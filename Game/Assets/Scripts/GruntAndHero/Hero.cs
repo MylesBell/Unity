@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
+public class Hero : NetworkBehaviour, IDestroyableGameObject {
     private Team team;
 	private string playerID;
 	private TargetSelect targetSelect;
@@ -10,8 +10,8 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     
     private string playerName;
     
-    public int firstUpdate = 5;
-    private int nextUpgrade = 0;
+    public int firstUpgrade = 5;
+    private int nextUpgrade = 1;
     
 
     public void Start() {
@@ -59,19 +59,21 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
         transform.FindChild("HeroName").gameObject.GetComponent<NameHero>().setTextRotation(computerLane == ComputerLane.RIGHT ? new Vector3(0,0,0) : new Vector3(0,180,0));
     }
 
-    public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset) {
+    public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition) {
         if (isServer) {
             active = true;
-            gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
+            gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
+            
             //set Health to Max
-            gameObject.GetComponent<Health>().initialiseHealth();
+            gameObject.GetComponent<Health>().InitialiseHealth();
             gameObject.GetComponent<Stats>().ResetKillStreak();
+
             targetSelect = GetComponent<TargetSelect> ();
-            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
+            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
-            nextUpgrade = firstUpdate;
+            nextUpgrade = firstUpgrade;
         }
     }
 
@@ -103,32 +105,6 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
         setTextMeshDirection(computerLane);
     }
 
-    void onDestroy() {
-        //fire event to SocketIo that hero is dead
-    }
-
-    #region IHeroMovement implementation
-    public void PlayerChangeProgressDirection (ProgressDirection progressDirection)
-	{
-		if (isServer) {
-            //the progress direction appears as right and left on the mobile app (we get forwards and backwards resp.)
-            //flip it accoridngly
-            if(team.GetTeamID() == TeamID.red && computerLane == ComputerLane.RIGHT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
-            if(team.GetTeamID() == TeamID.blue && computerLane == ComputerLane.LEFT) progressDirection = progressDirection == ProgressDirection.backward ? ProgressDirection.forward : ProgressDirection.backward;
-            targetSelect.SetProgressDirection(progressDirection);
-        }
-	}
-	public void PlayerMoveChannel (MoveDirection moveDirection)
-	{
-        if (isServer) {
-            //flip this on the left lane
-            if (computerLane == ComputerLane.LEFT) moveDirection = moveDirection == MoveDirection.up ? MoveDirection.down : MoveDirection.up;
-            targetSelect.MoveToZOffset(moveDirection, computerLane == ComputerLane.LEFT ? Teams.maxZLeft + Teams.topOffsetLeft : Teams.maxZRight + Teams.topOffsetRight,
-                                                      computerLane == ComputerLane.LEFT ? Teams.minZLeft + Teams.bottomOffsetLeft : Teams.minZRight + Teams.bottomOffsetRight);
-        }
-    }
-    #endregion
-
     public void DisableGameObject() {
         active = false;
         gameObject.SetActive(active);
@@ -138,6 +114,7 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     
     public void setComputerLane(ComputerLane computerLane){
         this.computerLane = computerLane;
+        gameObject.GetComponent<HeroMovement>().setComputerLane(computerLane);
         setTextMeshDirection(computerLane);
         CmdSetTextMeshDirection(computerLane);
         setHeroName(playerName);
@@ -147,12 +124,15 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
         return computerLane;
     }
     
-    public void switchLane(ComputerLane newLane, Vector3 spawnLocation, Vector3 desiredPosition, float channelOffset){
+    public void switchLane(){
         if (isServer) {
-            gameObject.GetComponent<Movement>().initialiseMovement(spawnLocation);
+            ComputerLane newLane = computerLane == ComputerLane.LEFT ? ComputerLane.RIGHT : ComputerLane.LEFT;
             gameObject.GetComponent<Attack>().initiliseAttack();
             targetSelect = GetComponent<TargetSelect> ();
-            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition, channelOffset);
+            Vector3 desiredPosition = transform.position;
+            desiredPosition.z = newLane == ComputerLane.LEFT ? 205f : 95f;
+            gameObject.GetComponent<HeroMovement>().initialiseMovement(desiredPosition);
+            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
             setComputerLane(newLane);
         }
     }
@@ -164,9 +144,8 @@ public class Hero : NetworkBehaviour, IHeroMovement, IDestroyableGameObject {
     private void upgradeHero(){
         int killStreak = gameObject.GetComponent<Stats>().GetKillStreak();
         if(killStreak >= nextUpgrade){
-            gameObject.GetComponent<Special>().UpgradeFireAttack();
+            gameObject.GetComponent<Specials>().UpgradeSpecials();
             nextUpgrade = nextUpgrade * 2;
-            print("Upgraded");
         }
     }
 }

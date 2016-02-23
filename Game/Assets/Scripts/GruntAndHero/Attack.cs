@@ -31,7 +31,8 @@ public class Attack : NetworkBehaviour {
 	private void AttackTarget() {
 		if (targetInAttackArea()){
             bool killedObject;
-			((Health)target.GetComponent ("Health")).ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
+            if(target.GetComponent<BaseHealth>()) target.GetComponent<BaseHealth>().ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
+			else                                  target.GetComponent<Health>().ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
             if(killedObject) stats.IncrementKillStreak();
 		}
 	}

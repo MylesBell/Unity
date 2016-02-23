@@ -36,6 +36,7 @@ public class Team : NetworkBehaviour {
     private float nextGruntRespawn = 0.0f;
 
 
+
     void Start() {
         if (isServer) {
             unitFactory = gameObject.GetComponent<UnitFactory>();
@@ -51,33 +52,32 @@ public class Team : NetworkBehaviour {
         this.zPositionOffsetLeft = zPositionOffsetLeft;
         this.numberOfChannels = numberOfChannels;
         this.basePositionRight = new Vector3(positionXRight,0,50);
-        this.basePositionLeft = new Vector3(positionXLeft,0,350);
+        this.basePositionLeft = new Vector3(positionXLeft,0,250);
         this.numberOfGruntsToSpawn = numberOfGruntsToSpawn;
         this.gruntSpawnInterval = spawnInterval;
         this.gruntPoolSize = gruntPoolSize;
         this.heroRespawnInterval = heroRespawnInterval;
         //Create base
-        if(hasRightLane) {
-            teamBaseRight = unitFactory.CreateBase(BasePrefab);
-            teamBaseRight.GetComponent<Base>().InitialiseGameObject(this);
-        }
-        if(hasLeftLane) {
-            teamBaseLeft = unitFactory.CreateBase(BasePrefab);
-            teamBaseLeft.GetComponent<Base>().InitialiseGameObject(this);
-        }
+        if(hasRightLane) teamBaseRight = unitFactory.CreateBase(BasePrefab);
+        if(hasLeftLane) teamBaseLeft = unitFactory.CreateBase(BasePrefab);
+        //Initialise GameObjects
+        if(hasRightLane) teamBaseRight.GetComponent<Base>().InitialiseGameObject(this);
+        if(hasLeftLane) teamBaseLeft.GetComponent<Base>().InitialiseGameObject(this);
     }
 
      void Update() {
-        if (isServer && GameState.gameState == GameState.State.PLAYING) {
-            if ((nextGruntRespawn > 0)) {
-                nextGruntRespawn -= Time.deltaTime;
-			} else {
-                for (int i = 0; i < numberOfGruntsToSpawn; i++) {
-                    if(hasRightLane) spawnGrunt(i, ComputerLane.RIGHT);
-                    if(hasLeftLane) spawnGrunt(i, ComputerLane.LEFT);
+        if (isServer) {
+            if(GameState.gameState == GameState.State.PLAYING){
+                if ((nextGruntRespawn > 0)) {
+                    nextGruntRespawn -= Time.deltaTime;
+                } else {
+                    for (int i = 0; i < numberOfGruntsToSpawn; i++) {
+                        if(hasRightLane) spawnGrunt(i, ComputerLane.RIGHT);
+                        if(hasLeftLane) spawnGrunt(i, ComputerLane.LEFT);
+                    }
+                    nextGruntRespawn = gruntSpawnInterval;
                 }
-                nextGruntRespawn = gruntSpawnInterval;
-			}
+            }
             lock (herosToRespawn) {
                 int itemsToRemove = 0;
                 foreach (Tuple<float,GameObject> tuple in herosToRespawn) {
@@ -111,8 +111,8 @@ public class Team : NetworkBehaviour {
     }
 
     public void resetTeam() {
-        if(hasRightLane) teamBaseRight.GetComponent<Base>().ResetGameObject(basePositionRight, Vector3.zero, 0.0f);
-        if(hasLeftLane) teamBaseLeft.GetComponent<Base>().ResetGameObject(basePositionLeft, Vector3.zero, 0.0f);
+        if(hasRightLane) teamBaseRight.GetComponent<Base>().ResetGameObject(basePositionRight, Vector3.zero);
+        if(hasLeftLane) teamBaseLeft.GetComponent<Base>().ResetGameObject(basePositionLeft, Vector3.zero);
 
         //Restart heros
         foreach (KeyValuePair<string, GameObject> entry in playerDict) {
@@ -137,15 +137,25 @@ public class Team : NetworkBehaviour {
 		hero.GetComponent<Hero>().setplayerID (playerID);
         hero.GetComponent<Hero>().setHeroName(playerName);
         
+        hero.GetComponent<Specials>().InitialiseSpecials();
+        
         //Choose random lane
         ComputerLane computerLane = getSpawnLane();
         hero.GetComponent<Hero>().setComputerLane(computerLane);
         
         float zPos = getZPosition(computerLane);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane));
         playerDict.Add(playerID, hero);
         numberOfHeros++;
-		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState, hero.GetComponent<Health>().maxHealth);
+        
+        // get chosen specials
+		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState,
+                                                hero.GetComponent<Health>().maxHealth,
+                                                hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
+                                                              teamBaseRight.GetComponent<BaseHealth>().maxHealth,
+                                                hero.GetComponent<Specials>().chosenNumbers[0],
+                                                hero.GetComponent<Specials>().chosenNumbers[1],
+                                                hero.GetComponent<Specials>().chosenNumbers[2]);
     }
     
     public void RemovePlayer(string playerID) {
@@ -171,7 +181,7 @@ public class Team : NetworkBehaviour {
     private void spawnGrunt(int i, ComputerLane computerLane) {
         GameObject grunt = getGrunt();
         float zPos = getZPosition(computerLane);
-        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
+        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane));
     }
 
     private GameObject getGrunt() {
@@ -198,7 +208,7 @@ public class Team : NetworkBehaviour {
         ComputerLane computerLane = hero.GetComponent<Hero>().getComputerLane();
         string playerID = hero.GetComponent<Hero>().getplayerID();
         float zPos = getZPosition(computerLane);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos,computerLane), GetTargetPosition(zPos,computerLane), (computerLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos,computerLane), GetTargetPosition(zPos,computerLane));
         SocketIOOutgoingEvents.PlayerRespawn(playerID);
     }
 
@@ -210,7 +220,7 @@ public class Team : NetworkBehaviour {
             double respawnTimeStamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + heroRespawnInterval;
             print(respawnTimeStamp);
             SocketIOOutgoingEvents.PlayerDied(playerID, respawnTimeStamp.ToString("0.####"));
-            hero.GetComponent<Special>().resetSpecial();
+            hero.GetComponent<Specials>().ResetSpecials();
         }
     }
 
@@ -230,14 +240,6 @@ public class Team : NetworkBehaviour {
         return ComputerLane.RIGHT;
     }
     
-    public void PlayerSwitchBase(string playerID){
-        GameObject hero;
-        TryGetHero(playerID, out hero);
-        ComputerLane newLane = hero.GetComponent<Hero>().getComputerLane() == ComputerLane.RIGHT ? ComputerLane.LEFT : ComputerLane.RIGHT;
-        float zPos = getZPosition(newLane);
-        hero.GetComponent<Hero>().switchLane(newLane, GetSpawnLocation(zPos,newLane), GetTargetPosition(zPos,newLane), (newLane == ComputerLane.LEFT ? zPositionOffsetLeft : zPositionOffsetRight));
-    }
-    
     public bool leftLaneExists(){
         return hasLeftLane;
     }
@@ -246,5 +248,11 @@ public class Team : NetworkBehaviour {
     }
     public bool hasTwoLanes(){
         return hasRightLane && hasLeftLane;
+    }
+    
+    public void BaseHealthChange(float maxHealth, float currentHealth){
+        foreach(string playerID in playerDict.Keys) {
+            SocketIOOutgoingEvents.BaseHealthHasChanged(playerID, maxHealth, currentHealth);
+        }
     }
 }

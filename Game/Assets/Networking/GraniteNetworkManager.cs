@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -17,8 +18,8 @@ public class GraniteNetworkManager : NetworkManager {
         PlayerPrefs.DeleteAll();
         //check for CLI
         string[] args = System.Environment.GetCommandLineArgs();
-        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreensLeft = false, hasNumberOfScreensRight = false, hasScreenNumber = false, hasGameCode = false;
-        string type = "", IP = "", port = "", numberOfScreensLeft = "0", numberOfScreensRight = "0", screenNumber = "", gameCode = "";
+        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreensLeft = false, hasNumberOfScreensRight = false, hasScreenNumber = false, hasGameCode = false, hasLane = false;
+        string type = "", IP = "", port = "", numberOfScreensLeft = "0", numberOfScreensRight = "0", screenNumber = "", gameCode = "", lane = "";
         foreach (string flag in args) {
             string[] splitFlag;
             if (flag.Contains("--type")) {
@@ -49,6 +50,10 @@ public class GraniteNetworkManager : NetworkManager {
                 splitFlag = flag.Split('=');
                 gameCode = splitFlag[1];
                 hasGameCode = true;
+            } else if (flag.Contains("--lane")) {
+                splitFlag = flag.Split('=');
+                lane = splitFlag[1];
+                hasLane = true;
             }
         }
         if (hasType) {
@@ -57,7 +62,7 @@ public class GraniteNetworkManager : NetworkManager {
                     if (hasIP && hasPort && (hasNumberOfScreensLeft || hasNumberOfScreensRight) && hasGameCode) StartupHost(IP, port, numberOfScreensLeft, numberOfScreensRight, gameCode);
                     break;
                 case "client":
-                    if (hasIP && hasPort && hasScreenNumber && (hasNumberOfScreensLeft || hasNumberOfScreensRight)) JoinScreen(IP, port, numberOfScreensLeft, numberOfScreensRight, screenNumber);
+                    if (hasIP && hasPort && hasScreenNumber && (hasNumberOfScreensLeft || hasNumberOfScreensRight) && hasLane) JoinScreen(IP, port, numberOfScreensLeft, numberOfScreensRight, screenNumber, lane);
                     break;
                 default:
                     Debug.Log("Running GUI\n");
@@ -73,6 +78,8 @@ public class GraniteNetworkManager : NetworkManager {
         SetGameCode();
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
+        PlayerPrefs.SetInt("lane", PlayerPrefs.GetInt("numberofscreens-left", 0) > PlayerPrefs.GetInt("numberofscreens-right", 0) ? 0 : 1);
+        NetworkManager.singleton.maxConnections = PlayerPrefs.GetInt("numberofscreens-left", 0) + PlayerPrefs.GetInt("numberofscreens-right", 0);
         NetworkManager.singleton.StartHost();
     }
 
@@ -84,6 +91,7 @@ public class GraniteNetworkManager : NetworkManager {
         PlayerPrefs.SetInt("screen", 0);
         PlayerPrefs.SetInt("isServer", 1);
         SetGameCode(gameCode);
+        NetworkManager.singleton.maxConnections = PlayerPrefs.GetInt("numberofscreens-left", 0) + PlayerPrefs.GetInt("numberofscreens-right", 0);
         NetworkManager.singleton.StartHost();
     }
 
@@ -97,13 +105,14 @@ public class GraniteNetworkManager : NetworkManager {
         NetworkManager.singleton.StartClient();
     }
 
-    public void JoinScreen(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight, string screenNumber) {
+    public void JoinScreen(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight, string screenNumber, string lane) {
         SetIPAddress(IPAddress);
         SetPort(portNumber);
         SetScreen(screenNumber);
         SetNumberOfScreens(numberOfScreensLeft, "left");
         SetNumberOfScreens(numberOfScreensRight, "right");
         PlayerPrefs.SetInt("isServer", 0);
+        PlayerPrefs.SetInt("lane", lane.Equals("right", StringComparison.OrdinalIgnoreCase) ? 1 : 0);
         NetworkManager.singleton.StartClient();
     }
 
@@ -162,7 +171,6 @@ public class GraniteNetworkManager : NetworkManager {
     public void SetLane(){
         //0 is left and 1 is right
         int selectedLane = ClientLaneDropdown.value;
-        if(selectedLane == 0) SetNumberOfScreens("0", "right");
-        else SetNumberOfScreens("0", "left");
+        PlayerPrefs.SetInt("lane", selectedLane);
     }
 }

@@ -27,20 +27,32 @@ public class CreateTerrain : NetworkBehaviour
     }
     
     public GameObject[] laneSegmentsLeft;
-    public GameObject base1Left;
-    public GameObject base2Left;
+    public GameObject base1LeftNoTunnel;
+    public GameObject base2LeftNoTunnel;
+    public GameObject base1LeftTunnel;
+    public GameObject base2LeftTunnel;
     
     public GameObject[] laneSegmentsRight;
-    public GameObject base1Right;
-    public GameObject base2Right;
+    public GameObject base1RightNoTunnel;
+    public GameObject base2RightNoTunnel;
+    public GameObject base1RightTunnel;
+    public GameObject base2RightTunnel;
+    private GameObject base1Left;
+    private GameObject base2Left;
+    private GameObject base1Right;
+    private GameObject base2Right;
     public Material groundMaterial;
     public Material sandMaterial;
 	public GameObject[] sceneryObjects;
 	public LayerMask terrainMask;
-	public int minNumScenery = 100;
-	public int maxNumScenery = 200;
+	public int minNumScenerySides = 100;
+	public int maxNumScenerySides = 200;
+	private int minNumSceneryMain = 10;
+	private int maxNumSceneryMain = 20;
     private List<NetworkTreeMessage>[] screenSceneryLeft;
     private List<NetworkTreeMessage>[] screenSceneryRight;
+    
+    private bool MultipleLanes;
 
     void Start() {
         //register handlers for messages
@@ -48,36 +60,57 @@ public class CreateTerrain : NetworkBehaviour
         NetworkManager.singleton.client.RegisterHandler(MyMsgType.SendSceneryCode, onRecieverScenery);
         
         Random.seed = (int)Time.time;
-        
+        int lane = PlayerPrefs.GetInt("lane", 0);
         int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
         int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
         int screenNumber = PlayerPrefs.GetInt("screen", -1);
         
+        MultipleLanes = numScreensLeft > 0 && numScreensRight > 0;
+        base1Left = MultipleLanes ? base1LeftTunnel : base1LeftNoTunnel;
+        base1Right = MultipleLanes ? base1RightTunnel : base1RightNoTunnel;
+        base2Left = MultipleLanes ? base2LeftTunnel : base2LeftNoTunnel;
+        base2Right = MultipleLanes ? base2RightTunnel : base2RightNoTunnel;
+        
         Vector3 chunkOffset = new Vector3(100, 0, 0);
         
         //set up left lane
-        if(numScreensLeft > 0) {
-		    GenerateTerrain (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
-            if (isServer) screenSceneryLeft = PopulateScenery (screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
-            else RequestScenery(screenNumber, ComputerLane.LEFT);
-            GenerateLongPathGrid(numScreensRight,chunkOffset,ComputerLane.LEFT);
-        }
+        if((isServer || lane == 0) && numScreensLeft > 0) GenerateComputerLane(lane, screenNumber, numScreensLeft, chunkOffset, ComputerLane.LEFT);
         
         //set up right lane
-        if(numScreensRight > 0) {
-		    GenerateTerrain (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
-            if (isServer) screenSceneryRight = PopulateScenery (screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
-            else RequestScenery(screenNumber, ComputerLane.RIGHT);
-            GenerateLongPathGrid(numScreensRight,chunkOffset,ComputerLane.RIGHT);            
+        if((isServer || lane == 1) && numScreensRight > 0) GenerateComputerLane(lane, screenNumber, numScreensRight, chunkOffset, ComputerLane.RIGHT);
+        
+    }
+    
+    void GenerateComputerLane(int lane, int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane){
+        int screensGenerated = 0;
+        if (isServer) {
+            GenerateTerrain(screenNumber, numScreens, chunkOffset, computerLane);
+            if(computerLane == ComputerLane.LEFT) screenSceneryLeft = PopulateScenery (numScreens, chunkOffset, computerLane);
+            else                                  screenSceneryRight = PopulateScenery (numScreens, chunkOffset, computerLane);
+            GenerateLongPathGridServer(numScreens, chunkOffset,computerLane);
+        } else {
+            if(screenNumber > 0) {
+                GenerateClientScreen(screenNumber-1, numScreens, chunkOffset, computerLane);
+                screensGenerated++;
+            }
+            GenerateClientScreen(screenNumber, numScreens, chunkOffset, computerLane);
+            screensGenerated++;
+            if(screenNumber + 1 < numScreens) {
+                GenerateClientScreen(screenNumber+1, numScreens, chunkOffset, computerLane);
+                screensGenerated++;
+            }
+            GenerateLongPathGrid(screenNumber, screensGenerated, chunkOffset,computerLane);
         }
-        
-        if(!isServer) Debug.Log("[ "+ screenNumber + "] MsgType " + MyMsgType.SendSceneryCode);
-        
+    }
+    
+    void GenerateClientScreen(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane){
+        GenerateTerrain(screenNumber, numScreens, chunkOffset, computerLane);
+        RequestScenery(screenNumber, computerLane);
     }
 
 	void GenerateTerrain(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
         GameObject[] chunks = new GameObject[numScreens];
-        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 300 : 0));
+        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 200 : 0));
 		if (isServer || screenNumber == 0)
 		{
 			// create the first base
@@ -103,48 +136,98 @@ public class CreateTerrain : NetworkBehaviour
 		}
 	}
 
-	List<NetworkTreeMessage>[] PopulateScenery(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
+	List<NetworkTreeMessage>[] PopulateScenery(int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
         List<NetworkTreeMessage>[] screenScenery = new List<NetworkTreeMessage>[numScreens];
-        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 300 : 0));
+        Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 200 : 0));
         
 		for (int i = 0; i < numScreens; i++) {
-            int numObjects = Random.Range(minNumScenery,maxNumScenery);
+            int numObjectsOnSides = Random.Range(minNumScenerySides, maxNumScenerySides);
+            int numObjectsOnMainTerrain = Random.Range(minNumSceneryMain, maxNumSceneryMain);
             screenScenery[i] = new List<NetworkTreeMessage>();
-            for (int j = 0; j < numObjects; j++) {
-                int index = i < numScreens/2? Random.Range(0,2) : Random.Range(2,sceneryObjects.Length);
-                float z_pos;
-                // do {
-                    z_pos = Random.Range(0, 100) + laneOffset.z;
-                // } while (z_pos >= (computerLane == ComputerLane.LEFT ? Teams.minZLeft : Teams.minZRight) - 2
-                //         && z_pos <= (computerLane == ComputerLane.LEFT ? Teams.maxZLeft : Teams.maxZRight) + 2);
-                Vector3 position = (chunkOffset * i) + new Vector3(Random.Range(0,100),40.0f,z_pos);
-                RaycastHit terrainLevel;
-                if(Physics.Raycast(position, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))
-                    position = terrainLevel.point;
-                Quaternion rotation = Quaternion.Euler(0.0f,Random.Range(0,360),0.0f);
-                Vector3 scale = new Vector3(Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f));
-
-                //spawn on server
-                scenerySpawner(index, position, rotation, scale);
-                //create a message for the client
-                //the constructor has to have no parameters though
-                NetworkTreeMessage msg = new NetworkTreeMessage();
-                msg.index = index;
-                msg.position = position;
-                msg.rotation = rotation;
-                msg.scale = scale;
-
-                screenScenery[i].Add(msg);
-            }
+            screenScenery[i].AddRange(GenerateTerrainPart(false, numObjectsOnSides, numScreens, i, chunkOffset, computerLane, laneOffset));
+            screenScenery[i].AddRange(GenerateTerrainPart(true, numObjectsOnMainTerrain, numScreens, i, chunkOffset, computerLane, laneOffset));
+            
         }
         return screenScenery;
 	}
     
-    void GenerateLongPathGrid(int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
-        float xCentre = numScreens * chunkOffset.x / 2;
-        Vector3 gridCentre = new Vector3(xCentre,0,(computerLane == ComputerLane.LEFT ? 350 : 50));
+    private List<NetworkTreeMessage> GenerateTerrainPart(bool generatingForMainTerrain, int numObjects, int numScreens, int screenNumber, Vector3 chunkOffset, ComputerLane computerLane, Vector3 laneOffset){
+        List<NetworkTreeMessage> screenScenery = new List<NetworkTreeMessage>();
+        for (int j = 0; j < numObjects; j++) {
+            int index = screenNumber < numScreens/2? Random.Range(0,2) : Random.Range(2,sceneryObjects.Length);
+            Vector3 position = GetNewPosition(generatingForMainTerrain, screenNumber, numScreens, chunkOffset*screenNumber, computerLane, laneOffset);
+            RaycastHit terrainLevel;
+            if(Physics.Raycast(position, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))
+                position = terrainLevel.point;
+            Quaternion rotation = Quaternion.Euler(0.0f,Random.Range(0,360),0.0f);
+            Vector3 scale = new Vector3(Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f));
+
+            //spawn on server
+            scenerySpawner(index, position, rotation, scale);
+            //create a message for the client
+            //the constructor has to have no parameters though
+            NetworkTreeMessage msg = new NetworkTreeMessage();
+            msg.index = index;
+            msg.position = position;
+            msg.rotation = rotation;
+            msg.scale = scale;
+
+            screenScenery.Add(msg);
+        }
+        return screenScenery;
+    }
+
+    void GenerateLongPathGrid(int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
+        float xCentre = screenNumber * chunkOffset.x + chunkOffset.x / 2;
+        Vector3 gridCentre = new Vector3(xCentre,0,(computerLane == ComputerLane.LEFT ? 250 : 50));
         
         GetComponent<NavGridManager>().CreateLongPathGrid(gridCentre, new Vector2(numScreens * chunkOffset.x,100), computerLane);
+
+    }
+    
+    void GenerateLongPathGridServer(int numScreens, Vector3 chunkOffset, ComputerLane computerLane) {
+        float xCentre = numScreens * chunkOffset.x / 2;
+        Vector3 gridCentre = new Vector3(xCentre,0,(computerLane == ComputerLane.LEFT ? 250 : 50));
+        
+        GetComponent<NavGridManager>().CreateLongPathGrid(gridCentre, new Vector2(numScreens * chunkOffset.x,100), computerLane);
+
+    }
+    
+    Vector3 GetNewPosition(bool generatingForMainTerrain, int screenNumber, int numScreens, Vector3 chunkOffset, ComputerLane computerLane, Vector3 laneOffset){
+        Vector3 position = chunkOffset;
+        float z_min =  (computerLane == ComputerLane.LEFT ? Teams.minZLeft : Teams.minZRight) - 2;
+        float z_max = (computerLane == ComputerLane.LEFT ? Teams.maxZLeft : Teams.maxZRight) + 2;
+        float z_pos, x_pos;
+        if(generatingForMainTerrain){
+            z_pos = z_min + Random.Range(0, z_max - z_min);
+        } else {
+            do {
+                z_pos = Random.Range(0, 100) + laneOffset.z;
+            } while (z_pos >= z_min && z_pos <= z_max);
+        }
+        
+        //Don't put obstacles in the tunnels
+        //first check if this z_pos is on the tunnel side or not
+        bool tunnelSide = (computerLane == ComputerLane.LEFT && z_pos < z_min)
+                          || (computerLane == ComputerLane.RIGHT && z_pos > z_max);
+        if(MultipleLanes && (screenNumber == 0 || screenNumber == numScreens - 1) && tunnelSide) {
+            //Find a point that is not between A and B so that it's not in the tunnel
+            float A, B;
+            if(screenNumber == 0){
+                A = 56;
+                B = 76;
+            } else {
+                A = 24;
+                B = 44;
+            }
+            do {
+                x_pos = Random.Range(0, 100);
+            } while (x_pos >= A && x_pos <= B);
+        } else {
+            x_pos = Random.Range(0,100);
+        }
+        position += new Vector3(x_pos, 40.0f,z_pos);
+        return position;
     }
 
     private void RequestScenery(int screenNumber, ComputerLane computerLane){

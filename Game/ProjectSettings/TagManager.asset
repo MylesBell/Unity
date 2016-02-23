@@ -10,6 +10,8 @@ TagManager:
   - redBase
   - blueHero
   - redHero
+  - musicPlayer
+  - terrainSpawner
   layers:
   - Default
   - TransparentFX

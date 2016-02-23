@@ -4,138 +4,122 @@ using UnityEngine.Networking;
 
 public class TargetSelect : NetworkBehaviour {
 
-	private TeamID teamID;
+	public TeamID teamID;
 	private Attack attack;
-	private Movement movement;
-	private float desiredZPosition;
 	private Vector3 desiredPosition;
-	private float zSeperation;
-	private ProgressDirection progressDirection;
 
     public string attackGruntTag;
     public string attackHeroTag;
     public string attackBaseTag;
-    private string homeBaseTag;
     private Stats stats;
     
-    private bool nearBaseLast;
+    public float GruntMovementForwardMovePerUpdate = 1f;
     
-    private Dictionary<GameObject, float> collidersToIgnore = new Dictionary<GameObject, float>();
+    private Queue<Vector3> moveTargets = new Queue<Vector3>();
+    public bool usePathFinding = true;
+    private bool wasAttacking;
+    private bool movementReset;
+
 	
 	void Start() {
+        if (isServer) {
+            gameObject.GetComponent<Rigidbody>().useGravity = true;
+        } else {
+            gameObject.GetComponent<Rigidbody>().detectCollisions = false;
+        }
 		stats = (Stats) GetComponent<Stats>();
+        wasAttacking = false;
 	}
 	
-	public void InitialiseTargetSelect (TeamID teamIDInput, Vector3 desiredPosition, float zSeperation)
-	{
+	public void InitialiseTargetSelect (TeamID teamIDInput, Vector3 desiredPosition)	{
 		teamID = teamIDInput;
-		this.desiredZPosition = desiredPosition.z;
         this.desiredPosition = desiredPosition;
-		this.zSeperation = zSeperation;
-		this.progressDirection = ProgressDirection.forward;
 		attack = GetComponent<Attack> ();
-		movement = GetComponent<Movement>();
-		movement.SetTarget (desiredPosition);
         attackGruntTag = teamID == TeamID.blue ? "redGrunt" : "blueGrunt";
         attackHeroTag = teamID == TeamID.blue ? "redHero" : "blueHero";
         attackBaseTag = teamID == TeamID.blue ? "redBase" : "blueBase";
-        homeBaseTag = teamID == TeamID.blue ? "blueBase" : "redBase";
-        nearBaseLast = false;
-        if(GetComponent<Hero>()) SocketIOOutgoingEvents.PlayerNearBase (GetComponent<Hero>().getplayerID(), false);
     }
-	
-	public void SetProgressDirection(ProgressDirection progressDirection){
-		this.progressDirection = progressDirection;
-        desiredPosition = transform.position;
-        if(hasAttackTarget() && GetComponent<Rigidbody>().velocity.magnitude < stats.maximumVelocityBeforeIgnore) findAndIgnoreCloseColliders();
-	}
-
-	public void MoveToZOffset(MoveDirection moveDirection, float maxZ, float minZ){
-        switch (moveDirection) {
-            case MoveDirection.up:
-                desiredZPosition = ((desiredZPosition + zSeperation) < maxZ) ? desiredZPosition + zSeperation : maxZ; 
-                break;
-            case MoveDirection.down:
-                desiredZPosition = ((desiredZPosition - zSeperation) > minZ) ? desiredZPosition - zSeperation : minZ; 
-                break;
-        }
-        desiredPosition = new Vector3(transform.position.x, transform.position.y, desiredZPosition);
-        movement.SetTarget(desiredPosition);
-        if(hasAttackTarget() && GetComponent<Rigidbody>().velocity.magnitude < stats.maximumVelocityBeforeIgnore) findAndIgnoreCloseColliders();
-	}
 
 	void Update () {
         if (isServer) {
-            bool nearBaseCurrent;
-            attack.setTarget(GetNewAttackTarget(out nearBaseCurrent));
+            attack.setTarget(GetNewAttackTarget());
             
-            //do movement
-            if (hasAttackTarget()) {
-                movement.SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
-            } else {
-                UpdateMoveTarget();
+            //automatic movement for grunts
+            if(gameObject.GetComponent<Grunt>()){
+                //do movement
+                if (hasAttackTarget()) {
+                    gameObject.GetComponent<GruntMovement>().SetTarget(attack.getTarget().GetComponent<Collider>().ClosestPointOnBounds(transform.position));
+                    desiredPosition.x = transform.position.x;
+                    wasAttacking = true;
+                    movementReset = false;
+                } else {
+                    if(usePathFinding && wasAttacking){
+                        MoveBackToTarget();
+                    } else {
+                        UpdateMoveTarget();
+                    }
+                }
             }
-            
-            //do near base event for heros only
-            if(GetComponent<Hero>() && GetComponent<Hero>().hasTwoLanes() && nearBaseCurrent != nearBaseLast) SocketIOOutgoingEvents.PlayerNearBase (GetComponent<Hero>().getplayerID(), nearBaseCurrent);
-            nearBaseLast = nearBaseCurrent;
-        }
-        List<GameObject> keysToDelete = new List<GameObject>();
-        List<GameObject> keys = new List<GameObject>(collidersToIgnore.Keys);
-        foreach(GameObject key in keys) {
-            collidersToIgnore[key] -= Time.deltaTime;
-            if(collidersToIgnore[key] < 0) keysToDelete.Add(key);
-        }
-        foreach(GameObject key in keysToDelete){
-            if(collidersToIgnore.ContainsKey(key)) collidersToIgnore.Remove(key);
         }
 	}
+    
+    private void MoveBackToTarget(){
+        if(!movementReset) ResetMoveTarget();
+        gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
+        if(Vector3.Distance(desiredPosition, transform.position) < 3.0f){
+            GetComponent<GruntClientPathFinder>().StartPaths();
+            wasAttacking = false;
+        }
+        
+    }
+    private void ResetMoveTarget(){
+        GetComponent<GruntClientPathFinder>().StopPaths();
+        GetComponent<GruntClientPathFinder>().ForceRequest(desiredPosition);
+        moveTargets.Clear();
+        movementReset = true;
+    }
 	
 	private void UpdateMoveTarget(){
+        
 		float distance = Vector3.Distance (desiredPosition, transform.position);
-		
-		if (distance < 2.0f) {
-			if (teamID == TeamID.blue){
-				if (progressDirection == ProgressDirection.forward){
-                	desiredPosition.x += zSeperation;
-				}else{
-					desiredPosition.x -= zSeperation;
-				}
-			}else{
-				if (progressDirection == ProgressDirection.forward){
-                	desiredPosition.x -= zSeperation;
-				}else{
-					desiredPosition.x += zSeperation;
-				}
-			}
+		if(usePathFinding) {
+            if (distance < 2.0f && moveTargets.Count > 0) {
+                desiredPosition = moveTargets.Dequeue();
+                gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
+            }
+        } else {
+            if (distance < 2.0f) {
+                if (teamID == TeamID.blue){
+                    desiredPosition.x += GruntMovementForwardMovePerUpdate;
+                } else {
+                    desiredPosition.x -= GruntMovementForwardMovePerUpdate;
+                }
+                gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
+            }
         }
-        movement.SetTarget(desiredPosition);
     }
 
 	private bool hasAttackTarget(){
 		return (attack.getTarget () != null);
 	}
 
-	private GameObject GetNewAttackTarget(out bool nearHomeBase){
+	private GameObject GetNewAttackTarget(){
         Collider closestBase = null;
         Collider closestHero = null;
         Collider closestGrunt = null;
         float currentDistanceBase = Mathf.Infinity;
         float currentDistanceHero = Mathf.Infinity;
         float currentDistanceGrunt = Mathf.Infinity;
-        nearHomeBase = false;
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.targetSelectRange);
         foreach(Collider collider in hitColliders) {
-            if (collider.gameObject.activeSelf && !collidersToIgnore.ContainsKey(collider.gameObject)) { //check if active
+            if (collider.gameObject.activeSelf) { //check if active
                 if (string.Equals(collider.gameObject.tag, attackGruntTag)) {
                     closestGrunt = closestCollider(closestGrunt, collider, ref currentDistanceGrunt);
                 } else if (string.Equals(collider.gameObject.tag, attackHeroTag)) {
                     closestHero = closestCollider(closestHero, collider, ref currentDistanceHero);
                 } else if (string.Equals(collider.gameObject.tag, attackBaseTag)) {
                     closestBase = closestCollider(closestBase, collider, ref currentDistanceBase);
-                } else if (string.Equals(collider.gameObject.tag, homeBaseTag)) {
-                    nearHomeBase = true;
                 }
             }
         }
@@ -159,16 +143,9 @@ public class TargetSelect : NetworkBehaviour {
         return Vector3.Distance(collider.ClosestPointOnBounds(transform.position), transform.position);
     }
     
-    private void findAndIgnoreCloseColliders(){
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.ignoreRange);
-        foreach(Collider collider in hitColliders) {
-            if (collider.gameObject.activeSelf) { //check if active
-                if (string.Equals(collider.gameObject.tag, attackGruntTag)
-                    || string.Equals(collider.gameObject.tag, attackHeroTag)
-                    || string.Equals(collider.gameObject.tag, attackBaseTag)) {
-                    collidersToIgnore.Add(collider.gameObject, stats.runAwayTime);
-                }
-            }
+    public void AddToQueue(Vector3[] vectors){
+        foreach(Vector3 vector in vectors){
+            moveTargets.Enqueue(vector);
         }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 public class Stats : NetworkBehaviour{
 	// movement
 	public float movementSpeed = 5.0f;
+    public float movementAcceleration = 8.0f;
 	public float minDistanceFromEnemy = 2.0f;
 	
 	// attack
@@ -12,16 +13,11 @@ public class Stats : NetworkBehaviour{
 	
 	// target select
 	public float targetSelectRange = 15.0f;	
-    
     public float ignoreRange = 5f;
     public float runAwayTime = 2f;
     public float maximumVelocityBeforeIgnore = 1f;
-    
-    // special abilities
-    public float fireAttackRadius = 6.0f;
-    public float fireAttackDamage = 30.0f;
-    
-    
+        
+    // kill streaks
     private int currentKillStreak = 0;
     private object killStreakLock = new object();
     public void ResetKillStreak(){
@@ -40,9 +36,5 @@ public class Stats : NetworkBehaviour{
         lock(killStreakLock){
             currentKillStreak++;
         }
-    }
-    
-    public void resetFireAttackRadius(){
-        fireAttackRadius = 6.0f;
     }
 }

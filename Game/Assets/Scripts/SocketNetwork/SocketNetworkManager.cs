@@ -22,7 +22,6 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 			socket.On ("playerJoin", PlayerJoinHandler);
             socket.On ("playerLeave", PlayerLeaveHandler);
 			socket.On ("playerDirection", DirectionHandler);
-			socket.On ("playerSwitchBase", PlayerSwitchBase);
 			socket.On ("open", OpenHandler);
 			socket.On ("close", CloseHandler);
             socket.On ("playerSpecial", PlayerSpecialHandler);
@@ -49,24 +48,17 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		    Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
 
 		    // get the direction from the message
-			string input = e.data.GetField("input").str;
+			int input = (int)e.data.GetField("input").n;
 			string playerID = e.data.GetField("uID").str;
-		    if(input == "up" || input == "down"){
-		    	MoveDirection dest = (input == "up" ? MoveDirection.up : MoveDirection.down);
-			    socketIOInputEvents.PlayerMoveChannel(playerID, dest); // socket io id, channel direction
-		    } else {
-		    	ProgressDirection direction = (input == "forward" ? ProgressDirection.forward : ProgressDirection.backward);
-				socketIOInputEvents.PlayerChangeProgressDirection(playerID, direction); // socket io id, progress direction
-		    }
+            
+            MoveDirection moveDirection;
+            
+            if (input == -1) moveDirection = MoveDirection.NONE;
+            else moveDirection = (MoveDirection) input;
+            
+			socketIOInputEvents.PlayerMovement(playerID, moveDirection);
         }
 	}
-    
-    public void PlayerSwitchBase(SocketIOEvent e) {
-        if (isServer) {
-            Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerSwitchBase(e.data.GetField("uID").str); //socket io id
-        }
-    }
 	
 	public void GameStateHandler(GameState.State state)
 	{
@@ -93,7 +85,8 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		}
 	}
 
-	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state, float maxHealth)
+	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state, float playerMaxHealth,
+        float baseMaxHealth, int specialOne, int specialTwo, int specialThree)
 	{
 		Debug.Log ("[SocketIO] Player has joined");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
@@ -101,7 +94,12 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		dataJSON.AddField("playerID", playerID);
 		dataJSON.AddField("teamID", (int)teamID);
 		dataJSON.AddField ("state", (int)state);
-        dataJSON.AddField ("maxHealth", maxHealth);
+        dataJSON.AddField ("playerMaxHealth", playerMaxHealth);
+        dataJSON.AddField ("baseMaxHealth", baseMaxHealth);
+        dataJSON.AddField ("specialOne", specialOne);
+        dataJSON.AddField ("specialTwo", specialTwo);
+        dataJSON.AddField ("specialThree", specialThree);
+
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     
@@ -138,7 +136,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
 		dataJSON.AddField("playerID", playerID);
 		dataJSON.AddField("nearBase", nearBase ? 1 : 0);
-		socket.Emit ("playerNearBase", dataJSON);
+		socket.Emit ("gamePlayerNearBase", dataJSON);
 	}
 
     public void PlayerLeaveHandler(string playerID, TeamID teamID, GameState.State state)
@@ -160,10 +158,20 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
         socket.Emit ("gamePlayerChangeHealth", dataJSON);
     }
     
+    public void BaseHealthHasChanged(string playerID, float maxHealth, float currentHealth)
+    {
+        Debug.Log ("[SocketIO] Player health has changed");
+        JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+        dataJSON.AddField("playerID", playerID);
+        dataJSON.AddField("maxHealth", maxHealth);
+        dataJSON.AddField("currentHealth", currentHealth);
+        socket.Emit ("gameBaseChangeHealth", dataJSON);
+    }
+    
     public void PlayerSpecialHandler(SocketIOEvent e){
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str, SpecialType.fire);
+            socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str, SpecialType.one);
         }
 	}
 

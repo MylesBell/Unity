@@ -13,6 +13,7 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
 
 	#region ISocketIOInputEvents implementation
 	
+    // join and leave
 	public void PlayerJoin (string playerID, string playerName, string gameCode)
 	{
 		ExecuteEvents.Execute<IPlayerJoin> (teamsObject, null, (x,y) => x.PlayerJoin(playerID, playerName, gameCode));
@@ -22,26 +23,18 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
     {
         ExecuteEvents.Execute<IPlayerLeave> (teamsObject, null, (x,y) => x.PlayerLeave(playerID));
     }
-
-	public void PlayerChangeProgressDirection (string playerID, ProgressDirection progressDirection)
+       
+    // movement
+	public void PlayerMovement (string playerID, MoveDirection moveDirection)
 	{
-		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerChangeProgressDirection(progressDirection));
+		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMovement(moveDirection));
 	}
 
-	public void PlayerMoveChannel (string playerID, MoveDirection moveDirection)
-	{
-		ExecuteEvents.Execute<IHeroMovement> (teams.GetHero(playerID), null, (x,y) => x.PlayerMoveChannel(moveDirection));
-	}
-    
+    // special
     public void PlayerUseSpecial(string playerID, SpecialType specialType)
     {
         ExecuteEvents.Execute<IPlayerSpecial> (teams.GetHero(playerID), null, (x,y) => x.PlayerSpecial(specialType));
     }
-
-	public void PlayerSwitchBase (string playerID)
-	{
-		ExecuteEvents.Execute<IPlayerSwitchBase> (teamsObject, null, (x,y) => x.PlayerSwitchBase(playerID));
-	}
 
 	#endregion
 
