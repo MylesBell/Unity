@@ -383,6 +383,7 @@ MonoBehaviour:
   damage: 40
   attackCoolDown: 1
   attackRange: 2
+  defense: 1
   targetSelectRange: 2
   ignoreRange: 3
   runAwayTime: 2
@@ -473,6 +474,9 @@ MonoBehaviour:
   - prefab: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
     special: {fileID: 11400728, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
     identifier: 11
+  - prefab: {fileID: 168854, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
+    special: {fileID: 11420066, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
+    identifier: 3
   - prefab: {fileID: 113374, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
     special: {fileID: 11419294, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
     identifier: 4
@@ -520,7 +524,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_ReceiveShadows
@@ -721,28 +725,28 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[3].prefab
       value: 
-      objectReference: {fileID: 113374, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
+      objectReference: {fileID: 168854, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[3].special
       value: 
-      objectReference: {fileID: 11419294, guid: 7b6de19b2bff84061b12ff00d498caea,
+      objectReference: {fileID: 11420066, guid: 8efdbc8b0774e470c84df109bea2610f,
         type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[3].identifier
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[4].identifier
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[4].prefab
       value: 
-      objectReference: {fileID: 150224, guid: 9bcc1822a8586450eabffacb6c7e7df7, type: 2}
+      objectReference: {fileID: 113374, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[4].special
       value: 
-      objectReference: {fileID: 11450080, guid: 9bcc1822a8586450eabffacb6c7e7df7,
+      objectReference: {fileID: 11419294, guid: 7b6de19b2bff84061b12ff00d498caea,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

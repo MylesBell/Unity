@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class AttackBuff : Special
+public class DefenseBuff : Special
 {   
-    public float attackIncrease = 10.0f;
-    private float originalAttack;
+    public float defenseIncrease = 0.5f;
+    private float originalDefense;
     
     override public void InitialiseSpecial()
     {
@@ -14,24 +14,24 @@ public class AttackBuff : Special
 
     override public void ResetSpecial()
     {
-        attackIncrease = 10.0f;
+        defenseIncrease = 0.5f;
     }
 
     override public void UpgradeSpecial()
     {
-        attackIncrease += 10.0f;
+        defenseIncrease += 0.5f;
     }
 
     override public void UseSpecial()
     {
-        originalAttack = stats.damage;
+        originalDefense = stats.damage;
         gameObject.SetActive(true);
         RpcPlaySpeedBuffSystem();
     }
     
     [ClientRpc]
     public void RpcPlaySpeedBuffSystem() {
-        stats.damage += attackIncrease;
+        stats.damage += defenseIncrease;
         gameObject.SetActive(true);
         StartCoroutine(PlaySpeedBuffSystem());
     }
@@ -39,6 +39,6 @@ public class AttackBuff : Special
     IEnumerator PlaySpeedBuffSystem(){
         yield return new WaitForSeconds(5.0f);
         gameObject.SetActive(false);
-        stats.damage = originalAttack;
+        stats.damage = originalDefense;
     }
 }
