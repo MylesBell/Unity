@@ -609,7 +609,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navigators: []
-  nodeRadius: 2
   unwalkableLayer:
     serializedVersion: 2
     m_Bits: 512

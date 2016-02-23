@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 
 public class Team : NetworkBehaviour {
-
+    
     public TeamID teamID;
     private Vector3 basePositionRight;
     private Vector3 basePositionLeft;
@@ -18,6 +18,7 @@ public class Team : NetworkBehaviour {
     private int numberOfHeros;
 
     Dictionary<string, GameObject> playerDict = new Dictionary<string, GameObject>();
+    Dictionary<int, GameObject> gruntDict = new Dictionary<int, GameObject>();
     private List<Tuple<float,GameObject>> herosToRespawn = new List<Tuple<float, GameObject>>();
 
     private float zPositionOffsetRight;
@@ -34,6 +35,7 @@ public class Team : NetworkBehaviour {
     private int heroRespawnInterval;
 
     private float nextGruntRespawn = 0.0f;
+    private int nextGruntID = 0;
 
 
 
@@ -171,9 +173,8 @@ public class Team : NetworkBehaviour {
 
     private void initialiseGruntPool() {
         for(int i = 0; i < gruntPoolSize; i++) {
-            GameObject grunt = unitFactory.CreateGrunt(GruntPrefab);
-            grunt.GetComponent<Grunt>().InitialiseGameObject(this);
-            availableGrunts.AddLast(grunt);
+            
+            availableGrunts.AddLast(CreateGrunt());
         }
         gruntPoolInitialised = true;
     }
@@ -191,11 +192,23 @@ public class Team : NetworkBehaviour {
                 grunt = availableGrunts.First.Value;
                 availableGrunts.RemoveFirst();
             } else {
-                grunt = unitFactory.CreateGrunt(GruntPrefab);
-                grunt.GetComponent<Grunt>().InitialiseGameObject(this);
+                grunt = CreateGrunt();
             }
         }
         return grunt;
+    }
+    
+    private GameObject CreateGrunt(){
+        GameObject grunt = unitFactory.CreateGrunt(GruntPrefab);
+        grunt.GetComponent<Grunt>().InitialiseGameObject(this);
+        grunt.GetComponent<Grunt>().SetID(nextGruntID);
+        gruntDict.Add(nextGruntID, grunt);
+        nextGruntID++;
+        return grunt;
+    }
+    
+    public bool TryGetGrunt(int id, out GameObject grunt) {
+        return gruntDict.TryGetValue(id, out grunt);
     }
 
     public void OnGruntDead(GameObject grunt) {
