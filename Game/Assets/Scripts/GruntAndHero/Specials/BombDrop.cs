@@ -12,7 +12,7 @@ public class BombDrop : Special
     override public void InitialiseSpecial()
     {
         currentScale = new Vector3(1.0f, 1.0f, 0);
-        parentTransform = transform.parent;
+        RpcSetParentTransform();
     }
 
     override public void ResetSpecial()
@@ -41,8 +41,14 @@ public class BombDrop : Special
     [ClientRpc]
     public void RpcPlayBombSystem() {
         transform.parent = null;        
+        transform.position = parentTransform.position + new Vector3(1,0,0);        
         gameObject.SetActive(true);
         StartCoroutine(PlayBombSystem());
+    }
+    
+    [ClientRpc]
+    public void RpcSetParentTransform() {
+        parentTransform = transform.parent;
     }
     
     IEnumerator PlayBombSystem() {
@@ -56,7 +62,7 @@ public class BombDrop : Special
         }
         particleSystem.Play();
         renderer.enabled = false;
-        CmdRadialDamage(ringRadius, damageAmount);        
+        RadialDamage(ringRadius, damageAmount);        
         yield return new WaitForSeconds(1.0f);
         gameObject.SetActive(false);
         particleSystem.Stop();        
@@ -66,14 +72,16 @@ public class BombDrop : Special
   
     
     // to deal damage and heal in a circular area about player
-    [Command]
-    private void CmdRadialDamage(float radius, float damage){
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
-        foreach(Collider collider in hitColliders) {
-            if (CheckColliderWantsToAttack(collider)){
-                bool killedObject;
-                ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
-                if(killedObject) stats.IncrementKillStreak();
+    private void RadialDamage(float radius, float damage){
+        // Cannot call RPC command from IEnumerator, reverting to old isServer method
+        if (isServer) {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+            foreach(Collider collider in hitColliders) {
+                if (CheckColliderWantsToAttack(collider)){
+                    bool killedObject;
+                    ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
+                    if(killedObject) stats.IncrementKillStreak();
+                }
             }
         }
     }
