@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -22,6 +23,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     private Special specialOne;
     private Special specialTwo;
     private Special specialThree;
+    GameObject levelUpParticle;
     
     // chosen identifiers
     public List<int> chosenNumbers;
@@ -78,13 +80,21 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         specialThree = specialObject.GetComponent<Special>();
         RpcSetParent(specialObject,gameObject);
         
-        // specialOne.transform.parent = gameObject.transform;
-        // specialTwo.transform.parent = gameObject.transform;
-        // specialThree.transform.parent = gameObject.transform;
+        specialOne.transform.parent = gameObject.transform;
+        specialTwo.transform.parent = gameObject.transform;
+        specialThree.transform.parent = gameObject.transform;
         
         specialOne.InitialiseSpecial();
         specialTwo.InitialiseSpecial();
         specialThree.InitialiseSpecial();
+        
+        // initialise level up
+        levelUpParticle = (GameObject) Instantiate(LevelUpPrefab, gameObject.transform.position,
+                LevelUpPrefab.transform.rotation);
+        NetworkServer.Spawn(levelUpParticle);
+        RpcSetParent(levelUpParticle,gameObject);
+        levelUpParticle.transform.parent = gameObject.transform;
+        levelUpParticle.SetActive(false);
     }
     
     private int getUniqueRandomInRange(int numberOfSpecials, List<int> chosenNumbers){
@@ -128,6 +138,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     
     public void UpgradeSpecials(){
         // play upgrade animation
+        levelUpParticle.SetActive(true);
         RpcPlayLevelUp();
         
         // upgrade all specials
@@ -137,16 +148,19 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     }
     
     [ClientRpc]
-    
     public void RpcSetParent(GameObject child, GameObject parent) {
         child.transform.parent = parent.transform;
     }
 
     [ClientRpc]
     public void RpcPlayLevelUp() {
-        GameObject levelUpParticle = (GameObject) Instantiate(LevelUpPrefab, gameObject.transform.position, LevelUpPrefab.transform.rotation);
-        RpcSetParent(levelUpParticle, gameObject);
-        Destroy(levelUpParticle, levelUpParticle.GetComponent<ParticleSystem>().startLifetime);
+        levelUpParticle.SetActive(true);
+        StartCoroutine(PlayLevelUp());
+    }
+    
+    IEnumerator PlayLevelUp(){
+        yield return new WaitForSeconds(2.0f);
+        levelUpParticle.SetActive(false);
     }
     
     public void ResetSpecials(){
