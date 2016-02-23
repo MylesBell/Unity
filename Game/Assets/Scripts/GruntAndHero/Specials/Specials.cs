@@ -72,7 +72,6 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         
         // three
         specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        specialValue = 3;
         chosenNumbers.Add(specialValue);
         specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
             specialFiles[specialValue].prefab.transform.rotation);
@@ -108,11 +107,14 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     }
     
     void Update() {
-        if (Input.GetKeyUp(KeyCode.X)) {
+        if (Input.GetKeyUp(KeyCode.Z)) {
             EmitSpecial(SpecialType.one);
         }
-        if (Input.GetKeyUp(KeyCode.C)) {
+        if (Input.GetKeyUp(KeyCode.X)) {
             EmitSpecial(SpecialType.two);
+        }
+        if (Input.GetKeyUp(KeyCode.C)) {
+            EmitSpecial(SpecialType.three);
         }
     }
     
