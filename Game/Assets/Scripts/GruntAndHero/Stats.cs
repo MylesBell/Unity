@@ -10,6 +10,9 @@ public class Stats : NetworkBehaviour{
 	public float damage = 20.0f;
 	public float attackCoolDown = 1.0f;
 	public float attackRange = 5.0f;
+    
+    // defense
+    public float defense = 1.0f;
 	
 	// target select
 	public float targetSelectRange = 15.0f;	
