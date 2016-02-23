@@ -1300,8 +1300,8 @@ Camera:
   m_GameObject: {fileID: 626680743}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: .440999985, b: 1, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -2430,6 +2430,7 @@ MonoBehaviour:
   - {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
   - {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
   - {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+  - {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
