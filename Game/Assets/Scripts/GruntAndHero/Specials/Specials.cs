@@ -54,7 +54,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         
         // choose three random powers and initialise them all
         int specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialFiles[specialValue].identifier);
+        chosenNumbers.Add(specialValue);
         GameObject specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
@@ -63,7 +63,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         
         // two
         specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialFiles[specialValue].identifier);
+        chosenNumbers.Add(specialValue);
         specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
@@ -73,7 +73,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         // three
         specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
         specialValue = 3;
-        chosenNumbers.Add(specialFiles[specialValue].identifier);
+        chosenNumbers.Add(specialValue);
         specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);

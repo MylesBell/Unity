@@ -149,13 +149,15 @@ public class Team : NetworkBehaviour {
         numberOfHeros++;
         
         // get chosen specials
+        Specials special = hero.GetComponent<Specials>();
+        int specialOneId = special.specialFiles[special.chosenNumbers[0]].identifier;
+        int specialTwoId = special.specialFiles[special.chosenNumbers[1]].identifier;
+        int specialThreeId = special.specialFiles[special.chosenNumbers[2]].identifier;
 		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState,
                                                 hero.GetComponent<Health>().maxHealth,
                                                 hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
                                                               teamBaseRight.GetComponent<BaseHealth>().maxHealth,
-                                                hero.GetComponent<Specials>().chosenNumbers[0],
-                                                hero.GetComponent<Specials>().chosenNumbers[1],
-                                                hero.GetComponent<Specials>().chosenNumbers[2]);
+                                                specialOneId, specialTwoId, specialThreeId);
     }
     
     public void RemovePlayer(string playerID) {
