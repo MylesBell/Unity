@@ -144,6 +144,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     [ClientRpc]
     public void RpcPlayLevelUp() {
         GameObject levelUpParticle = (GameObject) Instantiate(LevelUpPrefab, gameObject.transform.position, LevelUpPrefab.transform.rotation);
+        RpcSetParent(levelUpParticle, gameObject);
         Destroy(levelUpParticle, levelUpParticle.GetComponent<ParticleSystem>().startLifetime);
     }
     
