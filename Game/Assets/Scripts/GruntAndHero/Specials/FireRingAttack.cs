@@ -58,11 +58,12 @@ public class FireRingAttack : Special
     }
     
     private bool CheckColliderWantsToAttack(Collider collider){
-        
-        if (collider.gameObject.tag.Equals(specials.attackGruntTag) || collider.gameObject.tag.Equals(specials.attackHeroTag)
-            || collider.gameObject.tag.Equals(specials.attackBaseTag)){
-            return true;
+        // check gameobejct exists first (aka not default)
+        if (!collider.gameObject.Equals(default(GameObject))) {
+            return collider.gameObject.tag.Equals(specials.attackGruntTag) || collider.gameObject.tag.Equals(specials.attackHeroTag)
+                || collider.gameObject.tag.Equals(specials.attackBaseTag);
         }
+        
         return false;
     }
 }

@@ -52,7 +52,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         
         // choose three random powers and initialise them all
         int specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialValue);
+        chosenNumbers.Add(specialFiles[specialValue].identifier);
         GameObject specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
@@ -61,7 +61,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         
         // two
         specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialValue);
+        chosenNumbers.Add(specialFiles[specialValue].identifier);
         specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
@@ -70,16 +70,17 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         
         // three
         specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialValue);
+        specialValue = 3;
+        chosenNumbers.Add(specialFiles[specialValue].identifier);
         specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
         specialThree = specialObject.GetComponent<Special>();
         RpcSetParent(specialObject,gameObject);
         
-        specialOne.transform.parent = gameObject.transform;
-        specialTwo.transform.parent = gameObject.transform;
-        specialThree.transform.parent = gameObject.transform;
+        // specialOne.transform.parent = gameObject.transform;
+        // specialTwo.transform.parent = gameObject.transform;
+        // specialThree.transform.parent = gameObject.transform;
         
         specialOne.InitialiseSpecial();
         specialTwo.InitialiseSpecial();
