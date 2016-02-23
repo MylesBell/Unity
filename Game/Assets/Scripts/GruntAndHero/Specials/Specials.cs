@@ -97,7 +97,6 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     }
     
     void Update() {
-        gameObject.transform.rotation = Quaternion.Euler(90,0,0);
         if (Input.GetKeyUp(KeyCode.X)) {
             EmitSpecial(SpecialType.one);
         }

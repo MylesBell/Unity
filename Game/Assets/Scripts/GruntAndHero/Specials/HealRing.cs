@@ -10,7 +10,6 @@ public class HealRing : Special
     override public void InitialiseSpecial()
     {   
         currentScale = new Vector3(1.0f, 1.0f, 0);
-        gameObject.transform.parent = gameObject.transform;
     }
 
     override public void ResetSpecial()
@@ -40,7 +39,6 @@ public class HealRing : Special
     }
     
     private IEnumerator PlayHealRingSystem(){
-        // gameObject.transform.rotation = prefab.transform.rotation;
         yield return new WaitForSeconds(2.0f);
         gameObject.SetActive(false);
     }
