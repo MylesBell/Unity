@@ -26,17 +26,17 @@ public class DefenseBuff : Special
     {
         originalDefense = stats.damage;
         gameObject.SetActive(true);
-        RpcPlaySpeedBuffSystem();
+        RpcPlayDefenseBuffSystem();
     }
     
     [ClientRpc]
-    public void RpcPlaySpeedBuffSystem() {
+    public void RpcPlayDefenseBuffSystem() {
         stats.damage += defenseIncrease;
         gameObject.SetActive(true);
-        StartCoroutine(PlaySpeedBuffSystem());
+        StartCoroutine(PlayDefenseBuffSystem());
     }
     
-    IEnumerator PlaySpeedBuffSystem(){
+    IEnumerator PlayDefenseBuffSystem(){
         yield return new WaitForSeconds(5.0f);
         gameObject.SetActive(false);
         stats.damage = originalDefense;
