@@ -52,48 +52,35 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         int numberOfSpecials = specialFiles.Length;
         chosenNumbers = new List<int>();
         
-        // choose three random powers and initialise them all
-        int specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialValue);
-        GameObject specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
-            specialFiles[specialValue].prefab.transform.rotation);
-        NetworkServer.Spawn(specialObject);
-        specialOne = specialObject.GetComponent<Special>();
-        RpcSetParent(specialObject,gameObject);
-        
-        // two
-        specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialValue);
-        specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
-            specialFiles[specialValue].prefab.transform.rotation);
-        NetworkServer.Spawn(specialObject);
-        specialTwo = specialObject.GetComponent<Special>();
-        RpcSetParent(specialObject,gameObject);
-        
-        // three
-        specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialValue);
-        specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
-            specialFiles[specialValue].prefab.transform.rotation);
-        NetworkServer.Spawn(specialObject);
-        specialThree = specialObject.GetComponent<Special>();
-        RpcSetParent(specialObject,gameObject);
-        
-        specialOne.transform.parent = gameObject.transform;
-        specialTwo.transform.parent = gameObject.transform;
-        specialThree.transform.parent = gameObject.transform;
-        
-        specialOne.InitialiseSpecial();
-        specialTwo.InitialiseSpecial();
-        specialThree.InitialiseSpecial();
+         // choose three random powers and initialise them all
+        specialOne = createSpecial(numberOfSpecials);
+        specialTwo = createSpecial(numberOfSpecials);
+        specialThree = createSpecial(numberOfSpecials);
         
         // initialise level up
         levelUpParticle = (GameObject) Instantiate(LevelUpPrefab, gameObject.transform.position,
                 LevelUpPrefab.transform.rotation);
         NetworkServer.Spawn(levelUpParticle);
         RpcSetParent(levelUpParticle,gameObject);
+        RpcSetRotation(levelUpParticle, LevelUpPrefab.transform.rotation);
         levelUpParticle.transform.parent = gameObject.transform;
         levelUpParticle.SetActive(false);
+    }
+    
+    private Special createSpecial(int numberOfSpecials){
+        int specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
+        chosenNumbers.Add(specialValue);
+        GameObject specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
+            specialFiles[specialValue].prefab.transform.rotation);
+        NetworkServer.Spawn(specialObject);
+        RpcSetParent(specialObject,gameObject);
+        RpcSetRotation(specialObject, specialFiles[specialValue].prefab.transform.rotation);
+        
+        Special special = specialObject.GetComponent<Special>();
+        special.transform.parent = gameObject.transform;
+        special.InitialiseSpecial();
+        
+        return special;
     }
     
     private int getUniqueRandomInRange(int numberOfSpecials, List<int> chosenNumbers){
@@ -152,6 +139,11 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     [ClientRpc]
     public void RpcSetParent(GameObject child, GameObject parent) {
         child.transform.parent = parent.transform;
+    }
+    
+    [ClientRpc]
+    public void RpcSetRotation(GameObject targetObject, Quaternion rotation) {
+        targetObject.transform.rotation = rotation;
     }
 
     [ClientRpc]
