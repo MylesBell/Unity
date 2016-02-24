@@ -31,8 +31,13 @@ public class Attack : NetworkBehaviour {
 	private void AttackTarget() {
 		if (targetInAttackArea()){
             bool killedObject;
-            if(target.GetComponent<BaseHealth>()) target.GetComponent<BaseHealth>().ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
-			else                                  target.GetComponent<Health>().ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
+            if(target.GetComponent<BaseHealth>()){
+                target.GetComponent<BaseHealth>().ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
+            }else{
+                // attack based on hero damage, killstreak and enemy defense
+                float damageToDo = (stats.damage + stats.GetKillStreak()/10)/target.GetComponent<Stats>().defense;
+                target.GetComponent<Health>().ReduceHealth(damageToDo, out killedObject);
+            }
             if(killedObject) stats.IncrementKillStreak();
 		}
 	}

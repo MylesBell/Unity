@@ -1,41 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &107012
+--- !u!1 &168854
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 460566}
-  - 198: {fileID: 19866348}
-  - 199: {fileID: 19914122}
-  - 114: {fileID: 11471248}
+  - 4: {fileID: 421944}
+  - 198: {fileID: 19848278}
+  - 199: {fileID: 19982080}
+  - 114: {fileID: 11451536}
+  - 114: {fileID: 11420066}
   m_Layer: 0
-  m_Name: LevelUpParticles
+  m_Name: DefenseBuff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &460566
+--- !u!4 &421944
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107012}
+  m_GameObject: {fileID: 168854}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 6, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11471248
+--- !u!114 &11420066
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107012}
+  m_GameObject: {fileID: 168854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65093d290604840419d10f682579ba60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specials: {fileID: 0}
+  stats: {fileID: 0}
+  currentScale: {x: 0, y: 0, z: 0}
+  defenseIncrease: .5
+--- !u!114 &11451536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168854}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
@@ -44,42 +60,42 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 23
-    i1: 100
-    i2: 42
-    i3: 183
-    i4: 241
-    i5: 121
-    i6: 196
-    i7: 37
-    i8: 9
-    i9: 189
-    i10: 21
-    i11: 204
-    i12: 187
-    i13: 43
-    i14: 246
-    i15: 46
+    i0: 142
+    i1: 253
+    i2: 188
+    i3: 139
+    i4: 7
+    i5: 116
+    i6: 228
+    i7: 112
+    i8: 200
+    i9: 77
+    i10: 241
+    i11: 9
+    i12: 190
+    i13: 162
+    i14: 97
+    i15: 15
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!198 &19866348
+--- !u!198 &19848278
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107012}
-  lengthInSec: 3
+  m_GameObject: {fileID: 168854}
+  lengthInSec: 5
   startDelay: 0
   speed: 1
   randomSeed: 0
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   moveWithTransform: 1
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: 3
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -112,7 +128,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: 10
+      scalar: 7
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -236,7 +252,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4294967295
+        rgba: 4294705148
       minMaxState: 0
     startSize:
       scalar: 1
@@ -306,12 +322,12 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 100
+    maxNumParticles: 1000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
     type: 4
-    radius: 1
+    radius: 2
     angle: 0
     length: 5
     boxX: 1
@@ -325,7 +341,7 @@ ParticleSystem:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 20
+      scalar: 30
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -437,15 +453,15 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 4294956848
         key1:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 4294966718
         key2:
           serializedVersion: 2
           rgba: 0
@@ -1115,17 +1131,17 @@ ParticleSystem:
     subEmitterCollision1: {fileID: 0}
     subEmitterDeath: {fileID: 0}
     subEmitterDeath1: {fileID: 0}
---- !u!199 &19914122
+--- !u!199 &19982080
 ParticleSystemRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 107012}
+  m_GameObject: {fileID: 168854}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 442d2084c72c4439bb2d9feb0f68748f, type: 2}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -1157,28 +1173,8 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: lengthInSec
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: EmissionModule.rate.scalar
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: ShapeModule.radius
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: InitialModule.maxNumParticles
-      value: 100
-      objectReference: {fileID: 0}
+    m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 107012}
+  m_RootGameObject: {fileID: 168854}
   m_IsPrefabParent: 1

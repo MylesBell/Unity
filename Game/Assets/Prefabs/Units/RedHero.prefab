@@ -121,9 +121,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -147,9 +145,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -260,10 +256,19 @@ MonoBehaviour:
     identifier: 0
   - prefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
     special: {fileID: 11474698, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
-    identifier: 1
+    identifier: 6
   - prefab: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
     special: {fileID: 11400728, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
-    identifier: 2
+    identifier: 11
+  - prefab: {fileID: 168854, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
+    special: {fileID: 11420066, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
+    identifier: 3
+  - prefab: {fileID: 113374, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
+    special: {fileID: 11419294, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
+    identifier: 4
+  - prefab: {fileID: 150224, guid: 9bcc1822a8586450eabffacb6c7e7df7, type: 2}
+    special: {fileID: 11450080, guid: 9bcc1822a8586450eabffacb6c7e7df7, type: 2}
+    identifier: 5
   chosenNumbers: 
   attackGruntTag: 
   attackHeroTag: 
@@ -288,6 +293,7 @@ MonoBehaviour:
   damage: 40
   attackCoolDown: 1
   attackRange: 2
+  defense: 1
   targetSelectRange: 2
   ignoreRange: 3
   runAwayTime: 2
@@ -506,7 +512,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.size
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -666,16 +672,42 @@ Prefab:
         type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[1].identifier
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[2].identifier
-      value: 2
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementAcceleration
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[3].prefab
+      value: 
+      objectReference: {fileID: 168854, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[3].special
+      value: 
+      objectReference: {fileID: 11420066, guid: 8efdbc8b0774e470c84df109bea2610f,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[3].identifier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[4].identifier
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[4].prefab
+      value: 
+      objectReference: {fileID: 113374, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[4].special
+      value: 
+      objectReference: {fileID: 11419294, guid: 7b6de19b2bff84061b12ff00d498caea,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101776}
