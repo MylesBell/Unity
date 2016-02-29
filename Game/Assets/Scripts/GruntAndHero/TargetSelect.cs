@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,6 +14,8 @@ public class TargetSelect : NetworkBehaviour {
     private Stats stats;
     
     public float GruntMovementForwardMovePerUpdate = 1f;
+    
+    private List<int> nonAttackableEnemies = new List<int>();
 	
 	void Start() {
         if (isServer) {
@@ -77,7 +80,7 @@ public class TargetSelect : NetworkBehaviour {
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.targetSelectRange);
         foreach(Collider collider in hitColliders) {
-            if (collider.gameObject.activeSelf) { //check if active
+            if (collider.gameObject.activeSelf && isAttackable(collider.gameObject)) { //check if active and attackable (used for invisibility)
                 if (string.Equals(collider.gameObject.tag, attackGruntTag)) {
                     closestGrunt = closestCollider(closestGrunt, collider, ref currentDistanceGrunt);
                 } else if (string.Equals(collider.gameObject.tag, attackHeroTag)) {
@@ -105,5 +108,17 @@ public class TargetSelect : NetworkBehaviour {
 
     private float distanceToCollider(Collider collider) {
         return Vector3.Distance(collider.ClosestPointOnBounds(transform.position), transform.position);
+    }
+    
+    public void setNotAttackable(GameObject enemy){
+        nonAttackableEnemies.Add(enemy.GetInstanceID());
+    }
+    
+    public void setAttackable(GameObject enemy){
+        nonAttackableEnemies.Remove(enemy.GetInstanceID());
+    }
+    
+    private bool isAttackable(GameObject target){
+        return !(nonAttackableEnemies.Contains(target.GetInstanceID()));
     }
 }

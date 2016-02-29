@@ -269,6 +269,9 @@ MonoBehaviour:
   - prefab: {fileID: 150224, guid: 9bcc1822a8586450eabffacb6c7e7df7, type: 2}
     special: {fileID: 11450080, guid: 9bcc1822a8586450eabffacb6c7e7df7, type: 2}
     identifier: 5
+  - prefab: {fileID: 135370, guid: 74276afebb99644bcbdafa7f20d1d398, type: 2}
+    special: {fileID: 11443100, guid: 74276afebb99644bcbdafa7f20d1d398, type: 2}
+    identifier: 9
   chosenNumbers: 
   attackGruntTag: 
   attackHeroTag: 
@@ -512,7 +515,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -707,6 +710,19 @@ Prefab:
       propertyPath: specialFiles.Array.data[4].special
       value: 
       objectReference: {fileID: 11419294, guid: 7b6de19b2bff84061b12ff00d498caea,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[6].identifier
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[6].prefab
+      value: 
+      objectReference: {fileID: 135370, guid: 74276afebb99644bcbdafa7f20d1d398, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[6].special
+      value: 
+      objectReference: {fileID: 11443100, guid: 74276afebb99644bcbdafa7f20d1d398,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
