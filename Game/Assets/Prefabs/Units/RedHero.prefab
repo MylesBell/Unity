@@ -250,6 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelUpPrefab: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
+  SlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
   specialFiles:
   - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
     special: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
@@ -272,6 +273,9 @@ MonoBehaviour:
   - prefab: {fileID: 135370, guid: 74276afebb99644bcbdafa7f20d1d398, type: 2}
     special: {fileID: 11443100, guid: 74276afebb99644bcbdafa7f20d1d398, type: 2}
     identifier: 9
+  - prefab: {fileID: 168542, guid: 141c4f7183ef24f3d8f5ad8957ee1203, type: 2}
+    special: {fileID: 11442290, guid: 141c4f7183ef24f3d8f5ad8957ee1203, type: 2}
+    identifier: 10
   chosenNumbers: 
   attackGruntTag: 
   attackHeroTag: 
@@ -515,7 +519,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -724,6 +728,23 @@ Prefab:
       value: 
       objectReference: {fileID: 11443100, guid: 74276afebb99644bcbdafa7f20d1d398,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[7].identifier
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[7].prefab
+      value: 
+      objectReference: {fileID: 168542, guid: 141c4f7183ef24f3d8f5ad8957ee1203, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[7].special
+      value: 
+      objectReference: {fileID: 11442290, guid: 141c4f7183ef24f3d8f5ad8957ee1203,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: SlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101776}
