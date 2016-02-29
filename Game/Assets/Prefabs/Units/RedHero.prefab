@@ -276,6 +276,9 @@ MonoBehaviour:
   - prefab: {fileID: 168542, guid: 141c4f7183ef24f3d8f5ad8957ee1203, type: 2}
     special: {fileID: 11442290, guid: 141c4f7183ef24f3d8f5ad8957ee1203, type: 2}
     identifier: 10
+  - prefab: {fileID: 177848, guid: 0c3e324b57eca467596f5e353c5b89af, type: 2}
+    special: {fileID: 11497474, guid: 0c3e324b57eca467596f5e353c5b89af, type: 2}
+    identifier: 12
   chosenNumbers: 
   attackGruntTag: 
   attackHeroTag: 
@@ -519,7 +522,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -745,6 +748,19 @@ Prefab:
       propertyPath: SlowDownPrefab
       value: 
       objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[8].identifier
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[8].prefab
+      value: 
+      objectReference: {fileID: 177848, guid: 0c3e324b57eca467596f5e353c5b89af, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[8].special
+      value: 
+      objectReference: {fileID: 11497474, guid: 0c3e324b57eca467596f5e353c5b89af,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101776}
