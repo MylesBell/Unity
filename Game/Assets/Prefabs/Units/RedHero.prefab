@@ -22,6 +22,7 @@ GameObject:
   - 114: {fileID: 11412706}
   - 114: {fileID: 11400116}
   - 114: {fileID: 11499648}
+  - 114: {fileID: 11416490}
   m_Layer: 0
   m_Name: RedHero
   m_TagString: redHero
@@ -250,7 +251,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelUpPrefab: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
-  SlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
   specialFiles:
   - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
     special: {fileID: 11454850, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
@@ -340,6 +340,18 @@ MonoBehaviour:
     i15: 46
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &11416490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e9ad36b04c84a74b33daa3c967aef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
 --- !u!114 &11446168
 MonoBehaviour:
   m_ObjectHideFlags: 1

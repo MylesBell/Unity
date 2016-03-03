@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -14,8 +13,6 @@ public class TargetSelect : NetworkBehaviour {
     private Stats stats;
     
     public float GruntMovementForwardMovePerUpdate = 1f;
-    
-    private List<int> nonAttackableEnemies = new List<int>();
 	
 	void Start() {
         if (isServer) {
@@ -110,15 +107,11 @@ public class TargetSelect : NetworkBehaviour {
         return Vector3.Distance(collider.ClosestPointOnBounds(transform.position), transform.position);
     }
     
-    public void setNotAttackable(GameObject enemy){
-        nonAttackableEnemies.Add(enemy.GetInstanceID());
-    }
-    
-    public void setAttackable(GameObject enemy){
-        nonAttackableEnemies.Remove(enemy.GetInstanceID());
-    }
-    
-    private bool isAttackable(GameObject target){
-        return !(nonAttackableEnemies.Contains(target.GetInstanceID()));
+    private bool isAttackable(GameObject enemy){
+        if((enemy.tag == attackHeroTag) && gameObject.GetComponent<Grunt>()){
+            return gameObject.GetComponent<Grunt>().team.isAttackable(enemy);
+        }
+        
+        return true;
     }
 }

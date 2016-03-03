@@ -16,7 +16,6 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     
     // prefabs  
     public GameObject LevelUpPrefab;
-    public GameObject SlowDownPrefab;
     public SpecialFiles[] specialFiles;
     
     // instantiated specials
@@ -24,7 +23,6 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     private Special specialTwo;
     private Special specialThree;
     private GameObject levelUpParticle;
-    private GameObject slowDownParticle;
     
     // chosen identifiers
     public List<int> chosenNumbers;
@@ -37,8 +35,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     public string ownHeroTag;
     public string ownBaseTag;
     
-    // for slowdown
-    private float savedSpeed;
+    public TeamID teamID;
     
     void Start() {
         // set required tags
@@ -46,9 +43,11 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         attackGruntTag = targetSelect.attackGruntTag;
         attackHeroTag = targetSelect.attackHeroTag;
         attackBaseTag = targetSelect.attackBaseTag;
-        ownGruntTag = targetSelect.teamID == TeamID.red ? "redGrunt" : "blueGrunt";
-        ownHeroTag = targetSelect.teamID == TeamID.red ? "redHero" : "blueHero";
-        ownBaseTag = targetSelect.teamID == TeamID.red ? "redBase" : "blueBase";
+        
+        teamID = targetSelect.teamID;
+        ownGruntTag = teamID == TeamID.red ? "redGrunt" : "blueGrunt";
+        ownHeroTag = teamID == TeamID.red ? "redHero" : "blueHero";
+        ownBaseTag = teamID == TeamID.red ? "redBase" : "blueBase";
     }
     
     public void InitialiseSpecials(){
@@ -69,15 +68,6 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         RpcSetRotation(levelUpParticle, LevelUpPrefab.transform.rotation);
         levelUpParticle.transform.parent = gameObject.transform;
         levelUpParticle.SetActive(false);
-        
-        // initialise slow down
-        slowDownParticle = (GameObject) Instantiate(SlowDownPrefab, gameObject.transform.position,
-                SlowDownPrefab.transform.rotation);
-        NetworkServer.Spawn(slowDownParticle);
-        RpcSetParent(slowDownParticle,gameObject);
-        RpcSetRotation(slowDownParticle, SlowDownPrefab.transform.rotation);
-        slowDownParticle.transform.parent = gameObject.transform;
-        slowDownParticle.SetActive(false);
     }
     
     private Special createSpecial(int numberOfSpecials){
@@ -97,10 +87,11 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     }
     
     private int getUniqueRandomInRange(int numberOfSpecials, List<int> chosenNumbers){
-        int number;
+        int number = 5;
         
         do{
-            number = Random.Range(0, numberOfSpecials);
+            // number = Random.Range(0, numberOfSpecials);
+            number = number + 1;
         }while (chosenNumbers.Contains(number));
         
         return number;
@@ -174,33 +165,5 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         specialOne.ResetSpecial();
         specialTwo.ResetSpecial();
         specialThree.ResetSpecial();
-    }
-    
-    public void SlowDown(float slowDownTime, float slowDownMultiplier){
-        CmdReduceSpeed(slowDownMultiplier);
-        RpcPlaySlowDown(slowDownTime);
-    }
-    
-    [Command]
-    private void CmdReduceSpeed(float slowDownMultiplier){
-        savedSpeed = gameObject.GetComponent<Stats>().movementSpeed;
-        gameObject.GetComponent<Stats>().movementSpeed = savedSpeed * slowDownMultiplier;
-    }
-    
-    [Command]
-    private void CmdResumeSpeed(){
-        gameObject.GetComponent<Stats>().movementSpeed = savedSpeed;
-    }
-    
-    [ClientRpc]
-    public void RpcPlaySlowDown(float slowDownTime) {
-        slowDownParticle.SetActive(true);
-        StartCoroutine(PlaySlowDown(slowDownTime));
-    }
-    
-    IEnumerator PlaySlowDown(float slowDownTime){
-        yield return new WaitForSeconds(slowDownTime);
-        levelUpParticle.SetActive(false);
-        CmdResumeSpeed(); // cmd from within rpc #dubious
     }
 }

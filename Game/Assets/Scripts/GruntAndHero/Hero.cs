@@ -2,7 +2,7 @@
 using UnityEngine.Networking;
 
 public class Hero : NetworkBehaviour, IDestroyableGameObject {
-    private Team team;
+    public Team team;
 	private string playerID;
 	private TargetSelect targetSelect;
     private ComputerLane computerLane;

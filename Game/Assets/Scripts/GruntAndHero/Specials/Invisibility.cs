@@ -6,9 +6,14 @@ public class Invisibility : Special
 {   
     public float invisibilityTime = 10.0f;
     
+    private Team enemyTeam = null;
+    private Teams teams;
+    
     override public void InitialiseSpecial()
     {
         currentScale = new Vector3(1.0f, 1.0f, 0);
+        
+        teams = GameObject.FindGameObjectWithTag("GameController").GetComponent<Teams>();
     }
 
     override public void ResetSpecial()
@@ -25,11 +30,11 @@ public class Invisibility : Special
     {
         gameObject.SetActive(true);
         RpcPlayInvisibiltySystem();
+        CmdSetNotAttackable();
     }
     
     [ClientRpc]
     public void RpcPlayInvisibiltySystem() {
-        CmdSetNotAttackable();
         gameObject.SetActive(true);
         StartCoroutine(PlayInvisibiltySystem());
     }
@@ -37,27 +42,28 @@ public class Invisibility : Special
     IEnumerator PlayInvisibiltySystem(){
         yield return new WaitForSeconds(invisibilityTime);
         gameObject.SetActive(false);
-        setAttackable();
+        CmdSetAttackable();
     }
     
     [Command]
     private void CmdSetNotAttackable(){
-       // get all enemy grunts
-       GameObject[] enemyGrunts = GameObject.FindGameObjectsWithTag(specials.attackGruntTag);
-       
-       // for each set to not attack this hero
-       foreach(GameObject enemy in enemyGrunts) {
-           ((TargetSelect) enemy.GetComponent<TargetSelect>()).setNotAttackable(specials.gameObject);
-       }
+        // first time get enemy team, not done in init as specials null then.
+        if (enemyTeam == null){
+            setEnemyTeam();
+        }
+        enemyTeam.setNotAttackable(specials.gameObject);
     }
     
-    private void setAttackable(){
-        // get all enemy grunts
-       GameObject[] enemyGrunts = GameObject.FindGameObjectsWithTag(specials.attackGruntTag);
-       
-       // for each set to attack this hero again
-       foreach(GameObject enemy in enemyGrunts) {
-           ((TargetSelect) enemy.GetComponent<TargetSelect>()).setAttackable(specials.gameObject);
-       }
+    [Command]
+    private void CmdSetAttackable(){
+        enemyTeam.setAttackable(specials.gameObject);
+    }
+    
+    private void setEnemyTeam(){
+        if (teams.blueTeam.teamID == specials.teamID){
+            enemyTeam = teams.redTeam; 
+        }else{
+            enemyTeam = teams.blueTeam; 
+        }
     }
 }
