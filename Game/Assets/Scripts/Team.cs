@@ -269,7 +269,6 @@ public class Team : NetworkBehaviour {
     }
     
     public bool isAttackable(GameObject target){
-        Debug.Log("Should attack : " + target.GetInstanceID().ToString() +  " : " + (!(nonAttackableEnemies.Contains(target.GetInstanceID()))).ToString());
         return !(nonAttackableEnemies.Contains(target.GetInstanceID()));
     }
 }

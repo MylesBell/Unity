@@ -4,8 +4,8 @@ using UnityEngine.Networking;
 
 public class BaseDestroyer : Special
 {   
-    public float attackDistance = 6.0f;
-    public float damageAmount = 500.0f;
+    public float attackDistance = 10.0f;
+    public float damageAmount = 1000.0f;
     
     override public void InitialiseSpecial()
     {
@@ -14,7 +14,7 @@ public class BaseDestroyer : Special
 
     override public void ResetSpecial()
     {
-        attackDistance = 6.0f;
+        attackDistance = 10.0f;
         damageAmount = 500.0f;
         gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 0);
     }
@@ -26,6 +26,7 @@ public class BaseDestroyer : Special
 
     override public void UseSpecial()
     {
+        CmdDamageBase();
         gameObject.SetActive(true);
         RpcPlayBaseDestroySystem();
     }
@@ -43,11 +44,31 @@ public class BaseDestroyer : Special
     
     [Command]
     private void CmdDamageBase(){
-        GameObject enemyBase = GameObject.FindGameObjectWithTag(specials.attackBaseTag);
-        bool killedBase;
+        GameObject enemyBase;
+        float distanceToBase;
         
-        if(Vector3.Distance(specials.gameObject.transform.position, enemyBase.transform.position) < attackDistance){
+        closestEnemyBase(out enemyBase, out distanceToBase);
+        
+        if(distanceToBase < attackDistance){
+            bool killedBase;
             ((BaseHealth)enemyBase.GetComponent<BaseHealth>()).ReduceHealth(damageAmount, out killedBase);
+        }
+    }
+    
+    private void closestEnemyBase(out GameObject targetBase, out float distanceToBase){
+        GameObject[] enemyBases = GameObject.FindGameObjectsWithTag(specials.attackBaseTag);
+        
+        targetBase = null;
+        distanceToBase = float.PositiveInfinity;
+        float tempDistanceToBase = float.PositiveInfinity;
+        foreach (GameObject enemyBase in enemyBases){
+            tempDistanceToBase = Vector3.Distance(
+                enemyBase.GetComponent<Collider>().ClosestPointOnBounds(specials.gameObject.transform.position),
+                specials.gameObject.transform.position);
+            if (tempDistanceToBase < distanceToBase){
+                targetBase = enemyBase;
+                distanceToBase = tempDistanceToBase;
+            }
         }
     }
 }
