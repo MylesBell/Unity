@@ -351,7 +351,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190686}
-  m_LocalRotation: {x: .735600233, y: .652053237, z: .103213161, w: .151875108}
+  m_LocalRotation: {x: .735600173, y: .652053177, z: .103213146, w: .151875094}
   m_LocalPosition: {x: -.0864999965, y: -.125899985, z: .157899991}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -693,6 +693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0c4324d969d49a38a4f3a07095625c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!137 &13704744
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -879,6 +882,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPlayerAuthority
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: layerMask.m_Bits
+      value: 512
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

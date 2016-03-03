@@ -53,10 +53,10 @@ public class MusicScreenController : NetworkBehaviour {
                 audioSources[i].volume = 0f;
             }
             //Initially some screens will not have units on them, so play default music depending on screen position
-            int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
-            int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
-            int screenNumber = PlayerPrefs.GetInt("screen", 0);
-            int numScreens = PlayerPrefs.GetInt("lane", 0) == 0 ? numScreensLeft : numScreensRight;
+            int numScreensLeft = GraniteNetworkManager.numberOfScreens_left;
+            int numScreensRight = GraniteNetworkManager.numberOfScreens_right;
+            int screenNumber = GraniteNetworkManager.screeNumber;
+            int numScreens = GraniteNetworkManager.lane == ComputerLane.LEFT ? numScreensLeft : numScreensRight;
             defaultClipIndex = screenNumber < numScreens / 2 ? 0 : MusicClips.Length - 1;
             playingClipIndex = defaultClipIndex;
             audioSources[defaultClipIndex].volume = 1f;

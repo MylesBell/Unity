@@ -14,6 +14,7 @@ public class PathfindingMessage : MessageBase {
     public Vector3[] path;
     public int id;
     public TeamID teamID;
+    public int screen;
 }
 
 
@@ -48,10 +49,10 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
             NetworkServer.RegisterHandler(MyPathfindingMsg.ReceiveForcedPathCode, OnReceiveForcedPathMessage);
             zPositionOffsetRight = ((maxZRight-topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
             zPositionOffsetLeft = ((maxZLeft-topOffsetLeft) - (minZLeft+bottomOffsetLeft)) / numberOfChannels;
-            int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
-            int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
-            bool hasLeftLane = PlayerPrefs.GetInt("numberofscreens-left", 0) > 1;
-            bool hasRightLane = PlayerPrefs.GetInt("numberofscreens-right", 0) > 1;
+            int numScreensLeft = GraniteNetworkManager.numberOfScreens_left;
+            int numScreensRight = GraniteNetworkManager.numberOfScreens_right;
+            bool hasLeftLane = numScreensLeft > 1;
+            bool hasRightLane = numScreensRight > 1;
             int blueBaseXPosLeft = 25;
             int blueBaseXPosRight = 25;
             int redBaseXPosLeft = numScreensLeft * 100 - 25;
@@ -120,7 +121,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
 	#region IPlayerJoin implementation
 	public void PlayerJoin (string playerID, string playerName, string gameCode) {
         
-        if(PlayerPrefs.GetString("gameCode", "") == gameCode) {
+        if(GraniteNetworkManager.game_code == gameCode) {
             int blueHeroes = blueTeam.GetNumberOfHeros();
             int redHeroes = redTeam.GetNumberOfHeros();
             if (blueHeroes < redHeroes) {

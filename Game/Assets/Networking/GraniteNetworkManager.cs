@@ -12,6 +12,16 @@ public class GraniteNetworkManager : NetworkManager {
     public InputField GameCodeInputField;
     
     public Dropdown ClientLaneDropdown;
+    
+    public static int screeNumber = -1;
+    public static bool isServer = false;
+    public static ComputerLane lane = 0;
+    
+    public static int numberOfScreens_left = -1;
+    public static int numberOfScreens_right = -1;
+    
+    public static string game_code;
+    
 
     public void Start() {
         //reset 
@@ -76,22 +86,22 @@ public class GraniteNetworkManager : NetworkManager {
         SetPort();
         SetNumberOfScreens();
         SetGameCode();
-        PlayerPrefs.SetInt("screen", 0);
-        PlayerPrefs.SetInt("isServer", 1);
-        PlayerPrefs.SetInt("lane", PlayerPrefs.GetInt("numberofscreens-left", 0) > PlayerPrefs.GetInt("numberofscreens-right", 0) ? 0 : 1);
-        NetworkManager.singleton.maxConnections = PlayerPrefs.GetInt("numberofscreens-left", 0) + PlayerPrefs.GetInt("numberofscreens-right", 0);
+        screeNumber = 0;
+        isServer = true;
+        lane = numberOfScreens_left > numberOfScreens_right ? ComputerLane.LEFT : ComputerLane.RIGHT;
+        NetworkManager.singleton.maxConnections = numberOfScreens_left + numberOfScreens_right + 1;
         NetworkManager.singleton.StartHost();
     }
 
     public void StartupHost(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight, string gameCode) {
         SetIPAddress(IPAddress);
         SetPort(portNumber);
-        SetNumberOfScreens(numberOfScreensLeft, "left");
-        SetNumberOfScreens(numberOfScreensRight, "right");
-        PlayerPrefs.SetInt("screen", 0);
-        PlayerPrefs.SetInt("isServer", 1);
+        SetNumberOfScreens(numberOfScreensLeft, true);
+        SetNumberOfScreens(numberOfScreensRight, false);
+        screeNumber = 0;
+        isServer = true;
         SetGameCode(gameCode);
-        NetworkManager.singleton.maxConnections = PlayerPrefs.GetInt("numberofscreens-left", 0) + PlayerPrefs.GetInt("numberofscreens-right", 0);
+        NetworkManager.singleton.maxConnections = numberOfScreens_left + numberOfScreens_right + 1;
         NetworkManager.singleton.StartHost();
     }
 
@@ -100,19 +110,19 @@ public class GraniteNetworkManager : NetworkManager {
         SetPort();
         SetScreen();
         SetNumberOfScreens();
-        PlayerPrefs.SetInt("isServer", 0);
+        isServer = false;
         SetLane();
         NetworkManager.singleton.StartClient();
     }
 
-    public void JoinScreen(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight, string screenNumber, string lane) {
+    public void JoinScreen(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight, string screenNumber, string string_lane) {
         SetIPAddress(IPAddress);
         SetPort(portNumber);
         SetScreen(screenNumber);
-        SetNumberOfScreens(numberOfScreensLeft, "left");
-        SetNumberOfScreens(numberOfScreensRight, "right");
-        PlayerPrefs.SetInt("isServer", 0);
-        PlayerPrefs.SetInt("lane", lane.Equals("right", StringComparison.OrdinalIgnoreCase) ? 1 : 0);
+        SetNumberOfScreens(numberOfScreensLeft, true);
+        SetNumberOfScreens(numberOfScreensRight, false);
+        isServer = false;
+        lane = string_lane.Equals("right", StringComparison.OrdinalIgnoreCase) ? ComputerLane.RIGHT : ComputerLane.LEFT;
         NetworkManager.singleton.StartClient();
     }
 
@@ -144,7 +154,7 @@ public class GraniteNetworkManager : NetworkManager {
         Debug.Log("Screen Number is: " + screenNumber);
         int screen = -1;
         int.TryParse(screenNumber, out screen);
-        PlayerPrefs.SetInt("screen", screen);
+        screeNumber = screen;
     }
 
     public void SetGameCode() {
@@ -153,24 +163,25 @@ public class GraniteNetworkManager : NetworkManager {
 
     public void SetGameCode(string gameCode) {
         Debug.Log("Game code is: " + gameCode);
-        PlayerPrefs.SetString("gameCode", gameCode);
+        game_code = gameCode;
     }
 
     public void SetNumberOfScreens() {
-        SetNumberOfScreens(NumberOfScreensLeftInputField.text, "left");
-        SetNumberOfScreens(NumberOfScreensRightInputField.text, "right");
+        SetNumberOfScreens(NumberOfScreensLeftInputField.text, true);
+        SetNumberOfScreens(NumberOfScreensRightInputField.text, false);
     }
 
-    public void SetNumberOfScreens(string numberOfScreens, string side) {
-        Debug.Log("Number of screens, side " + side + " is: " + numberOfScreens);
+    public void SetNumberOfScreens(string numberOfScreens, bool isLeft) {
+        // Debug.Log("Number of screens, side " + side + " is: " + numberOfScreens);
         int screens = 0;
         int.TryParse(numberOfScreens, out screens);
-        PlayerPrefs.SetInt("numberofscreens-" + side, screens);
+        if(isLeft) numberOfScreens_left = screens;
+        else       numberOfScreens_right = screens;
     }
     
     public void SetLane(){
         //0 is left and 1 is right
         int selectedLane = ClientLaneDropdown.value;
-        PlayerPrefs.SetInt("lane", selectedLane);
+        lane = selectedLane == 0 ? ComputerLane.LEFT : ComputerLane.RIGHT;
     }
 }

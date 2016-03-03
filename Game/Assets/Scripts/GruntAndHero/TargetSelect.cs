@@ -41,7 +41,7 @@ public class TargetSelect : NetworkBehaviour {
     }
 
 	void Update () {
-        if (isServer) {
+        if (isServer && GameState.gameState == GameState.State.PLAYING) {
             attack.setTarget(GetNewAttackTarget());
             
             //automatic movement for grunts

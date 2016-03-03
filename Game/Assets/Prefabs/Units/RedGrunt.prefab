@@ -872,6 +872,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0c4324d969d49a38a4f3a07095625c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &11436130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1151,6 +1154,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPlayerAuthority
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: layerMask.m_Bits
+      value: 512
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
