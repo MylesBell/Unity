@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 471188}
   - 33: {fileID: 3378648}
   - 65: {fileID: 6580768}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - 4: {fileID: 485312}
   - 33: {fileID: 3302228}
   - 65: {fileID: 6508530}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - 4: {fileID: 471014}
   - 33: {fileID: 3320696}
   - 65: {fileID: 6554428}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,6 +274,10 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 388f3d7756d3ba545a0cfecf06dbfa1c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 160050}
