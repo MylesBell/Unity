@@ -65,6 +65,7 @@ public class MusicScreenController : NetworkBehaviour {
     
 	void Update () {
         if(!musicStarted && Input.GetKeyDown(KeyCode.M)){
+            DebugConsole.Log("Server starting Music");
             double startMusicTimestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + musicStartSecondsOffset;
             RpcStartMusicLoops(startMusicTimestamp);
         }
@@ -96,6 +97,7 @@ public class MusicScreenController : NetworkBehaviour {
 	}
     
     private IEnumerator CrossFade(AudioSource currentAudioSource, AudioSource newAudioSource, float duration){
+        DebugConsole.Log("Starting Music");
         isCrossFadeRunning = true;
         float fTimeCounter = 0f;
         float startVolume = currentAudioSource.volume;
@@ -110,7 +112,7 @@ public class MusicScreenController : NetworkBehaviour {
     
     [ClientRpc]
     public void RpcStartMusicLoops(double startTimestamp) {
-        StartMusicLoops(startTimestamp);
+        if(!isServer) StartMusicLoops(startTimestamp);
     }
     
     void StartMusicLoops(double startTimestamp) {

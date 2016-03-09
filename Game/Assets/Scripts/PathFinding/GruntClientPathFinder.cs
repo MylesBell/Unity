@@ -35,8 +35,9 @@ public class GruntClientPathFinder : NetworkBehaviour {
             maxX = (currentLane == ComputerLane.LEFT ? GraniteNetworkManager.numberOfScreens_left : GraniteNetworkManager.numberOfScreens_right)*CreateTerrain.chunkOffset.x - 20f;
             
             screenNumber = GraniteNetworkManager.screeNumber;
-            nextScreenXPos = screenNumber * CreateTerrain.chunkOffset.x + (teamID == TeamID.blue ? 120 : -20);
-            Debug.Log("Next screen x is " + nextScreenXPos + " and screen is " + screenNumber);
+            nextScreenXPos = screenNumber * CreateTerrain.chunkOffset.x + (teamID == TeamID.blue ? 110 : -10);
+            nextScreenXPos = Mathf.Clamp(nextScreenXPos, minX, maxX);
+            DebugConsole.Log("Next screen x is " + nextScreenXPos + " and screen is " + screenNumber);
         }
     }
     
@@ -70,6 +71,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     }
     public void Panic(){
         RpcPanic();
+        DebugConsole.Log("Panic is on");
     }
     
     [ClientRpc]
@@ -77,10 +79,12 @@ public class GruntClientPathFinder : NetworkBehaviour {
         if(!isServer && rendererChecker.visible){
             targetPosition = transform.position;
             recievePaths = true;
+            DebugConsole.Log("I am " + teamID + " and panicking");
         }
     }
     
     private void RequestPath(){
+        DebugConsole.Log("I am " + teamID + " requesting path");
         targetPosition = FindNewTargetPosition(targetPosition);
         NavGridManager.RequestLongPath(transform.position, targetPosition, longPathGrid, OnPathFound);
     }
@@ -103,7 +107,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
         if (pathSuccessful && newPath.Length > 0) {
             targetPosition = newPath[newPath.Length - 1];
-            Debug.Log("Screen " + screenNumber + " Current position " + transform.position + " Target position " + targetPosition);
+            DebugConsole.Log("Screen " + screenNumber + " Current position " + transform.position + " Target position " + targetPosition);
             PathfindingMessage msg = new PathfindingMessage();
             msg.path = newPath;
             msg.teamID = teamID;
@@ -114,10 +118,10 @@ public class GruntClientPathFinder : NetworkBehaviour {
     }
     
     public void OnReceivePathMessage(PathfindingMessage msg) {
-        Debug.Log("Recieved message from screen " + msg.screen);
+        DebugConsole.Log("Recieved message from screen " + msg.screen);
          foreach (Vector3 v in msg.path)
             {
-            Debug.Log( v.ToString() );
+            DebugConsole.Log( v.ToString() );
             }
         if(recievePaths) targetSelect.AddToQueue(msg.path);
     }
@@ -128,17 +132,19 @@ public class GruntClientPathFinder : NetworkBehaviour {
         position.x = Mathf.Clamp(position.x, minX, maxX);
         int failed = 0 ;
         while(!longPathGrid.GetGridNodeFromWorldPoint(position).walkable){
-            if(failed > 10){
-                position.x = input.x + ForwardMovementTarget/50;
+            if(failed > 100){
+                break;
             } else if(failed > 50){
-                position.x = input.x - ForwardMovementTarget/50;
+                position.x -= ForwardMovementTarget/10;
+            } else if (failed > 10){
+                position.x += ForwardMovementTarget/50;
             } else {
                 position.x += ForwardMovementTarget/10;
             }
             position.x = Mathf.Clamp(position.x, minX, maxX);
             failed++;
         }
-        Debug.Log("Desier position " + position);
+        DebugConsole.Log("I am " + teamID + " Desired position " + position);
         return position;
     }
     

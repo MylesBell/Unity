@@ -192,7 +192,6 @@ public class CreateTerrain : NetworkBehaviour
     void GenerateLongPathGrid(int screenNumber, int numScreens, ComputerLane computerLane) {
         float xCentre = screenNumber * chunkOffset.x + chunkOffset.x / 2;
         Vector3 gridCentre = new Vector3(xCentre,0,(computerLane == ComputerLane.LEFT ? 250 : 50));
-        
         GetComponent<NavGridManager>().CreateLongPathGrid(gridCentre, new Vector2(numScreens * chunkOffset.x,100), computerLane);
 
     }
@@ -236,7 +235,14 @@ public class CreateTerrain : NetworkBehaviour
                 x_pos = Random.Range(0, 100);
             } while (x_pos >= A && x_pos <= B);
         } else {
-            x_pos = Random.Range(0,100);
+            bool nearBase = (computerLane == ComputerLane.LEFT && z_pos < z_max)|| (computerLane == ComputerLane.RIGHT && z_pos > z_min);
+            if(screenNumber == 0 && nearBase){
+                x_pos = Random.Range(50,100);
+            } else if(screenNumber == numScreens - 1 && nearBase){
+                x_pos = Random.Range(0,50);
+            } else {
+                x_pos = Random.Range(0,100);
+            }
         }
         position += new Vector3(x_pos, 40.0f,z_pos);
         return position;

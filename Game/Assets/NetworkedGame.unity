@@ -662,7 +662,7 @@ MonoBehaviour:
   unwalkableLayer:
     serializedVersion: 2
     m_Bits: 512
-  displayGridGizmos: 0
+  displayGridGizmos: 1
 --- !u!1 &2117376846
 GameObject:
   m_ObjectHideFlags: 0

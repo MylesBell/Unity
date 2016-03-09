@@ -21,11 +21,9 @@ public class GraniteNetworkManager : NetworkManager {
     public static int numberOfScreens_right = -1;
     
     public static string game_code;
-    
 
     public void Start() {
         //reset 
-        PlayerPrefs.DeleteAll();
         //check for CLI
         string[] args = System.Environment.GetCommandLineArgs();
         bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreensLeft = false, hasNumberOfScreensRight = false, hasScreenNumber = false, hasGameCode = false, hasLane = false;

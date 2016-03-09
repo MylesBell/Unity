@@ -19,6 +19,10 @@ public class TargetSelect : NetworkBehaviour {
     public bool usePathFinding = true;
     private bool wasAttacking;
     private bool movementReset;
+    
+    private Vector3 prevPosition;
+    private float notMovedSeconds;
+    private float maxNotMovedSecondsBeforePanic = 2;
 
 	
 	void Start() {
@@ -58,6 +62,7 @@ public class TargetSelect : NetworkBehaviour {
                     } else {
                         UpdateMoveTarget();
                     }
+                    prevPosition = transform.position;
                 }
             }
         }
@@ -83,9 +88,20 @@ public class TargetSelect : NetworkBehaviour {
         
 		float distance = Vector3.Distance (desiredPosition, transform.position);
 		if(usePathFinding) {
-            if (distance < 2.0f && moveTargets.Count > 0) {
+            if(distance < 2.0f && moveTargets.Count > 0) {
                 desiredPosition = moveTargets.Dequeue();
                 gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
+                notMovedSeconds = 0;
+            } else if(distance < 5.0f && moveTargets.Count == 0){
+                if(Vector3.Distance (prevPosition, transform.position) < 1f) {
+                    notMovedSeconds += Time.deltaTime;
+                    if(notMovedSeconds > maxNotMovedSecondsBeforePanic){
+                        GetComponent<GruntClientPathFinder>().Panic();
+                        notMovedSeconds = 0;
+                    }
+                } else {
+                    notMovedSeconds = 0;
+                }
             }
         } else {
             if (distance < 2.0f) {
