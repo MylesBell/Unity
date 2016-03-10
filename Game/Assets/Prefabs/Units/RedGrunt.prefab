@@ -216,7 +216,7 @@ GameObject:
   - 114: {fileID: 11458384}
   - 95: {fileID: 9522064}
   - 114: {fileID: 11442452}
-  - 114: {fileID: 11475242}
+  - 114: {fileID: 11493720}
   m_Layer: 0
   m_Name: RedGrunt
   m_TagString: redGrunt
@@ -962,7 +962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11475242
+--- !u!114 &11493720
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -970,10 +970,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 129988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87e9ad36b04c84a74b33daa3c967aef1, type: 3}
+  m_Script: {fileID: 11500000, guid: db7882234f91440ea81fac152e00a16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  slowDown: {fileID: 0}
 --- !u!137 &13724856
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1145,6 +1146,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: SlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitSlowDownPrefab
       value: 
       objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
     m_RemovedComponents: []

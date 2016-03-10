@@ -12,6 +12,7 @@ GameObject:
   - 199: {fileID: 19974880}
   - 114: {fileID: 11481944}
   - 114: {fileID: 11442290}
+  - 114: {fileID: 11488392}
   m_Layer: 0
   m_Name: SlowDown
   m_TagString: Untagged
@@ -62,24 +63,44 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
+    i0: 20
+    i1: 28
+    i2: 79
+    i3: 113
+    i4: 131
+    i5: 239
+    i6: 36
+    i7: 243
+    i8: 216
+    i9: 245
+    i10: 173
+    i11: 137
+    i12: 87
+    i13: 238
+    i14: 18
+    i15: 3
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &11488392
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: .100000001
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: .00100000005
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!198 &19834712
 ParticleSystem:
   m_ObjectHideFlags: 1

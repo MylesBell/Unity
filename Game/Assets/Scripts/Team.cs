@@ -138,6 +138,7 @@ public class Team : NetworkBehaviour {
         hero.GetComponent<Hero>().setHeroName(playerName);
         
         hero.GetComponent<Specials>().InitialiseSpecials();
+        hero.GetComponent<AllPlays>().InitialiseAllPlays();
         
         //Choose random lane
         ComputerLane computerLane = getSpawnLane();
@@ -175,6 +176,7 @@ public class Team : NetworkBehaviour {
         for(int i = 0; i < gruntPoolSize; i++) {
             GameObject grunt = unitFactory.CreateGrunt(GruntPrefab);
             grunt.GetComponent<Grunt>().InitialiseGameObject(this);
+            grunt.GetComponent<AllPlays>().InitialiseAllPlays();
             availableGrunts.AddLast(grunt);
         }
         gruntPoolInitialised = true;

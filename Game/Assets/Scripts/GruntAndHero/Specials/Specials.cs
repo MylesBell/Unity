@@ -65,7 +65,6 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
                 LevelUpPrefab.transform.rotation);
         NetworkServer.Spawn(levelUpParticle);
         RpcSetParent(levelUpParticle,gameObject);
-        RpcSetRotation(levelUpParticle, LevelUpPrefab.transform.rotation);
         levelUpParticle.transform.parent = gameObject.transform;
         levelUpParticle.SetActive(false);
     }
@@ -77,7 +76,6 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
             specialFiles[specialValue].prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
         RpcSetParent(specialObject,gameObject);
-        RpcSetRotation(specialObject, specialFiles[specialValue].prefab.transform.rotation);
         
         Special special = specialObject.GetComponent<Special>();
         special.transform.parent = gameObject.transform;
@@ -143,11 +141,6 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     [ClientRpc]
     public void RpcSetParent(GameObject child, GameObject parent) {
         child.transform.parent = parent.transform;
-    }
-    
-    [ClientRpc]
-    public void RpcSetRotation(GameObject targetObject, Quaternion rotation) {
-        targetObject.transform.rotation = rotation;
     }
 
     [ClientRpc]

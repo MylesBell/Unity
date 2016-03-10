@@ -22,7 +22,7 @@ GameObject:
   - 114: {fileID: 11412706}
   - 114: {fileID: 11400116}
   - 114: {fileID: 11499648}
-  - 114: {fileID: 11416490}
+  - 114: {fileID: 11489932}
   m_Layer: 0
   m_Name: RedHero
   m_TagString: redHero
@@ -286,6 +286,7 @@ MonoBehaviour:
   ownGruntTag: 
   ownHeroTag: 
   ownBaseTag: 
+  teamID: 0
 --- !u!114 &11412706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -340,18 +341,6 @@ MonoBehaviour:
     i15: 46
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &11416490
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87e9ad36b04c84a74b33daa3c967aef1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
 --- !u!114 &11446168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -363,6 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af108031a4bd4c248b2aaf8701f2b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: {fileID: 0}
   firstUpgrade: 5
 --- !u!114 &11448390
 MonoBehaviour:
@@ -503,6 +493,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e57ef00e09b6bd4c9a6bb58e5902720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11489932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db7882234f91440ea81fac152e00a16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  slowDown: {fileID: 0}
 --- !u!114 &11490844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -773,6 +776,10 @@ Prefab:
       value: 
       objectReference: {fileID: 11497474, guid: 0c3e324b57eca467596f5e353c5b89af,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitSlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101776}

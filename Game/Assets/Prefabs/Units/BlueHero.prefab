@@ -40,7 +40,7 @@ GameObject:
   - 114: {fileID: 11434996}
   - 114: {fileID: 11471958}
   - 114: {fileID: 11428720}
-  - 114: {fileID: 11478158}
+  - 114: {fileID: 11481910}
   m_Layer: 0
   m_Name: BlueHero
   m_TagString: blueHero
@@ -452,6 +452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af108031a4bd4c248b2aaf8701f2b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: {fileID: 0}
   firstUpgrade: 5
 --- !u!114 &11471958
 MonoBehaviour:
@@ -500,7 +501,8 @@ MonoBehaviour:
   ownGruntTag: 
   ownHeroTag: 
   ownBaseTag: 
---- !u!114 &11478158
+  teamID: 0
+--- !u!114 &11481910
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -508,10 +510,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 149832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87e9ad36b04c84a74b33daa3c967aef1, type: 3}
+  m_Script: {fileID: 11500000, guid: db7882234f91440ea81fac152e00a16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  slowDown: {fileID: 0}
 --- !u!222 &22263394
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -813,6 +816,10 @@ Prefab:
       value: 
       objectReference: {fileID: 11497474, guid: 0c3e324b57eca467596f5e353c5b89af,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitSlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149832}

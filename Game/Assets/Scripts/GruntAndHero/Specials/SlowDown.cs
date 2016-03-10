@@ -34,7 +34,8 @@ public class SlowDown : Special
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
         foreach(Collider collider in hitColliders) {
             if (CheckColliderWantsToAttack(collider)){
-                collider.gameObject.GetComponent<UnitSlowDown>().SlowDown(slowDownTime, slowDownMultiplier);
+                AllPlays allPlays = collider.gameObject.GetComponent<AllPlays>();
+                allPlays.SlowDown(new float[2]{slowDownMultiplier, slowDownTime});
             }
         }
     }
