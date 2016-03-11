@@ -64,6 +64,8 @@ public class CreateTerrain : NetworkBehaviour
     private bool generatedPathfinder;
     
     private bool MultipleLanes;
+    
+    private object objectsRecievedLock = new object();
 
     void Start() {
         //register handlers for messages
@@ -92,11 +94,15 @@ public class CreateTerrain : NetworkBehaviour
     
     void Update(){
         //only generate the long path grid ONCE on the client, after it has recieved all of the scenery
-        if(!isServer && !generatedPathfinder && objectsToRecieve > 0 && objectsToRecieve == objectsRecieved) {
-            ComputerLane computerLane = GraniteNetworkManager.lane;
-            int screenNumber = GraniteNetworkManager.screeNumber;
-            GenerateLongPathGrid(screenNumber, screensRequested, computerLane);
-            generatedPathfinder = true;
+        if(!isServer && !generatedPathfinder && objectsToRecieve > 0) {
+            lock(objectsRecievedLock){
+                if(objectsToRecieve == objectsRecieved){
+                    ComputerLane computerLane = GraniteNetworkManager.lane;
+                    int screenNumber = GraniteNetworkManager.screeNumber;
+                    GenerateLongPathGrid(screenNumber, screensRequested, computerLane);
+                    generatedPathfinder = true;
+                }
+            }
         }
     }
     
@@ -280,7 +286,9 @@ public class CreateTerrain : NetworkBehaviour
         Debug.Log("Client received message");
         NetworkTreeMessage msg = netMsg.ReadMessage<NetworkTreeMessage>();
         scenerySpawner(msg.index, msg.position, msg.rotation, msg.scale);
-        objectsRecieved++;
+        lock(objectsRecievedLock){
+            objectsRecieved++;
+        }
     }
     
     public void onRecieverSceneryInfo(NetworkMessage netMsg) {
