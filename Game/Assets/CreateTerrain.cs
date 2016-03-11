@@ -96,7 +96,7 @@ public class CreateTerrain : NetworkBehaviour
         //only generate the long path grid ONCE on the client, after it has recieved all of the scenery
         if(!isServer && !generatedPathfinder && objectsToRecieve > 0) {
             lock(objectsRecievedLock){
-                if(objectsToRecieve == objectsRecieved){
+                if(objectsToRecieve == objectsRecieved || GameState.instance.networkGameState == GameState.State.PLAYING){
                     ComputerLane computerLane = GraniteNetworkManager.lane;
                     int screenNumber = GraniteNetworkManager.screeNumber;
                     GenerateLongPathGrid(screenNumber, screensRequested, computerLane);
@@ -265,7 +265,7 @@ public class CreateTerrain : NetworkBehaviour
     public void onRequestScenery(NetworkMessage netMsg) {
         Debug.Log("[host] Request received.");
         RequestSceneryMessage msg = netMsg.ReadMessage<RequestSceneryMessage>();
-        Debug.Log("[host] Request for screens " + msg.screenNumbers + " for lane " + msg.computerLane + " recieved");
+        Debug.Log("[host] Request for screens " + string.Join(",", System.Array.ConvertAll(msg.screenNumbers, x => x.ToString())) + " for lane " + msg.computerLane + " recieved");
         //Send info about scenery objects
         SceneryInfoMessage simMsg = new SceneryInfoMessage();
         simMsg.numberOfElements = 0;

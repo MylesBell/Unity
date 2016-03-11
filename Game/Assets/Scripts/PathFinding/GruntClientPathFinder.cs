@@ -7,7 +7,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     private float ForwardMovementTarget = 50;
     private float threshold = 1;
     private NavGridManager navGridManager;
-    private LongPathGrid longPathGrid;
+    ComputerLane currentLane;
     private TargetSelect targetSelect;
     
     private Vector3 targetPosition;
@@ -30,14 +30,13 @@ public class GruntClientPathFinder : NetworkBehaviour {
             rendererChecker = GetComponent<RendererChecker>();
             ForwardMovementTarget *= teamID == TeamID.blue ? 1 : -1;
             navGridManager = GameObject.FindGameObjectsWithTag("terrainSpawner")[0].GetComponent<NavGridManager>();
-            ComputerLane currentLane = GraniteNetworkManager.lane;
-            longPathGrid = navGridManager.getLongPathGrid(currentLane);
+            currentLane = GraniteNetworkManager.lane;
             maxX = (currentLane == ComputerLane.LEFT ? GraniteNetworkManager.numberOfScreens_left : GraniteNetworkManager.numberOfScreens_right)*CreateTerrain.chunkOffset.x - 20f;
             
             screenNumber = GraniteNetworkManager.screeNumber;
             nextScreenXPos = screenNumber * CreateTerrain.chunkOffset.x + (teamID == TeamID.blue ? 110 : -10);
             nextScreenXPos = Mathf.Clamp(nextScreenXPos, minX, maxX);
-            DebugConsole.Log("Next screen x is " + nextScreenXPos + " and screen is " + screenNumber);
+            // DebugConsole.Log("Next screen x is " + nextScreenXPos + " and screen is " + screenNumber);
         }
     }
     
@@ -66,12 +65,12 @@ public class GruntClientPathFinder : NetworkBehaviour {
     public void RpcForceRequest(Vector3 position) {
         if(!isServer && rendererChecker.visible){
             targetPosition = FindNewTargetPosition(position);
-            NavGridManager.RequestLongPath(transform.position, targetPosition, longPathGrid, OnForcedPathFound);
+            NavGridManager.RequestLongPath(transform.position, targetPosition, navGridManager.getLongPathGrid(currentLane), OnForcedPathFound);
         }
     }
     public void Panic(){
         RpcPanic();
-        DebugConsole.Log("Panic is on");
+        // DebugConsole.Log("Panic is on");
     }
     
     [ClientRpc]
@@ -79,14 +78,14 @@ public class GruntClientPathFinder : NetworkBehaviour {
         if(!isServer && rendererChecker.visible){
             targetPosition = transform.position;
             recievePaths = true;
-            DebugConsole.Log("I am " + teamID + " and panicking");
+            DebugConsole.Log("I am " + teamID + " and panicking at " + transform.position);
         }
     }
     
     private void RequestPath(){
-        DebugConsole.Log("I am " + teamID + " requesting path");
+        // DebugConsole.Log("I am " + teamID + " requesting path");
         targetPosition = FindNewTargetPosition(targetPosition);
-        NavGridManager.RequestLongPath(transform.position, targetPosition, longPathGrid, OnPathFound);
+        NavGridManager.RequestLongPath(transform.position, targetPosition, navGridManager.getLongPathGrid(currentLane), OnPathFound);
     }
     
     public void OnForcedPathFound(Vector3[] newPath, bool pathSuccessful){
@@ -107,7 +106,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
         if (pathSuccessful && newPath.Length > 0) {
             targetPosition = newPath[newPath.Length - 1];
-            DebugConsole.Log("Screen " + screenNumber + " Current position " + transform.position + " Target position " + targetPosition);
+            // DebugConsole.Log("Screen " + screenNumber + " Current position " + transform.position + " Target position " + targetPosition);
             PathfindingMessage msg = new PathfindingMessage();
             msg.path = newPath;
             msg.teamID = teamID;
@@ -118,11 +117,10 @@ public class GruntClientPathFinder : NetworkBehaviour {
     }
     
     public void OnReceivePathMessage(PathfindingMessage msg) {
-        DebugConsole.Log("Recieved message from screen " + msg.screen);
-         foreach (Vector3 v in msg.path)
-            {
-            DebugConsole.Log( v.ToString() );
-            }
+        // DebugConsole.Log("Recieved message from screen " + msg.screen);
+        // foreach (Vector3 v in msg.path) {
+        // // DebugConsole.Log( v.ToString() );
+        // }
         if(recievePaths) targetSelect.AddToQueue(msg.path);
     }
     
@@ -131,7 +129,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
         position.x = nextScreenXPos;
         position.x = Mathf.Clamp(position.x, minX, maxX);
         int failed = 0 ;
-        while(!longPathGrid.GetGridNodeFromWorldPoint(position).walkable){
+        while(!navGridManager.getLongPathGrid(currentLane).GetGridNodeFromWorldPoint(position).walkable){
             if(failed > 100){
                 break;
             } else if(failed > 50){
@@ -144,7 +142,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
             position.x = Mathf.Clamp(position.x, minX, maxX);
             failed++;
         }
-        DebugConsole.Log("I am " + teamID + " Desired position " + position);
+        // DebugConsole.Log("I am " + teamID + " Desired position " + position);
         return position;
     }
     
