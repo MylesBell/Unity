@@ -42,7 +42,9 @@ public class Invisibility : Special
     IEnumerator PlayInvisibiltySystem(){
         yield return new WaitForSeconds(invisibilityTime);
         gameObject.SetActive(false);
-        CmdSetAttackable();
+        if (isServer){
+            SetAttackable();
+        }
     }
     
     [Command]
@@ -54,8 +56,7 @@ public class Invisibility : Special
         enemyTeam.setNotAttackable(specials.gameObject);
     }
     
-    [Command]
-    private void CmdSetAttackable(){
+    private void SetAttackable(){
         enemyTeam.setAttackable(specials.gameObject);
     }
     

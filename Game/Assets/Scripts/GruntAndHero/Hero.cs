@@ -10,10 +10,6 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     
     private string playerName;
     
-    public int firstUpgrade = 5;
-    private int nextUpgrade = 1;
-    
-
     public void Start() {
         gameObject.SetActive(active);
     }
@@ -23,15 +19,6 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             this.team = team;
             gameObject.SetActive(active);
             CmdSetActiveState(active);
-        }
-    }
-    
-    public void Update(){
-        if(isServer){
-            if(GameState.gameState == GameState.State.PLAYING){
-                //do hero upgrade
-                upgradeHero();
-            }
         }
     }
 
@@ -73,7 +60,6 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
-            nextUpgrade = firstUpgrade;
         }
     }
 
@@ -139,13 +125,5 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     
     public bool hasTwoLanes(){
         return team.hasTwoLanes();
-    }
-    
-    private void upgradeHero(){
-        int killStreak = gameObject.GetComponent<Stats>().GetKillStreak();
-        if(killStreak >= nextUpgrade){
-            gameObject.GetComponent<Specials>().UpgradeSpecials();
-            nextUpgrade = nextUpgrade * 2;
-        }
     }
 }

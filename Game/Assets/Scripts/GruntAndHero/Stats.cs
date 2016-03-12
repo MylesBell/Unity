@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class Stats : NetworkBehaviour{
@@ -23,9 +24,17 @@ public class Stats : NetworkBehaviour{
     // kill streaks
     private int currentKillStreak = 0;
     private object killStreakLock = new object();
+    public int firstUpgrade = 1;
+    private int nextUpgrade;
+    
+    void Start(){
+        nextUpgrade = firstUpgrade;
+    }
+    
     public void ResetKillStreak(){
         lock(killStreakLock){
             currentKillStreak = 0;
+            nextUpgrade = firstUpgrade;
         }
     }
     public int GetKillStreak(){
@@ -38,6 +47,11 @@ public class Stats : NetworkBehaviour{
     public void IncrementKillStreak(){
         lock(killStreakLock){
             currentKillStreak++;
+        }
+        if(gameObject.GetComponent<Hero>() && currentKillStreak >= nextUpgrade){
+            Debug.Log("UPGRADE");
+            gameObject.GetComponent<Specials>().UpgradeSpecials();
+            nextUpgrade = nextUpgrade * 2;
         }
     }
 }
