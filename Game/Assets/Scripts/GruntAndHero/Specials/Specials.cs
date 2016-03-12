@@ -82,11 +82,10 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     }
     
     private int getUniqueRandomInRange(int numberOfSpecials, List<int> chosenNumbers){
-        int number = 5;
+        int number;
         
         do{
-            // number = Random.Range(0, numberOfSpecials);
-            number = number + 1;
+            number = Random.Range(0, numberOfSpecials);
         }while (chosenNumbers.Contains(number));
         
         return number;
