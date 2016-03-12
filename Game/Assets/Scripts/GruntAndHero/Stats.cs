@@ -51,7 +51,6 @@ public class Stats : NetworkBehaviour{
             currentKillStreak++;
         }
         if(gameObject.GetComponent<Hero>() && currentKillStreak >= nextUpgrade){
-            Debug.Log("UPGRADE");
             gameObject.GetComponent<Specials>().UpgradeSpecials();
             nextUpgrade = nextUpgrade * 2;
         }
