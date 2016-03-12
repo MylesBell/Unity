@@ -37,6 +37,7 @@ public class Stats : NetworkBehaviour{
             nextUpgrade = firstUpgrade;
         }
     }
+    
     public int GetKillStreak(){
         int val;
         lock(killStreakLock){
@@ -44,6 +45,7 @@ public class Stats : NetworkBehaviour{
         }
         return val;
     }
+    
     public void IncrementKillStreak(){
         lock(killStreakLock){
             currentKillStreak++;
