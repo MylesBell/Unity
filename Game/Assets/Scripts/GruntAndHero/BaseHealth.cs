@@ -15,9 +15,9 @@ public class BaseHealth : Health {
         }
         base.InitialiseHealth();
     }
-	public new void ReduceHealth(float amountToReduce, out bool killedPlayer){
+	public new void ReduceHealth(float amountToReduce, out bool killedBase){
 		currentHealth -= amountToReduce;
-        killedPlayer = currentHealth > 0;
+        killedBase = currentHealth > 0;
         if(otherBase) otherBase.ChangeFromOtherBase(-amountToReduce);
         team.BaseHealthChange(maxHealth, currentHealth);
 	}
