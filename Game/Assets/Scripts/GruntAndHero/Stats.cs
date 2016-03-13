@@ -1,4 +1,3 @@
-using UnityEngine;
 using UnityEngine.Networking;
 
 public class Stats : NetworkBehaviour{
@@ -49,10 +48,10 @@ public class Stats : NetworkBehaviour{
     public void IncrementKillStreak(){
         lock(killStreakLock){
             currentKillStreak++;
-        }
-        if(gameObject.GetComponent<Hero>() && currentKillStreak >= nextUpgrade){
-            gameObject.GetComponent<Specials>().UpgradeSpecials();
-            nextUpgrade = nextUpgrade * 2;
+            if(gameObject.GetComponent<Hero>() && currentKillStreak >= nextUpgrade){
+                gameObject.GetComponent<Specials>().UpgradeSpecials();
+                nextUpgrade = nextUpgrade * 2;
+            }
         }
     }
 }
