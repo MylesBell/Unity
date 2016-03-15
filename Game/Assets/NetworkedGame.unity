@@ -456,6 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e081e24d05e2d1489d7ee00b530cc94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkGameState: 0
 --- !u!114 &1193707487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,6 +584,7 @@ MonoBehaviour:
   sceneryObjects:
   - {fileID: 194014, guid: 31b1e74b9b72248a697572cb9d0fa77d, type: 2}
   - {fileID: 165532, guid: efdd03d14e7844780b9dd3df3f41673a, type: 2}
+  - {fileID: 170964, guid: dca3f129a66b744269a0e63836bb528e, type: 2}
   - {fileID: 103158, guid: ded6790f16e214c2a8e745443496f56a, type: 2}
   - {fileID: 156676, guid: 37ddc133724d14583bf2c55d17be82e2, type: 2}
   - {fileID: 133058, guid: 9295187c815e7462f9a1daabaf5c4b9b, type: 2}

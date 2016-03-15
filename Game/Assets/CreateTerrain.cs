@@ -93,7 +93,7 @@ public class CreateTerrain : NetworkBehaviour
     }
     
     void Update(){
-        //only generate the long path grid ONCE on the client, after it has recieved all of the scenery
+        //only generate the long path grid ONCE on the client, after it has recieved all of the scenery or game has started
         if(!isServer && !generatedPathfinder && objectsToRecieve > 0) {
             lock(objectsRecievedLock){
                 if(objectsToRecieve == objectsRecieved || GameState.instance.networkGameState == GameState.State.PLAYING){
@@ -172,7 +172,7 @@ public class CreateTerrain : NetworkBehaviour
     private List<NetworkTreeMessage> GenerateTerrainPart(bool generatingForMainTerrain, int numObjects, int numScreens, int screenNumber, ComputerLane computerLane, Vector3 laneOffset){
         List<NetworkTreeMessage> screenScenery = new List<NetworkTreeMessage>();
         for (int j = 0; j < numObjects; j++) {
-            int index = screenNumber < numScreens/2? Random.Range(0,2) : Random.Range(2,sceneryObjects.Length);
+            int index = screenNumber < numScreens/2? Random.Range(0,3) : Random.Range(3,sceneryObjects.Length);
             Vector3 position = GetNewPosition(generatingForMainTerrain, screenNumber, numScreens, chunkOffset*screenNumber, computerLane, laneOffset);
             RaycastHit terrainLevel;
             if(Physics.Raycast(position, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))

@@ -23,6 +23,9 @@ public class TargetSelect : NetworkBehaviour {
     private Vector3 prevPosition;
     private float notMovedSeconds;
     private float maxNotMovedSecondsBeforePanic = 2;
+    
+    private bool drawPaths = true;
+    private int vectorCount = 0;
 
 	
 	void Start() {
@@ -85,7 +88,6 @@ public class TargetSelect : NetworkBehaviour {
     }
 	
 	private void UpdateMoveTarget(){
-        
 		float distance = Vector3.Distance (desiredPosition, transform.position);
 		if(usePathFinding) {
             if(distance < 2.0f && moveTargets.Count > 0) {
@@ -160,8 +162,28 @@ public class TargetSelect : NetworkBehaviour {
     }
     
     public void AddToQueue(Vector3[] vectors){
+        if(drawPaths) RpcDrawPath(vectors);
         foreach(Vector3 vector in vectors){
             moveTargets.Enqueue(vector);
         }
     }
+    
+    [ClientRpc]
+    private void RpcDrawPath(Vector3[] vectors) {
+		if (vectors != null) {
+            LineRenderer line;
+            if(!(line = gameObject.GetComponent<LineRenderer>())){
+                line = gameObject.AddComponent<LineRenderer>();
+                line.useWorldSpace = true;
+            }
+            line.material = new Material( Shader.Find( "Unlit/Color" ) ) { color = Color.yellow };
+            line.SetWidth( 0.5f, 0.5f );
+            line.SetColors( Color.yellow, Color.yellow );
+            line.SetVertexCount( vectorCount + vectors.Length + 1 );
+            line.SetPosition(vectorCount, transform.position);
+			for (int i = 0; i < vectors.Length; i ++) {
+                line.SetPosition(vectorCount+i+1, vectors[i]);
+			}
+		}
+	}
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class NavGridManager : MonoBehaviour {
     
     public Navigator[] navigators;
-    private float nodeRadius = 2f;
+    private int nodeRadius = 1;
     public LayerMask unwalkableLayer;
     public bool displayGridGizmos = false;
     
