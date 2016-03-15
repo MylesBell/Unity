@@ -7,7 +7,7 @@ public class HealRing : Special
     public float ringRadius = 6.0f;
     public float healAmount = 30.0f;
     
-    override public void InitialiseSpecial()
+    override public void InitialiseSpecial(float height)
     {   
         currentScale = new Vector3(1.0f, 1.0f, 0);
     }
