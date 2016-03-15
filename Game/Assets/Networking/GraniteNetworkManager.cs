@@ -10,6 +10,8 @@ public class GraniteNetworkManager : NetworkManager {
     public InputField NumberOfScreensLeftInputField;
     public InputField NumberOfScreensRightInputField;
     public InputField GameCodeInputField;
+    public Toggle UsePathFindingToggle;
+    public Toggle ShowPathFindingToggle;
     
     public Dropdown ClientLaneDropdown;
     
@@ -21,13 +23,16 @@ public class GraniteNetworkManager : NetworkManager {
     public static int numberOfScreens_right = -1;
     
     public static string game_code;
+    public static bool usePathFinding = false;
+    public static bool showPathFinding = false;
 
     public void Start() {
         //reset 
         //check for CLI
         string[] args = System.Environment.GetCommandLineArgs();
-        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreensLeft = false, hasNumberOfScreensRight = false, hasScreenNumber = false, hasGameCode = false, hasLane = false;
-        string type = "", IP = "", port = "", numberOfScreensLeft = "0", numberOfScreensRight = "0", screenNumber = "", gameCode = "", lane = "";
+        bool hasType = false, hasIP = false, hasPort = false, hasNumberOfScreensLeft = false, hasNumberOfScreensRight = false, hasScreenNumber = false,
+        hasGameCode = false, hasLane = false, hasUsePathFinding = false, hasShowPathFinding = false;
+        string type = "", IP = "", port = "", numberOfScreensLeft = "0", numberOfScreensRight = "0", screenNumber = "", gameCode = "", lane = "", usePathFindingString = "", showPathFindingString = "";
         foreach (string flag in args) {
             string[] splitFlag;
             if (flag.Contains("--type")) {
@@ -62,15 +67,25 @@ public class GraniteNetworkManager : NetworkManager {
                 splitFlag = flag.Split('=');
                 lane = splitFlag[1];
                 hasLane = true;
+            } else if (flag.Contains("--use-path-finding")) {
+                splitFlag = flag.Split('=');
+                usePathFindingString = splitFlag[1];
+                hasUsePathFinding = true;
+            } else if (flag.Contains("--show-path-finding")) {
+                splitFlag = flag.Split('=');
+                showPathFindingString = splitFlag[1];
+                hasShowPathFinding = true;
             }
         }
         if (hasType) {
             switch (type) {
                 case "host":
-                    if (hasIP && hasPort && (hasNumberOfScreensLeft || hasNumberOfScreensRight) && hasGameCode) StartupHost(IP, port, numberOfScreensLeft, numberOfScreensRight, gameCode);
+                    if (hasIP && hasPort && (hasNumberOfScreensLeft || hasNumberOfScreensRight) && hasGameCode && hasUsePathFinding && hasShowPathFinding)
+                        StartupHost(IP, port, numberOfScreensLeft, numberOfScreensRight, gameCode, usePathFindingString, showPathFindingString);
                     break;
                 case "client":
-                    if (hasIP && hasPort && hasScreenNumber && (hasNumberOfScreensLeft || hasNumberOfScreensRight) && hasLane) JoinScreen(IP, port, numberOfScreensLeft, numberOfScreensRight, screenNumber, lane);
+                    if (hasIP && hasPort && hasScreenNumber && (hasNumberOfScreensLeft || hasNumberOfScreensRight) && hasLane)
+                        JoinScreen(IP, port, numberOfScreensLeft, numberOfScreensRight, screenNumber, lane);
                     break;
                 default:
                     Debug.Log("Running GUI\n");
@@ -87,11 +102,13 @@ public class GraniteNetworkManager : NetworkManager {
         screeNumber = 0;
         isServer = true;
         lane = numberOfScreens_left > numberOfScreens_right ? ComputerLane.LEFT : ComputerLane.RIGHT;
+        usePathFinding = UsePathFindingToggle.isOn;
+        showPathFinding = ShowPathFindingToggle.isOn;
         NetworkManager.singleton.maxConnections = numberOfScreens_left + numberOfScreens_right + 1;
         NetworkManager.singleton.StartHost();
     }
 
-    public void StartupHost(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight, string gameCode) {
+    public void StartupHost(string IPAddress, string portNumber, string numberOfScreensLeft, string numberOfScreensRight, string gameCode, string usePathFindingString, string showPathFindingString) {
         SetIPAddress(IPAddress);
         SetPort(portNumber);
         SetNumberOfScreens(numberOfScreensLeft, true);
@@ -99,6 +116,8 @@ public class GraniteNetworkManager : NetworkManager {
         screeNumber = 0;
         isServer = true;
         SetGameCode(gameCode);
+        usePathFinding = usePathFindingString.Equals("true", StringComparison.OrdinalIgnoreCase);
+        showPathFinding = showPathFindingString.Equals("true", StringComparison.OrdinalIgnoreCase);
         NetworkManager.singleton.maxConnections = numberOfScreens_left + numberOfScreens_right + 1;
         NetworkManager.singleton.StartHost();
     }

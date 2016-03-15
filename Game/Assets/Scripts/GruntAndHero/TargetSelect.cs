@@ -16,20 +16,19 @@ public class TargetSelect : NetworkBehaviour {
     public float GruntMovementForwardMovePerUpdate = 1f;
     
     private Queue<Vector3> moveTargets = new Queue<Vector3>();
-    public bool usePathFinding = true;
+    public bool usePathFinding;
     private bool wasAttacking;
     private bool movementReset;
     
     private Vector3 prevPosition;
     private float notMovedSeconds;
     private float maxNotMovedSecondsBeforePanic = 2;
-    
-    private bool drawPaths = true;
     private int vectorCount = 0;
 
 	
 	void Start() {
         if (isServer) {
+            usePathFinding = GraniteNetworkManager.usePathFinding;
             gameObject.GetComponent<Rigidbody>().useGravity = true;
         } else {
             gameObject.GetComponent<Rigidbody>().detectCollisions = false;
@@ -162,7 +161,7 @@ public class TargetSelect : NetworkBehaviour {
     }
     
     public void AddToQueue(Vector3[] vectors){
-        if(drawPaths) RpcDrawPath(vectors);
+        if(GraniteNetworkManager.showPathFinding) RpcDrawPath(vectors);
         foreach(Vector3 vector in vectors){
             moveTargets.Enqueue(vector);
         }
