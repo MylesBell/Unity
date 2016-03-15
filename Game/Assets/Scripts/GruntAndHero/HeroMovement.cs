@@ -48,15 +48,33 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     public void RpcRecievePosition(Vector3 position) {
         transform.position = position;
     }
+    
+    [ClientRpc]
+    public void RpcResetAnimator() {
+        animator.SetBool("Victory", false);                    
+        animator.SetBool("Defeat", false); 
+    }
+    
+    [ClientRpc]
+    public void RpcSetAnimatorSpeed(float speed) {
+        animator.SetFloat("Speed", speed);         
+    }
+    
+    [ClientRpc]
+    public void RpcSetEndAnim(TeamID teamID) {
+        if (teamID == GameState.winningTeam)
+            animator.SetBool("Victory", true);
+        else
+            animator.SetBool("Defeat", true);
+    }
 
     void FixedUpdate(){
         switch (GameState.gameState) {
             case GameState.State.IDLE:
                 if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 break;
-            case GameState.State.PLAYING:
-                animator.SetBool("Victory", false);                    
-                animator.SetBool("Defeat", false);  
+            case GameState.State.PLAYING: 
+                RpcResetAnimator();
                 updatePosition();
                 break;
             case GameState.State.END:
@@ -64,14 +82,10 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
                     gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                     currentMovement = Vector3.zero;
                 }
-                if (targetSelect.teamID == GameState.winningTeam)
-                    animator.SetBool("Victory", true);
-                else
-                    animator.SetBool("Defeat", true);
+                RpcSetEndAnim(targetSelect.teamID);
                 break;
         }
-        
-        animator.SetFloat("Speed", currentMovement.magnitude); 
+        RpcSetAnimatorSpeed(currentMovement.magnitude);
 	}
     
     private void updatePosition(){      
