@@ -94,6 +94,7 @@ GameObject:
   - 54: {fileID: 5456998}
   - 114: {fileID: 11417552}
   - 114: {fileID: 11444290}
+  - 114: {fileID: 11482442}
   m_Layer: 0
   m_Name: BlueGrunt
   m_TagString: blueGrunt
@@ -453,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261723a5cac2448c5bd7aba96c1e4b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: {fileID: 0}
 --- !u!114 &11444290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -538,6 +540,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testSpeed: 0
+--- !u!114 &11482442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db7882234f91440ea81fac152e00a16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  slowDown: {fileID: 0}
 --- !u!114 &11485918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -587,9 +602,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -750,6 +763,14 @@ Prefab:
       propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: SlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitSlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129988}

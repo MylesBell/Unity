@@ -23,7 +23,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 459908}
-  - 137: {fileID: 13740132}
+  - 137: {fileID: 13724856}
   m_Layer: 0
   m_Name: pCube13
   m_TagString: Untagged
@@ -50,6 +50,7 @@ GameObject:
   - 54: {fileID: 5429052}
   - 114: {fileID: 11458384}
   - 114: {fileID: 11442452}
+  - 114: {fileID: 11493720}
   m_Layer: 0
   m_Name: RedGrunt
   m_TagString: redGrunt
@@ -467,6 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261723a5cac2448c5bd7aba96c1e4b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: {fileID: 0}
 --- !u!114 &11436130
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -558,6 +560,7 @@ MonoBehaviour:
   ignoreRange: 5
   runAwayTime: 2
   maximumVelocityBeforeIgnore: 1
+  firstUpgrade: 1
 --- !u!114 &11470698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -569,7 +572,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!137 &13740132
+--- !u!114 &11493720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db7882234f91440ea81fac152e00a16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+--- !u!137 &13724856
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -742,6 +757,14 @@ Prefab:
       propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: SlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitSlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129988}

@@ -35,7 +35,7 @@ public class Team : NetworkBehaviour {
 
     private float nextGruntRespawn = 0.0f;
 
-
+    private List<int> nonAttackableEnemies = new List<int>();
 
     void Start() {
         if (isServer) {
@@ -138,6 +138,7 @@ public class Team : NetworkBehaviour {
         hero.GetComponent<Hero>().setHeroName(playerName);
         
         hero.GetComponent<Specials>().InitialiseSpecials();
+        hero.GetComponent<AllPlays>().InitialiseAllPlays();
         
         //Choose random lane
         ComputerLane computerLane = getSpawnLane();
@@ -175,6 +176,7 @@ public class Team : NetworkBehaviour {
         for(int i = 0; i < gruntPoolSize; i++) {
             GameObject grunt = unitFactory.CreateGrunt(GruntPrefab);
             grunt.GetComponent<Grunt>().InitialiseGameObject(this);
+            grunt.GetComponent<AllPlays>().InitialiseAllPlays();
             availableGrunts.AddLast(grunt);
         }
         gruntPoolInitialised = true;
@@ -256,5 +258,19 @@ public class Team : NetworkBehaviour {
         foreach(string playerID in playerDict.Keys) {
             SocketIOOutgoingEvents.BaseHealthHasChanged(playerID, maxHealth, currentHealth);
         }
+    }
+    
+    public void setNotAttackable(GameObject enemy){
+        nonAttackableEnemies.Add(enemy.GetInstanceID());
+        Debug.Log("Non attackable : " + enemy.GetInstanceID().ToString());
+    }
+    
+    public void setAttackable(GameObject enemy){
+        nonAttackableEnemies.Remove(enemy.GetInstanceID());
+        Debug.Log("Attackable : " + enemy.GetInstanceID().ToString());
+    }
+    
+    public bool isAttackable(GameObject target){
+        return !(nonAttackableEnemies.Contains(target.GetInstanceID()));
     }
 }

@@ -23,7 +23,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 446812}
-  - 33: {fileID: 3345434}
   - 65: {fileID: 6540430}
   - 114: {fileID: 11458742}
   - 114: {fileID: 11446168}
@@ -36,6 +35,7 @@ GameObject:
   - 114: {fileID: 11412706}
   - 114: {fileID: 11400116}
   - 114: {fileID: 11499648}
+  - 114: {fileID: 11489932}
   m_Layer: 0
   m_Name: RedHero
   m_TagString: redHero
@@ -1136,13 +1136,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3345434
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101776}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &5478138
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -1222,23 +1215,23 @@ MonoBehaviour:
   LevelUpPrefab: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
   specialFiles:
   - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
-    special: {fileID: 0}
     identifier: 0
   - prefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
-    special: {fileID: 0}
     identifier: 6
   - prefab: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
-    special: {fileID: 0}
     identifier: 11
   - prefab: {fileID: 168854, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
-    special: {fileID: 0}
     identifier: 3
   - prefab: {fileID: 113374, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
-    special: {fileID: 0}
     identifier: 4
   - prefab: {fileID: 150224, guid: 9bcc1822a8586450eabffacb6c7e7df7, type: 2}
-    special: {fileID: 0}
     identifier: 5
+  - prefab: {fileID: 135370, guid: 74276afebb99644bcbdafa7f20d1d398, type: 2}
+    identifier: 9
+  - prefab: {fileID: 168542, guid: 141c4f7183ef24f3d8f5ad8957ee1203, type: 2}
+    identifier: 10
+  - prefab: {fileID: 177848, guid: 0c3e324b57eca467596f5e353c5b89af, type: 2}
+    identifier: 12
   chosenNumbers: 
   attackGruntTag: 
   attackHeroTag: 
@@ -1246,6 +1239,7 @@ MonoBehaviour:
   ownGruntTag: 
   ownHeroTag: 
   ownBaseTag: 
+  teamID: 0
 --- !u!114 &11412706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1268,6 +1262,7 @@ MonoBehaviour:
   ignoreRange: 3
   runAwayTime: 2
   maximumVelocityBeforeIgnore: 1
+  firstUpgrade: 1
 --- !u!114 &11413352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1311,7 +1306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af108031a4bd4c248b2aaf8701f2b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstUpgrade: 5
+  team: {fileID: 0}
 --- !u!114 &11448390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1419,6 +1414,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e57ef00e09b6bd4c9a6bb58e5902720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11489932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db7882234f91440ea81fac152e00a16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
 --- !u!114 &11490844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1511,7 +1518,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.size
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -1707,6 +1714,53 @@ Prefab:
       value: 
       objectReference: {fileID: 11419294, guid: 7b6de19b2bff84061b12ff00d498caea,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[6].identifier
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[6].prefab
+      value: 
+      objectReference: {fileID: 135370, guid: 74276afebb99644bcbdafa7f20d1d398, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[6].special
+      value: 
+      objectReference: {fileID: 11443100, guid: 74276afebb99644bcbdafa7f20d1d398,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[7].identifier
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[7].prefab
+      value: 
+      objectReference: {fileID: 168542, guid: 141c4f7183ef24f3d8f5ad8957ee1203, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[7].special
+      value: 
+      objectReference: {fileID: 11442290, guid: 141c4f7183ef24f3d8f5ad8957ee1203,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: SlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[8].identifier
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[8].prefab
+      value: 
+      objectReference: {fileID: 177848, guid: 0c3e324b57eca467596f5e353c5b89af, type: 2}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[8].special
+      value: 
+      objectReference: {fileID: 11497474, guid: 0c3e324b57eca467596f5e353c5b89af,
+        type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitSlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101776}
