@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 7be7e5c84ff5349b7ada05ea1c537b88
-timeCreated: 1458078206
+guid: b664519ac0aee4938931a60da7a8e255
+timeCreated: 1458076628
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -8,28 +8,24 @@ ModelImporter:
     100000: BezierCurve.000
     100002: BezierCurve.001
     100004: Cube
-    100006: Cube.001
-    100008: Cube.002
-    100010: //RootNode
+    100006: Cylinder
+    100008: //RootNode
     400000: BezierCurve.000
     400002: BezierCurve.001
     400004: Cube
-    400006: Cube.001
-    400008: Cube.002
-    400010: //RootNode
+    400006: Cylinder
+    400008: //RootNode
     2300000: BezierCurve.000
     2300002: BezierCurve.001
     2300004: Cube
-    2300006: Cube.001
-    2300008: Cube.002
+    2300006: Cylinder
     3300000: BezierCurve.000
     3300002: BezierCurve.001
     3300004: Cube
-    3300006: Cube.001
-    3300008: Cube.002
-    4300000: Cube.002
-    4300002: BezierCurve.000
-    4300004: Cube.001
+    3300006: Cylinder
+    4300000: BezierCurve.000
+    4300002: Cube
+    4300004: Cylinder
   materials:
     importMaterials: 1
     materialName: 0
@@ -53,7 +49,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1.25
+    globalScale: .449999988
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
