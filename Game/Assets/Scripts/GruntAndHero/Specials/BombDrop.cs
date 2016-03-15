@@ -9,7 +9,7 @@ public class BombDrop : Special
     public float damageAmount = 80.0f;
     private Transform parentTransform;
     
-    override public void InitialiseSpecial()
+    override public void InitialiseSpecial(float height)
     {
         currentScale = new Vector3(1.0f, 1.0f, 0);
         RpcSetParentTransform();
