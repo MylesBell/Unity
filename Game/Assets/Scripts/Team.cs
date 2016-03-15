@@ -97,7 +97,7 @@ public class Team : NetworkBehaviour {
         if (teamID == TeamID.blue)
             xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + 15;
         else
-            xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x - 4;
+            xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x - 10;
         return new Vector3(xPos, 3, zPos);
     }
 
@@ -107,7 +107,7 @@ public class Team : NetworkBehaviour {
     }
 
     private Vector3 GetTargetPosition(float zPosition, ComputerLane computerLane) {
-        return new Vector3((computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + (teamID == TeamID.blue ? 15 : -4) , 0, zPosition);
+        return new Vector3((computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + (teamID == TeamID.blue ? 15 : -10) , 0, zPosition);
     }
 
     public void resetTeam() {
