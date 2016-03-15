@@ -2804,6 +2804,8 @@ MonoBehaviour:
   NumberOfScreensLeftInputField: {fileID: 1954417517}
   NumberOfScreensRightInputField: {fileID: 743165993}
   GameCodeInputField: {fileID: 1727716940}
+  UsePathFindingToggle: {fileID: 211158538}
+  ShowPathFindingToggle: {fileID: 1409614463}
   ClientLaneDropdown: {fileID: 2031261636}
 --- !u!4 &1029261214
 Transform:
