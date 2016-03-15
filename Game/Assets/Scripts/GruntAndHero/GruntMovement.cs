@@ -2,15 +2,19 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class GruntMovement : NetworkBehaviour{
+    
+    public float testSpeed;
 	private Vector3 movementTarget;
     private Vector3 currentMovement;
 
 	private Stats stats;
+    private Animator animator;
     
     private LayerMask terrainMask = 256;
 
 	void Start() {
 		stats = (Stats) GetComponent<Stats>();
+        animator = GetComponentInChildren<Animator>();
 	}
 
     public void initialiseMovement(Vector3 position) {
@@ -41,6 +45,8 @@ public class GruntMovement : NetworkBehaviour{
                 if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 break;
         }
+        animator.SetFloat("Speed",stats.movementSpeed);
+        testSpeed = animator.GetFloat("Speed");
         if (isServer && NotTooClose()){
             if(GameState.gameState == GameState.State.PLAYING) {
                 currentMovement = Vector3.MoveTowards (currentMovement,
