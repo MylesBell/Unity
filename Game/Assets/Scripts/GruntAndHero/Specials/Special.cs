@@ -14,7 +14,7 @@ public abstract class Special : NetworkBehaviour {
         gameObject.SetActive(false);
     }
     
-	public abstract void InitialiseSpecial();
+	public abstract void InitialiseSpecial(float height);
     public abstract void UseSpecial();
     public abstract void UpgradeSpecial();
     public abstract void ResetSpecial();

@@ -4,9 +4,10 @@ using System.Collections;
 
 public class LevelUp : Special
 {   
-    override public void InitialiseSpecial()
+    override public void InitialiseSpecial(float height)
     {   
         currentScale = new Vector3(1.0f, 1.0f, 0);
+        transform.localPosition = new Vector3(0,height,0);
     }
 
     override public void ResetSpecial()

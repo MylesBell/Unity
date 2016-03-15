@@ -9,10 +9,10 @@ public class Invisibility : Special
     private Team enemyTeam = null;
     private Teams teams;
     
-    override public void InitialiseSpecial()
+    override public void InitialiseSpecial(float height)
     {
         currentScale = new Vector3(1.0f, 1.0f, 0);
-        
+        transform.localPosition = new Vector3(0,height,0);
         teams = GameObject.FindGameObjectWithTag("GameController").GetComponent<Teams>();
     }
 
