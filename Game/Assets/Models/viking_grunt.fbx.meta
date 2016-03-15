@@ -233,7 +233,7 @@ ModelImporter:
     - serializedVersion: 16
       name: VikingGruntVictory
       takeName: Take 001
-      firstFrame: 362
+      firstFrame: 363
       lastFrame: 481
       wrapMode: 0
       orientationOffsetY: 0

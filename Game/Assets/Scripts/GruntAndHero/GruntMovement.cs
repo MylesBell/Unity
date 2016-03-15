@@ -3,17 +3,18 @@ using UnityEngine.Networking;
 
 public class GruntMovement : NetworkBehaviour{
     
-    public float testSpeed;
 	private Vector3 movementTarget;
     private Vector3 currentMovement;
 
+    private TargetSelect targetSelect;
 	private Stats stats;
     private Animator animator;
     
     private LayerMask terrainMask = 256;
 
 	void Start() {
-		stats = (Stats) GetComponent<Stats>();
+        targetSelect = GetComponent<TargetSelect>();
+		stats = GetComponent<Stats>();
         animator = GetComponentInChildren<Animator>();
 	}
 
@@ -40,13 +41,21 @@ public class GruntMovement : NetworkBehaviour{
                 if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 break;
             case GameState.State.PLAYING:
+                animator.SetBool("Victory", false);                    
+                animator.SetBool("Defeat", false);                                
                 break;
             case GameState.State.END:
-                if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                if (isServer) {
+                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    currentMovement = Vector3.zero;
+                }
+                if (targetSelect.teamID == GameState.winningTeam)
+                    animator.SetBool("Victory", true);
+                else
+                    animator.SetBool("Defeat", true);                    
                 break;
         }
-        animator.SetFloat("Speed",stats.movementSpeed);
-        testSpeed = animator.GetFloat("Speed");
+        animator.SetFloat("Speed",currentMovement.magnitude);
         if (isServer && NotTooClose()){
             if(GameState.gameState == GameState.State.PLAYING) {
                 currentMovement = Vector3.MoveTowards (currentMovement,
