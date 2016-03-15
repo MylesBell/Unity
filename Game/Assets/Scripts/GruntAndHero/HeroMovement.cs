@@ -9,7 +9,7 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 {
 	private Stats stats;
     
-    private LayerMask terrainMask = 256;
+    // private LayerMask terrainMask = 256;
     
     public MoveDirection moveDirection;
     public Vector3 currentMovement;

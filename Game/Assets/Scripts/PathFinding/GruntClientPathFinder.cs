@@ -78,7 +78,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
         if(!isServer && rendererChecker.visible){
             targetPosition = transform.position;
             recievePaths = true;
-            DebugConsole.Log("I am " + teamID + " and panicking at " + transform.position);
+            // DebugConsole.Log("I am " + teamID + " and panicking at " + transform.position);
         }
     }
     
@@ -118,9 +118,6 @@ public class GruntClientPathFinder : NetworkBehaviour {
     
     public void OnReceivePathMessage(PathfindingMessage msg) {
         // DebugConsole.Log("Recieved message from screen " + msg.screen);
-        // foreach (Vector3 v in msg.path) {
-        // // DebugConsole.Log( v.ToString() );
-        // }
         if(recievePaths) targetSelect.AddToQueue(msg.path);
     }
     

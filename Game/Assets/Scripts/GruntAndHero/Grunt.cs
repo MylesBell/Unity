@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 public class Grunt : NetworkBehaviour, IDestroyableGameObject {
 
-    private Team team;
+    public Team team;
     [SyncVar] private int id;
     [SyncVar] private bool active = false;
 

@@ -37,7 +37,7 @@ public class Team : NetworkBehaviour {
     private float nextGruntRespawn = 0.0f;
     private int nextGruntID = 0;
 
-
+    private List<int> nonAttackableEnemies = new List<int>();
 
     void Start() {
         if (isServer) {
@@ -140,6 +140,7 @@ public class Team : NetworkBehaviour {
         hero.GetComponent<Hero>().setHeroName(playerName);
         
         hero.GetComponent<Specials>().InitialiseSpecials();
+        hero.GetComponent<AllPlays>().InitialiseAllPlays();
         
         //Choose random lane
         ComputerLane computerLane = getSpawnLane();
@@ -151,13 +152,15 @@ public class Team : NetworkBehaviour {
         numberOfHeros++;
         
         // get chosen specials
+        Specials special = hero.GetComponent<Specials>();
+        int specialOneId = special.specialFiles[special.chosenNumbers[0]].identifier;
+        int specialTwoId = special.specialFiles[special.chosenNumbers[1]].identifier;
+        int specialThreeId = special.specialFiles[special.chosenNumbers[2]].identifier;
 		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState,
                                                 hero.GetComponent<Health>().maxHealth,
                                                 hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
                                                               teamBaseRight.GetComponent<BaseHealth>().maxHealth,
-                                                hero.GetComponent<Specials>().chosenNumbers[0],
-                                                hero.GetComponent<Specials>().chosenNumbers[1],
-                                                hero.GetComponent<Specials>().chosenNumbers[2]);
+                                                specialOneId, specialTwoId, specialThreeId);
     }
     
     public void RemovePlayer(string playerID) {
@@ -173,8 +176,8 @@ public class Team : NetworkBehaviour {
 
     private void initialiseGruntPool() {
         for(int i = 0; i < gruntPoolSize; i++) {
-            
-            availableGrunts.AddLast(CreateGrunt());
+            GameObject grunt = CreateGrunt();
+            availableGrunts.AddLast(grunt);
         }
         gruntPoolInitialised = true;
     }
@@ -202,6 +205,7 @@ public class Team : NetworkBehaviour {
         GameObject grunt = unitFactory.CreateGrunt(GruntPrefab);
         grunt.GetComponent<Grunt>().InitialiseGameObject(this);
         grunt.GetComponent<Grunt>().SetID(nextGruntID);
+        grunt.GetComponent<AllPlays>().InitialiseAllPlays();
         gruntDict.Add(nextGruntID, grunt);
         nextGruntID++;
         return grunt;
@@ -267,5 +271,19 @@ public class Team : NetworkBehaviour {
         foreach(string playerID in playerDict.Keys) {
             SocketIOOutgoingEvents.BaseHealthHasChanged(playerID, maxHealth, currentHealth);
         }
+    }
+    
+    public void setNotAttackable(GameObject enemy){
+        nonAttackableEnemies.Add(enemy.GetInstanceID());
+        Debug.Log("Non attackable : " + enemy.GetInstanceID().ToString());
+    }
+    
+    public void setAttackable(GameObject enemy){
+        nonAttackableEnemies.Remove(enemy.GetInstanceID());
+        Debug.Log("Attackable : " + enemy.GetInstanceID().ToString());
+    }
+    
+    public bool isAttackable(GameObject target){
+        return !(nonAttackableEnemies.Contains(target.GetInstanceID()));
     }
 }

@@ -7,7 +7,7 @@ public class GruntMovement : NetworkBehaviour{
 
 	private Stats stats;
     
-    private LayerMask terrainMask = 256;
+    // private LayerMask terrainMask = 256;
 
 	void Start() {
 		stats = (Stats) GetComponent<Stats>();

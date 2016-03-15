@@ -1,0 +1,11 @@
+VIKING_GRUNT.FBX ANIMATION GUIDE
+
+   FRAME    -   ANIMATION
+
+1			-	Bind Pose
+2-121		-	Walking
+122-241		-	Attacking
+242-361		-	Death (Last 2 frames can be repeated for pause)
+362-481		-	Victory
+482-601		-	Loss
+602-721		-	Idle

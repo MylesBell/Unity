@@ -110,7 +110,8 @@ GameObject:
   - 114: {fileID: 11417552}
   - 95: {fileID: 9580440}
   - 114: {fileID: 11444290}
-  - 114: {fileID: 11493760}
+  - 114: {fileID: 11482442}
+  - 114: {fileID: 11410488}
   m_Layer: 0
   m_Name: BlueGrunt
   m_TagString: blueGrunt
@@ -351,7 +352,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190686}
-  m_LocalRotation: {x: .735600173, y: .652053177, z: .103213139, w: .151875094}
+  m_LocalRotation: {x: .735600233, y: .652053237, z: .103213154, w: .151875108}
   m_LocalPosition: {x: -.0864999965, y: -.125899985, z: .157899991}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -496,8 +497,8 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129988}
   serializedVersion: 2
-  m_Mass: .100000001
-  m_Drag: .100000001
+  m_Mass: 1
+  m_Drag: 1
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -533,6 +534,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11410488
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed0c4324d969d49a38a4f3a07095625c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &11417552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -544,16 +559,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f92930b3f4e34b9fabd9379fa43af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  movementAcceleration: 5
+  movementSpeed: 8
+  movementAcceleration: 20
   minDistanceFromEnemy: 0
   damage: 20
   attackCoolDown: 1
   attackRange: 5
+  defense: 1
   targetSelectRange: 5
   ignoreRange: 5
   runAwayTime: 2
   maximumVelocityBeforeIgnore: 1
+  firstUpgrade: 1
 --- !u!114 &11442344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -565,6 +582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 261723a5cac2448c5bd7aba96c1e4b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: {fileID: 0}
 --- !u!114 &11444290
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -651,6 +669,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba74e60ac0c447c6a99ade00a9c39cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11482442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db7882234f91440ea81fac152e00a16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
 --- !u!114 &11485918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -682,20 +712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11493760
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed0c4324d969d49a38a4f3a07095625c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!137 &13704744
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -758,7 +774,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c1b75d98e856a4bddbe2d7af29c5a603, type: 2}
+      objectReference: {fileID: 2100000, guid: 25320b9b423df48abb36a4f26e9c8d9b, type: 2}
     - target: {fileID: 0}
       propertyPath: targetTransform
       value: 
@@ -797,7 +813,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Drag
-      value: .100000001
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_AngularDrag
@@ -809,7 +825,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSpeed
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Mesh
@@ -841,7 +857,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementAcceleration
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Avatar
@@ -876,24 +892,16 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: unwalkableTerrainMask.m_Bits
-      value: 512
-      objectReference: {fileID: 0}
+      propertyPath: SlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
     - target: {fileID: 0}
-      propertyPath: m_LocalPlayerAuthority
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: unitSlowDownPrefab
+      value: 
+      objectReference: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
     - target: {fileID: 0}
       propertyPath: layerMask.m_Bits
       value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_Mass
-      value: .100000001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

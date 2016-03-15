@@ -7,7 +7,6 @@ public enum SpecialType { one, two, three };
 [System.Serializable]
 public struct SpecialFiles{
     public GameObject prefab;
-    public Special special;
     public int identifier;
 }
 
@@ -15,13 +14,13 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     
     // prefabs  
     public GameObject LevelUpPrefab;
-    
     public SpecialFiles[] specialFiles;
     
     // instantiated specials
     private Special specialOne;
     private Special specialTwo;
     private Special specialThree;
+    private Special specialLevelUp;
     
     // chosen identifiers
     public List<int> chosenNumbers;
@@ -34,15 +33,19 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     public string ownHeroTag;
     public string ownBaseTag;
     
+    public TeamID teamID;
+    
     void Start() {
         // set required tags
         TargetSelect targetSelect = gameObject.GetComponent<TargetSelect>();
         attackGruntTag = targetSelect.attackGruntTag;
         attackHeroTag = targetSelect.attackHeroTag;
         attackBaseTag = targetSelect.attackBaseTag;
-        ownGruntTag = targetSelect.teamID == TeamID.red ? "redGrunt" : "blueGrunt";
-        ownHeroTag = targetSelect.teamID == TeamID.red ? "redHero" : "blueHero";
-        ownBaseTag = targetSelect.teamID == TeamID.red ? "redBase" : "blueBase";
+        
+        teamID = targetSelect.teamID;
+        ownGruntTag = teamID == TeamID.red ? "redGrunt" : "blueGrunt";
+        ownHeroTag = teamID == TeamID.red ? "redHero" : "blueHero";
+        ownBaseTag = teamID == TeamID.red ? "redBase" : "blueBase";
     }
     
     public void InitialiseSpecials(){
@@ -50,40 +53,32 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         int numberOfSpecials = specialFiles.Length;
         chosenNumbers = new List<int>();
         
-        // choose three random powers and initialise them all
+         // choose three random powers and initialise them all
+        specialOne = createSpecialPower(numberOfSpecials);
+        specialTwo = createSpecialPower(numberOfSpecials);
+        specialThree = createSpecialPower(numberOfSpecials);
+        
+        // initialise level up
+        specialLevelUp = createSpecial(LevelUpPrefab);
+    }
+    
+    private Special createSpecialPower(int numberOfSpecials){
         int specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
         chosenNumbers.Add(specialValue);
-        GameObject specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
-            specialFiles[specialValue].prefab.transform.rotation);
+        return createSpecial(specialFiles[specialValue].prefab);
+    }
+    
+    private Special createSpecial(GameObject prefab){
+        GameObject specialObject = (GameObject) Instantiate(prefab, gameObject.transform.position,
+            prefab.transform.rotation);
         NetworkServer.Spawn(specialObject);
-        specialOne = specialObject.GetComponent<Special>();
         RpcSetParent(specialObject,gameObject);
         
-        // two
-        specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialValue);
-        specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
-            specialFiles[specialValue].prefab.transform.rotation);
-        NetworkServer.Spawn(specialObject);
-        specialTwo = specialObject.GetComponent<Special>();
-        RpcSetParent(specialObject,gameObject);
+        Special special = specialObject.GetComponent<Special>();
+        special.transform.parent = gameObject.transform;
+        special.InitialiseSpecial();
         
-        // three
-        specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialValue);
-        specialObject = (GameObject) Instantiate(specialFiles[specialValue].prefab, gameObject.transform.position,
-            specialFiles[specialValue].prefab.transform.rotation);
-        NetworkServer.Spawn(specialObject);
-        specialThree = specialObject.GetComponent<Special>();
-        RpcSetParent(specialObject,gameObject);
-        
-        specialOne.transform.parent = gameObject.transform;
-        specialTwo.transform.parent = gameObject.transform;
-        specialThree.transform.parent = gameObject.transform;
-        
-        specialOne.InitialiseSpecial();
-        specialTwo.InitialiseSpecial();
-        specialThree.InitialiseSpecial();
+        return special;
     }
     
     private int getUniqueRandomInRange(int numberOfSpecials, List<int> chosenNumbers){
@@ -97,12 +92,14 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     }
     
     void Update() {
-        gameObject.transform.rotation = Quaternion.Euler(90,0,0);
-        if (Input.GetKeyUp(KeyCode.X)) {
+        if (Input.GetKeyUp(KeyCode.Z)) {
             EmitSpecial(SpecialType.one);
         }
-        if (Input.GetKeyUp(KeyCode.C)) {
+        if (Input.GetKeyUp(KeyCode.X)) {
             EmitSpecial(SpecialType.two);
+        }
+        if (Input.GetKeyUp(KeyCode.C)) {
+            EmitSpecial(SpecialType.three);
         }
     }
     
@@ -128,7 +125,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     
     public void UpgradeSpecials(){
         // play upgrade animation
-        RpcPlayLevelUp();
+        specialLevelUp.UseSpecial();
         
         // upgrade all specials
         specialOne.UpgradeSpecial();
@@ -137,15 +134,8 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     }
     
     [ClientRpc]
-    
     public void RpcSetParent(GameObject child, GameObject parent) {
         child.transform.parent = parent.transform;
-    }
-
-    [ClientRpc]
-    public void RpcPlayLevelUp() {
-        GameObject levelUpParticle = (GameObject) Instantiate(LevelUpPrefab, gameObject.transform.position, LevelUpPrefab.transform.rotation);
-        Destroy(levelUpParticle, levelUpParticle.GetComponent<ParticleSystem>().startLifetime);
     }
     
     public void ResetSpecials(){

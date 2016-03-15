@@ -131,7 +131,7 @@ public class TargetSelect : NetworkBehaviour {
 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, stats.targetSelectRange);
         foreach(Collider collider in hitColliders) {
-            if (collider.gameObject.activeSelf) { //check if active
+            if (collider.gameObject.activeSelf && isAttackable(collider.gameObject)) { //check if active and attackable (used for invisibility)
                 if (string.Equals(collider.gameObject.tag, attackGruntTag)) {
                     closestGrunt = closestCollider(closestGrunt, collider, ref currentDistanceGrunt);
                 } else if (string.Equals(collider.gameObject.tag, attackHeroTag)) {
@@ -186,4 +186,11 @@ public class TargetSelect : NetworkBehaviour {
 			}
 		}
 	}
+    private bool isAttackable(GameObject enemy){
+        if((enemy.tag == attackHeroTag) && gameObject.GetComponent<Grunt>()){
+            return gameObject.GetComponent<Grunt>().team.isAttackable(enemy);
+        }
+        
+        return true;
+    }
 }

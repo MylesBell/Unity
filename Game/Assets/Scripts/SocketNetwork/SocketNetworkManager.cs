@@ -8,7 +8,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 
 	private static SocketIOComponent socket;
 	SocketIOInputEvents socketIOInputEvents;
-	private string hostName = "watchfreenfl.com";
+	private string hostName = "headgearsofwar.com";
 	private string portNumber = "1337";
 	public enum State { IDLE, PLAYING, END };
 	public static bool isInit = false;
@@ -171,7 +171,23 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
     public void PlayerSpecialHandler(SocketIOEvent e){
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
-            socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str, SpecialType.one);
+            SpecialType type;
+            switch ((int)e.data.GetField("specialUsedIndex").n) {
+                case 0:
+                    type = SpecialType.one;
+                    break;
+                case 1:
+                    type = SpecialType.two;
+                    break;
+                case 2:
+                    type = SpecialType.three;
+                    break;
+                default:
+                    type = SpecialType.one;
+                    break;
+            }
+            
+            socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str,type);
         }
 	}
 
