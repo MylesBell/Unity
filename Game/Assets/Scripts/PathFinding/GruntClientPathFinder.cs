@@ -70,7 +70,6 @@ public class GruntClientPathFinder : NetworkBehaviour {
     }
     public void Panic(){
         RpcPanic();
-        // DebugConsole.Log("Panic is on");
     }
     
     [ClientRpc]

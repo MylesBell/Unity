@@ -113,6 +113,7 @@ public class CreateTerrain : NetworkBehaviour
             else                                  screenSceneryRight = PopulateScenery (numScreens, computerLane);
             GenerateLongPathGridServer(numScreens,computerLane);
         } else {
+            //Request scenry for the current screen and the neighbouring screens if possible
             List<int> screenNumbers = new List<int>();
             if(screenNumber > 0) {
                 GenerateTerrain(screenNumber-1, numScreens, computerLane);
@@ -160,11 +161,13 @@ public class CreateTerrain : NetworkBehaviour
         Vector3 laneOffset = new Vector3(0,0,(computerLane == ComputerLane.LEFT ? 200 : 0));
         
 		for (int i = 0; i < numScreens; i++) {
+            //For each screen generate scenery on the unwalkable area
+            //As well as the main terrain if using pathfinding
             int numObjectsOnSides = Random.Range(minNumScenerySides, maxNumScenerySides);
             int numObjectsOnMainTerrain = Random.Range(minNumSceneryMain, maxNumSceneryMain);
             screenScenery[i] = new List<NetworkTreeMessage>();
             screenScenery[i].AddRange(GenerateTerrainPart(false, numObjectsOnSides, numScreens, i, computerLane, laneOffset));
-            screenScenery[i].AddRange(GenerateTerrainPart(true, numObjectsOnMainTerrain, numScreens, i, computerLane, laneOffset));
+            if(GraniteNetworkManager.usePathFinding) screenScenery[i].AddRange(GenerateTerrainPart(true, numObjectsOnMainTerrain, numScreens, i, computerLane, laneOffset));
         }
         return screenScenery;
 	}
@@ -183,7 +186,6 @@ public class CreateTerrain : NetworkBehaviour
             //spawn on server
             scenerySpawner(index, position, rotation, scale);
             //create a message for the client
-            //the constructor has to have no parameters though
             NetworkTreeMessage msg = new NetworkTreeMessage();
             msg.index = index;
             msg.position = position;
@@ -205,7 +207,6 @@ public class CreateTerrain : NetworkBehaviour
     void GenerateLongPathGridServer(int numScreens, ComputerLane computerLane) {
         float xCentre = numScreens * chunkOffset.x / 2;
         Vector3 gridCentre = new Vector3(xCentre,0,(computerLane == ComputerLane.LEFT ? 250 : 50));
-        
         GetComponent<NavGridManager>().CreateLongPathGrid(gridCentre, new Vector2(numScreens * chunkOffset.x,100), computerLane);
 
     }
@@ -216,8 +217,11 @@ public class CreateTerrain : NetworkBehaviour
         float z_max = (computerLane == ComputerLane.LEFT ? Teams.maxZLeft : Teams.maxZRight) + 2;
         float z_pos, x_pos;
         if(generatingForMainTerrain){
+            //if generating for the walkbale part of the terrain
+            //then generate the tree anywhere between min and max
             z_pos = z_min + Random.Range(0, z_max - z_min);
         } else {
+            //if generating for the hills then try until the number is not on the main terrain
             do {
                 z_pos = Random.Range(0, 100) + laneOffset.z;
             } while (z_pos >= z_min && z_pos <= z_max);
@@ -241,7 +245,10 @@ public class CreateTerrain : NetworkBehaviour
                 x_pos = Random.Range(0, 100);
             } while (x_pos >= A && x_pos <= B);
         } else {
+            //prevent the scenery from being generated near the base
+            //check if the z position is near the base
             bool nearBase = (computerLane == ComputerLane.LEFT && z_pos < z_max)|| (computerLane == ComputerLane.RIGHT && z_pos > z_min);
+            //if z is near the base then move it away 
             if(screenNumber == 0 && nearBase){
                 x_pos = Random.Range(50,100);
             } else if(screenNumber == numScreens - 1 && nearBase){
@@ -266,7 +273,7 @@ public class CreateTerrain : NetworkBehaviour
         Debug.Log("[host] Request received.");
         RequestSceneryMessage msg = netMsg.ReadMessage<RequestSceneryMessage>();
         Debug.Log("[host] Request for screens " + string.Join(",", System.Array.ConvertAll(msg.screenNumbers, x => x.ToString())) + " for lane " + msg.computerLane + " recieved");
-        //Send info about scenery objects
+        //Send info about scenery objects for the requested screens
         SceneryInfoMessage simMsg = new SceneryInfoMessage();
         simMsg.numberOfElements = 0;
         foreach(int screenNumber in msg.screenNumbers) {

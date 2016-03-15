@@ -17,6 +17,7 @@ public class TargetSelect : NetworkBehaviour {
     
     private Queue<Vector3> moveTargets = new Queue<Vector3>();
     public bool usePathFinding;
+    public bool showPathFinding;
     private bool wasAttacking;
     private bool movementReset;
     
@@ -29,6 +30,7 @@ public class TargetSelect : NetworkBehaviour {
 	void Start() {
         if (isServer) {
             usePathFinding = GraniteNetworkManager.usePathFinding;
+            showPathFinding = GraniteNetworkManager.showPathFinding;
             gameObject.GetComponent<Rigidbody>().useGravity = true;
         } else {
             gameObject.GetComponent<Rigidbody>().detectCollisions = false;
@@ -60,9 +62,10 @@ public class TargetSelect : NetworkBehaviour {
                     movementReset = false;
                 } else {
                     if(usePathFinding && wasAttacking){
-                        MoveBackToTarget();
+                        if (wasAttacking) MoveBackToTarget();
+                        else UpdateMoveTargetPathFinding();
                     } else {
-                        UpdateMoveTarget();
+                        UpdateMoveTargetNoPathFinding();
                     }
                     prevPosition = transform.position;
                 }
@@ -86,33 +89,34 @@ public class TargetSelect : NetworkBehaviour {
         movementReset = true;
     }
 	
-	private void UpdateMoveTarget(){
+	private void UpdateMoveTargetPathFinding(){
 		float distance = Vector3.Distance (desiredPosition, transform.position);
-		if(usePathFinding) {
-            if(distance < 2.0f && moveTargets.Count > 0) {
-                desiredPosition = moveTargets.Dequeue();
-                gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
-                notMovedSeconds = 0;
-            } else if(distance < 5.0f && moveTargets.Count == 0){
-                if(Vector3.Distance (prevPosition, transform.position) < 1f) {
-                    notMovedSeconds += Time.deltaTime;
-                    if(notMovedSeconds > maxNotMovedSecondsBeforePanic){
-                        GetComponent<GruntClientPathFinder>().Panic();
-                        notMovedSeconds = 0;
-                    }
-                } else {
+        if(distance < 2.0f && moveTargets.Count > 0) {
+            desiredPosition = moveTargets.Dequeue();
+            gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
+            notMovedSeconds = 0;
+        } else if(distance < 5.0f && moveTargets.Count == 0){
+            if(Vector3.Distance (prevPosition, transform.position) < 1f) {
+                notMovedSeconds += Time.deltaTime;
+                if(notMovedSeconds > maxNotMovedSecondsBeforePanic){
+                    GetComponent<GruntClientPathFinder>().Panic();
                     notMovedSeconds = 0;
                 }
+            } else {
+                notMovedSeconds = 0;
             }
-        } else {
-            if (distance < 2.0f) {
-                if (teamID == TeamID.blue){
-                    desiredPosition.x += GruntMovementForwardMovePerUpdate;
-                } else {
-                    desiredPosition.x -= GruntMovementForwardMovePerUpdate;
-                }
-                gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
+        }
+    }
+    
+    private void UpdateMoveTargetNoPathFinding(){
+		float distance = Vector3.Distance (desiredPosition, transform.position);
+        if (distance < 2.0f) {
+            if (teamID == TeamID.blue){
+                desiredPosition.x += GruntMovementForwardMovePerUpdate;
+            } else {
+                desiredPosition.x -= GruntMovementForwardMovePerUpdate;
             }
+            gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
         }
     }
 
@@ -161,7 +165,7 @@ public class TargetSelect : NetworkBehaviour {
     }
     
     public void AddToQueue(Vector3[] vectors){
-        if(GraniteNetworkManager.showPathFinding) RpcDrawPath(vectors);
+        if(showPathFinding) RpcDrawPath(vectors);
         foreach(Vector3 vector in vectors){
             moveTargets.Enqueue(vector);
         }
