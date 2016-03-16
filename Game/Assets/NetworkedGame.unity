@@ -375,7 +375,7 @@ MonoBehaviour:
   redTeam: {fileID: 1193707487}
   gruntPoolSize: 300
   numberOfGruntsToSpawn: 5
-  gruntSpawnInterval: 7
+  gruntSpawnInterval: 10
   heroRespawnInterval: 5
   numberOfChannels: 10
 --- !u!114 &1193707482
@@ -456,6 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e081e24d05e2d1489d7ee00b530cc94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkGameState: 0
 --- !u!114 &1193707487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -486,6 +487,56 @@ MonoBehaviour:
   HeroPrefab: {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
   BasePrefab: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
   GruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
+--- !u!1 &1718127019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1718127021}
+  - 114: {fileID: 1718127020}
+  m_Layer: 0
+  m_Name: Debugger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1718127020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1718127019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f585b619e39894d7d97d81a119e2f329, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebugGui: {fileID: 0}
+  defaultGuiPosition: {x: .00999999978, y: .980000019, z: 0}
+  defaultGuiScale: {x: .5, y: .5, z: 1}
+  normal: {r: 0, g: 1, b: 0, a: 1}
+  warning: {r: 1, g: .921568632, b: .0156862754, a: 1}
+  error: {r: 1, g: 0, b: 0, a: 1}
+  maxMessages: 30
+  lineSpacing: .0199999996
+  draggable: 1
+  visible: 1
+  pixelCorrect: 0
+--- !u!4 &1718127021
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1718127019}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6, z: -4.60392046}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
 --- !u!1 &1919932849
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,9 +547,11 @@ GameObject:
   - 4: {fileID: 1919932851}
   - 114: {fileID: 1919932852}
   - 114: {fileID: 1919932850}
+  - 114: {fileID: 1919932854}
+  - 114: {fileID: 1919932853}
   m_Layer: 0
   m_Name: TerrainSpawner
-  m_TagString: Untagged
+  m_TagString: terrainSpawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -531,6 +584,7 @@ MonoBehaviour:
   sceneryObjects:
   - {fileID: 194014, guid: 31b1e74b9b72248a697572cb9d0fa77d, type: 2}
   - {fileID: 165532, guid: efdd03d14e7844780b9dd3df3f41673a, type: 2}
+  - {fileID: 170964, guid: dca3f129a66b744269a0e63836bb528e, type: 2}
   - {fileID: 103158, guid: ded6790f16e214c2a8e745443496f56a, type: 2}
   - {fileID: 156676, guid: 37ddc133724d14583bf2c55d17be82e2, type: 2}
   - {fileID: 133058, guid: 9295187c815e7462f9a1daabaf5c4b9b, type: 2}
@@ -538,8 +592,8 @@ MonoBehaviour:
   terrainMask:
     serializedVersion: 2
     m_Bits: 256
-  minNumScenery: 150
-  maxNumScenery: 200
+  minNumScenerySides: 100
+  maxNumScenerySides: 200
 --- !u!4 &1919932851
 Transform:
   m_ObjectHideFlags: 0
@@ -584,6 +638,33 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &1919932853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1919932849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7836401b7284c60a11c6b0e132de80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1919932854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1919932849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee470dd078a64a82974b72ddb12f84e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navigators: []
+  unwalkableLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  displayGridGizmos: 1
 --- !u!1 &2117376846
 GameObject:
   m_ObjectHideFlags: 0

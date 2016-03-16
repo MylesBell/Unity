@@ -7,19 +7,26 @@ public enum MoveDirection {
 
 public class HeroMovement : NetworkBehaviour, IHeroMovement
 {
+    private TargetSelect targetSelect;
 	private Stats stats;
+    private Animator animator;
     
-    private LayerMask terrainMask = 256;
+    // private LayerMask terrainMask = 256;
     
     public MoveDirection moveDirection;
     public Vector3 currentMovement;
+    private Vector3 lastPosition;
+    
+    public float testSpeed;
     public float moveUnit = 1.0f;
     
     private ComputerLane computerLane;
 
-    void Start ()
-    {
-        stats = (Stats) GetComponent<Stats>();
+    void Start () {
+        targetSelect = GetComponent<TargetSelect>();
+        stats = GetComponent<Stats>();
+        animator = GetComponentInChildren<Animator>();
+        animator.enabled = true;
     }
 
     public void initialiseMovement(Vector3 position) {
@@ -42,30 +49,60 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     public void RpcRecievePosition(Vector3 position) {
         transform.position = position;
     }
+    
+    [ClientRpc]
+    public void RpcResetAnimator() {
+        animator.SetBool("Victory", false);                    
+        animator.SetBool("Defeat", false); 
+    }
+    
+    [ClientRpc]
+    public void RpcSetAnimatorSpeed(float speed) {
+        animator.SetFloat("Speed", speed);         
+    }
+    
+    public void SetAnimatorSpeed(float speed) {
+        animator.SetFloat("Speed", speed);         
+    }
+    
+    [ClientRpc]
+    public void RpcSetEndAnim(TeamID teamID) {
+        if (teamID == GameState.winningTeam)
+            animator.SetBool("Victory", true);
+        else
+            animator.SetBool("Defeat", true);
+    }
 
     void FixedUpdate(){
-        switch (GameState.gameState) {
-            case GameState.State.IDLE:
-                if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                break;
-            case GameState.State.PLAYING:
-                updatePosition();
-                break;
-            case GameState.State.END:
-                if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                break;
+        if(isServer) {
+            switch (GameState.gameState) {
+                case GameState.State.IDLE:
+                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero; 
+                    RpcResetAnimator();
+                    break;
+                case GameState.State.PLAYING:
+                    updatePosition();
+                    break;
+                case GameState.State.END:
+                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    currentMovement = Vector3.zero;
+                    RpcSetEndAnim(targetSelect.teamID);
+                    break;
+            }
         }
+        SetAnimatorSpeed((transform.position - lastPosition).magnitude/Time.deltaTime);
+        lastPosition = transform.position;
 	}
     
-    private void updatePosition(){
-        
+    private void updatePosition(){      
          if (moveDirection != MoveDirection.NONE){
              currentMovement = getMovementUpdate();
          }else{
              currentMovement = getIdleMovementUpdate();
          }
-         
-         transform.position = AdjustToTerrain(currentMovement * Time.deltaTime + transform.position);     
+         if (currentMovement != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(currentMovement);
+         transform.position = currentMovement * Time.deltaTime + transform.position;     
     }
     
     private Vector3 getMovementUpdate(){
@@ -113,12 +150,12 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     }
 	
 	private Vector3 AdjustToTerrain (Vector3 movementTargetInput) {
-        RaycastHit terrainLevel;
-        movementTargetInput.y = 20f;
-        if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)){
-            movementTargetInput = terrainLevel.point;
-        }
-        movementTargetInput.y += GetComponent<Renderer>().bounds.size.y/2;
+        // RaycastHit terrainLevel;
+        // movementTargetInput.y = 20f;
+        // if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)){
+        //     movementTargetInput = terrainLevel.point;
+        // }
+        movementTargetInput.y = GetComponentInChildren<Renderer>().bounds.size.y/2;
         return movementTargetInput;
 	}
 

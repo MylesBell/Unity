@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 public class Grunt : NetworkBehaviour, IDestroyableGameObject {
 
     public Team team;
+    [SyncVar] private int id;
     [SyncVar] private bool active = false;
 
     void Start() {
@@ -17,6 +18,9 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
             CmdSetActiveState(active);
         }
 	}
+    public void SetID(int id){
+        this.id = id;
+    }
 
     public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition) {
         if (isServer) {
@@ -25,7 +29,7 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<GruntMovement>().initialiseMovement(spawnPosition);
             //set Health to Max
             gameObject.GetComponent<Health>().InitialiseHealth();
-            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
+            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), desiredPosition);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
         }
@@ -50,5 +54,9 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
         gameObject.SetActive(active);
         CmdSetActiveState(active);
         team.OnGruntDead(gameObject);
+    }
+    
+    public int GetID(){
+        return id;
     }
 }

@@ -30,7 +30,12 @@ ModelImporter:
     400020: joint8
     400022: pCube14
     4300000: pCube14
-    7400000: Take 001
+    7400000: CowboyGruntWalking
+    7400002: CowboyGruntAttacking
+    7400004: CowboyGruntDeath
+    7400006: CowboyGruntLoss
+    7400008: CowboyGruntIdle
+    7400010: CowboyGruntVictory
     9500000: //RootNode
     13700000: pCube14
   materials:
@@ -41,7 +46,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     optimizeGameObjects: 0
-    motionNodeName: 
+    motionNodeName: <Root Transform>
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -52,11 +57,311 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: CowboyGruntWalking
+      takeName: Take 001
+      firstFrame: 2
+      lastFrame: 121
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Character1_Reference
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/joint3
+        weight: 1
+      - path: joint1/joint3/joint4
+        weight: 1
+      - path: joint1/joint3/joint4/joint5
+        weight: 1
+      - path: joint1/joint6
+        weight: 1
+      - path: joint1/joint6/joint4 1
+        weight: 1
+      - path: joint1/joint6/joint4 1/joint5 1
+        weight: 1
+      - path: joint1/joint7
+        weight: 1
+      - path: joint1/joint7/joint8
+        weight: 1
+      - path: pCube14
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: CowboyGruntAttacking
+      takeName: Take 001
+      firstFrame: 122
+      lastFrame: 241
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000000000000100000000000000000000000000000000000000000000000000000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Character1_Reference
+        weight: 0
+      - path: joint1
+        weight: 0
+      - path: joint1/joint3
+        weight: 0
+      - path: joint1/joint3/joint4
+        weight: 0
+      - path: joint1/joint3/joint4/joint5
+        weight: 0
+      - path: joint1/joint6
+        weight: 0
+      - path: joint1/joint6/joint4 1
+        weight: 0
+      - path: joint1/joint6/joint4 1/joint5 1
+        weight: 0
+      - path: joint1/joint7
+        weight: 1
+      - path: joint1/joint7/joint8
+        weight: 1
+      - path: pCube14
+        weight: 0
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: CowboyGruntDeath
+      takeName: Take 001
+      firstFrame: 242
+      lastFrame: 361
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Character1_Reference
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/joint3
+        weight: 1
+      - path: joint1/joint3/joint4
+        weight: 1
+      - path: joint1/joint3/joint4/joint5
+        weight: 1
+      - path: joint1/joint6
+        weight: 1
+      - path: joint1/joint6/joint4 1
+        weight: 1
+      - path: joint1/joint6/joint4 1/joint5 1
+        weight: 1
+      - path: joint1/joint7
+        weight: 1
+      - path: joint1/joint7/joint8
+        weight: 1
+      - path: pCube14
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: CowboyGruntLoss
+      takeName: Take 001
+      firstFrame: 482
+      lastFrame: 601
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Character1_Reference
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/joint3
+        weight: 1
+      - path: joint1/joint3/joint4
+        weight: 1
+      - path: joint1/joint3/joint4/joint5
+        weight: 1
+      - path: joint1/joint6
+        weight: 1
+      - path: joint1/joint6/joint4 1
+        weight: 1
+      - path: joint1/joint6/joint4 1/joint5 1
+        weight: 1
+      - path: joint1/joint7
+        weight: 1
+      - path: joint1/joint7/joint8
+        weight: 1
+      - path: pCube14
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: CowboyGruntIdle
+      takeName: Take 001
+      firstFrame: 602
+      lastFrame: 721
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Character1_Reference
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/joint3
+        weight: 1
+      - path: joint1/joint3/joint4
+        weight: 1
+      - path: joint1/joint3/joint4/joint5
+        weight: 1
+      - path: joint1/joint6
+        weight: 1
+      - path: joint1/joint6/joint4 1
+        weight: 1
+      - path: joint1/joint6/joint4 1/joint5 1
+        weight: 1
+      - path: joint1/joint7
+        weight: 1
+      - path: joint1/joint7/joint8
+        weight: 1
+      - path: pCube14
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: CowboyGruntVictory
+      takeName: Take 001
+      firstFrame: 362
+      lastFrame: 481
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Character1_Reference
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/joint3
+        weight: 1
+      - path: joint1/joint3/joint4
+        weight: 1
+      - path: joint1/joint3/joint4/joint5
+        weight: 1
+      - path: joint1/joint6
+        weight: 1
+      - path: joint1/joint6/joint4 1
+        weight: 1
+      - path: joint1/joint6/joint4 1/joint5 1
+        weight: 1
+      - path: joint1/joint7
+        weight: 1
+      - path: joint1/joint7/joint8
+        weight: 1
+      - path: pCube14
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 10
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

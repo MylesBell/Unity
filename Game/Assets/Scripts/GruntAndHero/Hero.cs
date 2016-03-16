@@ -56,7 +56,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<Health>().InitialiseHealth();
             gameObject.GetComponent<Stats>().ResetKillStreak();
 
-            targetSelect = GetComponent<TargetSelect> ();
+            targetSelect = GetComponent<TargetSelect>();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
             gameObject.SetActive(active);
             CmdSetActiveState(active);

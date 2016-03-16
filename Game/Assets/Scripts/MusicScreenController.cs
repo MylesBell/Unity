@@ -53,10 +53,10 @@ public class MusicScreenController : NetworkBehaviour {
                 audioSources[i].volume = 0f;
             }
             //Initially some screens will not have units on them, so play default music depending on screen position
-            int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
-            int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
-            int screenNumber = PlayerPrefs.GetInt("screen", 0);
-            int numScreens = PlayerPrefs.GetInt("lane", 0) == 0 ? numScreensLeft : numScreensRight;
+            int numScreensLeft = GraniteNetworkManager.numberOfScreens_left;
+            int numScreensRight = GraniteNetworkManager.numberOfScreens_right;
+            int screenNumber = GraniteNetworkManager.screeNumber;
+            int numScreens = GraniteNetworkManager.lane == ComputerLane.LEFT ? numScreensLeft : numScreensRight;
             defaultClipIndex = screenNumber < numScreens / 2 ? 0 : MusicClips.Length - 1;
             playingClipIndex = defaultClipIndex;
             audioSources[defaultClipIndex].volume = 1f;
@@ -65,6 +65,7 @@ public class MusicScreenController : NetworkBehaviour {
     
 	void Update () {
         if(!musicStarted && Input.GetKeyDown(KeyCode.M)){
+            Debug.Log("Server starting Music");
             double startMusicTimestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + musicStartSecondsOffset;
             RpcStartMusicLoops(startMusicTimestamp);
         }
@@ -96,6 +97,7 @@ public class MusicScreenController : NetworkBehaviour {
 	}
     
     private IEnumerator CrossFade(AudioSource currentAudioSource, AudioSource newAudioSource, float duration){
+        Debug.Log("Starting Music");
         isCrossFadeRunning = true;
         float fTimeCounter = 0f;
         float startVolume = currentAudioSource.volume;
@@ -110,7 +112,7 @@ public class MusicScreenController : NetworkBehaviour {
     
     [ClientRpc]
     public void RpcStartMusicLoops(double startTimestamp) {
-        StartMusicLoops(startTimestamp);
+        if(!isServer) StartMusicLoops(startTimestamp);
     }
     
     void StartMusicLoops(double startTimestamp) {

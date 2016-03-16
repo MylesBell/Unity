@@ -13,19 +13,17 @@ public class CameraPosition : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        int lane = PlayerPrefs.GetInt("lane", 0);
-        
-        int screenNumber = PlayerPrefs.GetInt("screen", 0);
-        isServer = PlayerPrefs.GetInt("isServer", 1) == 1 ? true : false;
+        currentLane = GraniteNetworkManager.lane;
+        int screenNumber = GraniteNetworkManager.screeNumber;
+        isServer = GraniteNetworkManager.isServer;
         Debug.Log("Screen Number: " + screenNumber);
         
         float width = 100; //the width of the screen in the game 
-        Vector3 v3 = lane == 0 ? initialPositionLeft : initialPositionRight; //get current pos
+        Vector3 v3 = currentLane == ComputerLane.LEFT ? initialPositionLeft : initialPositionRight; //get current pos
         v3.x = width / 2 + width*screenNumber; //offset the camera correctly
         transform.position = v3;
         print(transform.rotation.eulerAngles);
-        transform.rotation = Quaternion.Euler(lane == 0 ? rotationLeft : rotationRight);
-        currentLane = lane == 0 ? ComputerLane.LEFT : ComputerLane.RIGHT;
+        transform.rotation = Quaternion.Euler(currentLane == ComputerLane.LEFT ? rotationLeft : rotationRight);
     }
 
     // Update is called once per frame

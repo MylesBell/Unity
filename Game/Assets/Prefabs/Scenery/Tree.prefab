@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 445636}
   - 136: {fileID: 13603628}
   - 65: {fileID: 6575858}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 458562}
   - 33: {fileID: 3321736}
   - 23: {fileID: 2322026}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Icosphere.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - 4: {fileID: 495626}
   - 33: {fileID: 3381252}
   - 23: {fileID: 2386932}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - 4: {fileID: 452296}
   - 33: {fileID: 3344050}
   - 23: {fileID: 2345044}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Icosphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ GameObject:
   - 4: {fileID: 455146}
   - 33: {fileID: 3348750}
   - 23: {fileID: 2319580}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Icosphere.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - 4: {fileID: 450750}
   - 33: {fileID: 3304500}
   - 23: {fileID: 2339374}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Icosphere.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,6 +384,10 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 735ef2eceac404b4b85eeafd8d9586ca, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 103158}
