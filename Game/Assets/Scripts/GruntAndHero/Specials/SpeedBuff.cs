@@ -20,7 +20,7 @@ public class SpeedBuff : Special
 
     override public void UpgradeSpecial()
     {
-        speedIncrease += 5.0f;
+        speedIncrease += 1.0f;
     }
 
     override public void UseSpecial()
