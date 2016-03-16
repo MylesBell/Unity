@@ -61,7 +61,7 @@ public class TargetSelect : NetworkBehaviour {
                     wasAttacking = true;
                     movementReset = false;
                 } else {
-                    if(usePathFinding && wasAttacking){
+                    if(usePathFinding){
                         if (wasAttacking) MoveBackToTarget();
                         else UpdateMoveTargetPathFinding();
                     } else {

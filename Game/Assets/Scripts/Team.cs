@@ -135,7 +135,7 @@ public class Team : NetworkBehaviour {
     public void CreatePlayer(string playerID, string playerName) {
         GameObject hero = unitFactory.CreateHero(HeroPrefab);
         
-        hero.GetComponent<Hero>().InitialiseGameObject(this);
+        hero.GetComponent<Hero>().InitialiseGameObject(this);        
 		hero.GetComponent<Hero>().setplayerID (playerID);
         hero.GetComponent<Hero>().setHeroName(playerName);
         

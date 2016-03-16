@@ -5,6 +5,7 @@ public class GruntMovement : NetworkBehaviour{
     
 	private Vector3 movementTarget;
     private Vector3 currentMovement;
+    private Vector3 lastPosition;
 
     private TargetSelect targetSelect;
 	private Stats stats;
@@ -16,6 +17,7 @@ public class GruntMovement : NetworkBehaviour{
         targetSelect = GetComponent<TargetSelect>();
 		stats = GetComponent<Stats>();
         animator = GetComponentInChildren<Animator>();
+        animator.enabled = true;
 	}
 
     public void initialiseMovement(Vector3 position) {
@@ -37,50 +39,59 @@ public class GruntMovement : NetworkBehaviour{
     
     [ClientRpc]
     public void RpcResetAnimator() {
+        // animator = GetComponentInChildren<Animator>();
         animator.SetBool("Victory", false);                    
         animator.SetBool("Defeat", false); 
     }
     
     [ClientRpc]
     public void RpcSetAnimatorSpeed(float speed) {
+        Component[] componentsOfChildren = transform.GetComponentsInChildren<Component>();
+        Debug.Log(componentsOfChildren.Length);
+        // animator = GetComponentInChildren<Animator>();
         animator.SetFloat("Speed", speed);         
     }
-    
+    public void SetAnimatorSpeed(float speed) {
+        animator.SetFloat("Speed", speed);         
+    }
     [ClientRpc]
     public void RpcSetEndAnim(TeamID teamID) {
+        // animator = GetComponentInChildren<Animator>();
         if (teamID == GameState.winningTeam)
             animator.SetBool("Victory", true);
         else
             animator.SetBool("Defeat", true);
     }
 
-    void Update(){
-        switch (GameState.gameState) {
-            case GameState.State.IDLE:
-                if (isServer) gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                break;
-            case GameState.State.PLAYING:
-                RpcResetAnimator();                              
-                break;
-            case GameState.State.END:
-                if (isServer) {
+    void LateUpdate(){
+        if(isServer) {
+            switch (GameState.gameState) {
+                case GameState.State.IDLE:
+                    gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    RpcResetAnimator();  
+                    break;
+                case GameState.State.PLAYING:                            
+                    break;
+                case GameState.State.END:
                     gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                     currentMovement = Vector3.zero;
+                    RpcSetEndAnim(targetSelect.teamID);               
+                    break;
+            }
+            // RpcSetAnimatorSpeed(currentMovement.magnitude);
+            if (NotTooClose()){
+                if(GameState.gameState == GameState.State.PLAYING) {
+                    currentMovement = Vector3.MoveTowards (currentMovement,
+                        (movementTarget - transform.position).normalized * stats.movementSpeed, Time.deltaTime * stats.movementAcceleration);
+                    Vector3 newPosition = currentMovement * Time.deltaTime + transform.position;
+                    transform.LookAt(new Vector3(newPosition.x,transform.position.y,newPosition.z));
+                    newPosition = AdjustToTerrain(newPosition);
+                    transform.position = newPosition;
                 }
-                RpcSetEndAnim(targetSelect.teamID);               
-                break;
-        }
-        RpcSetAnimatorSpeed(currentMovement.magnitude);
-        if (isServer && NotTooClose()){
-            if(GameState.gameState == GameState.State.PLAYING) {
-                currentMovement = Vector3.MoveTowards (currentMovement,
-                    (movementTarget - transform.position).normalized * stats.movementSpeed, Time.deltaTime * stats.movementAcceleration);
-                Vector3 newPosition = currentMovement * Time.deltaTime + transform.position;
-                transform.LookAt(new Vector3(newPosition.x,transform.position.y,newPosition.z));
-                newPosition = AdjustToTerrain(newPosition);
-                transform.position = newPosition;
             }
         }
+        SetAnimatorSpeed((transform.position - lastPosition).magnitude/Time.deltaTime);
+        lastPosition = transform.position;
 	}
 
 	private bool NotTooClose(){

@@ -415,9 +415,9 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 198990858c0906e4b82c853447be1517, type: 3}
   m_Controller: {fileID: 9100000, guid: 461393b4f5e6f42fd815f036e490aa59, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -439,6 +439,7 @@ MonoBehaviour:
   attackBaseTag: 
   GruntMovementForwardMovePerUpdate: 1
   usePathFinding: 1
+  showPathFinding: 0
 --- !u!114 &11405730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -554,7 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba74e60ac0c447c6a99ade00a9c39cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testSpeed: 0
+  animator: {fileID: 9547960}
 --- !u!114 &11458384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -785,6 +786,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: layerMask.m_Bits
       value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 9547960}
+    - target: {fileID: 0}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

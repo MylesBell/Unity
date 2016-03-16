@@ -52,7 +52,7 @@ public class BombDrop : Special
     }
     
     IEnumerator PlayBombSystem() {
-        Renderer renderer = gameObject.GetComponent<Renderer>();
+        Renderer renderer = GetComponent<Renderer>();
         ParticleSystem particleSystem = gameObject.GetComponent<ParticleSystem>();
         for (int i = 0; i < 20; i++) {
             renderer.material = flash;

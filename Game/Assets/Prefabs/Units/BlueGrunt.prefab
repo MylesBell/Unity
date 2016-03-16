@@ -417,7 +417,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 67e2a42c11100429c81384b5afc089eb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -544,6 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba74e60ac0c447c6a99ade00a9c39cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 9590728}
 --- !u!114 &11482442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -756,7 +757,7 @@ Prefab:
       objectReference: {fileID: 9000000, guid: 78f91393701e3954bab04243ffca326b, type: 3}
     - target: {fileID: 0}
       propertyPath: m_ApplyRootMotion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarHighTexture
@@ -794,6 +795,10 @@ Prefab:
       propertyPath: layerMask.m_Bits
       value: 512
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 9590728}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 129988}
