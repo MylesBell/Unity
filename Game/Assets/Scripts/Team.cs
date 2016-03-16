@@ -158,7 +158,7 @@ public class Team : NetworkBehaviour {
                                                 hero.GetComponent<Health>().maxHealth,
                                                 hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
                                                               teamBaseRight.GetComponent<BaseHealth>().maxHealth,
-                                                specialOneId, specialTwoId, specialThreeId);
+                                                specialOneId, specialTwoId, specialThreeId, computerLane);
     }
     
     public void RemovePlayer(string playerID) {

@@ -12,10 +12,10 @@ public static class SocketIOOutgoingEvents {
 	}
 
 	public static void PlayerHasJoined (string playerID, TeamID teamID, GameState.State state, float playerMaxHealth,
-        float baseMaxHealth, int specialOne, int specialTwo, int specialThree)
+        float baseMaxHealth, int specialOne, int specialTwo, int specialThree, ComputerLane computerLane)
 	{
 		socketIOManager.PlayerJoinHandler (playerID, teamID, state, playerMaxHealth, baseMaxHealth,
-            specialOne, specialTwo, specialThree);
+            specialOne, specialTwo, specialThree, computerLane);
 	}
     
     public static void PlayerJoinFailInvalidGameCode (string playerID)
