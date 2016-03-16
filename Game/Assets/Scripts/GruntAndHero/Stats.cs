@@ -34,7 +34,8 @@ public class Stats : NetworkBehaviour{
     public void ResetKillStreak(){
         lock(killStreakLock){
             currentKillStreak = 0;
-            nextUpgrade = firstUpgrade;
+            // dont reset so continually more difficult to level up
+            // nextUpgrade = firstUpgrade;
         }
     }
     
