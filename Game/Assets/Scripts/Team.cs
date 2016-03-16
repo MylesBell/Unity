@@ -160,7 +160,7 @@ public class Team : NetworkBehaviour {
                                                 hero.GetComponent<Health>().maxHealth,
                                                 hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
                                                               teamBaseRight.GetComponent<BaseHealth>().maxHealth,
-                                                specialOneId, specialTwoId, specialThreeId);
+                                                specialOneId, specialTwoId, specialThreeId, computerLane);
     }
     
     public void RemovePlayer(string playerID) {
@@ -237,7 +237,8 @@ public class Team : NetworkBehaviour {
             double respawnTimeStamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + heroRespawnInterval;
             print(respawnTimeStamp);
             SocketIOOutgoingEvents.PlayerDied(playerID, respawnTimeStamp.ToString("0.####"));
-            hero.GetComponent<Specials>().ResetSpecials();
+            // resetting specials doesn't make sense with leveling up
+            // hero.GetComponent<Specials>().ResetSpecials();
         }
     }
 
