@@ -76,7 +76,7 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         
         Special special = specialObject.GetComponent<Special>();
         special.transform.parent = gameObject.transform;
-        float height =  gameObject.GetComponent<Collider>().bounds.size.y/2;
+        float height =  gameObject.GetComponent<BoxCollider>().size.y;
         special.InitialiseSpecial(height);
         
         return special;
