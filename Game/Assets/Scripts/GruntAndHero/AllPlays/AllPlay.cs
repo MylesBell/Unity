@@ -22,7 +22,7 @@ public abstract class AllPlay : NetworkBehaviour {
         transform.SetParent(parentObject.transform);
     }
     
-	public abstract void Initialise();
+	public abstract void Initialise(float height);
     public abstract void Use(params float[] inputs);
     public abstract void Upgrade();
     public abstract void Reset();

@@ -6,8 +6,8 @@ public class UnitSlowDown : AllPlay {
     
     private float savedSpeed;
     
-    override public void Initialise(){
-        
+    override public void Initialise(float height){
+        transform.localPosition = new Vector3(0,height,0);
     }
     
     override public void Upgrade(){

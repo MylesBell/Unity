@@ -26,8 +26,9 @@ public class AllPlays : NetworkBehaviour {
         allPlay.transform.parent = gameObject.transform;
         
         NetworkServer.Spawn(allPlayObject);
-                     
-        allPlay.Initialise();
+        
+        float height =  gameObject.GetComponent<BoxCollider>().size.y;             
+        allPlay.Initialise(height);
               
         return allPlay;
     }
