@@ -4,7 +4,7 @@ public class RendererChecker : MonoBehaviour {
     private TeamID teamID;
     private MusicScreenController musicScreenController;
     
-    private bool visible;
+    public bool visible;
 
     void Start() {
         musicScreenController = GameObject.FindGameObjectsWithTag("musicPlayer")[0].GetComponent<MusicScreenController>();

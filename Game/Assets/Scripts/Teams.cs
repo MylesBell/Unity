@@ -5,6 +5,19 @@ using UnityEngine.EventSystems;
 public enum TeamID {
 	red, blue
 }
+public class MyPathfindingMsg {
+    public static short ReceiveForcedPathCode = MsgType.Highest + 11;
+    public static short ReceivePathCode = MsgType.Highest + 12;
+}
+
+[System.Serializable]
+public class PathfindingMessage : MessageBase {
+    public Vector3[] path;
+    public int id;
+    public TeamID teamID;
+    public int screen;
+}
+
 
 public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
 
@@ -33,12 +46,14 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
 	void Start () {
         if (isServer) {
             initialised = false;
+            NetworkServer.RegisterHandler(MyPathfindingMsg.ReceivePathCode, OnReceivePathMessage);
+            NetworkServer.RegisterHandler(MyPathfindingMsg.ReceiveForcedPathCode, OnReceiveForcedPathMessage);
             zPositionOffsetRight = ((maxZRight-topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
             zPositionOffsetLeft = ((maxZLeft-topOffsetLeft) - (minZLeft+bottomOffsetLeft)) / numberOfChannels;
-            int numScreensLeft = PlayerPrefs.GetInt("numberofscreens-left", 0);
-            int numScreensRight = PlayerPrefs.GetInt("numberofscreens-right", 0);
-            bool hasLeftLane = PlayerPrefs.GetInt("numberofscreens-left", 0) > 1;
-            bool hasRightLane = PlayerPrefs.GetInt("numberofscreens-right", 0) > 1;
+            int numScreensLeft = GraniteNetworkManager.numberOfScreens_left;
+            int numScreensRight = GraniteNetworkManager.numberOfScreens_right;
+            bool hasLeftLane = numScreensLeft > 1;
+            bool hasRightLane = numScreensRight > 1;
             int blueBaseXPosLeft = 25;
             int blueBaseXPosRight = 25;
             int redBaseXPosLeft = numScreensLeft * 100 - 25;
@@ -81,6 +96,34 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
         if (!blueTeam.TryGetHero(playerID, out hero)) redTeam.TryGetHero(playerID, out hero);
 		return hero;
 	}
+    
+    public void OnReceiveForcedPathMessage(NetworkMessage netMsg) {
+        PathfindingMessage msg = netMsg.ReadMessage<PathfindingMessage>();
+        GameObject grunt;
+        if(msg.teamID == TeamID.red) {
+            redTeam.TryGetGrunt(msg.id, out grunt);
+        } else {
+            blueTeam.TryGetGrunt(msg.id, out grunt);
+        }
+        if(grunt){
+            grunt.GetComponent<GruntClientPathFinder>().OnReceiveForcedPathMessage(msg);
+        }
+    }
+    
+    public void OnReceivePathMessage(NetworkMessage netMsg) {
+        PathfindingMessage msg = netMsg.ReadMessage<PathfindingMessage>();
+        // Debug.Log("Recived a path for "  + msg.teamID + " id:" + msg.id);
+        GameObject grunt;
+        if(msg.teamID == TeamID.red) {
+            redTeam.TryGetGrunt(msg.id, out grunt);
+        } else {
+            blueTeam.TryGetGrunt(msg.id, out grunt);
+        }
+        if(grunt){
+            grunt.GetComponent<GruntClientPathFinder>().OnReceivePathMessage(msg);
+        }
+        // if(recievePaths) targetSelect.AddToQueue(msg.path);
+    }
 
     private void resetGame() {
         blueTeam.resetTeam();
@@ -91,7 +134,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
 	#region IPlayerJoin implementation
 	public void PlayerJoin (string playerID, string playerName, string gameCode) {
         
-        if(PlayerPrefs.GetString("gameCode", "") == gameCode) {
+        if(GraniteNetworkManager.game_code == gameCode) {
             int blueHeroes = blueTeam.GetNumberOfHeros();
             int redHeroes = redTeam.GetNumberOfHeros();
             if (blueHeroes < redHeroes) {
