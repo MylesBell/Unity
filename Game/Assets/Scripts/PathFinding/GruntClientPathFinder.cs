@@ -63,7 +63,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     
     [ClientRpc]
     public void RpcForceRequest(Vector3 position) {
-        if(!isServer && rendererChecker.visible){
+        if(!isServer && rendererChecker && rendererChecker.visible){
             targetPosition = FindNewTargetPosition(position);
             NavGridManager.RequestLongPath(transform.position, targetPosition, navGridManager.getLongPathGrid(currentLane), OnForcedPathFound);
         }
