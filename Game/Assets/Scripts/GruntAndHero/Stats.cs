@@ -25,6 +25,7 @@ public class Stats : NetworkBehaviour{
     private object killStreakLock = new object();
     public int firstUpgrade = 1;
     private int nextUpgrade;
+    private int level = 1;
     
     void Start(){
         nextUpgrade = firstUpgrade;
@@ -33,7 +34,8 @@ public class Stats : NetworkBehaviour{
     public void ResetKillStreak(){
         lock(killStreakLock){
             currentKillStreak = 0;
-            nextUpgrade = firstUpgrade;
+            // dont reset so continually more difficult to level up
+            // nextUpgrade = firstUpgrade;
         }
     }
     
@@ -49,9 +51,21 @@ public class Stats : NetworkBehaviour{
         lock(killStreakLock){
             currentKillStreak++;
             if(gameObject.GetComponent<Hero>() && currentKillStreak >= nextUpgrade){
+                level++;
+                SetNextUpgrade();
                 gameObject.GetComponent<Specials>().UpgradeSpecials();
-                nextUpgrade = nextUpgrade * 2;
+                SendUpgradeEvent();
             }
         }
+    }
+    
+    private void SetNextUpgrade(){
+        nextUpgrade = nextUpgrade * 2;
+    }
+    
+    private void SendUpgradeEvent(){
+        Hero hero = gameObject.GetComponent<Hero>();
+        string playerID = hero.getplayerID();
+        SocketIOOutgoingEvents.PlayerLevelUp(playerID, level);
     }
 }

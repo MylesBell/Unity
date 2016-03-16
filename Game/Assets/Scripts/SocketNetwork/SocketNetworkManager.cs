@@ -86,7 +86,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 	}
 
 	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state, float playerMaxHealth,
-        float baseMaxHealth, int specialOne, int specialTwo, int specialThree)
+        float baseMaxHealth, int specialOne, int specialTwo, int specialThree, ComputerLane computerLane)
 	{
 		Debug.Log ("[SocketIO] Player has joined");
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
@@ -99,6 +99,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
         dataJSON.AddField ("specialOne", specialOne);
         dataJSON.AddField ("specialTwo", specialTwo);
         dataJSON.AddField ("specialThree", specialThree);
+        dataJSON.AddField ("lane", (int)computerLane);
 
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
@@ -190,7 +191,16 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
             socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str,type);
         }
 	}
-
+    
+    public void PlayerLevelUpHandler(string playerID, int level)
+    {
+        Debug.Log ("[SocketIO] Player has leveled up");
+        JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+        dataJSON.AddField("playerID", playerID);
+        dataJSON.AddField("level", level);
+        socket.Emit ("gamePlayerLevelUp", dataJSON);
+    }
+    
 	public void CloseHandler(SocketIOEvent e)
 	{	
 		Debug.Log("[SocketIO] Close received: " + e.name + " " + e.data);
