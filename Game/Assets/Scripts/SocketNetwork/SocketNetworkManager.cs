@@ -190,7 +190,16 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
             socketIOInputEvents.PlayerUseSpecial(e.data.GetField("uID").str,type);
         }
 	}
-
+    
+    public void PlayerLevelUpHandler(string playerID, int level)
+    {
+        Debug.Log ("[SocketIO] Player has leveled up");
+        JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+        dataJSON.AddField("playerID", playerID);
+        dataJSON.AddField("level", level);
+        socket.Emit ("playerLevelUp", dataJSON);
+    }
+    
 	public void CloseHandler(SocketIOEvent e)
 	{	
 		Debug.Log("[SocketIO] Close received: " + e.name + " " + e.data);

@@ -46,5 +46,10 @@ public static class SocketIOOutgoingEvents {
 	{
 		socketIOManager.BaseHealthHasChanged (playerID, maxHealth, currentHealth);
 	}
+    
+    public static void PlayerLevelUp (string playerID, int level)
+    {
+        socketIOManager.PlayerLevelUpHandler(playerID, level);
+    }
 
 }
