@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 381c067576e47404f9d9421738353d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseClip: {fileID: 0}
+  baseClip: {fileID: 8300000, guid: 17c34a15de9be4507993c32433a8ff48, type: 3}
   MusicClips: []
   crossFadeDuration: 1
   musicStartSecondsOffset: 3
