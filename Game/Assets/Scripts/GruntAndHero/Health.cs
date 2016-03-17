@@ -5,6 +5,7 @@ public class Health : NetworkBehaviour {
 	public float healthBarInitialLength;
 	public Texture healthBarHighTexture, healthBarMedTexture, healthBarLowTexture, healthBarBackTexture;
 
+    public float healthBarOffset = 0.0f;
 	public float maxHealth;
 	[SyncVar] public float currentHealth;
 	private float healthBarLength;
@@ -35,7 +36,7 @@ public class Health : NetworkBehaviour {
             healthBarHeight -= healthBarHeight % 3;
             float length = healthBarInitialLength * healthBarHeight + (2 * healthBarHeight/3);
             float height = healthBarHeight + (2 * healthBarHeight / 3);
-            float yOffset = 4 * height;
+            float yOffset = healthBarOffset * height;
             float xPos = entityLocation.x - (length/2) - (healthBarHeight / 3);
             float yPos = Screen.height - entityLocation.y - yOffset - (healthBarHeight / 3);
 			GUI.DrawTexture(new Rect(xPos, yPos,length, height), healthBarBackTexture);

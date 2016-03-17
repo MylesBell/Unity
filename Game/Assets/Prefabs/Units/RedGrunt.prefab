@@ -458,6 +458,7 @@ MonoBehaviour:
   healthBarLowTexture: {fileID: 2800000, guid: c4b48ec9a5dee409cba6c0d5bb8990db, type: 3}
   healthBarBackTexture: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b,
     type: 3}
+  healthBarOffset: 4
   maxHealth: 50
   currentHealth: 0
 --- !u!114 &11415050
@@ -555,7 +556,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ba74e60ac0c447c6a99ade00a9c39cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 9547960}
 --- !u!114 &11458384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -612,7 +612,7 @@ SkinnedMeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1f6e09992001e1d4ab2e2e53fb437482, type: 2}
+  - {fileID: 2100000, guid: c1b75d98e856a4bddbe2d7af29c5a603, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -798,6 +798,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_ApplyRootMotion
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarOffset
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
