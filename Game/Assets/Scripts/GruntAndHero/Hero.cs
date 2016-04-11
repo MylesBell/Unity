@@ -116,7 +116,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<Attack>().initiliseAttack();
             targetSelect = GetComponent<TargetSelect> ();
             Vector3 desiredPosition = transform.position;
-            desiredPosition.z = newLane == ComputerLane.LEFT ? 205f : 95f;
+            desiredPosition.z = newLane == ComputerLane.LEFT ? 210f : 90f;
             //work out the x if the screen we're switching on is not 0 and the number of screens in each lane is not the same
             int currentScreen = (int)transform.position.x / 100;
             if(currentScreen > 0 && GraniteNetworkManager.numberOfScreens_left != GraniteNetworkManager.numberOfScreens_right) {
