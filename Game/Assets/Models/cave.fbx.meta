@@ -1,26 +1,15 @@
 fileFormatVersion: 2
-guid: df39947dddca44af4867c2a2fa75b57f
-timeCreated: 1447769731
+guid: c54cb3a68527a4d2c9f14551bcd7c1f4
+timeCreated: 1460370130
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: Camera
-    100002: Cylinder
-    100004: Cylinder.001
-    100006: Lamp
-    100008: //RootNode
-    400000: Camera
-    400002: Cylinder
-    400004: Cylinder.001
-    400006: Lamp
-    400008: //RootNode
-    2300000: Cylinder
-    2300002: Cylinder.001
-    3300000: Cylinder
-    3300002: Cylinder.001
-    4300000: Cylinder.001
-    4300002: Cylinder
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Icosphere.004
   materials:
     importMaterials: 1
     materialName: 0
@@ -44,7 +33,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1.29999995
+    globalScale: 217
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
