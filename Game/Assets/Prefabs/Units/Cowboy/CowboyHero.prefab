@@ -337,7 +337,7 @@ GameObject:
   - 65: {fileID: 6558714}
   - 114: {fileID: 11432016}
   m_Layer: 0
-  m_Name: BlueHero
+  m_Name: CowboyHero
   m_TagString: blueHero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1500,7 +1500,7 @@ MonoBehaviour:
   healthBarBackTexture: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b,
     type: 3}
   healthBarOffset: 15
-  maxHealth: 1000
+  maxHealth: 500
   currentHealth: 0
 --- !u!114 &11470932
 MonoBehaviour:
@@ -1657,7 +1657,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 1000
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarTexture
