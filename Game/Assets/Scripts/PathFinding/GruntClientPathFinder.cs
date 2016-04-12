@@ -25,8 +25,9 @@ public class GruntClientPathFinder : NetworkBehaviour {
     
     void Start(){
         teamID = gameObject.tag.Contains("red") ? TeamID.red : TeamID.blue;
-        targetSelect = GetComponent<TargetSelect>();
-        if(!isServer){
+        if(isServer) {
+            targetSelect = GetComponent<TargetSelect>();
+        } else {
             rendererChecker = GetComponent<RendererChecker>();
             ForwardMovementTarget *= teamID == TeamID.blue ? 1 : -1;
             navGridManager = GameObject.FindGameObjectsWithTag("terrainSpawner")[0].GetComponent<NavGridManager>();
@@ -46,6 +47,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
                 if(!wasVisible){
                     wasVisible = true;
                     targetPosition = transform.position;
+                    targetPosition.y = GetComponent<BoxCollider>().bounds.size.y/2;
                 }
                 float distance = Vector3.Distance(targetPosition, transform.position);
                 if(distance < threshold){
@@ -74,7 +76,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     
     [ClientRpc]
     public void RpcPanic() {
-        if(!isServer && rendererChecker.visible){
+        if(!isServer &&  rendererChecker && rendererChecker.visible){
             targetPosition = transform.position;
             recievePaths = true;
             // DebugConsole.Log("I am " + teamID + " and panicking at " + transform.position);

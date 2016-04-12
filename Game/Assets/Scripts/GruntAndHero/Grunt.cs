@@ -5,7 +5,7 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
 
     public Team team;
     [SyncVar] private int id;
-    [SyncVar] private bool active = false;
+    private bool active = false;
 
     void Start() {
         gameObject.SetActive(active);
@@ -30,6 +30,7 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
             //set Health to Max
             gameObject.GetComponent<Health>().InitialiseHealth();
             gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), desiredPosition);
+            gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnPosition);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
         }
