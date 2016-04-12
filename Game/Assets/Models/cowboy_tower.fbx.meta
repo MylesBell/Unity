@@ -1,0 +1,130 @@
+fileFormatVersion: 2
+guid: 2e088d9bd5f9c684f831f0d46ab4326a
+timeCreated: 1460399996
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Character1_Head
+    100002: Character1_Neck
+    100004: cowboy_hero1:pCube10
+    100006: cowboy_hero1:pCube11
+    100008: cowboy_hero1:pCube14
+    100010: cowboy_hero1:pCube15
+    100012: cowboy_hero1:pCube15 1
+    100014: cowboy_hero1:pCylinder1
+    100016: cowboy_hero1:pCylinder2
+    100018: cowboy_hero1:pCylinder3
+    100020: cowboy_hero1:pSphere1
+    100022: cowboy_hero1:transform1
+    100024: cowboy_hero1:transform2
+    100026: cowboy_hero1:transform3
+    100028: cowboy_hero1:transform4
+    100030: cowboy_hero1:transform5
+    100032: cowboy_hero1:transform6
+    100034: cowboy_hero1:transform7
+    100036: cowboy_hero1:transform8
+    100038: cowboy_hero1:transform9
+    100040: cowboy_heroRNfosterParent1
+    100042: //RootNode
+    100044: group
+    100046: pCylinder1
+    100048: pCylinder2
+    100050: pSphere1
+    100052: transform1
+    100054: transform2
+    400000: Character1_Head
+    400002: Character1_Neck
+    400004: cowboy_hero1:pCube10
+    400006: cowboy_hero1:pCube11
+    400008: cowboy_hero1:pCube14
+    400010: cowboy_hero1:pCube15
+    400012: cowboy_hero1:pCube15 1
+    400014: cowboy_hero1:pCylinder1
+    400016: cowboy_hero1:pCylinder2
+    400018: cowboy_hero1:pCylinder3
+    400020: cowboy_hero1:pSphere1
+    400022: cowboy_hero1:transform1
+    400024: cowboy_hero1:transform2
+    400026: cowboy_hero1:transform3
+    400028: cowboy_hero1:transform4
+    400030: cowboy_hero1:transform5
+    400032: cowboy_hero1:transform6
+    400034: cowboy_hero1:transform7
+    400036: cowboy_hero1:transform8
+    400038: cowboy_hero1:transform9
+    400040: cowboy_heroRNfosterParent1
+    400042: //RootNode
+    400044: group
+    400046: pCylinder1
+    400048: pCylinder2
+    400050: pSphere1
+    400052: transform1
+    400054: transform2
+    2300000: cowboy_hero1:pCube15
+    3300000: cowboy_hero1:pCube15
+    4300000: cowboy_hero1:pCube15
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
