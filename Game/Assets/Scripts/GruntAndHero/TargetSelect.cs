@@ -116,8 +116,8 @@ public class TargetSelect : NetworkBehaviour {
             } else {
                 desiredPosition.x -= GruntMovementForwardMovePerUpdate;
             }
-            gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
         }
+        gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
     }
 
 	private bool hasAttackTarget(){
