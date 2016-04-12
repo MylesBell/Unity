@@ -145,7 +145,7 @@ public class CreateTerrain : NetworkBehaviour
 		for (int chunkIndex = 1; chunkIndex < numScreens - 1; chunkIndex++) {
 			if (isServer || screenNumber == chunkIndex) {
 				// should randomly generate where the 0 is between 0->|laneSegments| to get random lane segments
-				chunks[chunkIndex] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? laneSegmentsLeft[0] : laneSegmentsRight[0], chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
+				chunks[chunkIndex] = GetTerrainPrefab(computerLane, numScreens, chunkIndex, laneOffset);
                 chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = chunkIndex < numScreens / 2? sandMaterial: groundMaterial;
 			}
 		}
@@ -155,6 +155,30 @@ public class CreateTerrain : NetworkBehaviour
 			chunks[numScreens - 1] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? base2Left : base2Right, chunkOffset * (numScreens - 1) + laneOffset, Quaternion.identity);
 		}
 	}
+    
+    GameObject GetTerrainPrefab(ComputerLane computerLane, int numScreens, int chunkIndex, Vector3 laneOffset) {
+        int terrainIndex = GetTerrainIndex(numScreens, chunkIndex);
+        return (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? laneSegmentsLeft[terrainIndex] : 
+                        laneSegmentsRight[terrainIndex], chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
+    }
+    
+    int GetTerrainIndex(int numScreens, int chunkIndex) {
+        // Calculating whether to have a tunnel screen or not
+        int terrainIndex;
+        if (numScreens % 2 == 0) {
+            // Even number of screens
+            if (chunkIndex < (numScreens/2))
+                // Less than halfway point so count from start
+                terrainIndex = chunkIndex % 2;
+            else
+                // Over halfway point so count from end
+                terrainIndex = (numScreens - 1 - chunkIndex) % 2;
+        } else {
+            // Odd number of screens so every other screen is fine
+            terrainIndex = chunkIndex % 2;
+        }
+        return terrainIndex;
+    }
 
 	List<NetworkTreeMessage>[] PopulateScenery(int numScreens, ComputerLane computerLane) {
         List<NetworkTreeMessage>[] screenScenery = new List<NetworkTreeMessage>[numScreens];
@@ -231,15 +255,20 @@ public class CreateTerrain : NetworkBehaviour
         //first check if this z_pos is on the tunnel side or not
         bool tunnelSide = (computerLane == ComputerLane.LEFT && z_pos < z_min)
                           || (computerLane == ComputerLane.RIGHT && z_pos > z_max);
-        if(MultipleLanes && (screenNumber == 0 || screenNumber == numScreens - 1) && tunnelSide) {
+        bool isTunnel = GetTerrainIndex(numScreens, screenNumber) == 0 
+                    || screenNumber == 0 || screenNumber == numScreens - 1;
+        if(MultipleLanes && isTunnel && tunnelSide) {
             //Find a point that is not between A and B so that it's not in the tunnel
             float A, B;
             if(screenNumber == 0){
                 A = 56;
                 B = 76;
-            } else {
+            } else if (screenNumber == numScreens - 1){
                 A = 24;
                 B = 44;
+            } else {
+                A = 40;
+                B = 60;
             }
             do {
                 x_pos = Random.Range(0, 100);
