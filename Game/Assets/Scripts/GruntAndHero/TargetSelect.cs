@@ -46,7 +46,7 @@ public class TargetSelect : NetworkBehaviour {
         attackGruntTag = teamID == TeamID.blue ? "redGrunt" : "blueGrunt";
         attackHeroTag = teamID == TeamID.blue ? "redHero" : "blueHero";
         attackBaseTag = teamID == TeamID.blue ? "redBase" : "blueBase";
-        if(usePathFinding){
+        if(usePathFinding && GetComponent<Grunt>()){
             GetComponent<GruntClientPathFinder>().StartPaths();
             moveTargets.Clear();
             wasAttacking = false;
