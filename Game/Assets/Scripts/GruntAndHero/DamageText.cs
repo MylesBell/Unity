@@ -14,7 +14,13 @@ public class DamageText : NetworkBehaviour {
 	public void InitialiseDamageText(ComputerLane computerLane){
         this.computerLane = computerLane;
         RpcSetComputerLane(computerLane);
-		InitialiseDamageTextPool();
+        
+        // when pool not initialised
+        if (availableDamageTexts.Count == 0 && inUseDamageTexts.Count == 0){
+		    InitialiseDamageTextPool();    
+        }else{
+            ResetDamageTextPool();
+        }
 	}
     
     [ClientRpc]
@@ -72,6 +78,18 @@ public class DamageText : NetworkBehaviour {
             GameObject damageText = InitDamageText();
             damageText.SetActive(false);
             availableDamageTexts.AddLast(damageText);
+        }
+    }
+    
+    private void ResetDamageTextPool(){
+        // clear not used pool and set inactive
+        lock (availableDamageTexts) {
+            while(inUseDamageTexts.Count > 0){
+                GameObject damageTextObject = inUseDamageTexts.First.Value;
+                damageTextObject.SetActive(false);
+                inUseDamageTexts.RemoveFirst();
+                availableDamageTexts.AddLast(damageTextObject);
+            }
         }
     }
     
