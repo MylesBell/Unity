@@ -12,7 +12,7 @@ public class Health : NetworkBehaviour {
 	private float percentOfHealth;
 	private Vector3 entityLocation;
     
-    private DamageText damageText;
+    protected DamageText damageText;
     
 	void Start(){
         currentHealth = maxHealth;

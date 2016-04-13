@@ -17,7 +17,8 @@ public class BaseHealth : Health {
     }
 	public new void ReduceHealth(float amountToReduce, out bool killedBase){
 		currentHealth -= amountToReduce;
-        killedBase = currentHealth > 0;
+        killedBase = currentHealth < 0;
+        damageText.Play(-amountToReduce);
         if(otherBase) otherBase.ChangeFromOtherBase(-amountToReduce);
         team.BaseHealthChange(maxHealth, currentHealth);
 	}
@@ -28,6 +29,7 @@ public class BaseHealth : Health {
 
 	public new void IncreaseHealth(float amountToIncrease){
 		currentHealth += amountToIncrease;
+        damageText.Play(amountToIncrease);
         if(otherBase) otherBase.ChangeFromOtherBase(amountToIncrease);
         team.BaseHealthChange(maxHealth, currentHealth);
 	}
