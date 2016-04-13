@@ -4,24 +4,29 @@ using UnityEngine.Networking;
 public class Health : NetworkBehaviour {
 	public float healthBarInitialLength;
 	public Texture healthBarHighTexture, healthBarMedTexture, healthBarLowTexture, healthBarBackTexture;
-
+    
     public float healthBarOffset = 0.0f;
 	public float maxHealth;
 	[SyncVar] public float currentHealth;
 	private float healthBarLength;
 	private float percentOfHealth;
 	private Vector3 entityLocation;
-
+    
+    private DamageText damageText;
+    
 	void Start(){
         currentHealth = maxHealth;
     }
     
-    public virtual void InitialiseHealth() {
+    public virtual void InitialiseHealth(ComputerLane computerlane) {
         // if max heath isnt set, as can be set by later function
         currentHealth = maxHealth;
         entityLocation = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         percentOfHealth = currentHealth / maxHealth;
         healthBarLength = percentOfHealth * healthBarInitialLength;
+        
+        damageText = gameObject.GetComponent<DamageText>();
+        damageText.InitialiseDamageText(computerlane);
     }
 
 	void OnGUI () {
@@ -65,10 +70,11 @@ public class Health : NetworkBehaviour {
 		maxHealth = maxHealthInput;
 	}
 
-
 	public void ReduceHealth(float amountToReduce, out bool killedPlayer){
 		currentHealth -= amountToReduce;
         killedPlayer = currentHealth < 0;
+        if (!killedPlayer) damageText.Play(amountToReduce);
+        
         if(gameObject.GetComponent<Hero>() != null) {
             Hero hero = gameObject.GetComponent<Hero>();
             string playerID = hero.getplayerID();
