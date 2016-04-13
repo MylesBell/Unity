@@ -47,6 +47,7 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
 
     [ClientRpc]
     public void RpcSetActive(bool active, Vector3 spawnPosition) {
+        transform.position = spawnPosition;
         gameObject.SetActive(active);
     }
 
