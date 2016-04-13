@@ -205,8 +205,6 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 		Debug.Log ("[SocketIO] Player has switched lane");
         JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
         dataJSON.AddField("playerID", playerID);
-		Debug.Log((int)ComputerLane.LEFT);
-		Debug.Log((int)ComputerLane.RIGHT);
         dataJSON.AddField("lane", (int)computerLane);
         socket.Emit ("gamePlayerLevelUp", dataJSON);
 	}
