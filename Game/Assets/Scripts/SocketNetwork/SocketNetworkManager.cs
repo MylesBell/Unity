@@ -103,7 +103,6 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
         dataJSON.AddField ("specialThree", specialThree);
         dataJSON.AddField ("lane", (int)computerLane);
 
-        Debug.Log("Hero joined, class: " + heroClass);
 		socket.Emit ("gamePlayerJoined", dataJSON);
 	}
     
