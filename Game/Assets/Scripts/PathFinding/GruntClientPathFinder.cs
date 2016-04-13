@@ -25,8 +25,9 @@ public class GruntClientPathFinder : NetworkBehaviour {
     
     void Start(){
         teamID = gameObject.tag.Contains("red") ? TeamID.red : TeamID.blue;
-        targetSelect = GetComponent<TargetSelect>();
-        if(!isServer){
+        if(isServer) {
+            targetSelect = GetComponent<TargetSelect>();
+        } else {
             rendererChecker = GetComponent<RendererChecker>();
             ForwardMovementTarget *= teamID == TeamID.blue ? 1 : -1;
             navGridManager = GameObject.FindGameObjectsWithTag("terrainSpawner")[0].GetComponent<NavGridManager>();
@@ -46,6 +47,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
                 if(!wasVisible){
                     wasVisible = true;
                     targetPosition = transform.position;
+                    targetPosition.y = GetComponent<BoxCollider>().bounds.size.y/2;
                 }
                 float distance = Vector3.Distance(targetPosition, transform.position);
                 if(distance < threshold){
@@ -74,7 +76,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     
     [ClientRpc]
     public void RpcPanic() {
-        if(!isServer && rendererChecker.visible){
+        if(!isServer &&  rendererChecker && rendererChecker.visible){
             targetPosition = transform.position;
             recievePaths = true;
             // DebugConsole.Log("I am " + teamID + " and panicking at " + transform.position);
@@ -94,12 +96,17 @@ public class GruntClientPathFinder : NetworkBehaviour {
             msg.teamID = teamID;
             msg.id = gameObject.GetComponent<Grunt>().GetID();
             msg.screen = screenNumber;
+            msg.computerLane = currentLane;
             NetworkManager.singleton.client.Send(MyPathfindingMsg.ReceiveForcedPathCode, msg);
         }
     }
     
     public void OnReceiveForcedPathMessage(PathfindingMessage msg) {
-        targetSelect.AddToQueue(msg.path);
+        ComputerLane computerLane = (int)transform.position.z/100 == 0 ? ComputerLane.RIGHT : ComputerLane.LEFT;
+        int screenNumber = (int)transform.position.x/(int)CreateTerrain.chunkOffset.x;
+        if(screenNumber == msg.screen && computerLane == msg.computerLane){
+            targetSelect.AddToQueue(msg.path);
+        }
     }
     
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
@@ -111,13 +118,18 @@ public class GruntClientPathFinder : NetworkBehaviour {
             msg.teamID = teamID;
             msg.id = gameObject.GetComponent<Grunt>().GetID();
             msg.screen = screenNumber;
+            msg.computerLane = currentLane;
             NetworkManager.singleton.client.Send(MyPathfindingMsg.ReceivePathCode, msg);
         }
     }
     
     public void OnReceivePathMessage(PathfindingMessage msg) {
+        ComputerLane computerLane = (int)transform.position.z/100 == 0 ? ComputerLane.RIGHT : ComputerLane.LEFT;
+        int screenNumber = (int)transform.position.x/(int)CreateTerrain.chunkOffset.x;
         // DebugConsole.Log("Recieved message from screen " + msg.screen);
-        if(recievePaths) targetSelect.AddToQueue(msg.path);
+        if(recievePaths && screenNumber == msg.screen && computerLane == msg.computerLane) {
+            targetSelect.AddToQueue(msg.path);
+        }
     }
     
     private Vector3 FindNewTargetPosition(Vector3 input){

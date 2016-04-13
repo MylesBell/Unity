@@ -33,7 +33,10 @@ public class RendererChecker : MonoBehaviour {
     }
     
     void OnDisable(){
-        if(visible) DecrementCount();
+        if(visible) {
+            visible = !visible;
+            DecrementCount();
+        }
     }
     // void OnBecameVisible(){
     //     musicScreenController.IncrementCount(false, teamID);

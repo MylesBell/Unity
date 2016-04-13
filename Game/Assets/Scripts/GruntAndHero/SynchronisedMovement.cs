@@ -19,6 +19,24 @@ public class SynchronisedMovement : NetworkBehaviour{
 		if (isServer) SeverSetNewPosition();
 		else ClientMoveToPosition();
 	}
+    
+    public void ResetMovement(TeamID teamID, Vector3 position){
+        synchPos = position;
+        synchRot = teamID == TeamID.blue ? new Vector3(0,90,0) : new Vector3(0,270,0);
+        CmdSetPosition(synchPos, synchRot);
+    }
+
+    [Command]
+    public void CmdSetPosition(Vector3 position, Vector3 rotation) {
+        RpcSetPosition(position, rotation);
+    }
+
+    [ClientRpc]
+    public void RpcSetPosition(Vector3 position, Vector3 rotation) {
+        transform.position = position;
+        transform.rotation = Quaternion.Euler(rotation);
+    }
+
 
 	private void SeverSetNewPosition(){
 		if (Vector3.Distance (transform.position, lastPos) > positionThreshold

@@ -14,7 +14,7 @@ GameObject:
   - 114: {fileID: 11459220}
   - 114: {fileID: 11476006}
   m_Layer: 0
-  m_Name: AttackEffect
+  m_Name: attackEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

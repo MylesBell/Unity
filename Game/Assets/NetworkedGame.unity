@@ -373,7 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blueTeam: {fileID: 1193707488}
   redTeam: {fileID: 1193707487}
-  gruntPoolSize: 300
+  gruntPoolSize: 400
   numberOfGruntsToSpawn: 5
   gruntSpawnInterval: 10
   heroRespawnInterval: 5
@@ -568,12 +568,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laneSegmentsLeft:
+  - {fileID: 175212, guid: ff4506dd9d60b4fef94f6c3651db5a90, type: 2}
   - {fileID: 175212, guid: 5c06b010779e64001a996b67538d1696, type: 2}
   base1LeftNoTunnel: {fileID: 110192, guid: 044786a0879f04c718f1cf6c097fe4f8, type: 2}
   base2LeftNoTunnel: {fileID: 160050, guid: 2a453036efd95446c8303f0b3fc85ccf, type: 2}
   base1LeftTunnel: {fileID: 110192, guid: 3cd10ad66e38f439a8bf5af106355cf9, type: 2}
   base2LeftTunnel: {fileID: 160050, guid: 2c0fab3c8caad4f6da186ef55170a8f8, type: 2}
   laneSegmentsRight:
+  - {fileID: 175212, guid: 028bdacc5f5bd48539a070c6a0b44bf3, type: 2}
   - {fileID: 175212, guid: b35eff09e3c54674d8d3d2f2b4ad9431, type: 2}
   base1RightNoTunnel: {fileID: 110192, guid: 830087544392c48218aadeba9fd1020a, type: 2}
   base2RightNoTunnel: {fileID: 160050, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
