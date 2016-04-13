@@ -2749,7 +2749,6 @@ MonoBehaviour:
   m_OfflineScene: NetworkStart
   m_OnlineScene: NetworkedGame
   m_SpawnPrefabs:
-  - {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
   - {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
   - {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
   - {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
@@ -2767,13 +2766,16 @@ MonoBehaviour:
   - {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
   - {fileID: 113374, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
   - {fileID: 150224, guid: 9bcc1822a8586450eabffacb6c7e7df7, type: 2}
+  - {fileID: 177848, guid: 0c3e324b57eca467596f5e353c5b89af, type: 2}
   - {fileID: 168854, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
   - {fileID: 135370, guid: 74276afebb99644bcbdafa7f20d1d398, type: 2}
+  - {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
   - {fileID: 168542, guid: 141c4f7183ef24f3d8f5ad8957ee1203, type: 2}
   - {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
-  - {fileID: 177848, guid: 0c3e324b57eca467596f5e353c5b89af, type: 2}
-  m_CustomConfig: 0
-  m_MaxConnections: 4
+  - {fileID: 107536, guid: cff0a5bed8522405198906a325f8d707, type: 2}
+  - {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 2}
+  m_CustomConfig: 1
+  m_MaxConnections: 100
   m_ConnectionConfig:
     m_PacketSize: 1500
     m_FragmentSize: 500

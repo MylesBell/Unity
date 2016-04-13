@@ -29,11 +29,9 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
 		this.playerID = playerIDParam;
 	}
 
-
 	public string getplayerID(){
 		return this.playerID;
 	}
-
 
     public void setHeroName(string playerName) {
         this.playerName = playerName;
@@ -49,18 +47,19 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         transform.FindChild("HeroName").gameObject.GetComponent<NameHero>().setTextRotation(computerLane == ComputerLane.RIGHT ? new Vector3(0,0,0) : new Vector3(0,180,0));
     }
 
-    public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition) {
+    public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition, ComputerLane computerLane) {
         if (isServer) {
             active = true;
             gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
             
             //set Health to Max
-            gameObject.GetComponent<Health>().InitialiseHealth();
+            gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
             gameObject.GetComponent<Stats>().ResetKillStreak();
 
             targetSelect = GetComponent<TargetSelect>();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
+            gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
         }

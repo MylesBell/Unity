@@ -46,6 +46,14 @@ public class TargetSelect : NetworkBehaviour {
         attackGruntTag = teamID == TeamID.blue ? "redGrunt" : "blueGrunt";
         attackHeroTag = teamID == TeamID.blue ? "redHero" : "blueHero";
         attackBaseTag = teamID == TeamID.blue ? "redBase" : "blueBase";
+        if(usePathFinding && GetComponent<Grunt>()){
+            GetComponent<GruntClientPathFinder>().StartPaths();
+            moveTargets.Clear();
+            wasAttacking = false;
+            prevPosition = transform.position;
+            notMovedSeconds = 0f;
+            vectorCount = 0;
+        }
     }
 
 	void Update () {
@@ -97,6 +105,7 @@ public class TargetSelect : NetworkBehaviour {
             notMovedSeconds = 0;
         } else if(distance < 5.0f && moveTargets.Count == 0){
             if(Vector3.Distance (prevPosition, transform.position) < 1f) {
+                if(notMovedSeconds == 0.0) UpdateMoveTargetNoPathFinding(); //force one move
                 notMovedSeconds += Time.deltaTime;
                 if(notMovedSeconds > maxNotMovedSecondsBeforePanic){
                     GetComponent<GruntClientPathFinder>().Panic();
@@ -116,8 +125,8 @@ public class TargetSelect : NetworkBehaviour {
             } else {
                 desiredPosition.x -= GruntMovementForwardMovePerUpdate;
             }
-            gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
         }
+        gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
     }
 
 	private bool hasAttackTarget(){

@@ -4,20 +4,19 @@ using UnityEngine.Networking;
 public class Base : NetworkBehaviour, IDestroyableGameObject {
     private Team team;
     [SyncVar] private bool active = true;
-
+        
     void Start() {
         gameObject.SetActive(active);
     }
     
-
     public void InitialiseGameObject(Team team) {
         this.team = team;
     }
 
-    public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition) {
+    public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition, ComputerLane computerLane) {
         if (isServer) {
             active = true;
-            gameObject.GetComponent<BaseHealth>().InitialiseHealth(team);
+            gameObject.GetComponent<BaseHealth>().InitialiseHealth(team, computerLane);
             gameObject.SetActive(active);
             gameObject.transform.position = spawnPosition;
             CmdSetActiveState(active, spawnPosition);
