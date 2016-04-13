@@ -43,10 +43,12 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
     public static float bottomOffsetLeft = 5;
 
     private bool initialised;
+    private bool basesInitialised;
 
 	void Start () {
         if (isServer) {
             initialised = false;
+            basesInitialised = false;
             NetworkServer.RegisterHandler(MyPathfindingMsg.ReceivePathCode, OnReceivePathMessage);
             NetworkServer.RegisterHandler(MyPathfindingMsg.ReceiveForcedPathCode, OnReceiveForcedPathMessage);
             zPositionOffsetRight = ((maxZRight-topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
@@ -72,6 +74,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
                     if (!initialised) resetGame();
                     break;
                 case GameState.State.PLAYING:
+                    if(!basesInitialised) resetBases();
                     break;
                 case GameState.State.END:
                     initialised = false;
@@ -130,6 +133,12 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
         blueTeam.resetTeam();
         redTeam.resetTeam();
         initialised = true;
+    }
+    
+    private void resetBases(){
+        redTeam.resetBases();
+        blueTeam.resetBases();
+        basesInitialised = true;
     }
 
 	#region IPlayerJoin implementation

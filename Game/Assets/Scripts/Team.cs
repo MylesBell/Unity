@@ -127,6 +127,11 @@ public class Team : NetworkBehaviour {
         //make sure grunts spawn as soon as game starts
         nextGruntRespawn = -1;
     }
+    
+    public void resetBases(){
+        if(hasRightLane) teamBaseRight.GetComponent<DamageText>().InitialiseDamageTextPool(ComputerLane.RIGHT);
+        if(hasLeftLane) teamBaseLeft.GetComponent<DamageText>().InitialiseDamageTextPool(ComputerLane.LEFT);
+    }
 
 	public bool TryGetHero(string playerID, out GameObject hero) {
         return playerDict.TryGetValue(playerID, out hero);

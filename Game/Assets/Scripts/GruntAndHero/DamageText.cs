@@ -10,14 +10,11 @@ public class DamageText : NetworkBehaviour {
     private LinkedList<GameObject> inUseDamageTexts = new LinkedList<GameObject>();
     
     private ComputerLane computerLane;
-	
+    
 	public void InitialiseDamageText(ComputerLane computerLane){
-        this.computerLane = computerLane;
-        RpcSetComputerLane(computerLane);
-        
         // when pool not initialised
         if (availableDamageTexts.Count == 0 && inUseDamageTexts.Count == 0){
-		    InitialiseDamageTextPool();    
+		    InitialiseDamageTextPool(computerLane);    
         }else{
             ResetDamageTextPool();
         }
@@ -28,7 +25,7 @@ public class DamageText : NetworkBehaviour {
         this.computerLane = computerLane;
     }
 	
-	public void Play(float damage){ 
+	public void Play(float damage){
 		GameObject damageTextObject = GetDamageText();
         damageTextObject.SetActive(true);
         RpcPlay(damage, damageTextObject);
@@ -73,13 +70,20 @@ public class DamageText : NetworkBehaviour {
         damageTextObject.transform.rotation = (computerLane == ComputerLane.RIGHT)? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
     }
     
-    private void InitialiseDamageTextPool() {
+    public void InitialiseDamageTextPool(ComputerLane computerLane) {
+        availableDamageTexts = new LinkedList<GameObject>();
+        inUseDamageTexts = new LinkedList<GameObject>();
+        
+        this.computerLane = computerLane;
+        RpcSetComputerLane(computerLane);
+        
         for(int i = 0; i < damageTextPoolSize; i++) {
             GameObject damageText = InitDamageText();
             damageText.SetActive(false);
             availableDamageTexts.AddLast(damageText);
         }
     }
+    
     
     private void ResetDamageTextPool(){
         // clear not used pool and set inactive
@@ -97,8 +101,8 @@ public class DamageText : NetworkBehaviour {
         GameObject damageTextObject = (GameObject) Instantiate(damageTextPrefab, gameObject.transform.position,
             damageTextPrefab.transform.rotation);
         NetworkServer.Spawn(damageTextObject);
-        RpcSetParent(damageTextObject, gameObject);
         
+        RpcSetParent(damageTextObject, gameObject);        
         damageTextObject.transform.parent = gameObject.transform;
         float height = gameObject.GetComponent<BoxCollider>().size.y / 2;
         damageTextObject.transform.localPosition = new Vector3(0, height, 0);
