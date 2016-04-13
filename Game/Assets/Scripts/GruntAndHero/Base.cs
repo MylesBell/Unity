@@ -4,9 +4,7 @@ using UnityEngine.Networking;
 public class Base : NetworkBehaviour, IDestroyableGameObject {
     private Team team;
     [SyncVar] private bool active = true;
-    
-    private ComputerLane computerLane;
-    
+        
     void Start() {
         gameObject.SetActive(active);
     }
@@ -23,7 +21,6 @@ public class Base : NetworkBehaviour, IDestroyableGameObject {
             gameObject.transform.position = spawnPosition;
             CmdSetActiveState(active, spawnPosition);
         }
-        this.computerLane = computerLane;
     }
 
     [Command]

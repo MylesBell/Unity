@@ -18,7 +18,7 @@ public class AllPlays : NetworkBehaviour {
     public void InitialiseAllPlays(){
         // init all allPlay objects
         slowDown = createAllPlay(unitSlowDownPrefab);
-        //attackEffect = createAllPlay(attackEffectPrefab);
+        attackEffect = createAllPlay(attackEffectPrefab);
     }
     
     private AllPlay createAllPlay(GameObject prefab){

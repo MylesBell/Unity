@@ -6,7 +6,6 @@ using System.Collections;
 public class DamageText : NetworkBehaviour {
     public GameObject damageTextPrefab;
     private int damageTextPoolSize = 10;
-    private bool damageTextPoolInitialised = false;
     private LinkedList<GameObject> availableDamageTexts = new LinkedList<GameObject>();
     private LinkedList<GameObject> inUseDamageTexts = new LinkedList<GameObject>();
     
@@ -14,8 +13,14 @@ public class DamageText : NetworkBehaviour {
 	
 	public void InitialiseDamageText(ComputerLane computerLane){
         this.computerLane = computerLane;
+        RpcSetComputerLane(computerLane);
 		InitialiseDamageTextPool();
 	}
+    
+    [ClientRpc]
+    private void RpcSetComputerLane(ComputerLane computerLane){
+        this.computerLane = computerLane;
+    }
 	
 	public void Play(float damage){ 
 		GameObject damageTextObject = GetDamageText();
@@ -28,7 +33,7 @@ public class DamageText : NetworkBehaviour {
         damageTextObject.SetActive(true);
         damageTextObject.GetComponent<TextMesh>().text = damage.ToString();
         damageTextObject.GetComponent<Animator>().SetTrigger("Damage");
-        StartCoroutine(ReturnDamageTextToPool(damageTextObject));
+        if (gameObject.activeSelf == true) StartCoroutine(ReturnDamageTextToPool(damageTextObject));
     }
     
     IEnumerator ReturnDamageTextToPool(GameObject damageTextObject) {
@@ -44,15 +49,14 @@ public class DamageText : NetworkBehaviour {
     
 	// fix the rotation
     void LateUpdate(){
-        foreach (GameObject damageTextObject in inUseDamageTexts)
-        {
+        foreach (GameObject damageTextObject in inUseDamageTexts){
             RpcSetRotation(damageTextObject);
         }
     }
     
     [ClientRpc]
     private void RpcSetRotation(GameObject damageTextObject){
-            damageTextObject.transform.rotation = (computerLane == ComputerLane.RIGHT)? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
+        damageTextObject.transform.rotation = (computerLane == ComputerLane.RIGHT)? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
     }
     
     private void InitialiseDamageTextPool() {
@@ -61,7 +65,6 @@ public class DamageText : NetworkBehaviour {
             damageText.SetActive(false);
             availableDamageTexts.AddLast(damageText);
         }
-        damageTextPoolInitialised = true;
     }
     
     private GameObject InitDamageText(){   
