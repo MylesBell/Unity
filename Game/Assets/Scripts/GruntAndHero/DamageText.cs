@@ -31,7 +31,15 @@ public class DamageText : NetworkBehaviour {
     [ClientRpc]
     public void RpcPlay(float damage, GameObject damageTextObject) {
         damageTextObject.SetActive(true);
-        damageTextObject.GetComponent<TextMesh>().text = damage.ToString();
+        
+        // set colour for increase or decrease
+        if (damage > 0){
+            damageTextObject.GetComponent<TextMesh>().color = Color.green;
+        }else{
+            damageTextObject.GetComponent<TextMesh>().color = Color.red;
+        }
+        
+        damageTextObject.GetComponent<TextMesh>().text = Mathf.Abs(damage).ToString();
         damageTextObject.GetComponent<Animator>().SetTrigger("Damage");
         if (gameObject.activeSelf == true) StartCoroutine(ReturnDamageTextToPool(damageTextObject));
     }

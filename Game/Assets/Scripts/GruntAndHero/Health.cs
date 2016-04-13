@@ -73,7 +73,7 @@ public class Health : NetworkBehaviour {
 	public void ReduceHealth(float amountToReduce, out bool killedPlayer){
 		currentHealth -= amountToReduce;
         killedPlayer = currentHealth < 0;
-        if (!killedPlayer) damageText.Play(amountToReduce);
+        if (!killedPlayer) damageText.Play(-amountToReduce);
         
         if(gameObject.GetComponent<Hero>() != null) {
             Hero hero = gameObject.GetComponent<Hero>();
@@ -84,6 +84,8 @@ public class Health : NetworkBehaviour {
 
 	public void IncreaseHealth(float amountToIncrease){
 		currentHealth += amountToIncrease;
+        damageText.Play(amountToIncrease);
+        
         if(gameObject.GetComponent<Hero>() != null) {
             Hero hero = gameObject.GetComponent<Hero>();
             string playerID = hero.getplayerID();
