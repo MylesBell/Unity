@@ -58,6 +58,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
 
             targetSelect = GetComponent<TargetSelect>();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
+            gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
         }

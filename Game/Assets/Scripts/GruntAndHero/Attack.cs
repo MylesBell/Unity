@@ -16,8 +16,8 @@ public class Attack : NetworkBehaviour {
 	void Update () {
         if (isServer) {
             stats = (Stats)GetComponent<Stats>();
-            if (target != null && !target.activeSelf) target = null; // check if target is still active, if not then null this
-            if (target != null && GameState.gameState == GameState.State.PLAYING) {
+            if (target && !target.activeSelf) target = null; // check if target is still active, if not then null this
+            if (target && GameState.gameState == GameState.State.PLAYING) {
 			    if ((timeTillAttack > 0)) {
 				    timeTillAttack -= Time.deltaTime;
 			    } else {
