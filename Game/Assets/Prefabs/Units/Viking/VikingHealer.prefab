@@ -111,6 +111,7 @@ GameObject:
   - 114: {fileID: 11451048}
   - 114: {fileID: 11467866}
   - 114: {fileID: 11441014}
+  - 114: {fileID: 11415962}
   m_Layer: 0
   m_Name: VikingHealer
   m_TagString: redHero
@@ -1242,6 +1243,18 @@ MonoBehaviour:
   GruntMovementForwardMovePerUpdate: 1
   usePathFinding: 0
   showPathFinding: 0
+--- !u!114 &11415962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95612889d542e4792a3a7a6c7bc480ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTextPrefab: {fileID: 107536, guid: cff0a5bed8522405198906a325f8d707, type: 2}
 --- !u!114 &11418414
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1311,6 +1324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  attackEffectPrefab: {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 2}
 --- !u!114 &11443506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1514,6 +1528,14 @@ Prefab:
       propertyPath: heroClass
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damageTextPrefab
+      value: 
+      objectReference: {fileID: 107536, guid: cff0a5bed8522405198906a325f8d707, type: 2}
+    - target: {fileID: 0}
+      propertyPath: attackEffectPrefab
+      value: 
+      objectReference: {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 118518}
