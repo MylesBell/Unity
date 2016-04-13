@@ -470,7 +470,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamID: 0
   HeroPrefabs:
-  - {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
+  - {fileID: 126442, guid: 265ef3cac90fa42769738ce325b04776, type: 2}
+  - {fileID: 118518, guid: 36cbe0635f14142cc8c5ad2b7d6c6cc7, type: 2}
+  - {fileID: 102190, guid: 87368bd19cd0a4df498c8fe1ba2fcd6c, type: 2}
+  - {fileID: 108430, guid: fe90653929a154e5cb867808ae5d0d4f, type: 2}
   BasePrefab: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
   GruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
 --- !u!114 &1193707488
