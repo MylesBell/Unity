@@ -105,6 +105,7 @@ public class TargetSelect : NetworkBehaviour {
             notMovedSeconds = 0;
         } else if(distance < 5.0f && moveTargets.Count == 0){
             if(Vector3.Distance (prevPosition, transform.position) < 1f) {
+                if(notMovedSeconds == 0.0) UpdateMoveTargetNoPathFinding(); //force one move
                 notMovedSeconds += Time.deltaTime;
                 if(notMovedSeconds > maxNotMovedSecondsBeforePanic){
                     GetComponent<GruntClientPathFinder>().Panic();

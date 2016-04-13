@@ -16,6 +16,7 @@ public class PathfindingMessage : MessageBase {
     public int id;
     public TeamID teamID;
     public int screen;
+    public ComputerLane computerLane;
 }
 
 
