@@ -161,6 +161,7 @@ public class Team : NetworkBehaviour {
                                                 hero.GetComponent<Health>().maxHealth,
                                                 hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
                                                               teamBaseRight.GetComponent<BaseHealth>().maxHealth,
+                                                hero.GetComponent<Hero>().heroClass,
                                                 specialOneId, specialTwoId, specialThreeId, computerLane);
     }
     
