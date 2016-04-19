@@ -15,14 +15,14 @@ public class Tower : NetworkBehaviour {
 	[SyncVar] private float percentBlue;
 	private TowerState towerState;
 	
-	public float captureBarInitialLength;
 	public Texture captureBarRedTexture, captureBarBlueTexture, captureBarBackTexture;
-    public float captureBarOffset = 0.0f;
+	public float captureBarInitialLength = 20.0f;
 	private float captureBarLength;
-	private Vector3 entityLocation;
+    public float captureBarOffset = 5.0f;
 	
-	public float captureRadius = 10f;
-	public float captureRate = 0.02f;
+	private Vector3 entityLocation;
+	public float captureRadius = 10.0f;
+	public float captureRate = 0.25f;
 	public float gruntSpawnInterval = 0;
 	private float nextGruntRespawn;
     
@@ -33,25 +33,34 @@ public class Tower : NetworkBehaviour {
 		towerState = TowerState.neutral;
 		
         entityLocation = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        captureBarLength = percentRed * captureBarInitialLength;
-		
+        captureBarLength = (percentRed / 100) * captureBarInitialLength;
     }
 
 	void OnGUI () {
 		if (percentRed > 0 || percentBlue > 0) {
-            Texture captureBarTexture = captureBarRedTexture;
             int captureBarHeight = (Screen.height / 150) < 3? 3 : Screen.height / 150;
             captureBarHeight -= captureBarHeight % 3;
+			
             float length = captureBarInitialLength * captureBarHeight + (2 * captureBarHeight/3);
             float height = captureBarHeight + (2 * captureBarHeight / 3);
-            float yOffset = captureBarOffset * height;
+			float yOffset = captureBarOffset * height;
             float xPos = entityLocation.x - (length/2) - (captureBarHeight / 3);
             float yPos = Screen.height - entityLocation.y - yOffset - (captureBarHeight / 3);
+            
+			float captureBarX;
+            Texture captureBarTexture = captureBarRedTexture;
+			if (percentRed > 0){
+				captureBarX = entityLocation.x - (length/2);
+				captureBarTexture = captureBarRedTexture;
+			}else{
+				captureBarX = entityLocation.x + (length/2) + (captureBarLength * captureBarHeight);
+				captureBarTexture = captureBarBlueTexture;	
+			}
+			
 			GUI.DrawTexture(new Rect(xPos, yPos,length, height), captureBarBackTexture);
-			GUI.DrawTexture(new Rect(entityLocation.x - (length/2) ,
-			                         Screen.height - entityLocation.y - yOffset,
-			                         captureBarLength * captureBarHeight, captureBarHeight), 
-                                     captureBarTexture);
+			GUI.DrawTexture(new Rect(captureBarX, Screen.height - entityLocation.y - yOffset,
+									captureBarLength * captureBarHeight, captureBarHeight), 
+									captureBarTexture);
 		}
 	}	
 	
