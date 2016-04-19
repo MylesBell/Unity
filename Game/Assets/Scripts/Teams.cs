@@ -19,11 +19,12 @@ public class PathfindingMessage : MessageBase {
     public ComputerLane computerLane;
 }
 
-
 public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
 
 	public Team blueTeam, redTeam;
-
+    
+    public GameObject towerPrefab;
+    
     public int gruntPoolSize;
     public int numberOfGruntsToSpawn;
     public int gruntSpawnInterval;
@@ -61,10 +62,16 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
             int redBaseXPosRight = numScreensRight * 100 - 25;
             blueTeam.Initialise(hasLeftLane, hasRightLane, blueBaseXPosLeft, blueBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
             redTeam.Initialise(hasLeftLane,hasRightLane, redBaseXPosLeft, redBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
-
+            InitialiseTowers();
         }
     }
-
+    
+    private void InitialiseTowers(){
+        GameObject tower = gameObject.GetComponent<UnitFactory>().CreateTower(towerPrefab);
+        tower.GetComponent<Tower>().InitialiseTower(ComputerLane.LEFT);
+        tower.transform.position = new Vector3(50,0,50);
+    }
+    
     void Update() {
         if (isServer) { 
             switch (GameState.gameState) {
