@@ -13,6 +13,8 @@ public class Tower : NetworkBehaviour {
 	
 	[SyncVar] private float percentRed;
 	[SyncVar] private float percentBlue;
+	[SyncVar] private float captureBarHeight;
+	[SyncVar] private float yOffset;
 	private TowerState towerState;
 	
 	public Texture captureBarRedTexture, captureBarBlueTexture, captureBarBackTexture;
@@ -31,22 +33,25 @@ public class Tower : NetworkBehaviour {
 		percentRed = 0f;
 		percentBlue = 0f;
 		towerState = TowerState.neutral;
+		RpcSetTowerState(towerState);
+		captureBarHeight = (Screen.height / 150) < 3? 3 : Screen.height / 150;
+		captureBarHeight -= captureBarHeight % 3;
+		captureBarHeight = 5 * captureBarHeight / 3;
+		yOffset = captureBarOffset * captureBarHeight;
 		
         entityLocation = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         captureBarLength = (percentRed / 100) * captureBarInitialLength;
     }
 
 	void OnGUI () {
+		// gather required bar position values
+		float length = captureBarInitialLength * captureBarHeight;
+		float xPos = entityLocation.x - (length / 2) - (captureBarHeight / 5);
+		float yPos = Screen.height - entityLocation.y - yOffset - (captureBarHeight / 5);
+		
+		GUI.DrawTexture(new Rect(xPos, yPos,length, captureBarHeight), captureBarBackTexture);
+		
 		if (percentRed > 0 || percentBlue > 0) {
-            int captureBarHeight = (Screen.height / 150) < 3? 3 : Screen.height / 150;
-            captureBarHeight -= captureBarHeight % 3;
-			
-            float length = captureBarInitialLength * captureBarHeight + (2 * captureBarHeight/3);
-            float height = captureBarHeight + (2 * captureBarHeight / 3);
-			float yOffset = captureBarOffset * height;
-            float xPos = entityLocation.x - (length/2) - (captureBarHeight / 3);
-            float yPos = Screen.height - entityLocation.y - yOffset - (captureBarHeight / 3);
-            
 			float captureBarX;
             Texture captureBarTexture = captureBarRedTexture;
 			if (percentRed > 0){
@@ -57,9 +62,8 @@ public class Tower : NetworkBehaviour {
 				captureBarTexture = captureBarBlueTexture;	
 			}
 			
-			GUI.DrawTexture(new Rect(xPos, yPos,length, height), captureBarBackTexture);
 			GUI.DrawTexture(new Rect(captureBarX, Screen.height - entityLocation.y - yOffset,
-									captureBarLength * captureBarHeight, captureBarHeight), 
+									captureBarLength * captureBarHeight, 3 * captureBarHeight / 5), 
 									captureBarTexture);
 		}
 	}	
@@ -78,8 +82,7 @@ public class Tower : NetworkBehaviour {
 	[Command]
 	private void CmdUpdateCaptureValues(){
 		HeroCapturing heroCapturing = CmdHeroesCapturing(captureRadius);
-		float lastPercentRed = percentRed;
-		float lastPercentBlue = percentBlue;
+
 		// if red capturing
 		if (towerState != TowerState.red && heroCapturing == HeroCapturing.red){
 			if (towerState == TowerState.neutral){
@@ -94,20 +97,26 @@ public class Tower : NetworkBehaviour {
 			}else{
 				percentRed -= captureRate;
 			}
-		}
-		
 		// when left tend to current state
-		if (towerState == TowerState.red && percentRed < 100f) percentRed += (captureRate * 0.5f);
-		if (towerState == TowerState.blue && percentBlue < 100f) percentBlue += (captureRate * 0.5f);
-		if (towerState == TowerState.neutral){
-			if (percentRed > 0) percentRed -= (captureRate * 0.25f);
-			if (percentBlue > 0) percentBlue -= (captureRate * 0.25f);
+		}else if (heroCapturing == HeroCapturing.none)
+			if (towerState == TowerState.red && percentRed < 100f) percentRed += (captureRate * 0.5f);
+			if (towerState == TowerState.blue && percentBlue < 100f) percentBlue += (captureRate * 0.5f);
+			if (towerState == TowerState.neutral){
+				if (percentRed > 0) percentRed -= (captureRate * 0.25f);
+				if (percentBlue > 0) percentBlue -= (captureRate * 0.25f);
 		}
 		
-		// update capture value
+		// update capture value and rpc if changed
+		TowerState oldTowerState = towerState;
 		if (percentRed == 100f) towerState = TowerState.red;
 		if (percentBlue == 100f) towerState = TowerState.blue;
-		if ((percentRed == 0 && lastPercentRed > 0) || (percentBlue == 0 && lastPercentBlue > 0)) towerState = TowerState.neutral;
+		if ((percentRed == 0 && percentBlue == 0)) towerState = TowerState.neutral;
+		if (towerState != oldTowerState) RpcSetTowerState(towerState);
+	}
+	
+	[ClientRpc]
+	private void RpcSetTowerState(TowerState towerState){
+		this.towerState = towerState;
 	}
 	
 	// Get if heroes in area

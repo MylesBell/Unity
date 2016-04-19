@@ -245,15 +245,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc548649536c44fe86857a108904753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  captureBarInitialLength: 10
   captureBarRedTexture: {fileID: 2800000, guid: 4c3b349d01fda45bfb92582a19192e35,
     type: 3}
   captureBarBlueTexture: {fileID: 2800000, guid: d227b61c2c0fd4afc9cac18004b2e4d3,
     type: 3}
   captureBarBackTexture: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b,
     type: 3}
-  captureBarOffset: 10
+  captureBarInitialLength: 15
+  captureBarOffset: 20
   captureRadius: 10
+  captureRate: .25
   gruntSpawnInterval: 10
 --- !u!1001 &100100000
 Prefab:
@@ -280,11 +281,11 @@ Prefab:
       objectReference: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b, type: 3}
     - target: {fileID: 0}
       propertyPath: captureBarOffset
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: captureBarInitialLength
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
