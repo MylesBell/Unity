@@ -102,6 +102,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         gameObject.GetComponent<HeroMovement>().setComputerLane(computerLane);
         setTextMeshDirection(computerLane);
         CmdSetTextMeshDirection(computerLane);
+        gameObject.GetComponent<DamageText>().SetComputerLane(computerLane);
         setHeroName(playerName);
     }
     

@@ -20,6 +20,10 @@ public class DamageText : NetworkBehaviour {
         }
 	}
     
+    public void SetComputerLane(ComputerLane computerLane){
+        RpcSetComputerLane(computerLane);
+    }
+    
     [ClientRpc]
     private void RpcSetComputerLane(ComputerLane computerLane){
         this.computerLane = computerLane;
@@ -59,7 +63,7 @@ public class DamageText : NetworkBehaviour {
     }
     
 	// fix the rotation
-    void LateUpdate(){
+    void Update(){
         foreach (GameObject damageTextObject in inUseDamageTexts){
             RpcSetRotation(damageTextObject);
         }
