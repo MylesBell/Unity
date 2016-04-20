@@ -957,7 +957,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: da09a47d16939414eb1edcea65ca0a03, type: 3}
   m_Controller: {fileID: 9100000, guid: b16185558cefb42aab57f508b9477a28, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -1032,6 +1032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!114 &11459250
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1332,6 +1333,10 @@ Prefab:
       propertyPath: attackEffectPrefab
       value: 
       objectReference: {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 102190}
