@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class Hero : NetworkBehaviour, IDestroyableGameObject {
@@ -6,6 +7,8 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     
     public Team team;
     public HeroClass heroClass;
+    private Animator animator;
+
 	private string playerID;
 	private TargetSelect targetSelect;
     private ComputerLane computerLane;
@@ -53,7 +56,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
             
-            //set Health to Max
+            //set Health to Max          
             gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
             gameObject.GetComponent<Stats>().ResetKillStreak();
 
@@ -62,6 +65,9 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
+            animator = GetComponentInChildren<Animator>();
+            animator.enabled = true;
+            animator.SetBool("Aive", true);
         }
     }
 
@@ -94,10 +100,23 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     }
 
     public void DisableGameObject() {
+        if (animator.GetBool("Alive")) {
+            team.OnHeroDead(gameObject);
+            RpcPlayDeathAnimation();
+        }
+    }
+    
+    [ClientRpc]
+    void RpcPlayDeathAnimation() {
+        StartCoroutine(PlayDeathAnimation());
+    }
+    
+    IEnumerator PlayDeathAnimation() {
+        animator.SetBool("Alive", false);
+        yield return new WaitForSeconds(2.0f);
         active = false;
         gameObject.SetActive(active);
-        CmdSetActiveState(active);
-        team.OnHeroDead(gameObject);
+        CmdSetActiveState(active);      
     }
     
     public void setComputerLane(ComputerLane computerLane){
