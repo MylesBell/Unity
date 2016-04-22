@@ -65,10 +65,10 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
-            animator = GetComponentInChildren<Animator>();
-            animator.enabled = true;
-            animator.SetBool("Aive", true);
         }
+        animator = GetComponentInChildren<Animator>();
+        animator.enabled = true;
+        animator.SetBool("Aive", true);
     }
 
     [Command] public void CmdSetActiveState(bool active) {
@@ -113,7 +113,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     
     IEnumerator PlayDeathAnimation() {
         animator.SetBool("Alive", false);
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.5f);
         active = false;
         gameObject.SetActive(active);
         CmdSetActiveState(active);      
