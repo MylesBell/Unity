@@ -351,6 +351,7 @@ GameObject:
   - 114: {fileID: 1193707486}
   - 114: {fileID: 1193707488}
   - 114: {fileID: 1193707487}
+  - 114: {fileID: 1193707489}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -371,7 +372,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blueTeam: {fileID: 1193707488}
   redTeam: {fileID: 1193707487}
-  towerPrefab: {fileID: 117018, guid: c755c51d59c534abb811cc755d0c8a4c, type: 2}
   gruntPoolSize: 400
   numberOfGruntsToSpawn: 5
   gruntSpawnInterval: 10
@@ -494,6 +494,18 @@ MonoBehaviour:
   - {fileID: 149726, guid: 6da6dbfbc95d141959b012c0e6af9fc1, type: 2}
   BasePrefab: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
   GruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
+--- !u!114 &1193707489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193707480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a7be7e5de6e4b9682edbcf35967506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerPrefab: {fileID: 117018, guid: c755c51d59c534abb811cc755d0c8a4c, type: 2}
 --- !u!1 &1718127019
 GameObject:
   m_ObjectHideFlags: 0

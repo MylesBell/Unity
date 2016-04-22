@@ -10,6 +10,7 @@ public enum HeroCapturing{
 }
 
 public class Tower : NetworkBehaviour {
+    [SyncVar] private bool active = true;
 	
 	[SyncVar] private float percentRed;
 	[SyncVar] private float percentBlue;
@@ -18,17 +19,19 @@ public class Tower : NetworkBehaviour {
 	private TowerState towerState;
 	
 	public Texture captureBarRedTexture, captureBarBlueTexture, captureBarBackTexture;
-	public float captureBarInitialLength = 20.0f;
+	public float captureBarInitialLength;
 	private float captureBarLength;
-    public float captureBarOffset = 5.0f;
+    public float captureBarOffset;
 	
 	private Vector3 entityLocation;
-	public float captureRadius = 10.0f;
-	public float captureRate = 0.25f;
-	public float gruntSpawnInterval = 0;
+	public float captureRadius;
+	public float captureRate;
+	public float gruntSpawnInterval;
 	private float nextGruntRespawn;
+	
+	private ComputerLane computerLane;
     
-    public void InitialiseTower(ComputerLane computerlane) {
+    public void Initialise(ComputerLane computerlane) {
         // set initial colours
 		percentRed = 0f;
 		percentBlue = 0f;
@@ -41,6 +44,7 @@ public class Tower : NetworkBehaviour {
 		
         entityLocation = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         captureBarLength = (percentRed / 100) * captureBarInitialLength;
+		this.computerLane = computerlane;
     }
 
 	void OnGUI () {
@@ -49,35 +53,47 @@ public class Tower : NetworkBehaviour {
 		float xPos = entityLocation.x - (length / 2) - (captureBarHeight / 5);
 		float yPos = Screen.height - entityLocation.y - yOffset - (captureBarHeight / 5);
 		
-		GUI.DrawTexture(new Rect(xPos, yPos,length, captureBarHeight), captureBarBackTexture);
+		GUI.DrawTexture(new Rect(xPos, yPos,length + (2 * captureBarHeight / 5), captureBarHeight), captureBarBackTexture);
 		
+		// when red or blue has any capture
 		if (percentRed > 0 || percentBlue > 0) {
 			float captureBarX;
             Texture captureBarTexture = captureBarRedTexture;
+			// set texture and side to draw on depending on computerlane
+			captureBarX = entityLocation.x - (length/2);
 			if (percentRed > 0){
-				captureBarX = entityLocation.x - (length/2);
 				captureBarTexture = captureBarRedTexture;
+				if (computerLane == ComputerLane.LEFT){
+					captureBarX = entityLocation.x + (length/2) - (captureBarLength * captureBarHeight);	
+				}
+			// when blue draw from right
 			}else{
-				captureBarX = entityLocation.x + (length/2) + (captureBarLength * captureBarHeight);
-				captureBarTexture = captureBarBlueTexture;	
+				captureBarTexture = captureBarBlueTexture;
+				if (computerLane == ComputerLane.RIGHT){
+					captureBarX = entityLocation.x + (length/2) - (captureBarLength * captureBarHeight);	
+				}
 			}
 			
 			GUI.DrawTexture(new Rect(captureBarX, Screen.height - entityLocation.y - yOffset,
 									captureBarLength * captureBarHeight, 3 * captureBarHeight / 5), 
 									captureBarTexture);
 		}
-	}	
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		// update capture values
 		CmdUpdateCaptureValues();
 		
-		// update draw properties
+		// update draw location
 		entityLocation =  Camera.main.WorldToScreenPoint(gameObject.transform.position);
-		captureBarLength = (percentRed / 100) * captureBarInitialLength;
+		// update bar length depending who has captured
+		if (percentRed > 0){
+			captureBarLength = (percentRed / 100) * captureBarInitialLength;
+		}else if(percentBlue > 0){
+			captureBarLength = (percentBlue / 100) * captureBarInitialLength;
+		}
 	}
-	
 	
 	[Command]
 	private void CmdUpdateCaptureValues(){
@@ -85,17 +101,17 @@ public class Tower : NetworkBehaviour {
 
 		// if red capturing
 		if (towerState != TowerState.red && heroCapturing == HeroCapturing.red){
-			if (towerState == TowerState.neutral){
-				percentRed += captureRate;
-			}else{
+			if (percentBlue > 0){
 				percentBlue -= captureRate;
+			}else{
+				percentRed += captureRate;
 			}
 		// if blue capturing
 		}else if(towerState != TowerState.blue && heroCapturing == HeroCapturing.blue){
-			if (towerState == TowerState.neutral){
-				percentBlue += captureRate;
-			}else{
+			if (percentRed > 0){
 				percentRed -= captureRate;
+			}else{
+				percentBlue += captureRate;
 			}
 		// when left tend to current state
 		}else if (heroCapturing == HeroCapturing.none)
@@ -108,19 +124,29 @@ public class Tower : NetworkBehaviour {
 		
 		// update capture value and rpc if changed
 		TowerState oldTowerState = towerState;
-		if (percentRed == 100f) towerState = TowerState.red;
-		if (percentBlue == 100f) towerState = TowerState.blue;
-		if ((percentRed == 0 && percentBlue == 0)) towerState = TowerState.neutral;
+		if (percentRed >= 100f){
+			towerState = TowerState.red;
+			percentRed = 100f;
+		}else if (percentBlue >= 100f){
+			towerState = TowerState.blue;
+			percentBlue = 100f;
+		}else if ((percentRed <= 0 && percentBlue <= 0)){
+			towerState = TowerState.neutral;
+			percentRed = 0;
+			percentBlue = 0;
+		}
 		if (towerState != oldTowerState) RpcSetTowerState(towerState);
 	}
-	
+
 	[ClientRpc]
 	private void RpcSetTowerState(TowerState towerState){
+		Debug.Log("tower captured: " + towerState);
 		this.towerState = towerState;
 	}
 	
-	// Get if heroes in area
+	// Get if any capturing happening
     private HeroCapturing CmdHeroesCapturing(float radius){
+		// get heros in area
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 		bool redHeroPresent = false;
 		bool blueHeroPresent = false;
@@ -129,13 +155,33 @@ public class Tower : NetworkBehaviour {
             if (collider.gameObject.tag.Equals("blueHero")) blueHeroPresent = true;
         }
 		
+		// set who is capturing
 		HeroCapturing heroCapturing = HeroCapturing.none;
 		if (redHeroPresent && !blueHeroPresent) heroCapturing = HeroCapturing.red;
 		if (!redHeroPresent && blueHeroPresent) heroCapturing = HeroCapturing.blue;
 		if (redHeroPresent && blueHeroPresent) heroCapturing = HeroCapturing.both;
 		
-		
 		return heroCapturing;
     }
 	
+	public void ResetTower(){
+		percentRed = 0f;
+		percentBlue = 0f;
+		towerState = TowerState.neutral;
+		RpcSetTowerState(towerState);
+	}
+	
+    public void DisableGameObject() {
+        CmdSetActiveState(false);
+    }
+	
+    [Command]
+    public void CmdSetActiveState(bool active) {
+        RpcSetActive(active);
+    }
+
+    [ClientRpc]
+    public void RpcSetActive(bool active) {
+        gameObject.SetActive(active);
+    }
 }
