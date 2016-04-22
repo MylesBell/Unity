@@ -2,7 +2,10 @@
 using UnityEngine.Networking;
 
 public class Hero : NetworkBehaviour, IDestroyableGameObject {
+    public enum HeroClass {HUNTER, HITMAN, HEALER, HARDHAT};    
+    
     public Team team;
+    public HeroClass heroClass;
 	private string playerID;
 	private TargetSelect targetSelect;
     private ComputerLane computerLane;

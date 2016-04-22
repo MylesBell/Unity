@@ -53,19 +53,18 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         int numberOfSpecials = specialFiles.Length;
         chosenNumbers = new List<int>();
         
-         // choose three random powers and initialise them all
-        specialOne = createSpecialPower(numberOfSpecials);
-        specialTwo = createSpecialPower(numberOfSpecials);
-        specialThree = createSpecialPower(numberOfSpecials);
+        // choose three random powers and initialise them all
+        specialOne = createSpecialPower(0);
+        specialTwo = createSpecialPower(1);
+        specialThree = createSpecialPower(2);
         
         // initialise level up
         specialLevelUp = createSpecial(LevelUpPrefab);
     }
     
-    private Special createSpecialPower(int numberOfSpecials){
-        int specialValue = getUniqueRandomInRange(numberOfSpecials, chosenNumbers);
-        chosenNumbers.Add(specialValue);
-        return createSpecial(specialFiles[specialValue].prefab);
+    private Special createSpecialPower(int powerIndex){
+        chosenNumbers.Add(powerIndex);
+        return createSpecial(specialFiles[powerIndex].prefab);
     }
     
     private Special createSpecial(GameObject prefab){

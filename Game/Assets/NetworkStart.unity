@@ -2754,22 +2754,28 @@ MonoBehaviour:
   - {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
   - {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
   - {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
+  - {fileID: 162640, guid: dfa4e014ad2b844c3abc0082b73b28c0, type: 2}
+  - {fileID: 117070, guid: 287a21c83ebf24d84abb7cbd1591a6ab, type: 2}
+  - {fileID: 149726, guid: 6da6dbfbc95d141959b012c0e6af9fc1, type: 2}
   - {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
+  - {fileID: 118518, guid: 36cbe0635f14142cc8c5ad2b7d6c6cc7, type: 2}
+  - {fileID: 102190, guid: 87368bd19cd0a4df498c8fe1ba2fcd6c, type: 2}
+  - {fileID: 126442, guid: 265ef3cac90fa42769738ce325b04776, type: 2}
+  - {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+  - {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+  - {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
+  - {fileID: 113374, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
   - {fileID: 150224, guid: 9bcc1822a8586450eabffacb6c7e7df7, type: 2}
   - {fileID: 177848, guid: 0c3e324b57eca467596f5e353c5b89af, type: 2}
-  - {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
   - {fileID: 168854, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
-  - {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
-  - {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
   - {fileID: 135370, guid: 74276afebb99644bcbdafa7f20d1d398, type: 2}
   - {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
   - {fileID: 168542, guid: 141c4f7183ef24f3d8f5ad8957ee1203, type: 2}
-  - {fileID: 113374, guid: 7b6de19b2bff84061b12ff00d498caea, type: 2}
   - {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
   - {fileID: 107536, guid: cff0a5bed8522405198906a325f8d707, type: 2}
   - {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 2}
-  m_CustomConfig: 0
-  m_MaxConnections: 4
+  m_CustomConfig: 1
+  m_MaxConnections: 100
   m_ConnectionConfig:
     m_PacketSize: 1500
     m_FragmentSize: 500
@@ -2790,6 +2796,7 @@ MonoBehaviour:
     m_IsAcksLong: 0
     m_Channels: []
   m_Channels: 0500000000000000
+  m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
   m_PacketLossPercentage: 0

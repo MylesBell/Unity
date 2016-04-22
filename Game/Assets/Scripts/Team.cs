@@ -25,7 +25,7 @@ public class Team : NetworkBehaviour {
     private float zPositionOffsetLeft;
     private int numberOfChannels;
 
-    public GameObject HeroPrefab;
+    public GameObject[] HeroPrefabs;
     public GameObject BasePrefab;
     public GameObject GruntPrefab;
 
@@ -138,7 +138,8 @@ public class Team : NetworkBehaviour {
 	}
 
     public void CreatePlayer(string playerID, string playerName) {
-        GameObject hero = unitFactory.CreateHero(HeroPrefab);
+        int index = Random.Range(0,HeroPrefabs.Length);
+        GameObject hero = unitFactory.CreateHero(HeroPrefabs[index]);
         
         hero.GetComponent<Hero>().InitialiseGameObject(this);        
 		hero.GetComponent<Hero>().setplayerID (playerID);
@@ -165,6 +166,7 @@ public class Team : NetworkBehaviour {
                                                 hero.GetComponent<Health>().maxHealth,
                                                 hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
                                                               teamBaseRight.GetComponent<BaseHealth>().maxHealth,
+                                                hero.GetComponent<Hero>().heroClass,
                                                 specialOneId, specialTwoId, specialThreeId, computerLane);
     }
     

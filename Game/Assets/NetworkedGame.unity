@@ -467,7 +467,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
-  HeroPrefab: {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
+  HeroPrefabs:
+  - {fileID: 101776, guid: 93c9b35943275534a99610fa7383912e, type: 2}
+  - {fileID: 118518, guid: 36cbe0635f14142cc8c5ad2b7d6c6cc7, type: 2}
+  - {fileID: 102190, guid: 87368bd19cd0a4df498c8fe1ba2fcd6c, type: 2}
+  - {fileID: 126442, guid: 265ef3cac90fa42769738ce325b04776, type: 2}
   BasePrefab: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
   GruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
 --- !u!114 &1193707488
@@ -482,7 +486,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 1
-  HeroPrefab: {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
+  HeroPrefabs:
+  - {fileID: 149832, guid: 3e53239e22967ef41ad01863d118a477, type: 2}
+  - {fileID: 162640, guid: dfa4e014ad2b844c3abc0082b73b28c0, type: 2}
+  - {fileID: 117070, guid: 287a21c83ebf24d84abb7cbd1591a6ab, type: 2}
+  - {fileID: 149726, guid: 6da6dbfbc95d141959b012c0e6af9fc1, type: 2}
   BasePrefab: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
   GruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
 --- !u!1 &1718127019
@@ -512,17 +520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f585b619e39894d7d97d81a119e2f329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugGui: {fileID: 0}
-  defaultGuiPosition: {x: .00999999978, y: .980000019, z: 0}
-  defaultGuiScale: {x: .5, y: .5, z: 1}
-  normal: {r: 0, g: 1, b: 0, a: 1}
-  warning: {r: 1, g: .921568632, b: .0156862754, a: 1}
-  error: {r: 1, g: 0, b: 0, a: 1}
-  maxMessages: 30
-  lineSpacing: .0199999996
-  draggable: 1
-  visible: 1
-  pixelCorrect: 0
 --- !u!4 &1718127021
 Transform:
   m_ObjectHideFlags: 0
