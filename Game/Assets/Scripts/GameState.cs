@@ -15,10 +15,7 @@ public class GameState : NetworkBehaviour {
     void Start () {
         instance = this;
         gameState = State.IDLE;
-        SetText(IDLE_STRING);        
-        if(isServer) {
-            RpcStateAndText(gameState);
-        }
+        SetText(IDLE_STRING);
     }
 	
 	// Update is called once per frame
@@ -26,7 +23,7 @@ public class GameState : NetworkBehaviour {
         if (isServer) {
             if (Input.GetKeyUp(KeyCode.S)) {
                 gameState = gameState == State.IDLE ? State.PLAYING: gameState;
-			    startGame ();
+		        changeGameState(State.PLAYING);
             }
 
             if (Input.GetKeyUp(KeyCode.E)) {
@@ -35,30 +32,25 @@ public class GameState : NetworkBehaviour {
 
             if (Input.GetKeyUp(KeyCode.Q)) {
                 gameState = gameState == State.END ? State.IDLE : gameState;
+                changeGameState(State.IDLE);
             }
-            // RpcStateAndText(gameState);
         }
     }
 
     public static void changeGameState(State state) {
         gameState = state;
-        instance.RpcStateAndText(gameState);
+        instance.RpcStateAndText(gameState, winningTeam);
 		SocketIOOutgoingEvents.GameStateChange (state);
     }
 
 	public static void endGame(TeamID winner) {
-		changeGameState(State.END);
 		winningTeam = winner;
-
+		changeGameState(State.END);
 		Debug.Log(winner + " won!\n");
 	}
 
-	public static void startGame() {
-		changeGameState(State.PLAYING);
-	}
-
     [ClientRpc]
-    public void RpcStateAndText(GameState.State networkGameState) {
+    public void RpcStateAndText(GameState.State networkGameState, TeamID winner) {
         this.networkGameState = networkGameState;
         string text;
         switch(networkGameState){
@@ -66,7 +58,9 @@ public class GameState : NetworkBehaviour {
                 text = IDLE_STRING;
                 break;
             case State.END:
-                text = winningTeam.ToString().ToUpper() + " team won!";
+                winningTeam = winner;
+                //Blue is cowboys
+                text = (winner == TeamID.blue ? "Cowboys" : "Vikings") + " won!";
                 break;
             default:
                 text = "";
