@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1011 &101100000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: VikingGruntAttackMask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Character1_Reference
+    m_Weight: 1
+  - m_Path: joint1
+    m_Weight: 1
+  - m_Path: joint1/joint3
+    m_Weight: 0
+  - m_Path: joint1/joint3/joint4
+    m_Weight: 0
+  - m_Path: joint1/joint3/joint4/joint5
+    m_Weight: 0
+  - m_Path: joint1/joint6
+    m_Weight: 0
+  - m_Path: joint1/joint6/joint4 1
+    m_Weight: 0
+  - m_Path: joint1/joint6/joint4 1/joint5 1
+    m_Weight: 0
+  - m_Path: joint1/joint7
+    m_Weight: 1
+  - m_Path: joint1/joint7/joint8
+    m_Weight: 1
+  - m_Path: pCube13
+    m_Weight: 1

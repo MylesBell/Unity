@@ -25,7 +25,12 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     void Start () {
         targetSelect = GetComponent<TargetSelect>();
         stats = GetComponent<Stats>();
-        animator = GetComponentInChildren<Animator>();
+        GetAnimator();
+    }
+    
+    public void GetAnimator() {
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
         animator.enabled = true;
     }
 
@@ -52,21 +57,20 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     
     [ClientRpc]
     public void RpcResetAnimator() {
+        GetAnimator();
         animator.SetBool("Victory", false);                    
         animator.SetBool("Defeat", false); 
     }
-    
-    [ClientRpc]
-    public void RpcSetAnimatorSpeed(float speed) {
-        animator.SetFloat("Speed", speed);         
-    }
+   
     
     public void SetAnimatorSpeed(float speed) {
-        animator.SetFloat("Speed", speed);         
+        GetAnimator();
+        animator.SetFloat("Speed", speed);       
     }
     
     [ClientRpc]
     public void RpcSetEndAnim(TeamID teamID) {
+        GetAnimator();
         if (teamID == GameState.winningTeam)
             animator.SetBool("Victory", true);
         else
@@ -90,9 +94,12 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
                     break;
             }
         }
-        SetAnimatorSpeed((transform.position - lastPosition).magnitude/Time.deltaTime);
-        lastPosition = transform.position;
 	}
+    
+    void LateUpdate() {
+        SetAnimatorSpeed((transform.position - lastPosition).magnitude/Time.deltaTime);
+        lastPosition = transform.position; 
+    }
     
     private void updatePosition(){      
          if (moveDirection != MoveDirection.NONE){

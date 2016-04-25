@@ -4,9 +4,16 @@ using UnityEngine.Networking;
 public class Attack : NetworkBehaviour {
 
 	private GameObject target;
+	public Animator animator;
+
 	private float timeTillAttack;
 	
 	private Stats stats;
+	
+	void Start() {
+		animator = GetComponentInChildren<Animator>();
+        animator.enabled = true;
+	}
 
     public void initiliseAttack() {
         timeTillAttack = 0;
@@ -24,12 +31,15 @@ public class Attack : NetworkBehaviour {
 				    AttackTarget ();
 				    timeTillAttack = stats.attackCoolDown;
 			    }
-		    }
+		    } else if (animator.GetBool("Attacking")){
+				animator.SetBool("Attacking", false);
+			}
         }
     }
 	
 	private void AttackTarget() {
 		if (targetInAttackArea()){
+			animator.SetBool("Attacking", true);
             bool killedObject;
             if(target.GetComponent<BaseHealth>()){
                 target.GetComponent<BaseHealth>().ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
@@ -38,7 +48,12 @@ public class Attack : NetworkBehaviour {
                 float damageToDo = (stats.damage + stats.GetKillStreak()/10)/target.GetComponent<Stats>().defense;
                 target.GetComponent<Health>().ReduceHealth(damageToDo, out killedObject);
             }
-            if(killedObject) stats.IncrementKillStreak();
+            if(killedObject) {
+				stats.IncrementKillStreak();
+				animator.SetBool("Attacking", false);
+			}
+		} else {
+			animator.SetBool("Attacking", false);
 		}
 	}
 
