@@ -1,28 +1,15 @@
 fileFormatVersion: 2
-guid: c54cb3a68527a4d2c9f14551bcd7c1f4
-timeCreated: 1460370130
+guid: be0c43bcf08dd43f8be440b2e0874b08
+timeCreated: 1461596107
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Camera
-    100004: Icosphere.004
-    100006: Lamp
-    100008: Plane
     400000: //RootNode
-    400002: Camera
-    400004: Icosphere.004
-    400006: Lamp
-    400008: Plane
     2300000: //RootNode
-    2300002: Icosphere.004
-    2300004: Plane
     3300000: //RootNode
-    3300002: Icosphere.004
-    3300004: Plane
-    4300000: Icosphere.004
-    4300002: Plane
+    4300000: Cube
   materials:
     importMaterials: 0
     materialName: 0
@@ -46,7 +33,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 3.5
+    globalScale: 20
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
