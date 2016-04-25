@@ -29,6 +29,10 @@ public class Tower : NetworkBehaviour {
 	public float gruntSpawnInterval;
 	private float nextGruntRespawn;
 	
+	public GameObject neutralTower;
+	public GameObject cowboyTower;
+	public GameObject vikingTower;
+	
 	private ComputerLane computerLane;
     
     public void Initialise(ComputerLane computerlane) {
@@ -63,13 +67,13 @@ public class Tower : NetworkBehaviour {
 			captureBarX = entityLocation.x - (length/2);
 			if (percentRed > 0){
 				captureBarTexture = captureBarRedTexture;
-				if (computerLane == ComputerLane.LEFT){
+				if (computerLane == ComputerLane.RIGHT){
 					captureBarX = entityLocation.x + (length/2) - (captureBarLength * captureBarHeight);	
 				}
 			// when blue draw from right
 			}else{
 				captureBarTexture = captureBarBlueTexture;
-				if (computerLane == ComputerLane.RIGHT){
+				if (computerLane == ComputerLane.LEFT){
 					captureBarX = entityLocation.x + (length/2) - (captureBarLength * captureBarHeight);	
 				}
 			}
@@ -83,7 +87,9 @@ public class Tower : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// update capture values
-		CmdUpdateCaptureValues();
+		if (isServer){
+			UpdateCaptureValues();
+		}
 		
 		// update draw location
 		entityLocation =  Camera.main.WorldToScreenPoint(gameObject.transform.position);
@@ -95,8 +101,7 @@ public class Tower : NetworkBehaviour {
 		}
 	}
 	
-	[Command]
-	private void CmdUpdateCaptureValues(){
+	private void UpdateCaptureValues(){
 		HeroCapturing heroCapturing = CmdHeroesCapturing(captureRadius);
 
 		// if red capturing
@@ -141,6 +146,19 @@ public class Tower : NetworkBehaviour {
 	[ClientRpc]
 	private void RpcSetTowerState(TowerState towerState){
 		Debug.Log("tower captured: " + towerState);
+		if (towerState == TowerState.neutral){
+			neutralTower.SetActive(true);
+			cowboyTower.SetActive(false);
+			vikingTower.SetActive(false);
+		}else if (towerState == TowerState.red){
+			neutralTower.SetActive(false);
+			cowboyTower.SetActive(false);
+			vikingTower.SetActive(true);
+		}else{
+			neutralTower.SetActive(false);
+			cowboyTower.SetActive(true);
+			vikingTower.SetActive(false);
+		}
 		this.towerState = towerState;
 	}
 	

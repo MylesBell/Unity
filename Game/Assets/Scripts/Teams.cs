@@ -59,12 +59,12 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
             int redBaseXPosRight = numScreensRight * 100 - 25;
             blueTeam.Initialise(hasLeftLane, hasRightLane, blueBaseXPosLeft, blueBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
             redTeam.Initialise(hasLeftLane,hasRightLane, redBaseXPosLeft, redBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
-            InitialiseTowers(hasLeftLane, hasRightLane);
+            InitialiseTowers(numScreensLeft, numScreensRight);
         }
     }
     
-    private void InitialiseTowers(bool hasLeftLane, bool hasRightLane){
-        gameObject.GetComponent<Towers>().Initialise(hasLeftLane, hasRightLane);
+    private void InitialiseTowers(int numScreensLeft, int numScreensRight){
+        gameObject.GetComponent<Towers>().Initialise(numScreensLeft, numScreensRight);
     }
     
     void Update() {
@@ -131,6 +131,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
     private void resetGame() {
         blueTeam.resetTeam();
         redTeam.resetTeam();
+        gameObject.GetComponent<Towers>().ResetTowers();
         initialised = true;
     }
 
