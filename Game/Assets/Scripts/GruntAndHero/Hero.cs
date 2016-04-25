@@ -65,10 +65,9 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
+            RpcSetAnimatorActive(true);
+            RpcSetAliveAnim(true);
         }
-        animator = GetComponentInChildren<Animator>();
-        animator.enabled = true;
-        animator.SetBool("Aive", true);
     }
 
     [Command] public void CmdSetActiveState(bool active) {
@@ -78,6 +77,18 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     [ClientRpc]
     public void RpcSetActive(bool active) {
         gameObject.SetActive(active);
+    }
+    
+    [ClientRpc]
+    public void RpcSetAnimatorActive(bool active) {
+        animator = GetComponentInChildren<Animator>();        
+        animator.enabled = active;
+    }
+    
+    [ClientRpc]
+    public void RpcSetAliveAnim(bool alive) {
+        animator = GetComponentInChildren<Animator>();        
+        animator.SetBool("Alive", alive);
     }
 
     [Command] public void CmdSetPlayerName(string playerName) {
@@ -107,16 +118,15 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     }
     
     [ClientRpc]
-    void RpcPlayDeathAnimation() {
+    public void RpcPlayDeathAnimation() {
         StartCoroutine(PlayDeathAnimation());
     }
     
     IEnumerator PlayDeathAnimation() {
+        animator = GetComponentInChildren<Animator>();        
         animator.SetBool("Alive", false);
         yield return new WaitForSeconds(3.5f);
-        active = false;
-        gameObject.SetActive(active);
-        CmdSetActiveState(active);      
+        gameObject.SetActive(false);
     }
     
     public void setComputerLane(ComputerLane computerLane){
