@@ -6,7 +6,7 @@ public class BombDrop : Special
 {   
     public Material original,flash;
     public float ringRadius = 6.0f;
-    public float damageAmount = 80.0f;
+    public float damageAmount = 100.0f;
     private Transform parentTransform;
     
     override public void InitialiseSpecial(float height)
@@ -18,7 +18,7 @@ public class BombDrop : Special
     override public void ResetSpecial()
     {
         ringRadius = 6.0f;
-        damageAmount = 80.0f;
+        damageAmount = 100.0f;
         gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 0);
     }
 
@@ -54,11 +54,11 @@ public class BombDrop : Special
     IEnumerator PlayBombSystem() {
         Renderer renderer = GetComponent<Renderer>();
         ParticleSystem particleSystem = gameObject.GetComponent<ParticleSystem>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 11; i >= 4; i--) {
             renderer.material = flash;
             yield return new WaitForSeconds(0.1f);
             renderer.material = original;
-            yield return new WaitForSeconds((-0.15f*i)+1.5f);
+            yield return new WaitForSeconds((0.02f*i));
         }
         particleSystem.Play();
         renderer.enabled = false;
