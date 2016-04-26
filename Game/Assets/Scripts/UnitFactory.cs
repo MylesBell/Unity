@@ -16,8 +16,14 @@ public class UnitFactory: NetworkBehaviour {
 	}
 
     public GameObject CreateBase(GameObject prefab) {
-        GameObject baseTower = (GameObject)Instantiate(prefab, Vector3.zero, Quaternion.identity);
+        GameObject baseTower = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
         NetworkServer.Spawn(baseTower);
         return baseTower;
     }
+	
+	public GameObject CreateTower(GameObject prefab) {
+		GameObject tower = Instantiate(prefab, Vector3.zero, Quaternion.identity) as GameObject;
+        NetworkServer.Spawn(tower);
+        return tower;
+	}
 }
