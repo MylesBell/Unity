@@ -202,6 +202,14 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
         dataJSON.AddField("level", level);
         socket.Emit ("gamePlayerLevelUp", dataJSON);
     }
+	
+	public void PlayerSwitchLaneHandler(string playerID, ComputerLane computerLane){
+		Debug.Log ("[SocketIO] Player has switched lane");
+        JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+        dataJSON.AddField("playerID", playerID);
+        dataJSON.AddField("lane", (int)computerLane);
+        socket.Emit ("gamePlayerSwitchLane", dataJSON);
+	}
     
 	public void CloseHandler(SocketIOEvent e)
 	{	

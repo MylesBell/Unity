@@ -156,6 +156,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<HeroMovement>().initialiseMovement(desiredPosition);
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
             setComputerLane(newLane);
+            SocketIOOutgoingEvents.PlayerSwitchLaneHandler(playerID , newLane);
         }
     }
     
