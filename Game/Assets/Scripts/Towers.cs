@@ -52,9 +52,9 @@ public class Towers : NetworkBehaviour {
             isTower = screenNum % 2 == 0;
         }
 		// dont have tower on base screen, if more than 2 screens
-		if ((screenNum == 0 || screenNum == numScreens - 1) && numScreens != 2){
-			isTower = false;
-		}
-        return isTower;
+		// if ((screenNum == 0 || screenNum == numScreens - 1) && numScreens != 2){
+		// 	isTower = false;
+		// }
+        return true;
     }
 }

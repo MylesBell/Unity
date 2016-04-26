@@ -8,7 +8,8 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 
 	private static SocketIOComponent socket;
 	SocketIOInputEvents socketIOInputEvents;
-	private string hostName = "headgearsofwar.com";
+	// private string hostName = "headgearsofwar.com";
+	private string hostName = "192.168.1.5";
 	private string portNumber = "1337";
 	public enum State { IDLE, PLAYING, END };
 	public static bool isInit = false;
