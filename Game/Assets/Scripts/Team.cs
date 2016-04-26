@@ -20,6 +20,7 @@ public class Team : NetworkBehaviour {
     Dictionary<string, GameObject> playerDict = new Dictionary<string, GameObject>();
     Dictionary<int, GameObject> gruntDict = new Dictionary<int, GameObject>();
     private List<Tuple<float,GameObject>> herosToRespawn = new List<Tuple<float, GameObject>>();
+    private List<Tower> capturedTowers = new List<Tower>();
 
     private float zPositionOffsetRight;
     private float zPositionOffsetLeft;
@@ -77,6 +78,9 @@ public class Team : NetworkBehaviour {
                         if(hasRightLane) spawnGrunt(i, ComputerLane.RIGHT);
                         if(hasLeftLane) spawnGrunt(i, ComputerLane.LEFT);
                     }
+                    foreach(Tower tower in capturedTowers){
+                        TowerSpawnGrunts(tower);
+                    }
                     nextGruntRespawn = gruntSpawnInterval;
                 }
             }
@@ -93,14 +97,14 @@ public class Team : NetworkBehaviour {
             }
         }
     }
-
+    
     private Vector3 GetSpawnLocation(float zPos, ComputerLane computerLane) {
         float xPos;
         if (teamID == TeamID.blue)
-            xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + 15;
+            xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + 10;
         else
             xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x - 10;
-        return new Vector3(xPos, 3, zPos);
+        return new Vector3(xPos, 0, zPos);
     }
 
     private float getZPosition(ComputerLane computerLane) {
@@ -108,14 +112,13 @@ public class Team : NetworkBehaviour {
         return computerLane == ComputerLane.LEFT ? randomNumber * zPositionOffsetLeft + Teams.minZLeft + Teams.bottomOffsetLeft : randomNumber * zPositionOffsetRight + Teams.minZRight + Teams.bottomOffsetRight;
     }
 
-    private Vector3 GetTargetPosition(float zPosition, ComputerLane computerLane) {
-        return new Vector3((computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + (teamID == TeamID.blue ? 15 : -10) , 0, zPosition);
-    }
-
     public void resetTeam() {
-        if(hasRightLane) teamBaseRight.GetComponent<Base>().ResetGameObject(basePositionRight, Vector3.zero, ComputerLane.RIGHT);
-        if(hasLeftLane) teamBaseLeft.GetComponent<Base>().ResetGameObject(basePositionLeft, Vector3.zero, ComputerLane.LEFT);
-
+        if(hasRightLane) teamBaseRight.GetComponent<Base>().ResetGameObject(basePositionRight, ComputerLane.RIGHT);
+        if(hasLeftLane) teamBaseLeft.GetComponent<Base>().ResetGameObject(basePositionLeft, ComputerLane.LEFT);
+        
+        // clear captured towers
+        capturedTowers = new List<Tower>();
+        
         //Restart heros
         foreach (KeyValuePair<string, GameObject> entry in playerDict) {
             if (entry.Value) {
@@ -153,7 +156,7 @@ public class Team : NetworkBehaviour {
         hero.GetComponent<Hero>().setComputerLane(computerLane);
         
         float zPos = getZPosition(computerLane);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), computerLane);
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), computerLane);
         playerDict.Add(playerID, hero);
         numberOfHeros++;
         
@@ -192,7 +195,14 @@ public class Team : NetworkBehaviour {
     private void spawnGrunt(int i, ComputerLane computerLane) {
         GameObject grunt = getGrunt();
         float zPos = getZPosition(computerLane);
-        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos, computerLane), GetTargetPosition(zPos, computerLane), computerLane);
+        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos, computerLane), computerLane);
+    }
+    
+    private void TowerSpawnGrunts(Tower tower){
+        GameObject grunt = getGrunt();
+        float zPos = tower.transform.position.z;
+        float xStartPos = tower.transform.position.x + (teamID == TeamID.blue ? 6 : -6);
+        grunt.GetComponent<Grunt>().ResetGameObject(new Vector3(xStartPos,0,zPos), tower.computerLane);
     }
 
     private GameObject getGrunt() {
@@ -232,7 +242,7 @@ public class Team : NetworkBehaviour {
         ComputerLane computerLane = hero.GetComponent<Hero>().getComputerLane();
         string playerID = hero.GetComponent<Hero>().getplayerID();
         float zPos = getZPosition(computerLane);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos,computerLane), GetTargetPosition(zPos,computerLane), computerLane);
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos,computerLane), computerLane);
         SocketIOOutgoingEvents.PlayerRespawn(playerID);
     }
 
@@ -293,5 +303,13 @@ public class Team : NetworkBehaviour {
     
     public bool isAttackable(GameObject target){
         return !(nonAttackableEnemies.Contains(target.GetInstanceID()));
+    }
+    
+    public void CapturedTower(Tower tower){
+        capturedTowers.Add(tower);
+    }
+    
+    public void LostTower(Tower tower){
+        capturedTowers.Remove(tower);
     }
 }

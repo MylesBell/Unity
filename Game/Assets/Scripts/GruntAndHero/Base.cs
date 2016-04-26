@@ -13,7 +13,7 @@ public class Base : NetworkBehaviour, IDestroyableGameObject {
         this.team = team;
     }
 
-    public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition, ComputerLane computerLane) {
+    public void ResetGameObject(Vector3 spawnPosition, ComputerLane computerLane) {
         if (isServer) {
             active = true;
             gameObject.GetComponent<BaseHealth>().InitialiseBaseHealth(team, computerLane);
