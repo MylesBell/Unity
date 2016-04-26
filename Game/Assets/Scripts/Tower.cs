@@ -33,9 +33,12 @@ public class Tower : NetworkBehaviour {
 	public GameObject cowboyTower;
 	public GameObject vikingTower;
 	
-	private ComputerLane computerLane;
+	public ComputerLane computerLane;
+	
+	private Team blueTeam;
+	private Team redTeam;
     
-    public void Initialise(ComputerLane computerlane) {
+    public void Initialise(ComputerLane computerlane, Team blueTeam, Team redTeam) {
         // set initial colours
 		percentRed = 0f;
 		percentBlue = 0f;
@@ -49,6 +52,9 @@ public class Tower : NetworkBehaviour {
         entityLocation = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         captureBarLength = (percentRed / 100) * captureBarInitialLength;
 		this.computerLane = computerlane;
+		
+		this.blueTeam = blueTeam;
+		this.redTeam = redTeam;
     }
 
 	void OnGUI () {
@@ -129,13 +135,20 @@ public class Tower : NetworkBehaviour {
 		
 		// update capture value and rpc if changed
 		TowerState oldTowerState = towerState;
-		if (percentRed >= 100f){
+		if (percentRed >= 100f && oldTowerState == TowerState.neutral){
+			redTeam.CapturedTower(this);
 			towerState = TowerState.red;
 			percentRed = 100f;
-		}else if (percentBlue >= 100f){
+		}else if (percentBlue >= 100f && oldTowerState == TowerState.neutral){
+			blueTeam.CapturedTower(this);
 			towerState = TowerState.blue;
 			percentBlue = 100f;
-		}else if ((percentRed <= 0 && percentBlue <= 0)){
+		}else if (percentRed <= 0 && percentBlue <= 0 && oldTowerState != TowerState.neutral){
+			if (oldTowerState == TowerState.blue){
+				blueTeam.LostTower(this);
+			}else{
+				redTeam.LostTower(this);
+			}
 			towerState = TowerState.neutral;
 			percentRed = 0;
 			percentBlue = 0;
@@ -145,7 +158,6 @@ public class Tower : NetworkBehaviour {
 
 	[ClientRpc]
 	private void RpcSetTowerState(TowerState towerState){
-		Debug.Log("tower captured: " + towerState);
 		if (towerState == TowerState.neutral){
 			neutralTower.SetActive(true);
 			cowboyTower.SetActive(false);
