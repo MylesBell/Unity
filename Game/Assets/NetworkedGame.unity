@@ -318,7 +318,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -475,6 +477,9 @@ MonoBehaviour:
   - {fileID: 126442, guid: 265ef3cac90fa42769738ce325b04776, type: 2}
   BasePrefab: {fileID: 182580, guid: 4647fca76d8b04fd4847cc1db8d7b73b, type: 2}
   GruntPrefab: {fileID: 129988, guid: caf7e01bc702041d29089df8eaff04a1, type: 2}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &1193707488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +499,9 @@ MonoBehaviour:
   - {fileID: 149726, guid: 6da6dbfbc95d141959b012c0e6af9fc1, type: 2}
   BasePrefab: {fileID: 185270, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
   GruntPrefab: {fileID: 129988, guid: 7771f6bc4d1fd41a99fd155061a0cbe1, type: 2}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &1193707489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,6 +541,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f585b619e39894d7d97d81a119e2f329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DebugGui: {fileID: 0}
+  defaultGuiPosition: {x: .00999999978, y: .980000019, z: 0}
+  defaultGuiScale: {x: .5, y: .5, z: 1}
+  normal: {r: 0, g: 1, b: 0, a: 1}
+  warning: {r: 1, g: .921568632, b: .0156862754, a: 1}
+  error: {r: 1, g: 0, b: 0, a: 1}
+  maxMessages: 30
+  lineSpacing: .0199999996
+  draggable: 1
+  visible: 1
+  pixelCorrect: 0
 --- !u!4 &1718127021
 Transform:
   m_ObjectHideFlags: 0

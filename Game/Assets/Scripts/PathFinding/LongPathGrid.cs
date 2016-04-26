@@ -34,9 +34,11 @@ public class LongPathGrid {
         for(int i = -halfSize; i <= halfSize; i++){
             pos.x = centre.x + i;
             for(int j = -halfSize; j <= halfSize; j++){
-                pos.y = 20f;
+                pos.y = 25f;
                 pos.z = centre.z + j;
-                if(Physics.Raycast(pos, -Vector3.up, 21f, unwalkableLayer, QueryTriggerInteraction.Ignore)) return false;
+                RaycastHit rayCastHit;
+                if(Physics.Raycast(pos, -Vector3.up, out rayCastHit, 30f, unwalkableLayer, QueryTriggerInteraction.Ignore)) return false;
+                // if(rayCastHit.point.y > 0.1f) return false;
             }
         }
         return true;
