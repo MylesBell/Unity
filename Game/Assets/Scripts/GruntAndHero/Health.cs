@@ -74,7 +74,7 @@ public class Health : NetworkBehaviour {
         if (currentHealth > 0) {
             currentHealth -= amountToReduce;
             killedPlayer = currentHealth < 0;
-            if (!killedPlayer) damageText.Play(amountToReduce);
+            if (!killedPlayer) damageText.Play(-amountToReduce);
             
             if(gameObject.GetComponent<Hero>() != null) {
                 Hero hero = gameObject.GetComponent<Hero>();

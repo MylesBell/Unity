@@ -29,24 +29,24 @@ public class DamageText : NetworkBehaviour {
         this.computerLane = computerLane;
     }
 	
-	public void Play(float damage){
+	public void Play(float change){
 		GameObject damageTextObject = GetDamageText();
         damageTextObject.SetActive(true);
-        RpcPlay(damage, damageTextObject);
+        RpcPlay(change, damageTextObject);
     }
     
     [ClientRpc]
-    public void RpcPlay(float damage, GameObject damageTextObject) {
+    public void RpcPlay(float change, GameObject damageTextObject) {
         damageTextObject.SetActive(true);
         
         // set colour for increase or decrease
-        if (damage > 0){
+        if (change > 0){
             damageTextObject.GetComponent<TextMesh>().color = Color.green;
         }else{
             damageTextObject.GetComponent<TextMesh>().color = Color.red;
         }
         
-        damageTextObject.GetComponent<TextMesh>().text = Mathf.Abs(damage).ToString();
+        damageTextObject.GetComponent<TextMesh>().text = Mathf.Abs(change).ToString();
         damageTextObject.GetComponent<Animator>().SetTrigger("Damage");
         if (gameObject.activeSelf == true) StartCoroutine(ReturnDamageTextToPool(damageTextObject));
     }
