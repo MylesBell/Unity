@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 460696}
   - 95: {fileID: 9522384}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: cowboy_hero_skinned
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,7 +24,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 463642}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 465424}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 415564}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 494500}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 489580}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 475998}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_Reference
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 429680}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 421976}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - 4: {fileID: 470046}
   - 33: {fileID: 3326160}
   - 23: {fileID: 2386610}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: hat_hitman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 415248}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 444968}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 428484}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - 65: {fileID: 6563526}
   - 114: {fileID: 11493528}
   - 114: {fileID: 11489826}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CowboyHitman
   m_TagString: blueHero
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 426162}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 482148}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 446764}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 467878}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 432290}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +310,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 423158}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +325,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 473056}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +340,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 474012}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 409108}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -370,7 +370,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 448306}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,7 +386,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 480004}
   - 137: {fileID: 13754510}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: pCube15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +401,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 466570}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +420,7 @@ GameObject:
   - 102: {fileID: 10205678}
   - 114: {fileID: 11431222}
   - 114: {fileID: 11433128}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HeroName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 432762}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 424654}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 456312}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Character1_LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1459,6 +1459,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: movementAcceleration
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

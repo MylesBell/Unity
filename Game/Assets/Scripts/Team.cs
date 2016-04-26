@@ -39,6 +39,8 @@ public class Team : NetworkBehaviour {
     private int nextGruntID = 0;
 
     private List<int> nonAttackableEnemies = new List<int>();
+    
+    public LayerMask playerLayer;
 
     void Start() {
         if (isServer) {
@@ -98,18 +100,32 @@ public class Team : NetworkBehaviour {
         }
     }
     
-    private Vector3 GetSpawnLocation(float zPos, ComputerLane computerLane) {
+    private Vector3 GetSpawnLocation(ComputerLane computerLane) {
         float xPos;
-        if (teamID == TeamID.blue)
-            xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + 10;
-        else
-            xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x - 10;
-        return new Vector3(xPos, 0, zPos);
+        Vector3 pos;
+        do {
+            int randomNumber = Random.Range(0, numberOfChannels);
+            float zPos = computerLane == ComputerLane.LEFT ? randomNumber * zPositionOffsetLeft + Teams.minZLeft + Teams.bottomOffsetLeft : randomNumber * zPositionOffsetRight + Teams.minZRight + Teams.bottomOffsetRight;
+            if (teamID == TeamID.blue)
+                xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x + 10;
+            else
+                xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x - 10;
+            pos = new Vector3(xPos, 0, zPos);
+        } while(!validSpawnPosition(pos));
+        pos.y = 0;
+        return pos;
     }
-
-    private float getZPosition(ComputerLane computerLane) {
-        int randomNumber = Random.Range(0, numberOfChannels);
-        return computerLane == ComputerLane.LEFT ? randomNumber * zPositionOffsetLeft + Teams.minZLeft + Teams.bottomOffsetLeft : randomNumber * zPositionOffsetRight + Teams.minZRight + Teams.bottomOffsetRight;
+    
+    bool validSpawnPosition(Vector3 position){
+        for(float i = position.x - 2; i < position.x + 2; i++){
+            for(float j = position.z - 2; j < position.z + 2; j++){
+                Vector3 temp = new Vector3(i, 5, j);
+                if(Physics.Raycast(temp, -Vector3.up, 7f, playerLayer)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void resetTeam() {
@@ -149,9 +165,7 @@ public class Team : NetworkBehaviour {
         //Choose random lane
         ComputerLane computerLane = getSpawnLane();
         hero.GetComponent<Hero>().setComputerLane(computerLane);
-        
-        float zPos = getZPosition(computerLane);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos, computerLane), computerLane);
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(computerLane), computerLane);
         playerDict.Add(playerID, hero);
         numberOfHeros++;
         
@@ -189,15 +203,18 @@ public class Team : NetworkBehaviour {
 
     private void spawnGrunt(int i, ComputerLane computerLane) {
         GameObject grunt = getGrunt();
-        float zPos = getZPosition(computerLane);
-        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(zPos, computerLane), computerLane);
+        grunt.GetComponent<Grunt>().ResetGameObject(GetSpawnLocation(computerLane), computerLane);
     }
     
     private void TowerSpawnGrunts(Tower tower){
-        GameObject grunt = getGrunt();
-        float zPos = tower.transform.position.z;
+        GameObject grunt1 = getGrunt();
+        float zPos = tower.transform.position.z - 3;
         float xStartPos = tower.transform.position.x + (teamID == TeamID.blue ? 6 : -6);
-        grunt.GetComponent<Grunt>().ResetGameObject(new Vector3(xStartPos,0,zPos), tower.computerLane);
+        grunt1.GetComponent<Grunt>().ResetGameObject(new Vector3(xStartPos,0,zPos), tower.computerLane);
+        GameObject grunt2 = getGrunt();
+        zPos = tower.transform.position.z + 3;
+        xStartPos = tower.transform.position.x + (teamID == TeamID.blue ? 6 : -6);
+        grunt2.GetComponent<Grunt>().ResetGameObject(new Vector3(xStartPos,0,zPos), tower.computerLane);
     }
 
     private GameObject getGrunt() {
@@ -236,8 +253,7 @@ public class Team : NetworkBehaviour {
     private void HeroRespawn(GameObject hero) {
         ComputerLane computerLane = hero.GetComponent<Hero>().getComputerLane();
         string playerID = hero.GetComponent<Hero>().getplayerID();
-        float zPos = getZPosition(computerLane);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(zPos,computerLane), computerLane);
+        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(computerLane), computerLane);
         SocketIOOutgoingEvents.PlayerRespawn(playerID);
     }
 
