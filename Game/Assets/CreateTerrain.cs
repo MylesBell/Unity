@@ -96,7 +96,7 @@ public class CreateTerrain : NetworkBehaviour
         //only generate the long path grid ONCE on the client, after it has recieved all of the scenery or game has started
         if(!isServer && !generatedPathfinder && objectsToRecieve > 0) {
             lock(objectsRecievedLock){
-                if(objectsToRecieve == objectsRecieved || GameState.instance.networkGameState == GameState.State.PLAYING){
+                if(GameState.instance.networkGameState == GameState.State.PLAYING){
                     ComputerLane computerLane = GraniteNetworkManager.lane;
                     int screenNumber = GraniteNetworkManager.screeNumber;
                     GenerateLongPathGrid(screenNumber, screensRequested, computerLane);
@@ -251,28 +251,44 @@ public class CreateTerrain : NetworkBehaviour
             } while (z_pos >= z_min && z_pos <= z_max);
         }
         
+        
         //Don't put obstacles in the tunnels
         //first check if this z_pos is on the tunnel side or not
         bool tunnelSide = (computerLane == ComputerLane.LEFT && z_pos < z_min)
                           || (computerLane == ComputerLane.RIGHT && z_pos > z_max);
-        bool isTunnel = GetTerrainIndex(numScreens, screenNumber) == 0 
-                    || screenNumber == 0 || screenNumber == numScreens - 1;
-        if(MultipleLanes && isTunnel && tunnelSide) {
-            //Find a point that is not between A and B so that it's not in the tunnel
+        bool towerZ = Towers.IsTower(numScreens, screenNumber) && ((computerLane == ComputerLane.LEFT && 235 < z_pos && z_pos < 265)
+                          || (computerLane == ComputerLane.RIGHT && 35 < z_pos && z_pos < 65));
+        if(MultipleLanes) {
+            //if this is screen number one make sure that trees are not in the tunnel
             float A, B;
+            //Find a point that is not between A and B so that it's not in the tunnel
             if(screenNumber == 0){
-                A = 56;
-                B = 76;
-            } else if (screenNumber == numScreens - 1){
-                A = 24;
-                B = 44;
+                if(generatingForMainTerrain){
+                    x_pos = Random.Range(50, 100);
+                } else {
+                    do {
+                        x_pos = Random.Range(0, 100);
+                    } while (56 <= x_pos && x_pos <= 76 && (tunnelSide));
+                }
+            } else if(screenNumber == numScreens - 1){
+                if(generatingForMainTerrain){
+                    x_pos = Random.Range(0, 50);
+                } else {
+                    do {
+                        x_pos = Random.Range(0, 100);
+                    } while (24 <= x_pos && x_pos <= 44 && tunnelSide);
+                }
             } else {
-                A = 40;
-                B = 60;
+                //when on other screens
+                //if it's a tower screen
+                if(Towers.IsTower(numScreens, screenNumber) && (tunnelSide || towerZ)){
+                    do {
+                        x_pos = Random.Range(0, 100);
+                    } while (35 <= x_pos && x_pos <= 65);
+                } else {
+                    x_pos = Random.Range(0,100);
+                }
             }
-            do {
-                x_pos = Random.Range(0, 100);
-            } while (x_pos >= A && x_pos <= B);
         } else {
             //prevent the scenery from being generated near the base
             //check if the z position is near the base
@@ -286,6 +302,7 @@ public class CreateTerrain : NetworkBehaviour
                 x_pos = Random.Range(0,100);
             }
         }
+        
         position += new Vector3(x_pos, 40.0f,z_pos);
         return position;
     }

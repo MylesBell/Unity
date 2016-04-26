@@ -117,7 +117,8 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
          }
          if (currentMovement != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(currentMovement);
-         transform.position = currentMovement * Time.deltaTime + transform.position;     
+         transform.position = AdjustToTerrain(currentMovement * Time.deltaTime + transform.position);
+            
     }
     
     private Vector3 getMovementUpdate(){
@@ -164,13 +165,13 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
         return currentMovement;
     }
 	
-	private Vector3 AdjustToTerrain (Vector3 movementTargetInput) {
+	public Vector3 AdjustToTerrain (Vector3 movementTargetInput) {
         // RaycastHit terrainLevel;
         // movementTargetInput.y = 20f;
         // if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)){
         //     movementTargetInput = terrainLevel.point;
         // }
-        movementTargetInput.y = GetComponentInChildren<Renderer>().bounds.size.y/2;
+        movementTargetInput.y = GetComponentInChildren<Renderer>().bounds.size.y/2 - (GetComponentInChildren<Renderer>().bounds.center.y);
         return movementTargetInput;
 	}
 

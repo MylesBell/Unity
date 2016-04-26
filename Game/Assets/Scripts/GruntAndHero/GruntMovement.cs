@@ -110,7 +110,7 @@ public class GruntMovement : NetworkBehaviour{
         movementTarget = movementTargetInput;
 	}
     
-    private Vector3 AdjustToTerrain(Vector3 movementTargetInput){
+    public Vector3 AdjustToTerrain(Vector3 movementTargetInput){
         // RaycastHit terrainLevel;
         // movementTargetInput.y = 20f;
         // if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)) movementTargetInput = terrainLevel.point;

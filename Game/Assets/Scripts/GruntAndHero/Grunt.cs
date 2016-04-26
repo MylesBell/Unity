@@ -23,16 +23,17 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
         this.id = id;
     }
     
-    public void ResetGameObject(Vector3 spawnPosition, Vector3 desiredPosition, ComputerLane computerLane) {
+    public void ResetGameObject(Vector3 spawnPosition, ComputerLane computerLane) {
         if (isServer) {
             active = true;
+            Vector3 adjusted_spawnLocation = gameObject.GetComponent<GruntMovement>().AdjustToTerrain(spawnPosition);
             gameObject.GetComponent<Attack>().initiliseAttack();
-            gameObject.GetComponent<GruntMovement>().initialiseMovement(spawnPosition);
+            gameObject.GetComponent<GruntMovement>().initialiseMovement(adjusted_spawnLocation);
             //set Health to Max
             gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
-            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), desiredPosition);
-            gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID,spawnPosition);
-            CmdSetActiveState(active,spawnPosition);
+            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), spawnPosition);
+            gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID,adjusted_spawnLocation);
+            CmdSetActiveState(active,adjusted_spawnLocation);
             gameObject.SetActive(active);
         }
 	}

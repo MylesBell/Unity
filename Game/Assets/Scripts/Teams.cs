@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 
 public enum TeamID {
 	red, blue
@@ -19,11 +19,10 @@ public class PathfindingMessage : MessageBase {
     public ComputerLane computerLane;
 }
 
-
 public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
 
 	public Team blueTeam, redTeam;
-
+        
     public int gruntPoolSize;
     public int numberOfGruntsToSpawn;
     public int gruntSpawnInterval;
@@ -43,10 +42,12 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
     public static float bottomOffsetLeft = 5;
 
     private bool initialised;
+    private bool basesInitialised;
 
 	void Start () {
         if (isServer) {
             initialised = false;
+            basesInitialised = false;
             NetworkServer.RegisterHandler(MyPathfindingMsg.ReceivePathCode, OnReceivePathMessage);
             NetworkServer.RegisterHandler(MyPathfindingMsg.ReceiveForcedPathCode, OnReceiveForcedPathMessage);
             zPositionOffsetRight = ((maxZRight-topOffsetRight) - (minZRight+bottomOffsetRight)) / numberOfChannels;
@@ -61,10 +62,10 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
             int redBaseXPosRight = numScreensRight * 100 - 25;
             blueTeam.Initialise(hasLeftLane, hasRightLane, blueBaseXPosLeft, blueBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight,numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
             redTeam.Initialise(hasLeftLane,hasRightLane, redBaseXPosLeft, redBaseXPosRight, zPositionOffsetLeft, zPositionOffsetRight, numberOfChannels, numberOfGruntsToSpawn, gruntSpawnInterval, gruntPoolSize, heroRespawnInterval);
-
+            gameObject.GetComponent<Towers>().Initialise(numScreensLeft, numScreensRight, blueTeam, redTeam);
         }
     }
-
+    
     void Update() {
         if (isServer) { 
             switch (GameState.gameState) {
@@ -72,13 +73,14 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
                     if (!initialised) resetGame();
                     break;
                 case GameState.State.PLAYING:
+                    if(!basesInitialised) resetBases();
                     break;
                 case GameState.State.END:
                     initialised = false;
                     break;
             }
             
-            // uncomment to create test hero
+            // // uncomment to create test hero
             // if (Input.GetKeyUp(KeyCode.Slash)) redTeam.CreatePlayer("id", "Test Hero");
             
             // if (Input.GetKeyDown(KeyCode.I)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.N));
@@ -129,7 +131,14 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
     private void resetGame() {
         blueTeam.resetTeam();
         redTeam.resetTeam();
+        gameObject.GetComponent<Towers>().ResetTowers();
         initialised = true;
+    }
+    
+    private void resetBases(){
+        redTeam.resetBases();
+        blueTeam.resetBases();
+        basesInitialised = true;
     }
 
 	#region IPlayerJoin implementation

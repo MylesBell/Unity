@@ -51,5 +51,9 @@ public static class SocketIOOutgoingEvents {
     {
         socketIOManager.PlayerLevelUpHandler(playerID, level);
     }
-
+	
+	public static void PlayerSwitchLaneHandler(string playerID, ComputerLane computerLane){
+		socketIOManager.PlayerSwitchLaneHandler(playerID, computerLane);
+	}
+ 
 }

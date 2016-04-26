@@ -23,7 +23,7 @@ public class LongPathNavigation : MonoBehaviour{
         GridNode startNode = longPathGrid.GetGridNodeFromWorldPoint(startPosition);
         GridNode targetNode = longPathGrid.GetGridNodeFromWorldPoint(targetPosition);
         
-        if (startNode.walkable && targetNode.walkable) {
+        if (targetNode.walkable) {
             Heap<GridNode> openSet = new Heap<GridNode>(longPathGrid.MaxSize);
             HashSet<GridNode> closedSet = new HashSet<GridNode>();
             

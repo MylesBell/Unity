@@ -79,7 +79,11 @@ public class BombDrop : Special
             foreach(Collider collider in hitColliders) {
                 if (CheckColliderWantsToAttack(collider)){
                     bool killedObject;
-                    ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
+                    if (collider.gameObject.tag.Equals(specials.attackBaseTag)){
+                        collider.gameObject.GetComponent<BaseHealth>().ReduceHealth(damage, out killedObject);
+                    }else{
+                        ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
+                    }
                     if(killedObject) stats.IncrementKillStreak();
                 }
             }
