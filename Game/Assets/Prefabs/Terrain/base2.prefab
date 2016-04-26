@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 471188}
   - 33: {fileID: 3378648}
   - 65: {fileID: 6580768}
+  - 54: {fileID: 5499824}
   m_Layer: 9
   m_Name: Cube (5)
   m_TagString: Untagged
@@ -43,6 +44,7 @@ GameObject:
   - 4: {fileID: 485312}
   - 33: {fileID: 3302228}
   - 65: {fileID: 6508530}
+  - 54: {fileID: 5429762}
   m_Layer: 9
   m_Name: Cube (4)
   m_TagString: Untagged
@@ -60,6 +62,7 @@ GameObject:
   - 4: {fileID: 471014}
   - 33: {fileID: 3320696}
   - 65: {fileID: 6554428}
+  - 54: {fileID: 5427330}
   m_Layer: 9
   m_Name: Cube (3)
   m_TagString: Untagged
@@ -203,6 +206,51 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156392}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &5427330
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190910}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!54 &5429762
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165258}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!54 &5499824
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 156392}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!64 &6419042
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -277,6 +325,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 126
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
