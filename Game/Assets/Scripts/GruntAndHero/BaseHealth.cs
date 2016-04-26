@@ -3,8 +3,9 @@ using UnityEngine;
 public class BaseHealth : Health {
     Team team;
     BaseHealth otherBase;
+    ComputerLane computerLane;
     
-    public void InitialiseHealth(Team team, ComputerLane computerLane) {
+    public void InitialiseBaseHealth(Team team, ComputerLane computerLane) {
         this.team = team;
         GameObject[] bases = GameObject.FindGameObjectsWithTag(gameObject.tag);
         
@@ -13,11 +14,13 @@ public class BaseHealth : Health {
                 otherBase = other.GetComponent<BaseHealth>();
             }
         }
-        base.InitialiseHealth(computerLane);
+        this.computerLane = computerLane;
+        InitialiseHealth(computerLane);
     }
 	public new void ReduceHealth(float amountToReduce, out bool killedBase){
 		currentHealth -= amountToReduce;
-        killedBase = currentHealth > 0;
+        killedBase = currentHealth < 0;
+        damageText.Play(-amountToReduce);
         if(otherBase) otherBase.ChangeFromOtherBase(-amountToReduce);
         team.BaseHealthChange(maxHealth, currentHealth);
 	}
@@ -28,7 +31,12 @@ public class BaseHealth : Health {
 
 	public new void IncreaseHealth(float amountToIncrease){
 		currentHealth += amountToIncrease;
+        damageText.Play(amountToIncrease);
         if(otherBase) otherBase.ChangeFromOtherBase(amountToIncrease);
         team.BaseHealthChange(maxHealth, currentHealth);
 	}
+    
+    public ComputerLane getComputerLane(){
+        return this.computerLane;
+    }
 }

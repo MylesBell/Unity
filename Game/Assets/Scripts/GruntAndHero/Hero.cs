@@ -134,6 +134,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         gameObject.GetComponent<HeroMovement>().setComputerLane(computerLane);
         setTextMeshDirection(computerLane);
         CmdSetTextMeshDirection(computerLane);
+        gameObject.GetComponent<DamageText>().SetComputerLane(computerLane);
         setHeroName(playerName);
     }
     
@@ -156,6 +157,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<HeroMovement>().initialiseMovement(desiredPosition);
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
             setComputerLane(newLane);
+            SocketIOOutgoingEvents.PlayerSwitchLaneHandler(playerID , newLane);
         }
     }
     

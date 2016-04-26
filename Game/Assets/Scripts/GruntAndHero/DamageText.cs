@@ -10,28 +10,43 @@ public class DamageText : NetworkBehaviour {
     private LinkedList<GameObject> inUseDamageTexts = new LinkedList<GameObject>();
     
     private ComputerLane computerLane;
-	
+    
 	public void InitialiseDamageText(ComputerLane computerLane){
-        this.computerLane = computerLane;
-        RpcSetComputerLane(computerLane);
-		InitialiseDamageTextPool();
+        // when pool not initialised
+        if (availableDamageTexts.Count == 0 && inUseDamageTexts.Count == 0){
+		    InitialiseDamageTextPool(computerLane);    
+        }else{
+            ResetDamageTextPool();
+        }
 	}
+    
+    public void SetComputerLane(ComputerLane computerLane){
+        RpcSetComputerLane(computerLane);
+    }
     
     [ClientRpc]
     private void RpcSetComputerLane(ComputerLane computerLane){
         this.computerLane = computerLane;
     }
 	
-	public void Play(float damage){ 
+	public void Play(float change){
 		GameObject damageTextObject = GetDamageText();
         damageTextObject.SetActive(true);
-        RpcPlay(damage, damageTextObject);
+        RpcPlay(change, damageTextObject);
     }
     
     [ClientRpc]
-    public void RpcPlay(float damage, GameObject damageTextObject) {
+    public void RpcPlay(float change, GameObject damageTextObject) {
         damageTextObject.SetActive(true);
-        damageTextObject.GetComponent<TextMesh>().text = damage.ToString();
+        
+        // set colour for increase or decrease
+        if (change > 0){
+            damageTextObject.GetComponent<TextMesh>().color = Color.green;
+        }else{
+            damageTextObject.GetComponent<TextMesh>().color = Color.red;
+        }
+        
+        damageTextObject.GetComponent<TextMesh>().text = Mathf.Abs(Mathf.Round(change)).ToString();
         damageTextObject.GetComponent<Animator>().SetTrigger("Damage");
         if (gameObject.activeSelf == true) StartCoroutine(ReturnDamageTextToPool(damageTextObject));
     }
@@ -48,7 +63,7 @@ public class DamageText : NetworkBehaviour {
     }
     
 	// fix the rotation
-    void LateUpdate(){
+    void Update(){
         foreach (GameObject damageTextObject in inUseDamageTexts){
             RpcSetRotation(damageTextObject);
         }
@@ -59,7 +74,13 @@ public class DamageText : NetworkBehaviour {
         damageTextObject.transform.rotation = (computerLane == ComputerLane.RIGHT)? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
     }
     
-    private void InitialiseDamageTextPool() {
+    public void InitialiseDamageTextPool(ComputerLane computerLane) {
+        availableDamageTexts = new LinkedList<GameObject>();
+        inUseDamageTexts = new LinkedList<GameObject>();
+        
+        this.computerLane = computerLane;
+        RpcSetComputerLane(computerLane);
+        
         for(int i = 0; i < damageTextPoolSize; i++) {
             GameObject damageText = InitDamageText();
             damageText.SetActive(false);
@@ -67,12 +88,25 @@ public class DamageText : NetworkBehaviour {
         }
     }
     
+    
+    private void ResetDamageTextPool(){
+        // clear not used pool and set inactive
+        lock (availableDamageTexts) {
+            while(inUseDamageTexts.Count > 0){
+                GameObject damageTextObject = inUseDamageTexts.First.Value;
+                damageTextObject.SetActive(false);
+                inUseDamageTexts.RemoveFirst();
+                availableDamageTexts.AddLast(damageTextObject);
+            }
+        }
+    }
+    
     private GameObject InitDamageText(){   
         GameObject damageTextObject = (GameObject) Instantiate(damageTextPrefab, gameObject.transform.position,
             damageTextPrefab.transform.rotation);
         NetworkServer.Spawn(damageTextObject);
-        RpcSetParent(damageTextObject, gameObject);
         
+        RpcSetParent(damageTextObject, gameObject);        
         damageTextObject.transform.parent = gameObject.transform;
         float height = gameObject.GetComponent<BoxCollider>().size.y / 2;
         damageTextObject.transform.localPosition = new Vector3(0, height, 0);
