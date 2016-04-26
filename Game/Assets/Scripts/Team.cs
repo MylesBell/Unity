@@ -196,7 +196,7 @@ public class Team : NetworkBehaviour {
     private void TowerSpawnGrunts(Tower tower){
         GameObject grunt = getGrunt();
         float zPos = tower.transform.position.z;
-        float xStartPos = tower.transform.position.x + (teamID == TeamID.blue ? 10 : -10);
+        float xStartPos = tower.transform.position.x + (teamID == TeamID.blue ? 6 : -6);
         grunt.GetComponent<Grunt>().ResetGameObject(new Vector3(xStartPos,0,zPos), tower.computerLane);
     }
 
