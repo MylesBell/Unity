@@ -96,7 +96,7 @@ public class CreateTerrain : NetworkBehaviour
         //only generate the long path grid ONCE on the client, after it has recieved all of the scenery or game has started
         if(!isServer && !generatedPathfinder && objectsToRecieve > 0) {
             lock(objectsRecievedLock){
-                if(objectsToRecieve == objectsRecieved || GameState.instance.networkGameState == GameState.State.PLAYING){
+                if(GameState.instance.networkGameState == GameState.State.PLAYING){
                     ComputerLane computerLane = GraniteNetworkManager.lane;
                     int screenNumber = GraniteNetworkManager.screeNumber;
                     GenerateLongPathGrid(screenNumber, screensRequested, computerLane);
@@ -255,18 +255,25 @@ public class CreateTerrain : NetworkBehaviour
         //first check if this z_pos is on the tunnel side or not
         bool tunnelSide = (computerLane == ComputerLane.LEFT && z_pos < z_min)
                           || (computerLane == ComputerLane.RIGHT && z_pos > z_max);
+        bool towerZ = (computerLane == ComputerLane.LEFT && z_pos > 240 && z_pos < 260)
+                          || (computerLane == ComputerLane.RIGHT && z_pos > 40 && z_pos < 60);
         bool isTunnel = GetTerrainIndex(numScreens, screenNumber) == 0 
                     || screenNumber == 0 || screenNumber == numScreens - 1;
-        if(MultipleLanes && isTunnel && tunnelSide) {
+        if(MultipleLanes && isTunnel) {
             //Find a point that is not between A and B so that it's not in the tunnel
-            float A, B;
-            if(screenNumber == 0){
-                A = 56;
-                B = 76;
-            } else if (screenNumber == numScreens - 1){
-                A = 24;
-                B = 44;
-            } else {
+            float A = 100, B = 0;
+            if(tunnelSide) {
+                if(screenNumber == 0){
+                    A = 56;
+                    B = 76;
+                } else if (screenNumber == numScreens - 1){
+                    A = 24;
+                    B = 44;
+                } else {
+                    A = 40;
+                    B = 60;
+                }
+            }  else if (Towers.IsTower(numScreens, screenNumber) && towerZ){
                 A = 40;
                 B = 60;
             }

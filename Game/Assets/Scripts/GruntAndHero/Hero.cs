@@ -50,7 +50,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         transform.FindChild("HeroName").gameObject.GetComponent<NameHero>().setTextRotation(computerLane == ComputerLane.RIGHT ? new Vector3(0,0,0) : new Vector3(0,180,0));
     }
 
-    public void ResetGameObject(Vector3 spawnLocation, Vector3 desiredPosition, ComputerLane computerLane) {
+    public void ResetGameObject(Vector3 spawnLocation, ComputerLane computerLane) {
         if (isServer) {
             active = true;
             gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
@@ -61,7 +61,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<Stats>().ResetKillStreak();
 
             targetSelect = GetComponent<TargetSelect>();
-            targetSelect.InitialiseTargetSelect (team.GetTeamID(), desiredPosition);
+            targetSelect.InitialiseTargetSelect (team.GetTeamID(), spawnLocation);
             gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
             gameObject.SetActive(active);
             CmdSetActiveState(active);
