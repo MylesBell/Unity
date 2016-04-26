@@ -16,12 +16,7 @@ public class Invisibility : Special
     {
         currentScale = new Vector3(1.0f, 1.0f, 0);
         transform.localPosition = new Vector3(0,0,0);
-        foreach (Transform child in transform.parent) {
-            if (child.tag == "originalModel")
-                originalModel = child.gameObject;
-            if (child.tag == "decoyModel")
-                decoyModel = child.gameObject;
-        }
+        RpcFindModels();
         teams = GameObject.FindGameObjectWithTag("GameController").GetComponent<Teams>();
     }
 
@@ -44,6 +39,16 @@ public class Invisibility : Special
         stats.movementSpeed = 10;
         RpcPlayInvisibiltySystem();
         CmdSetNotAttackable();
+    }
+    
+    [ClientRpc]
+    public void RpcFindModels() {
+        foreach (Transform child in transform.parent) {
+            if (child.tag == "originalModel")
+                originalModel = child.gameObject;
+            if (child.tag == "decoyModel")
+                decoyModel = child.gameObject;
+        }
     }
     
     [ClientRpc]

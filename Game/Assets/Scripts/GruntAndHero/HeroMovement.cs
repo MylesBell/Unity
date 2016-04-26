@@ -9,7 +9,8 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 {
     private TargetSelect targetSelect;
 	private Stats stats;
-    private Animator animator;
+    public Animator[] animators;
+    public int animatorLength = 1;
     
     // private LayerMask terrainMask = 256;
     
@@ -29,9 +30,10 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     }
     
     public void GetAnimator() {
-        if (animator == null)
-            animator = GetComponentInChildren<Animator>();
-        animator.enabled = true;
+        if (animators.Length != animatorLength)
+            animators = GetComponentsInChildren<Animator>();
+        foreach (Animator animator in animators)
+            animator.enabled = true;
     }
 
     public void initialiseMovement(Vector3 position) {
@@ -58,23 +60,29 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     [ClientRpc]
     public void RpcResetAnimator() {
         GetAnimator();
-        animator.SetBool("Victory", false);                    
-        animator.SetBool("Defeat", false); 
+        foreach (Animator animator in animators) {        
+            animator.SetBool("Victory", false);                    
+            animator.SetBool("Defeat", false); 
+        }
     }
    
     
     public void SetAnimatorSpeed(float speed) {
         GetAnimator();
-        animator.SetFloat("Speed", speed);       
+        foreach (Animator animator in animators)        
+            animator.SetFloat("Speed", speed);       
     }
     
     [ClientRpc]
     public void RpcSetEndAnim(TeamID teamID) {
         GetAnimator();
-        if (teamID == GameState.winningTeam)
-            animator.SetBool("Victory", true);
-        else
-            animator.SetBool("Defeat", true);
+        if (teamID == GameState.winningTeam) {
+            foreach (Animator animator in animators)
+                animator.SetBool("Victory", true);
+        } else {
+            foreach (Animator animator in animators)
+                animator.SetBool("Defeat", true);
+        }
     }
 
     void FixedUpdate(){

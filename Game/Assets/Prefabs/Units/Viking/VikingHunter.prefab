@@ -1148,9 +1148,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LevelUpPrefab: {fileID: 107012, guid: 17642ab7f179c42509bd15ccbb2bf62e, type: 2}
   specialFiles:
-  - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+  - prefab: {fileID: 165140, guid: a50ab2a415d7249cf88cc4c77763bb35, type: 2}
     identifier: 0
-  - prefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+  - prefab: {fileID: 165140, guid: 1b8b3bb5b35ae4157b5f17172681365d, type: 2}
     identifier: 6
   - prefab: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
     identifier: 11
@@ -1259,6 +1259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e84da38144544bb8b00f6fb47760d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animators: []
+  animatorLength: 1
   moveDirection: 8
   currentMovement: {x: 0, y: 0, z: 0}
   testSpeed: 0
@@ -1607,11 +1609,11 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[0].prefab
       value: 
-      objectReference: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
+      objectReference: {fileID: 165140, guid: a50ab2a415d7249cf88cc4c77763bb35, type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[1].prefab
       value: 
-      objectReference: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+      objectReference: {fileID: 165140, guid: 1b8b3bb5b35ae4157b5f17172681365d, type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[2].prefab
       value: 
