@@ -80,7 +80,7 @@ public class BombDrop : Special
                 if (CheckColliderWantsToAttack(collider)){
                     bool killedObject;
                     if (collider.gameObject.tag.Equals(specials.attackBaseTag)){
-                        collider.gameObject.GetComponent<BaseHealth>().ReduceHealth(damage, out killedObject);
+                        collider.gameObject.GetComponent<BaseHealth>().ReduceHealth(2*damage, out killedObject);
                     }else{
                         ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
                     }
