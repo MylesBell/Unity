@@ -1158,6 +1158,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  unitAttackIncreasePrefab: {fileID: 150224, guid: 8a5ae15d62e5f45a597b5e73277dd1ec,
+    type: 2}
+  unitDefenceIncreasePrefab: {fileID: 168854, guid: f5d047f2adbcc4497b11d3e72321ed2d,
+    type: 2}
   attackEffectPrefab: {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 2}
 --- !u!114 &11470792
 MonoBehaviour:
@@ -1367,6 +1371,14 @@ Prefab:
       propertyPath: movementAcceleration
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: unitAttackIncreasePrefab
+      value: 
+      objectReference: {fileID: 150224, guid: 8a5ae15d62e5f45a597b5e73277dd1ec, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitDefenceIncreasePrefab
+      value: 
+      objectReference: {fileID: 168854, guid: f5d047f2adbcc4497b11d3e72321ed2d, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 117070}

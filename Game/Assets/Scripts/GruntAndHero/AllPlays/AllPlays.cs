@@ -5,10 +5,14 @@ public class AllPlays : NetworkBehaviour {
     
     // prefabs
     public GameObject unitSlowDownPrefab;
+    public GameObject unitAttackIncreasePrefab;
+    public GameObject unitDefenceIncreasePrefab;
     public GameObject attackEffectPrefab;
     
     // all play objects 
     private AllPlay slowDown;
+    private AllPlay attackIncrease;
+    private AllPlay defenceIncrease;
     private AllPlay attackEffect;
     
     void Start() {
@@ -18,6 +22,8 @@ public class AllPlays : NetworkBehaviour {
     public void InitialiseAllPlays(){
         // init all allPlay objects
         slowDown = createAllPlay(unitSlowDownPrefab);
+        attackIncrease = createAllPlay(unitAttackIncreasePrefab);
+        defenceIncrease = createAllPlay(unitDefenceIncreasePrefab);
         attackEffect = createAllPlay(attackEffectPrefab);
     }
     
@@ -39,6 +45,14 @@ public class AllPlays : NetworkBehaviour {
     // methods to use allplays
     public void SlowDown(params float[] input){
         slowDown.Use(input);
+    }
+    
+    public void AttackIncrease(params float[] input){
+        attackIncrease.Use(input);
+    }
+    
+    public void DefenceIncrease(params float[] input){
+        defenceIncrease.Use(input);
     }
     
     public void AttackEffect(params float[] input){

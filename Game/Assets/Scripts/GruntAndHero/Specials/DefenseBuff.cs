@@ -4,8 +4,10 @@ using UnityEngine.Networking;
 
 public class DefenseBuff : Special
 {   
-    public float defenseIncrease = 0.5f;
-    private float originalDefense;
+    public float defenceIncrease = 0.5f;
+    public float defenceIncreaseRadius = 10.0f;
+    public float defenceIncreaseTime = 10.0f;
+    private float originalDefence;
     
     override public void InitialiseSpecial(float height)
     {
@@ -15,31 +17,57 @@ public class DefenseBuff : Special
 
     override public void ResetSpecial()
     {
-        defenseIncrease = 0.5f;
+        defenceIncrease = 0.5f;
     }
 
     override public void UpgradeSpecial()
     {
-        defenseIncrease += 0.5f;
+        defenceIncrease += 0.5f;
     }
-
+    
     override public void UseSpecial()
     {
-        originalDefense = stats.damage;
-        gameObject.SetActive(true);
-        RpcPlayDefenseBuffSystem();
+        CmdRadialIncreaseDefence(defenceIncreaseRadius);
+    }
+
+    [Command]
+    private void CmdRadialIncreaseDefence(float radius) {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+        foreach(Collider collider in hitColliders) {
+            Debug.Log(collider.tag);
+            if (CheckColliderIsOnOwnTeam(collider)){
+                AllPlays allPlays = collider.gameObject.GetComponent<AllPlays>();
+                allPlays.DefenceIncrease(new float[2]{defenceIncrease, defenceIncreaseTime});
+            }
+        }
     }
     
-    [ClientRpc]
-    public void RpcPlayDefenseBuffSystem() {
-        stats.damage += defenseIncrease;
-        gameObject.SetActive(true);
-        StartCoroutine(PlayDefenseBuffSystem());
+    private bool CheckColliderIsOnOwnTeam(Collider collider){
+        // check gameobejct exists first (aka not default)
+        if (!collider.gameObject.Equals(default(GameObject))) {
+            return collider.gameObject.tag.Equals(specials.ownGruntTag) || collider.gameObject.tag.Equals(specials.ownHeroTag);
+        }
+        
+        return false;
     }
+
+    // override public void UseSpecial()
+    // {
+    //     originalDefense = stats.damage;
+    //     gameObject.SetActive(true);
+    //     RpcPlayDefenseBuffSystem();
+    // }
     
-    IEnumerator PlayDefenseBuffSystem(){
-        yield return new WaitForSeconds(5.0f);
-        gameObject.SetActive(false);
-        stats.damage = originalDefense;
-    }
+    // [ClientRpc]
+    // public void RpcPlayDefenseBuffSystem() {
+    //     stats.damage += defenseIncrease;
+    //     gameObject.SetActive(true);
+    //     StartCoroutine(PlayDefenseBuffSystem());
+    // }
+    
+    // IEnumerator PlayDefenseBuffSystem(){
+    //     yield return new WaitForSeconds(5.0f);
+    //     gameObject.SetActive(false);
+    //     stats.damage = originalDefense;
+    // }
 }

@@ -4,15 +4,24 @@ using UnityEngine.Networking;
 
 public class Invisibility : Special
 {   
+    public GameObject originalModel;
+    public GameObject decoyModel;
     public float invisibilityTime = 10.0f;
     
     private Team enemyTeam = null;
     private Teams teams;
+    private float originalSpeed;
     
     override public void InitialiseSpecial(float height)
     {
         currentScale = new Vector3(1.0f, 1.0f, 0);
-        transform.localPosition = new Vector3(0,height,0);
+        transform.localPosition = new Vector3(0,0,0);
+        foreach (Transform child in transform.parent) {
+            if (child.tag == "originalModel")
+                originalModel = child.gameObject;
+            if (child.tag == "decoyModel")
+                decoyModel = child.gameObject;
+        }
         teams = GameObject.FindGameObjectWithTag("GameController").GetComponent<Teams>();
     }
 
@@ -29,6 +38,10 @@ public class Invisibility : Special
     override public void UseSpecial()
     {
         gameObject.SetActive(true);
+        originalModel.SetActive(false);
+        decoyModel.SetActive(true);
+        originalSpeed = stats.movementSpeed;
+        stats.movementSpeed = 10;
         RpcPlayInvisibiltySystem();
         CmdSetNotAttackable();
     }
@@ -36,14 +49,19 @@ public class Invisibility : Special
     [ClientRpc]
     public void RpcPlayInvisibiltySystem() {
         gameObject.SetActive(true);
+        originalModel.SetActive(false);
+        decoyModel.SetActive(true);
         StartCoroutine(PlayInvisibiltySystem());
     }
     
     IEnumerator PlayInvisibiltySystem(){
         yield return new WaitForSeconds(invisibilityTime);
         gameObject.SetActive(false);
+        originalModel.SetActive(true);
+        decoyModel.SetActive(false);
         if (isServer){
             SetAttackable();
+            stats.movementSpeed = originalSpeed;
         }
     }
     
