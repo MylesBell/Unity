@@ -36,7 +36,7 @@ public class Towers : NetworkBehaviour {
 		}
 	}
 	
-    private bool IsTower(int numScreens, int screenNum) {
+    public static bool IsTower(int numScreens, int screenNum) {
         // Calculating whether to have a tunnel screen or not
 		bool isTower;
         if (numScreens % 2 == 0) {
@@ -51,11 +51,10 @@ public class Towers : NetworkBehaviour {
             // Odd number of screens so every other screen is fine
             isTower = screenNum % 2 == 0;
         }
-		// dont show base screen
-		if (screenNum == 0 || screenNum == numScreens){
-			// isTower = false;
+		// dont have tower on base screen, if more than 2 screens
+		if ((screenNum == 0 || screenNum == numScreens - 1) && numScreens != 2){
+			isTower = false;
 		}
-		Debug.Log(isTower);
         return isTower;
     }
 }

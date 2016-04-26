@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 411894}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Character1_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23,7 +23,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 494188}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 417214}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 441114}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_heroRNfosterParent1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 428720}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 403906}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 426632}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:transform2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 468172}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 499758}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: transform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - 4: {fileID: 464394}
   - 33: {fileID: 3395016}
   - 23: {fileID: 2301786}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 429576}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pCylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 402770}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pCylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 432744}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 478656}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube15 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 402092}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Neutral
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 475162}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pSphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 457748}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:pCube11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +265,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 481574}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pCylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 456246}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cowboy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 419544}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +310,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 458326}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:transform3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +325,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 476814}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +340,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 452638}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 407326}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -370,7 +370,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 483964}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero2:transform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +385,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 490436}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,7 +400,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 498170}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: transform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,7 +415,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 499960}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -430,7 +430,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 461396}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pCylinder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 460710}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +460,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 459894}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -475,7 +475,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 472942}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +490,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 454612}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:transform5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +507,7 @@ GameObject:
   - 4: {fileID: 409592}
   - 33: {fileID: 3357946}
   - 23: {fileID: 2379096}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero2:pCube15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 495492}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:transform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -537,7 +537,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 472722}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Character1_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -552,7 +552,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 452886}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +567,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 429654}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -582,7 +582,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 402776}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_heroRNfosterParent1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -597,7 +597,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 405058}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -612,7 +612,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 434856}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -627,7 +627,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 474556}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pSphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -642,7 +642,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 411580}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pSphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -657,7 +657,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 492748}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: transform2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -672,7 +672,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 484836}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -687,7 +687,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 436222}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:pCube10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,7 +702,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 496630}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube15 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,7 +717,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 423996}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:pCylinder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -732,7 +732,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 444702}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -747,7 +747,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 424606}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: transform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -762,7 +762,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 484532}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Character1_Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -777,7 +777,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 416712}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: group1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -792,7 +792,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 499666}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -807,7 +807,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 460090}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -822,7 +822,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 458904}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero2:transform2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -837,7 +837,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 428370}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pCylinder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,7 +852,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 403312}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -867,7 +867,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 404690}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pSphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -882,7 +882,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 403674}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pSphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -897,7 +897,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 483504}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -912,7 +912,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 441320}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Viking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -927,7 +927,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 480078}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -942,7 +942,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 478866}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCylinder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -957,7 +957,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 413070}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCylinder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -975,7 +975,7 @@ GameObject:
   - 114: {fileID: 11401584}
   - 114: {fileID: 11417328}
   - 136: {fileID: 13603782}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -990,7 +990,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 426958}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: transform2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1005,7 +1005,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 432212}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCylinder3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1020,7 +1020,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 405832}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1035,7 +1035,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 499410}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:transform4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1050,7 +1050,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 458792}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:pSphere1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1065,7 +1065,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 434806}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Character1_Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1082,7 +1082,7 @@ GameObject:
   - 4: {fileID: 465006}
   - 33: {fileID: 3395216}
   - 23: {fileID: 2323788}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: pCylinder2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1097,7 +1097,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 498204}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCylinder3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1112,7 +1112,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 471412}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:pCylinder1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1127,7 +1127,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 456798}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:transform3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1142,7 +1142,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 414492}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: cowboy_hero1:pCube11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1157,7 +1157,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 440972}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: transform2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1172,7 +1172,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 496982}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: viking_hero1:pCylinder3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2342,6 +2342,7 @@ MonoBehaviour:
   neutralTower: {fileID: 118778}
   cowboyTower: {fileID: 122626}
   vikingTower: {fileID: 181154}
+  computerLane: 0
 --- !u!136 &13603782
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -2374,6 +2375,10 @@ Prefab:
       propertyPath: vikingTower
       value: 
       objectReference: {fileID: 181154}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 184692}

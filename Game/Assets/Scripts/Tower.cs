@@ -33,7 +33,7 @@ public class Tower : NetworkBehaviour {
 	public GameObject cowboyTower;
 	public GameObject vikingTower;
 	
-	public ComputerLane computerLane;
+	[SyncVar] public ComputerLane computerLane;
 	
 	private Team blueTeam;
 	private Team redTeam;
