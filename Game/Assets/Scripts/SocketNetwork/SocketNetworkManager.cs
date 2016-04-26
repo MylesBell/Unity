@@ -206,7 +206,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
         JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
         dataJSON.AddField("playerID", playerID);
         dataJSON.AddField("lane", (int)computerLane);
-        socket.Emit ("gamePlayerLevelUp", dataJSON);
+        socket.Emit ("gamePlayerSwitchLane", dataJSON);
 	}
     
 	public void CloseHandler(SocketIOEvent e)
