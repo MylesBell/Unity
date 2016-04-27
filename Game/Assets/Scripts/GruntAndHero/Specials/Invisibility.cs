@@ -6,7 +6,7 @@ public class Invisibility : Special
 {   
     public GameObject originalModel;
     public GameObject decoyModel;
-    public float invisibilityTime = 10.0f;
+    public float invisibilityTime = 8.0f;
     
     private Team enemyTeam = null;
     private Teams teams;

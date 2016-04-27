@@ -8,17 +8,13 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 459296}
-  - 33: {fileID: 3360830}
-  - 23: {fileID: 2317856}
-  - 135: {fileID: 13524940}
-  - 54: {fileID: 5405000}
   - 198: {fileID: 19896636}
   - 199: {fileID: 19971326}
   - 114: {fileID: 11413426}
-  - 114: {fileID: 11400728}
+  - 114: {fileID: 11484812}
   - 114: {fileID: 11442214}
   m_Layer: 0
-  m_Name: Bomb
+  m_Name: Bezerker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,72 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2317856
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138532}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 2100000, guid: 10a557eb1ea504256b513834502b981f, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
---- !u!33 &3360830
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138532}
-  m_Mesh: {fileID: 4300000, guid: e81266acf4c604f66a41915150162463, type: 3}
---- !u!54 &5405000
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138532}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
---- !u!114 &11400728
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a3e2ebd5ffde492789438ef4a0b9526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  specials: {fileID: 0}
-  stats: {fileID: 0}
-  currentScale: {x: 0, y: 0, z: 0}
-  original: {fileID: 2100000, guid: 10a557eb1ea504256b513834502b981f, type: 2}
-  flash: {fileID: 2100000, guid: 64aa880ec765246d3bd4df8d1d42a519, type: 2}
-  ringRadius: 6
-  damageAmount: 100
 --- !u!114 &11413426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,22 +46,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 80
-    i1: 117
-    i2: 109
-    i3: 162
-    i4: 222
-    i5: 58
-    i6: 196
-    i7: 174
-    i8: 250
-    i9: 154
-    i10: 35
-    i11: 234
-    i12: 57
-    i13: 127
-    i14: 61
-    i15: 79
+    i0: 86
+    i1: 90
+    i2: 196
+    i3: 214
+    i4: 196
+    i5: 94
+    i6: 52
+    i7: 57
+    i8: 187
+    i9: 131
+    i10: 158
+    i11: 241
+    i12: 148
+    i13: 167
+    i14: 195
+    i15: 86
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &11442214
@@ -145,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
+  m_TransformSyncMode: 1
   m_SendInterval: .100000001
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
@@ -154,18 +84,23 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!135 &13524940
-SphereCollider:
+--- !u!114 &11484812
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138532}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb32d6e68b424302829132798e1d874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specials: {fileID: 0}
+  stats: {fileID: 0}
+  currentScale: {x: 0, y: 0, z: 0}
+  model: {fileID: 0}
+  ringRadius: 8
+  damageAmount: 200
 --- !u!198 &19896636
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1349,8 +1284,16 @@ Prefab:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: m_TransformSyncMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: damageAmount
-      value: 100
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ringRadius
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

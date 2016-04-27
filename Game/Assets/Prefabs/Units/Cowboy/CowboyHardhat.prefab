@@ -11,7 +11,7 @@ GameObject:
   - 95: {fileID: 9543754}
   m_Layer: 10
   m_Name: cowboy_hero_skinned
-  m_TagString: Untagged
+  m_TagString: originalModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -996,6 +996,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e84da38144544bb8b00f6fb47760d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animators: []
+  animatorLength: 1
   moveDirection: 8
   currentMovement: {x: 0, y: 0, z: 0}
   testSpeed: 0
@@ -1062,7 +1064,7 @@ MonoBehaviour:
     identifier: 0
   - prefab: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
     identifier: 11
-  - prefab: {fileID: 168854, guid: 8efdbc8b0774e470c84df109bea2610f, type: 2}
+  - prefab: {fileID: 138532, guid: 565ac4d6c45e3439bb839ef194a7c356, type: 2}
     identifier: 3
   chosenNumbers: 
   attackGruntTag: 
@@ -1382,6 +1384,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 138532, guid: 565ac4d6c45e3439bb839ef194a7c356, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: originalModel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
