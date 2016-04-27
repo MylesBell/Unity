@@ -1368,9 +1368,9 @@ MonoBehaviour:
   - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
     identifier: 0
   - prefab: {fileID: 165140, guid: a50ab2a415d7249cf88cc4c77763bb35, type: 2}
-    identifier: 6
+    identifier: 2
   - prefab: {fileID: 165140, guid: 1b8b3bb5b35ae4157b5f17172681365d, type: 2}
-    identifier: 11
+    identifier: 1
   chosenNumbers: 
   attackGruntTag: 
   attackHeroTag: 
@@ -1667,11 +1667,11 @@ Prefab:
         type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[1].identifier
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[2].identifier
-      value: 11
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementAcceleration

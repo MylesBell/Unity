@@ -1237,7 +1237,7 @@ MonoBehaviour:
   - prefab: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
     identifier: 11
   - prefab: {fileID: 138532, guid: 565ac4d6c45e3439bb839ef194a7c356, type: 2}
-    identifier: 3
+    identifier: 12
   chosenNumbers: 
   attackGruntTag: 
   attackHeroTag: 
@@ -1402,6 +1402,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: originalModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: specialFiles.Array.data[2].identifier
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
