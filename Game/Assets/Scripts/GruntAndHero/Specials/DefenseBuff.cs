@@ -50,24 +50,4 @@ public class DefenseBuff : Special
         
         return false;
     }
-
-    // override public void UseSpecial()
-    // {
-    //     originalDefense = stats.damage;
-    //     gameObject.SetActive(true);
-    //     RpcPlayDefenseBuffSystem();
-    // }
-    
-    // [ClientRpc]
-    // public void RpcPlayDefenseBuffSystem() {
-    //     stats.damage += defenseIncrease;
-    //     gameObject.SetActive(true);
-    //     StartCoroutine(PlayDefenseBuffSystem());
-    // }
-    
-    // IEnumerator PlayDefenseBuffSystem(){
-    //     yield return new WaitForSeconds(5.0f);
-    //     gameObject.SetActive(false);
-    //     stats.damage = originalDefense;
-    // }
 }

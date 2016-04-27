@@ -158,23 +158,23 @@ public class Team : NetworkBehaviour {
 
     public void CreatePlayer(string playerID, string playerName) {
         int index = Random.Range(0,HeroPrefabs.Length);
-        switch (playerName.ToLower())
-        {
-            case "hunter":
-                index = 0;
-                break;
-            case "healer":
-                index = 1;
-                break;
-            case "hardhat":
-                index = 2;
-                break;
-            case "hitman":
-                index = 3;
-                break;
-            default:
-                break;
-        }
+        // switch (playerName.ToLower())
+        // {
+        //     case "hunter":
+        //         index = 0;
+        //         break;
+        //     case "healer":
+        //         index = 1;
+        //         break;
+        //     case "hardhat":
+        //         index = 2;
+        //         break;
+        //     case "hitman":
+        //         index = 3;
+        //         break;
+        //     default:
+        //         break;
+        // }
         GameObject hero = unitFactory.CreateHero(HeroPrefabs[index]);
         
         hero.GetComponent<Hero>().InitialiseGameObject(this);        
