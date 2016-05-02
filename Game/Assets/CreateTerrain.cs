@@ -27,6 +27,7 @@ public class CreateTerrain : NetworkBehaviour
     [System.Serializable]
     public class NetworkTreeMessage : MessageBase {
         public int index;
+        public float snowLevel;
         public Vector3 position;
         public Quaternion rotation;
         public Vector3 scale;
@@ -220,11 +221,16 @@ public class CreateTerrain : NetworkBehaviour
             Quaternion rotation = Quaternion.Euler(0.0f,Random.Range(0,360),0.0f);
             Vector3 scale = new Vector3(Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f));
 
+           float snowLevel = screenNumber > numScreens/2 ? 
+                  (screenNumber - (numScreens / 2)) / (float)(numScreens- (numScreens/2)) :
+                  0.0f;
+
             //spawn on server
-            scenerySpawner(index, position, rotation, scale);
+            scenerySpawner(index, snowLevel, position, rotation, scale);
             //create a message for the client
             NetworkTreeMessage msg = new NetworkTreeMessage();
             msg.index = index;
+            msg.snowLevel = snowLevel;
             msg.position = position;
             msg.rotation = rotation;
             msg.scale = scale;
@@ -351,7 +357,7 @@ public class CreateTerrain : NetworkBehaviour
         //recieve message and spawn on client
         Debug.Log("Client received message");
         NetworkTreeMessage msg = netMsg.ReadMessage<NetworkTreeMessage>();
-        scenerySpawner(msg.index, msg.position, msg.rotation, msg.scale);
+        scenerySpawner(msg.index, msg.snowLevel, msg.position, msg.rotation, msg.scale);
         lock(objectsRecievedLock){
             objectsRecieved++;
         }
@@ -362,9 +368,19 @@ public class CreateTerrain : NetworkBehaviour
         objectsToRecieve = msg.numberOfElements;
     }
 
-    GameObject scenerySpawner(int index, Vector3 position, Quaternion rotation, Vector3 scale){
+    GameObject scenerySpawner(int index, float snowLevel, Vector3 position, Quaternion rotation, Vector3 scale){
         GameObject scenery = (GameObject)Instantiate(sceneryObjects[index], position, rotation);
         scenery.transform.localScale = scale;
+        if (snowLevel > 0.0f) {
+            if (scenery.tag == "snowy") {
+                scenery.GetComponent<Renderer>().material.SetFloat("_Snow", snowLevel);
+            }
+            foreach (Transform child in scenery.transform) {
+                if (child.tag == "snowy") {
+                    child.gameObject.GetComponent<Renderer>().material.SetFloat("_Snow", snowLevel);                    
+                }
+            }
+        }
         return scenery;
     }
 }

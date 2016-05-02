@@ -12,6 +12,7 @@ TagManager:
   - redHero
   - musicPlayer
   - terrainSpawner
+  - snowy
   layers:
   - Default
   - TransparentFX
