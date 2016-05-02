@@ -58,4 +58,11 @@ public class AllPlays : NetworkBehaviour {
     public void AttackEffect(params float[] input){
         attackEffect.Use(input);
     }
+    
+    public void KillAll() {
+        slowDown.Kill();
+        attackIncrease.Kill();
+        defenceIncrease.Kill();
+        attackEffect.Kill();
+    }
 }

@@ -41,6 +41,25 @@ public class Invisibility : Special
         CmdSetNotAttackable();
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        originalModel.SetActive(true);
+        decoyModel.SetActive(false);
+        gameObject.SetActive(false);
+        transform.parent.gameObject.GetComponent<HeroMovement>().SwitchAnimator(originalModel.GetComponent<Animator>());
+        transform.parent.gameObject.GetComponent<Attack>().SwitchAnimator(originalModel.GetComponent<Animator>());
+        transform.parent.gameObject.GetComponent<Hero>().SwitchAnimator(originalModel.GetComponent<Animator>());
+        if (isServer){
+            SetAttackable();
+            stats.movementSpeed = originalSpeed;
+        }
+    }
+    
     [ClientRpc]
     public void RpcFindModels() {
         foreach (Transform child in transform.parent) {
@@ -56,6 +75,9 @@ public class Invisibility : Special
         gameObject.SetActive(true);
         originalModel.SetActive(false);
         decoyModel.SetActive(true);
+        transform.parent.gameObject.GetComponent<HeroMovement>().SwitchAnimator(decoyModel.GetComponent<Animator>());
+        transform.parent.gameObject.GetComponent<Attack>().SwitchAnimator(decoyModel.GetComponent<Animator>());
+        transform.parent.gameObject.GetComponent<Hero>().SwitchAnimator(decoyModel.GetComponent<Animator>());
         StartCoroutine(PlayInvisibiltySystem());
     }
     
@@ -64,6 +86,9 @@ public class Invisibility : Special
         gameObject.SetActive(false);
         originalModel.SetActive(true);
         decoyModel.SetActive(false);
+        transform.parent.gameObject.GetComponent<HeroMovement>().SwitchAnimator(originalModel.GetComponent<Animator>());
+        transform.parent.gameObject.GetComponent<Attack>().SwitchAnimator(originalModel.GetComponent<Animator>());
+        transform.parent.gameObject.GetComponent<Hero>().SwitchAnimator(originalModel.GetComponent<Animator>());
         if (isServer){
             SetAttackable();
             stats.movementSpeed = originalSpeed;

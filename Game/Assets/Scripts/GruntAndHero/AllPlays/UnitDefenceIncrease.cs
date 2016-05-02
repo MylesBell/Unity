@@ -26,6 +26,16 @@ public class UnitDefenceIncrease : AllPlay {
         RpcPlayDefenceIncrease(defenceIncrease, defenceIncreaseTime);
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
+    
     [Command]
     private void CmdIncreaseDefence(float defenceIncrease){
         originalDefence = stats.defense;

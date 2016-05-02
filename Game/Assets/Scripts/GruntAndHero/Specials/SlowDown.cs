@@ -32,6 +32,16 @@ public class SlowDown : Special
         CmdRadialSlowDown(slowDownRadius);
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
+    
     [ClientRpc]
     public void RpcPlaySlowDownParticleSystem() {
         gameObject.SetActive(true);

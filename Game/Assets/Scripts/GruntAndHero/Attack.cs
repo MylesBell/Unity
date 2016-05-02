@@ -9,15 +9,13 @@ public class Attack : NetworkBehaviour {
 	private float timeTillAttack;
 	
 	private Stats stats;
-	
-	void Start() {
-		animator = GetComponentInChildren<Animator>();
-        animator.enabled = true;
-	}
 
     public void initiliseAttack() {
         timeTillAttack = 0;
         target = null;
+    }
+	public void SwitchAnimator(Animator anim) {
+        animator = anim;
     }
 
 	void Update () {
@@ -31,15 +29,13 @@ public class Attack : NetworkBehaviour {
 				    AttackTarget ();
 				    timeTillAttack = stats.attackCoolDown;
 			    }
-		    } else if (animator.GetBool("Attacking")){
-				animator.SetBool("Attacking", false);
-			}
+		    }
         }
     }
 	
 	private void AttackTarget() {
 		if (targetInAttackArea()){
-			animator.SetBool("Attacking", true);
+			RpcSetAttacking(true);
             bool killedObject;
             if(target.GetComponent<BaseHealth>()){
                 target.GetComponent<BaseHealth>().ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
@@ -50,10 +46,10 @@ public class Attack : NetworkBehaviour {
             }
             if(killedObject) {
 				stats.IncrementKillStreak();
-				animator.SetBool("Attacking", false);
+				RpcSetAttacking(false);
 			}
 		} else {
-			animator.SetBool("Attacking", false);
+			RpcSetAttacking(false);
 		}
 	}
 
@@ -73,5 +69,11 @@ public class Attack : NetworkBehaviour {
 
 	public void setTarget(GameObject newTarget){
 		target = newTarget;
+	}
+
+	
+	[ClientRpc]
+	public void RpcSetAttacking(bool attacking) {
+		animator.SetBool("Attacking", attacking);
 	}
 }

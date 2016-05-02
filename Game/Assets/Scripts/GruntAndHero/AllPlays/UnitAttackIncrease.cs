@@ -26,6 +26,16 @@ public class UnitAttackIncrease : AllPlay {
         RpcPlayAttackIncrease(attackIncrease, attackIncreaseTime);
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }    
+    
     [Command]
     private void CmdIncreaseAttack(float attackIncrease){
         originalAttack = stats.damage;

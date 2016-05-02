@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -41,6 +42,15 @@ public class AlongLaneAttack : Special
         RpcPlayCrossLaneAttackSystem();
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
     
     [ClientRpc]
     public void RpcPlayCrossLaneAttackSystem() {
@@ -87,4 +97,5 @@ public class AlongLaneAttack : Special
         }
         return false;
     }
+
 }

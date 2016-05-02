@@ -18,4 +18,5 @@ public abstract class Special : NetworkBehaviour {
     public abstract void UseSpecial();
     public abstract void UpgradeSpecial();
     public abstract void ResetSpecial();
+    public abstract void Kill();
 }

@@ -25,6 +25,10 @@ public class LevelUp : Special
         gameObject.SetActive(true);
         RpcPlayLevelUp();
     }
+    
+    override public void Kill() {
+        //Intentionally left empty, level up will remain when respawned
+    }
 
     [ClientRpc]
     private void RpcPlayLevelUp() {

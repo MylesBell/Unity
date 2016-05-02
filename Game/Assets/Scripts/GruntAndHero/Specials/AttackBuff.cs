@@ -30,6 +30,16 @@ public class AttackBuff : Special
         CmdRadialIncreaseAttack(attackIncreaseRadius);
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        gameObject.SetActive(false);
+    }
+
+    
     [Command]
     private void CmdRadialIncreaseAttack(float radius) {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);

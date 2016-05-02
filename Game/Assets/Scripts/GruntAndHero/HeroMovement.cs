@@ -9,8 +9,7 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 {
     private TargetSelect targetSelect;
 	private Stats stats;
-    public Animator[] animators;
-    public int animatorLength = 1;
+    public Animator animator;
     
     // private LayerMask terrainMask = 256;
     
@@ -26,14 +25,10 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     void Start () {
         targetSelect = GetComponent<TargetSelect>();
         stats = GetComponent<Stats>();
-        GetAnimator();
     }
     
-    public void GetAnimator() {
-        if (animators.Length != animatorLength)
-            animators = GetComponentsInChildren<Animator>();
-        foreach (Animator animator in animators)
-            animator.enabled = true;
+    public void SwitchAnimator(Animator anim) {
+        animator = anim;
     }
 
     public void initialiseMovement(Vector3 position) {
@@ -59,29 +54,21 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     
     [ClientRpc]
     public void RpcResetAnimator() {
-        GetAnimator();
-        foreach (Animator animator in animators) {        
-            animator.SetBool("Victory", false);                    
-            animator.SetBool("Defeat", false); 
-        }
+        animator.SetBool("Victory", false);                    
+        animator.SetBool("Defeat", false); 
     }
    
     
     public void SetAnimatorSpeed(float speed) {
-        GetAnimator();
-        foreach (Animator animator in animators)        
-            animator.SetFloat("Speed", speed);       
+        animator.SetFloat("Speed", speed);  
     }
     
     [ClientRpc]
     public void RpcSetEndAnim(TeamID teamID) {
-        GetAnimator();
         if (teamID == GameState.winningTeam) {
-            foreach (Animator animator in animators)
-                animator.SetBool("Victory", true);
+            animator.SetBool("Victory", true);
         } else {
-            foreach (Animator animator in animators)
-                animator.SetBool("Defeat", true);
+            animator.SetBool("Defeat", true);
         }
     }
 

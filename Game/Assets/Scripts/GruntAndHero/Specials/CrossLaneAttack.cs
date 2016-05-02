@@ -40,6 +40,16 @@ public class CrossLaneAttack : Special
     }
     
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
+    
     [ClientRpc]
     public void RpcPlayCrossLaneAttackSystem() {
         transform.parent = null;        

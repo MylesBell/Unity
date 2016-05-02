@@ -158,23 +158,23 @@ public class Team : NetworkBehaviour {
 
     public void CreatePlayer(string playerID, string playerName) {
         int index = Random.Range(0,HeroPrefabs.Length);
-        // switch (playerName.ToLower())
-        // {
-        //     case "hunter":
-        //         index = 0;
-        //         break;
-        //     case "healer":
-        //         index = 1;
-        //         break;
-        //     case "hardhat":
-        //         index = 2;
-        //         break;
-        //     case "hitman":
-        //         index = 3;
-        //         break;
-        //     default:
-        //         break;
-        // }
+        switch (playerName.ToLower())
+        {
+            case "hunter":
+                index = 0;
+                break;
+            case "healer":
+                index = 1;
+                break;
+            case "hardhat":
+                index = 2;
+                break;
+            case "hitman":
+                index = 3;
+                break;
+            default:
+                break;
+        }
         GameObject hero = unitFactory.CreateHero(HeroPrefabs[index]);
         
         hero.GetComponent<Hero>().InitialiseGameObject(this);        
@@ -267,6 +267,7 @@ public class Team : NetworkBehaviour {
     }
 
     public void OnGruntDead(GameObject grunt) {
+        grunt.GetComponent<AllPlays>().KillAll();   
         lock (availableGrunts) {
             availableGrunts.AddLast(grunt);
         }
@@ -276,10 +277,13 @@ public class Team : NetworkBehaviour {
         ComputerLane computerLane = hero.GetComponent<Hero>().getComputerLane();
         string playerID = hero.GetComponent<Hero>().getplayerID();
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(computerLane), computerLane);
+        hero.GetComponent<Stats>().ResetStats();
         SocketIOOutgoingEvents.PlayerRespawn(playerID);
     }
 
     public void OnHeroDead(GameObject hero) {
+        hero.GetComponent<AllPlays>().KillAll();  
+        hero.GetComponent<Specials>().KillAll(); 
         lock (herosToRespawn) {
             herosToRespawn.Add(new Tuple<float, GameObject>(heroRespawnInterval, hero));
             string playerID = hero.GetComponent<Hero>().getplayerID();

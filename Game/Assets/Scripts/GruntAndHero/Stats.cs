@@ -27,9 +27,19 @@ public class Stats : NetworkBehaviour{
     private int nextUpgrade;
     private int level = 1;
     
+    private float originalMovementSpeed, originalDamage, originalDefense;
+    private bool statsSet;
+    
     void Start(){
         nextUpgrade = firstUpgrade;
+        if (!statsSet) {
+            originalMovementSpeed = movementSpeed;
+            originalDamage = damage;
+            originalDefense = defense;
+            statsSet = true;
+        }
     }
+    
     
     public void ResetKillStreak(){
         lock(killStreakLock){
@@ -37,6 +47,12 @@ public class Stats : NetworkBehaviour{
             // dont reset so continually more difficult to level up
             // nextUpgrade = firstUpgrade;
         }
+    }
+    
+    public void ResetStats() {
+        movementSpeed = originalMovementSpeed;
+        damage = originalDamage;
+        defense = originalDefense;
     }
     
     public int GetKillStreak(){

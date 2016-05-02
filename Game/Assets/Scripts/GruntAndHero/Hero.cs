@@ -7,7 +7,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     
     public Team team;
     public HeroClass heroClass;
-    private Animator animator;
+    public Animator animator;
 
 	private string playerID;
 	private TargetSelect targetSelect;
@@ -40,6 +40,10 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         this.playerName = playerName;
         CmdSetPlayerName(playerName);
         updateTextMesh(playerName);
+    }
+    
+    public void SwitchAnimator(Animator anim) {
+        animator = anim;
     }
 
     private void updateTextMesh(string playerName) {

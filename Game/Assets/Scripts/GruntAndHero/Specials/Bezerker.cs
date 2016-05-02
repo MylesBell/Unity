@@ -31,6 +31,22 @@ public class Bezerker : Special
         RpcPlayBezerkerSystem();
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        Renderer renderer = model.GetComponentInChildren<SkinnedMeshRenderer>();
+        foreach (Material material in renderer.materials) {
+            Color color = Color.black;
+            material.EnableKeyword("_EMISSION");
+            material.SetColor("_EmissionColor", color);
+        }
+        gameObject.SetActive(false);
+    }
+    
     [ClientRpc]
     public void RpcFindModels() {
         foreach (Transform child in transform.parent) {
@@ -62,9 +78,9 @@ public class Bezerker : Special
         particleSystem.Play();
         RadialDamage(ringRadius, damageAmount);
         stats.damage = originalDamage;
+        yield return new WaitForSeconds(1.0f);
         bool killedSelf;
         health.ReduceHealth(health.maxHealth, out killedSelf);
-        yield return new WaitForSeconds(1.0f);
         foreach (Material material in renderer.materials) {
             Color color = Color.black;
             material.EnableKeyword("_EMISSION");

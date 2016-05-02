@@ -143,4 +143,10 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
         specialTwo.ResetSpecial();
         specialThree.ResetSpecial();
     }
+    
+    public void KillAll() {
+        specialOne.Kill();
+        specialTwo.Kill();
+        specialThree.Kill();
+    }
 }

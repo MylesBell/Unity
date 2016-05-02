@@ -29,6 +29,15 @@ public class DefenseBuff : Special
     {
         CmdRadialIncreaseDefence(defenceIncreaseRadius);
     }
+    
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        gameObject.SetActive(false);
+    }
 
     [Command]
     private void CmdRadialIncreaseDefence(float radius) {

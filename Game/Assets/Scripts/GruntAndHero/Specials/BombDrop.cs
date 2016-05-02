@@ -37,6 +37,17 @@ public class BombDrop : Special
         RpcPlayBombSystem();
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        parentTransform = transform.parent;
+        gameObject.SetActive(false);
+    }
+    
     
     [ClientRpc]
     public void RpcPlayBombSystem() {
