@@ -10,9 +10,11 @@ public class GameState : NetworkBehaviour {
     
     public State networkGameState;
     public static GameState instance;
+    private static Team[] teams;
 
     // Use this for initialization
     void Start () {
+        teams = gameObject.GetComponents<Team>();
         instance = this;
         gameState = State.IDLE;
         SetText(IDLE_STRING);
@@ -46,6 +48,7 @@ public class GameState : NetworkBehaviour {
 	public static void endGame(TeamID winner) {
 		winningTeam = winner;
 		changeGameState(State.END);
+        SocketIOOutgoingEvents.SendPlayerStats(teams);
 		Debug.Log(winner + " won!\n");
 	}
 

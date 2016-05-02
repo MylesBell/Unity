@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using SocketIO;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 
@@ -12,6 +13,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 	private string portNumber = "1337";
 	public enum State { IDLE, PLAYING, END };
 	public static bool isInit = false;
+	private Team[] teams;
 
 
 	// Use this for initialization
@@ -83,6 +85,32 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 			socket.Emit ("gameStateUpdate", dataJSON);
 			break;
 		}
+	}
+	
+	public void SendPlayerStats(Team[] teams){
+		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
+		JSONObject playersStats = new JSONObject(JSONObject.Type.ARRAY);
+	
+		// for both teams
+		foreach (Team team in teams){
+			// for each hero
+			foreach (KeyValuePair<string, GameObject> hero in team.playerDict){
+				// create json object of stats and add to json array
+				JSONObject playerStats = new JSONObject(JSONObject.Type.OBJECT);
+				playerStats.AddField("playerID", hero.Key);
+				
+				Stats stats = hero.Value.GetComponent<Stats>();
+				playerStats.AddField("gruntKills", stats.gruntKills);
+				playerStats.AddField("heroKills", stats.heroKills);
+				playerStats.AddField("deaths", stats.deaths);
+				playerStats.AddField("towersCaptured", stats.towersCaptured);
+				
+				playersStats.Add(playerStats);
+			}
+		}
+		dataJSON.AddField("playersStats", playersStats);
+		socket.Emit ("gamePlayersStats", dataJSON);
+		Debug.Log(dataJSON);
 	}
 
 	public void PlayerJoinHandler(string playerID, TeamID teamID, GameState.State state, float playerMaxHealth,
@@ -163,7 +191,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
     
     public void BaseHealthHasChanged(string playerID, float maxHealth, float currentHealth)
     {
-        Debug.Log ("[SocketIO] Player health has changed");
+        Debug.Log ("[SocketIO] Base health has changed");
         JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
         dataJSON.AddField("playerID", playerID);
         dataJSON.AddField("maxHealth", maxHealth);

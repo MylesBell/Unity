@@ -42,14 +42,18 @@ public class Attack : NetworkBehaviour {
 			animator.SetBool("Attacking", true);
             bool killedObject;
             if(target.GetComponent<BaseHealth>()){
-                target.GetComponent<BaseHealth>().ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
+                target.GetComponent<BaseHealth>().ReduceHealth(stats.damage + stats.GetKills()/10, out killedObject);
             }else{
-                // attack based on hero damage, killstreak and enemy defense
-                float damageToDo = (stats.damage + stats.GetKillStreak()/10)/target.GetComponent<Stats>().defense;
+                // attack based on hero damage, kills and enemy defense
+                float damageToDo = (stats.damage + stats.GetKills()/10)/target.GetComponent<Stats>().defense;
                 target.GetComponent<Health>().ReduceHealth(damageToDo, out killedObject);
             }
             if(killedObject) {
-				stats.IncrementKillStreak();
+				if (target.GetComponent<Hero>()){
+					stats.IncrementKills(true);
+				}else{
+					stats.IncrementKills(false);
+				}
 				animator.SetBool("Attacking", false);
 			}
 		} else {

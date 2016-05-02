@@ -17,7 +17,7 @@ public class Team : NetworkBehaviour {
 
     private int numberOfHeros;
 
-    Dictionary<string, GameObject> playerDict = new Dictionary<string, GameObject>();
+    public Dictionary<string, GameObject> playerDict = new Dictionary<string, GameObject>();
     Dictionary<int, GameObject> gruntDict = new Dictionary<int, GameObject>();
     private List<Tuple<float,GameObject>> herosToRespawn = new List<Tuple<float, GameObject>>();
     private List<Tower> capturedTowers = new List<Tower>();
@@ -138,7 +138,7 @@ public class Team : NetworkBehaviour {
         //Restart heros
         foreach (KeyValuePair<string, GameObject> entry in playerDict) {
             if (entry.Value) {
-                HeroRespawn(entry.Value);
+                HeroRestart(entry.Value);
             }
         }
         
@@ -254,12 +254,22 @@ public class Team : NetworkBehaviour {
             availableGrunts.AddLast(grunt);
         }
     }
-
+    
     private void HeroRespawn(GameObject hero) {
         ComputerLane computerLane = hero.GetComponent<Hero>().getComputerLane();
-        string playerID = hero.GetComponent<Hero>().getplayerID();
+        
+        // increment deaths
+        hero.GetComponent<Stats>().deaths++;
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(computerLane), computerLane);
+        
+        // send respawn
+        string playerID = hero.GetComponent<Hero>().getplayerID();
         SocketIOOutgoingEvents.PlayerRespawn(playerID);
+    }
+    
+    private void HeroRestart(GameObject hero) {
+        HeroRespawn(hero);
+        hero.GetComponent<Stats>().ResetStats();
     }
 
     public void OnHeroDead(GameObject hero) {

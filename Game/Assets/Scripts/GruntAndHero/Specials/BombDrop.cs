@@ -84,7 +84,13 @@ public class BombDrop : Special
                     }else{
                         ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
                     }
-                    if(killedObject) stats.IncrementKillStreak();
+                    if(killedObject){
+                        if (collider.gameObject.GetComponent<Hero>()){
+                            stats.IncrementKills(true);
+                        }else{
+                            stats.IncrementKills(false);
+                        }
+                    }
                 }
             }
         }
