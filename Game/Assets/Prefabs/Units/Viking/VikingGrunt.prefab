@@ -11,7 +11,7 @@ GameObject:
   - 95: {fileID: 9585556}
   m_Layer: 10
   m_Name: viking_grunt_skinned
-  m_TagString: Untagged
+  m_TagString: originalModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -591,7 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 9585556}
 --- !u!114 &11489586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -690,7 +690,7 @@ Prefab:
       objectReference: {fileID: 411286, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: Untagged
+      value: originalModel
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarInitialLength
@@ -811,7 +811,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: animator
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9585556}
     - target: {fileID: 0}
       propertyPath: m_CullingMode
       value: 0

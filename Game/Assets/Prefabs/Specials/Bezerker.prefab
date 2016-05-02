@@ -107,7 +107,7 @@ ParticleSystem:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138532}
-  lengthInSec: .5
+  lengthInSec: 1
   startDelay: 0
   speed: 1
   randomSeed: 0
@@ -118,7 +118,7 @@ ParticleSystem:
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: .5
+      scalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -397,14 +397,14 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     cnt0: 100
-    cnt1: 30
-    cnt2: 30
-    cnt3: 30
+    cnt1: 100
+    cnt2: 100
+    cnt3: 100
     time0: 0
-    time1: 0
-    time2: 0
-    time3: 0
-    m_BurstCount: 1
+    time1: .300000012
+    time2: .600000024
+    time3: .699999988
+    m_BurstCount: 4
   SizeModule:
     enabled: 1
     curve:
@@ -1229,11 +1229,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: lengthInSec
-      value: .699999988
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: InitialModule.startLifetime.scalar
-      value: .699999988
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: InitialModule.startSpeed.scalar
@@ -1294,6 +1294,34 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: ringRadius
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmissionModule.m_BurstCount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmissionModule.time1
+      value: .300000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmissionModule.cnt1
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmissionModule.time2
+      value: .600000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmissionModule.cnt2
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmissionModule.time3
+      value: .699999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: EmissionModule.cnt3
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -26,7 +26,7 @@ GameObject:
   - 95: {fileID: 9502538}
   m_Layer: 10
   m_Name: cowboy_hero_skinned
-  m_TagString: Untagged
+  m_TagString: originalModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1277,6 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e84da38144544bb8b00f6fb47760d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 9502538}
   moveDirection: 8
   currentMovement: {x: 0, y: 0, z: 0}
   testSpeed: 0
@@ -1385,7 +1386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 9502538}
 --- !u!137 &13745310
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1541,6 +1542,14 @@ Prefab:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: originalModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 9502538}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 162640}
