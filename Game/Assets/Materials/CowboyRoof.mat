@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Horns
-  m_Shader: {fileID: 4800000, guid: ade83ac66f6d345aaad5fab3678a1f07, type: 3}
+  m_Name: CowboyRoof
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -102,7 +102,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: .200000003
       data:
         first:
           name: _BumpScale
@@ -134,7 +134,7 @@ Material:
       data:
         first:
           name: _Snow
-        second: .578000009
+        second: 0
     m_Colors:
       data:
         first:
@@ -143,7 +143,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .800000012, g: .800000012, b: .800000012, a: 1}
+        second: {r: .291983962, g: .107962683, b: .0805112571, a: 1}
       data:
         first:
           name: _SnowColor

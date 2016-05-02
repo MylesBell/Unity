@@ -134,7 +134,7 @@ Material:
       data:
         first:
           name: _Snow
-        second: 0
+        second: .674000025
     m_Colors:
       data:
         first:
