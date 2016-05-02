@@ -146,13 +146,26 @@ public class CreateTerrain : NetworkBehaviour
 			if (isServer || screenNumber == chunkIndex) {
 				// should randomly generate where the 0 is between 0->|laneSegments| to get random lane segments
 				chunks[chunkIndex] = GetTerrainPrefab(computerLane, numScreens, chunkIndex, laneOffset);
-                chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = chunkIndex < numScreens / 2? sandMaterial: groundMaterial;
+                if (chunkIndex < numScreens / 2) {
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = sandMaterial;
+                } else if (chunkIndex == numScreens / 2){
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = groundMaterial;
+                    Color sand = new Color(1.0f,0.85f,0.55f);
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material.SetColor("_SnowColor",sand);
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",0.35f);
+                } else {
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = groundMaterial;
+                    float level = (chunkIndex - (numScreens / 2)) / (float)(numScreens- (numScreens/2));
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",level);
+                }
 			}
 		}
 		
 		if (isServer || screenNumber == (numScreens - 1)) {
 			// create last base
 			chunks[numScreens - 1] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? base2Left : base2Right, chunkOffset * (numScreens - 1) + laneOffset, Quaternion.identity);
+            chunks[numScreens - 1].GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",1.0f);
+            
 		}
 	}
     
