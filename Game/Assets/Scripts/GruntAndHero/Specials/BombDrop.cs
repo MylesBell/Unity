@@ -44,7 +44,7 @@ public class BombDrop : Special
     [ClientRpc]
     private void RpcKill() {
         StopAllCoroutines();
-        parentTransform = transform.parent;
+        transform.parent = parentTransform;
         gameObject.SetActive(false);
     }
     
