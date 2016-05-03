@@ -80,17 +80,17 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
                     break;
             }
             
-            // uncomment to create test hero
-            if (Input.GetKeyUp(KeyCode.Slash)) redTeam.CreatePlayer("id", "Test Hero");
+            //// uncomment to create test hero
+            //if (Input.GetKeyUp(KeyCode.Slash)) redTeam.CreatePlayer("id", "Test Hero");
             
-            if (Input.GetKeyDown(KeyCode.I)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.N));
-            if (Input.GetKeyDown(KeyCode.M)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.S));
-            if (Input.GetKeyDown(KeyCode.J)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.W));
-            if (Input.GetKeyDown(KeyCode.K)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.E));
+            //if (Input.GetKeyDown(KeyCode.I)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.N));
+            //if (Input.GetKeyDown(KeyCode.M)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.S));
+            //if (Input.GetKeyDown(KeyCode.J)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.W));
+            //if (Input.GetKeyDown(KeyCode.K)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.E));
             
-            if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.M) || Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.K)){
-                ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.NONE));
-            }      
+            //if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.M) || Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.K)){
+            //    ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.NONE));
+            //}      
         }
     }
 
