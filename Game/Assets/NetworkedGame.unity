@@ -318,9 +318,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -595,19 +593,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laneSegmentsLeft:
-  - {fileID: 175212, guid: ff4506dd9d60b4fef94f6c3651db5a90, type: 2}
-  - {fileID: 175212, guid: 5c06b010779e64001a996b67538d1696, type: 2}
-  base1LeftNoTunnel: {fileID: 110192, guid: 044786a0879f04c718f1cf6c097fe4f8, type: 2}
-  base2LeftNoTunnel: {fileID: 160050, guid: 2a453036efd95446c8303f0b3fc85ccf, type: 2}
-  base1LeftTunnel: {fileID: 110192, guid: 3cd10ad66e38f439a8bf5af106355cf9, type: 2}
-  base2LeftTunnel: {fileID: 160050, guid: 2c0fab3c8caad4f6da186ef55170a8f8, type: 2}
+  - {fileID: 146500, guid: c10aad9250ac67540a2680b953ce73c6, type: 2}
+  - {fileID: 161908, guid: 31f8bff1f435cee4084de8af65dd72f2, type: 2}
+  base1LeftNoTunnel: {fileID: 132566, guid: 044786a0879f04c718f1cf6c097fe4f8, type: 2}
+  base2LeftNoTunnel: {fileID: 152870, guid: 2a453036efd95446c8303f0b3fc85ccf, type: 2}
+  base1LeftTunnel: {fileID: 132566, guid: 044786a0879f04c718f1cf6c097fe4f8, type: 2}
+  base2LeftTunnel: {fileID: 152870, guid: 2a453036efd95446c8303f0b3fc85ccf, type: 2}
   laneSegmentsRight:
-  - {fileID: 175212, guid: 028bdacc5f5bd48539a070c6a0b44bf3, type: 2}
-  - {fileID: 175212, guid: b35eff09e3c54674d8d3d2f2b4ad9431, type: 2}
-  base1RightNoTunnel: {fileID: 110192, guid: 830087544392c48218aadeba9fd1020a, type: 2}
-  base2RightNoTunnel: {fileID: 160050, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
-  base1RightTunnel: {fileID: 110192, guid: 835ccf1b9c63c4118bd3ad7b7a86adfe, type: 2}
-  base2RightTunnel: {fileID: 160050, guid: 1cf0ece3ddab542459fea831592ceae1, type: 2}
+  - {fileID: 157990, guid: 6c0525112d84a254587d70afc7378df6, type: 2}
+  - {fileID: 186994, guid: 66018b435b670134fb189d52c76136ef, type: 2}
+  base1RightNoTunnel: {fileID: 155452, guid: bedc37caf26a25341b9462a030a65dcb, type: 2}
+  base2RightNoTunnel: {fileID: 119416, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
+  base1RightTunnel: {fileID: 155452, guid: bedc37caf26a25341b9462a030a65dcb, type: 2}
+  base2RightTunnel: {fileID: 119416, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
   groundMaterial: {fileID: 2100000, guid: 0e7ce98afff294a2f9aa916270a1eec7, type: 2}
   sandMaterial: {fileID: 2100000, guid: bc7157999ea194f45a2797c56ec9c7a1, type: 2}
   sceneryObjects:
