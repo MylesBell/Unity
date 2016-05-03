@@ -74,6 +74,8 @@ public class MusicScreenController : NetworkBehaviour {
 	void Update () {
         if(musicStarted && Input.GetKeyDown(KeyCode.M)){
             RpcStopMusicLoops();
+        } else if(!musicStarted && Input.GetKeyDown(KeyCode.M) && GameState.gameState == GameState.State.PLAYING){
+            StartMusic(3f);
         }
         if(musicStarted && !isServer) {
             if(audioSources.Length == 0) {
@@ -121,11 +123,13 @@ public class MusicScreenController : NetworkBehaviour {
     [ClientRpc]
     public void RpcStartMusicLoops(double startTimestamp) {
         if(!isServer) StartMusicLoops(startTimestamp);
+        musicStarted = true;
     }
     
     [ClientRpc]
     public void RpcStopMusicLoops() {
         if(!isServer) StopMusicLoops();
+        musicStarted = false;
     }
     void StartMusicLoops(double startTimestamp) {
         double timestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds;
@@ -134,7 +138,6 @@ public class MusicScreenController : NetworkBehaviour {
             timestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds;
             audioSource.PlayDelayed((float)(startTimestamp - timestamp));
         }
-        musicStarted = true;
     }
     
     void StopMusicLoops() {
@@ -142,7 +145,6 @@ public class MusicScreenController : NetworkBehaviour {
         foreach (AudioSource audioSource in audioSources) {
             audioSource.Stop();
         }
-        musicStarted = false;
     }
 
     public void IncrementCount(bool isHero, TeamID teamID){
