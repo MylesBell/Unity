@@ -8,8 +8,6 @@ public class MusicScreenController : NetworkBehaviour {
     public AudioClip[] MusicClips;
     public float crossFadeDuration;
     
-    public float musicStartSecondsOffset;
-    // public AudioClip[] MusicClipForCowboys;
 
     private int redHeroCount;
     private int redGruntCount;
@@ -21,6 +19,8 @@ public class MusicScreenController : NetworkBehaviour {
     private int defaultClipIndex;
     private int previousClipIndex;
     private int playingClipIndex;
+    
+    private int middleTrack;
     private bool isCrossFadeRunning = false;
     private Coroutine CrossFadeCoroutine;
     
@@ -41,7 +41,7 @@ public class MusicScreenController : NetworkBehaviour {
             baseClipAudioSource.playOnAwake = false;
             baseClipAudioSource.Stop(); 
             baseClipAudioSource.clip = baseClip;
-            baseClipAudioSource.volume = 1f;
+            baseClipAudioSource.volume = 0.5f;
             audioSources = new AudioSource[MusicClips.Length];
             for (int i = 0; i < MusicClips.Length; i++) {
                 audioSources[i] = gameObject.AddComponent<AudioSource>();
@@ -58,22 +58,25 @@ public class MusicScreenController : NetworkBehaviour {
             int numScreens = GraniteNetworkManager.lane == ComputerLane.LEFT ? numScreensLeft : numScreensRight;
             if(audioSources.Length > 0) {
                 defaultClipIndex = screenNumber < numScreens / 2 ? 0 : MusicClips.Length - 1;
+                middleTrack = screenNumber < numScreens / 2 ? (MusicClips.Length/2) - 1 : MusicClips.Length/2;
                 playingClipIndex = defaultClipIndex;
                 audioSources[defaultClipIndex].volume = 1f;
             }
         }
 	}
     
+    public void StartMusic(float timeOffset){
+        Debug.Log("Server starting Music");
+        double startMusicTimestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + timeOffset;
+        RpcStartMusicLoops(startMusicTimestamp);
+    }
+    
 	void Update () {
-        if(!musicStarted && Input.GetKeyDown(KeyCode.M)){
-            Debug.Log("Server starting Music");
-            double startMusicTimestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds + musicStartSecondsOffset;
-            RpcStartMusicLoops(startMusicTimestamp);
-        } else if(musicStarted && Input.GetKeyDown(KeyCode.M)){
+        if(musicStarted && Input.GetKeyDown(KeyCode.M)){
             RpcStopMusicLoops();
         }
         if(musicStarted && !isServer) {
-            if(audioSources.Length > 0) {
+            if(audioSources.Length == 0) {
                 int redCount = redGruntCount + redHeroCount;
                 int blueCount = blueGruntCount + blueHeroCount;
                 // Debug.Log("Reds " + redCount + " blues " + blueCount);
@@ -81,7 +84,7 @@ public class MusicScreenController : NetworkBehaviour {
                 if(redCount == 0 && blueCount == 0) newClipIndex = playingClipIndex; //neither of them present, hence keep playing tunes
                 else if(redCount == 0) newClipIndex = 0; //only blue present, play their tune
                 else if(blueCount == 0) newClipIndex = MusicClips.Length - 1; //only red present, play their tune
-                else if(redCount == blueCount) newClipIndex = MusicClips.Length/2; //even number of each, play "equal" tunes
+                else if(redCount == blueCount) newClipIndex = middleTrack; //even number of each, play "equal" tunes
                 else {
                     //agree about number of tracks
                     //then create ranges for 1/abs(redCount-blueCount) which point to a track taking the diff into account
@@ -139,7 +142,7 @@ public class MusicScreenController : NetworkBehaviour {
         foreach (AudioSource audioSource in audioSources) {
             audioSource.Stop();
         }
-        musicStarted = true;
+        musicStarted = false;
     }
 
     public void IncrementCount(bool isHero, TeamID teamID){

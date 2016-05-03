@@ -113,8 +113,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 381c067576e47404f9d9421738353d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseClip: {fileID: 8300000, guid: 17c34a15de9be4507993c32433a8ff48, type: 3}
-  MusicClips: []
+  baseClip: {fileID: 8300000, guid: 2783fb383ccf94169890957b6c053738, type: 3}
+  MusicClips:
+  - {fileID: 8300000, guid: 5597da0f4cb5541f1b3a96f1db3c7ebf, type: 3}
+  - {fileID: 8300000, guid: 2286ee77b15264c16b7611da0975be19, type: 3}
+  - {fileID: 8300000, guid: cd8f49bd65db34c3687dfda6ea31652e, type: 3}
+  - {fileID: 8300000, guid: 4123a2452e972495996646b2c5e10312, type: 3}
+  - {fileID: 8300000, guid: 6102bf8a41e05498f8a3d899fb9bd8d1, type: 3}
+  - {fileID: 8300000, guid: 6e48a6c9e66a946f08f93421b037644a, type: 3}
+  - {fileID: 8300000, guid: f8667752a9cff4adfa3958d57c6c93ff, type: 3}
+  - {fileID: 8300000, guid: 1c433a00a822c40689d7e4f0a8c2795e, type: 3}
+  - {fileID: 8300000, guid: e0f729ac4dfe84ccbafe7f97b1a09e9a, type: 3}
+  - {fileID: 8300000, guid: 10750b83f8cfb451aa4bb4bdb25207b8, type: 3}
   crossFadeDuration: 1
   musicStartSecondsOffset: 3
 --- !u!114 &925133112
@@ -293,7 +303,7 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 60
+  m_FontSize: 80
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
@@ -458,6 +468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkGameState: 0
+  musicScreenController: {fileID: 925133111}
 --- !u!114 &1193707487
 MonoBehaviour:
   m_ObjectHideFlags: 0
