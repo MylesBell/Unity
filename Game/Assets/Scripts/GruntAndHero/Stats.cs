@@ -96,7 +96,7 @@ public class Stats : NetworkBehaviour{
     }
     
     private void SetNextUpgrade(){
-        nextUpgrade = (int)(nextUpgrade * 1.5f);
+        nextUpgrade += (int)(nextUpgrade * 1.5f);
     }
     
     private void SendUpgradeEvent(){
