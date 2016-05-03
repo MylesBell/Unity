@@ -12,6 +12,8 @@ TagManager:
   - redHero
   - musicPlayer
   - terrainSpawner
+  - originalModel
+  - decoyModel
   - snowy
   layers:
   - Default

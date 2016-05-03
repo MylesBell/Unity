@@ -26,6 +26,16 @@ public class UnitSlowDown : AllPlay {
         RpcPlaySlowDown(slowDownMultiplier, slowDownTime);
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
+    
     [Command]
     private void CmdReduceSpeed(float slowDownMultiplier){
         savedSpeed = stats.movementSpeed;
@@ -41,6 +51,7 @@ public class UnitSlowDown : AllPlay {
     IEnumerator PlaySlowDown(float slowDownTime){
         yield return new WaitForSeconds(slowDownTime);
         gameObject.SetActive(false);
-        stats.movementSpeed = savedSpeed;
+        if (isServer)
+            stats.movementSpeed = savedSpeed;
     }
 }

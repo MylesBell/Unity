@@ -30,6 +30,16 @@ public class SpeedBuff : Special
         RpcPlaySpeedBuffSystem();
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
+    
     [ClientRpc]
     public void RpcPlaySpeedBuffSystem() {
         stats.movementSpeed += speedIncrease;
