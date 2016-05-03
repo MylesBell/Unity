@@ -1217,9 +1217,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1244,9 +1242,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1363,7 +1359,11 @@ MonoBehaviour:
   ignoreRange: 3
   runAwayTime: 2
   maximumVelocityBeforeIgnore: 1
-  firstUpgrade: 1
+  heroKills: 0
+  gruntKills: 0
+  deaths: 0
+  towersCaptured: 0
+  firstUpgrade: 3
 --- !u!114 &11407310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1440,7 +1440,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 9522384}
-  alternateAnimator: {fileID: 9587134}
 --- !u!114 &11433128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1525,6 +1524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: {fileID: 0}
   heroClass: 1
+  animator: {fileID: 0}
 --- !u!114 &11489826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1549,7 +1549,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 9522384}
-  alternateAnimator: {fileID: 9587134}
   moveDirection: 8
   currentMovement: {x: 0, y: 0, z: 0}
   testSpeed: 0
@@ -1628,9 +1627,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1690,9 +1687,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1901,6 +1896,10 @@ Prefab:
       propertyPath: alternateAnimator
       value: 
       objectReference: {fileID: 9587134}
+    - target: {fileID: 0}
+      propertyPath: firstUpgrade
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149726}

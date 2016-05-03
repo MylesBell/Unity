@@ -62,8 +62,8 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             
             //set Health to Max          
             gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
-            gameObject.GetComponent<Stats>().ResetKillStreak();
-
+            
+            // initialise targeting and movement            
             targetSelect = GetComponent<TargetSelect>();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), spawnLocation);
             gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
@@ -73,7 +73,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             RpcSetAliveAnim(true);
         }
     }
-
+    
     [Command] public void CmdSetActiveState(bool active) {
         RpcSetActive(active);
     }

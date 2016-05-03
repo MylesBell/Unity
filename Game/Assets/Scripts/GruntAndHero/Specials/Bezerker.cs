@@ -105,7 +105,9 @@ public class Bezerker : Special
                     }else{
                         ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
                     }
-                    if(killedObject) stats.IncrementKillStreak();
+                    if(killedObject){
+                        stats.IncrementKills(collider.gameObject.GetComponent<Hero>() != null);
+                    }
                 }
             }
         }
