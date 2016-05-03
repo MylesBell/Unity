@@ -51,6 +51,7 @@ public class CreateTerrain : NetworkBehaviour
     public Material groundMaterial;
     public Material sandMaterial;
 	public GameObject[] sceneryObjects;
+    public GameObject snowObject;
 	public LayerMask terrainMask;
 	public int minNumScenerySides = 100;
 	public int maxNumScenerySides = 200;
@@ -158,6 +159,9 @@ public class CreateTerrain : NetworkBehaviour
                     chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = groundMaterial;
                     float level = (chunkIndex - (numScreens / 2)) / (float)(numScreens- (numScreens/2));
                     chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",level);
+                    Vector3 position = chunks[chunkIndex].transform.position + new Vector3(50,100,50);
+                    GameObject snow = (GameObject) Instantiate(snowObject, position, snowObject.transform.rotation);
+                    snow.GetComponent<ParticleSystem>().emissionRate = level * 1000;
                 }
 			}
 		}
@@ -166,6 +170,9 @@ public class CreateTerrain : NetworkBehaviour
 			// create last base
 			chunks[numScreens - 1] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? base2Left : base2Right, chunkOffset * (numScreens - 1) + laneOffset, Quaternion.identity);
             chunks[numScreens - 1].GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",1.0f);
+            Vector3 position = chunks[numScreens - 1].transform.position + new Vector3(50,100,50);
+            GameObject snow = (GameObject) Instantiate(snowObject, position, snowObject.transform.rotation);
+            snow.GetComponent<ParticleSystem>().emissionRate = 1000;            
             
 		}
 	}
