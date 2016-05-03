@@ -2,39 +2,33 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class BombDrop : Special
+public class Bezerker : Special
 {   
-    public Material original,flash;
-    public float ringRadius = 6.0f;
-    public float damageAmount = 100.0f;
-    private Transform parentTransform;
+    public GameObject model;
+    public float ringRadius = 8.0f;
+    public float damageAmount = 200.0f;
     
     override public void InitialiseSpecial(float height)
     {
         currentScale = new Vector3(1.0f, 1.0f, 0);
-        RpcSetParentTransform();
+        transform.localPosition = new Vector3(0,height/2,0);
+        RpcFindModels();
     }
 
     override public void ResetSpecial()
     {
-        ringRadius = 6.0f;
-        damageAmount = 100.0f;
-        gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 0);
+        
     }
 
     override public void UpgradeSpecial()
     {
-        // to increase size of fire particle attack the scale is increased, then the damage area is incremented
-        currentScale += new Vector3(1.0f, 1.0f, 0);
-        ringRadius += 3.0f;
+        
     }
 
     override public void UseSpecial()
     {
-        transform.parent = null;
-        transform.position = parentTransform.position + new Vector3(1,0,0);
         gameObject.SetActive(true);
-        RpcPlayBombSystem();
+        RpcPlayBezerkerSystem();
     }
     
     override public void Kill(){
@@ -44,41 +38,57 @@ public class BombDrop : Special
     [ClientRpc]
     private void RpcKill() {
         StopAllCoroutines();
-        transform.parent = parentTransform;
-        gameObject.SetActive(false);
-    }
-    
-    
-    [ClientRpc]
-    public void RpcPlayBombSystem() {
-        transform.parent = null;        
-        transform.position = parentTransform.position + new Vector3(1,0,0);        
-        gameObject.SetActive(true);
-        StartCoroutine(PlayBombSystem());
-    }
-    
-    [ClientRpc]
-    public void RpcSetParentTransform() {
-        parentTransform = transform.parent;
-    }
-    
-    IEnumerator PlayBombSystem() {
-        Renderer renderer = GetComponent<Renderer>();
-        ParticleSystem particleSystem = gameObject.GetComponent<ParticleSystem>();
-        for (int i = 11; i >= 4; i--) {
-            renderer.material = flash;
-            yield return new WaitForSeconds(0.1f);
-            renderer.material = original;
-            yield return new WaitForSeconds((0.02f*i));
+        Renderer renderer = model.GetComponentInChildren<SkinnedMeshRenderer>();
+        foreach (Material material in renderer.materials) {
+            Color color = Color.black;
+            material.EnableKeyword("_EMISSION");
+            material.SetColor("_EmissionColor", color);
         }
-        particleSystem.Play();
-        renderer.enabled = false;
-        RadialDamage(ringRadius, damageAmount);        
-        yield return new WaitForSeconds(1.0f);
         gameObject.SetActive(false);
-        particleSystem.Stop();        
-        renderer.enabled = true;
-        transform.parent = parentTransform;
+    }
+    
+    [ClientRpc]
+    public void RpcFindModels() {
+        foreach (Transform child in transform.parent) {
+            if (child.tag == "originalModel")
+                model = child.gameObject;
+        }
+    }
+    
+    [ClientRpc]
+    public void RpcPlayBezerkerSystem() {     
+        gameObject.SetActive(true);
+        StartCoroutine(PlayBezerkerSystem());
+    }
+    
+    IEnumerator PlayBezerkerSystem() {
+        float originalDamage = stats.damage;
+        stats.damage *= 2;
+        Renderer renderer = model.GetComponentInChildren<SkinnedMeshRenderer>();
+        Health health = GetComponentInParent<Health>();
+        TargetSelect target = GetComponentInParent<TargetSelect>();
+        ParticleSystem particleSystem = gameObject.GetComponent<ParticleSystem>();
+        Debug.Log(renderer.materials.Length);
+        foreach (Material material in renderer.materials) {
+            Color color = target.teamID == TeamID.red ? Color.red : Color.blue;
+            material.EnableKeyword("_EMISSION");
+            material.SetColor("_EmissionColor", color);
+        }
+        yield return new WaitForSeconds(4.0f);
+        particleSystem.Play();
+        RadialDamage(ringRadius, damageAmount);
+        stats.damage = originalDamage;
+        yield return new WaitForSeconds(1.0f);
+        bool killedSelf;
+        if (isServer)
+            health.ReduceHealth(health.maxHealth, out killedSelf);
+        foreach (Material material in renderer.materials) {
+            Color color = Color.black;
+            material.EnableKeyword("_EMISSION");
+            material.SetColor("_EmissionColor", color);
+        }
+        gameObject.SetActive(false);
+        particleSystem.Stop();
     }
   
     
@@ -91,7 +101,7 @@ public class BombDrop : Special
                 if (CheckColliderWantsToAttack(collider)){
                     bool killedObject;
                     if (collider.gameObject.tag.Equals(specials.attackBaseTag)){
-                        collider.gameObject.GetComponent<BaseHealth>().ReduceHealth(2*damage, out killedObject);
+                        collider.gameObject.GetComponent<BaseHealth>().ReduceHealth(damage, out killedObject);
                     }else{
                         ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
                     }

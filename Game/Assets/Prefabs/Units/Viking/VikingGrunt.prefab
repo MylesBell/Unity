@@ -11,7 +11,7 @@ GameObject:
   - 95: {fileID: 9585556}
   m_Layer: 10
   m_Name: viking_grunt_skinned
-  m_TagString: Untagged
+  m_TagString: originalModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -591,7 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 9585556}
 --- !u!114 &11489586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -616,6 +616,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  unitAttackIncreasePrefab: {fileID: 150224, guid: 8a5ae15d62e5f45a597b5e73277dd1ec,
+    type: 2}
+  unitDefenceIncreasePrefab: {fileID: 168854, guid: f5d047f2adbcc4497b11d3e72321ed2d,
+    type: 2}
   attackEffectPrefab: {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 2}
 --- !u!137 &13779962
 SkinnedMeshRenderer:
@@ -686,7 +690,7 @@ Prefab:
       objectReference: {fileID: 411286, guid: a995b220dd92a4cc6befd70d3d916596, type: 2}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: Untagged
+      value: originalModel
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarInitialLength
@@ -807,7 +811,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: animator
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9585556}
     - target: {fileID: 0}
       propertyPath: m_CullingMode
       value: 0
@@ -828,6 +832,14 @@ Prefab:
       propertyPath: attackEffectPrefab
       value: 
       objectReference: {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitAttackIncreasePrefab
+      value: 
+      objectReference: {fileID: 150224, guid: 8a5ae15d62e5f45a597b5e73277dd1ec, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitDefenceIncreasePrefab
+      value: 
+      objectReference: {fileID: 168854, guid: f5d047f2adbcc4497b11d3e72321ed2d, type: 2}
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 10
