@@ -23,7 +23,7 @@ public class BaseHealth : Health {
             killedBase = currentHealth <= 0;
             if (killedBase) {
                 gameObject.GetComponent<IDestroyableGameObject>().DisableGameObject();
-                otherBase.gameObject.GetComponent<IDestroyableGameObject>().DisableGameObject();
+                if(otherBase) otherBase.gameObject.GetComponent<IDestroyableGameObject>().DisableGameObject();
             }
             damageText.Play(-amountToReduce);
             if(otherBase) otherBase.ChangeFromOtherBase(-amountToReduce);
