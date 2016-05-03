@@ -6,6 +6,9 @@ public class MusicScreenController : NetworkBehaviour {
     
     public AudioClip baseClip;
     public AudioClip[] MusicClips;
+    
+    public AudioClip cowboysOpeningClip;
+    public AudioClip vikingOpeningClip;
     public float crossFadeDuration;
     
 
@@ -16,6 +19,8 @@ public class MusicScreenController : NetworkBehaviour {
     
     private AudioSource baseClipAudioSource;
     private AudioSource[] audioSources;
+    public AudioSource openingClipAudioSource;
+    private float openingClipLength;
     private int defaultClipIndex;
     private int previousClipIndex;
     private int playingClipIndex;
@@ -25,6 +30,7 @@ public class MusicScreenController : NetworkBehaviour {
     private Coroutine CrossFadeCoroutine;
     
     private bool musicStarted = false;
+    private bool openingMusicPlayed = false;
     
     private System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
     
@@ -41,7 +47,9 @@ public class MusicScreenController : NetworkBehaviour {
             baseClipAudioSource.playOnAwake = false;
             baseClipAudioSource.Stop(); 
             baseClipAudioSource.clip = baseClip;
-            baseClipAudioSource.volume = 0.5f;
+            baseClipAudioSource.volume = 0f;
+            
+            //set up all other sources
             audioSources = new AudioSource[MusicClips.Length];
             for (int i = 0; i < MusicClips.Length; i++) {
                 audioSources[i] = gameObject.AddComponent<AudioSource>();
@@ -60,8 +68,15 @@ public class MusicScreenController : NetworkBehaviour {
                 defaultClipIndex = screenNumber < numScreens / 2 ? 0 : MusicClips.Length - 1;
                 middleTrack = screenNumber < numScreens / 2 ? (MusicClips.Length/2) - 1 : MusicClips.Length/2;
                 playingClipIndex = defaultClipIndex;
-                audioSources[defaultClipIndex].volume = 1f;
             }
+            //set up opening call
+            openingClipAudioSource = gameObject.AddComponent<AudioSource>();
+            openingClipAudioSource.loop = false;
+            openingClipAudioSource.playOnAwake = false;
+            openingClipAudioSource.Stop(); 
+            openingClipAudioSource.clip = screenNumber < numScreens / 2 ? cowboysOpeningClip : vikingOpeningClip;
+            openingClipLength = screenNumber < numScreens / 2 ? cowboysOpeningClip.length : vikingOpeningClip.length;
+            openingClipAudioSource.volume = 0f;
         }
 	}
     
@@ -71,14 +86,15 @@ public class MusicScreenController : NetworkBehaviour {
         RpcStartMusicLoops(startMusicTimestamp);
     }
     
+    public void StopMusic(){
+        RpcStopMusicLoops();
+    }
+    
 	void Update () {
-        if(musicStarted && Input.GetKeyDown(KeyCode.M)){
-            RpcStopMusicLoops();
-        } else if(!musicStarted && Input.GetKeyDown(KeyCode.M) && GameState.gameState == GameState.State.PLAYING){
-            StartMusic(3f);
-        }
-        if(musicStarted && !isServer) {
-            if(audioSources.Length == 0) {
+        if(musicStarted){
+            if(isServer && Input.GetKeyDown(KeyCode.M)){
+                RpcStopMusicLoops();
+            } else if(!isServer && audioSources.Length > 0 && openingMusicPlayed){
                 int redCount = redGruntCount + redHeroCount;
                 int blueCount = blueGruntCount + blueHeroCount;
                 // Debug.Log("Reds " + redCount + " blues " + blueCount);
@@ -103,6 +119,8 @@ public class MusicScreenController : NetworkBehaviour {
                     playingClipIndex = newClipIndex;
                 }
             }
+        } else if(!musicStarted && Input.GetKeyDown(KeyCode.M) && GameState.gameState == GameState.State.PLAYING){
+            StartMusic(3f);
         }
 	}
     
@@ -134,17 +152,36 @@ public class MusicScreenController : NetworkBehaviour {
     void StartMusicLoops(double startTimestamp) {
         double timestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds;
         baseClipAudioSource.PlayDelayed((float)(startTimestamp - timestamp));
+        baseClipAudioSource.volume = 0.5f;
         foreach (AudioSource audioSource in audioSources) {
             timestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds;
             audioSource.PlayDelayed((float)(startTimestamp - timestamp));
         }
+        timestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds;
+        openingClipAudioSource.PlayDelayed((float)(startTimestamp - timestamp));
+        StartCoroutine(StartOpenCall(startTimestamp));
+    }
+    
+    private IEnumerator StartOpenCall(double startTimestamp){
+        double timestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds;
+        yield return new WaitForSeconds((float)(startTimestamp - timestamp));
+        openingClipAudioSource.volume = 1f;
+        yield return new WaitForSeconds(openingClipLength);
+        openingClipAudioSource.volume = 0f;
+        audioSources[defaultClipIndex].volume = 1f;
+        openingMusicPlayed = true;
     }
     
     void StopMusicLoops() {
         baseClipAudioSource.Stop();
+        baseClipAudioSource.volume = 0f;
         foreach (AudioSource audioSource in audioSources) {
             audioSource.Stop();
+            audioSource.volume = 0f;
         }
+        openingClipAudioSource.Stop();
+        openingClipAudioSource.volume = 0f;
+        openingMusicPlayed = false;
     }
 
     public void IncrementCount(bool isHero, TeamID teamID){

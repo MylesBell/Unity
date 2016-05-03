@@ -27,15 +27,15 @@ public class GameState : NetworkBehaviour {
         if (isServer) {
             if (Input.GetKeyUp(KeyCode.S)) {
                 if(gameState == State.IDLE) StartCoroutine(StartGame());
-                // gameState = gameState == State.IDLE ? State.PLAYING: gameState;
             }
 
             if (Input.GetKeyUp(KeyCode.E)) {
-                gameState = gameState == State.PLAYING ? State.END : gameState;
+                if(gameState == State.PLAYING) changeGameState(State.END);
             }
 
             if (Input.GetKeyUp(KeyCode.Q)) {
                 gameState = gameState == State.END ? State.IDLE : gameState;
+                musicScreenController.StopMusic();
                 changeGameState(State.IDLE);
             }
         }

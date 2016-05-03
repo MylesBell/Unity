@@ -125,8 +125,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1c433a00a822c40689d7e4f0a8c2795e, type: 3}
   - {fileID: 8300000, guid: e0f729ac4dfe84ccbafe7f97b1a09e9a, type: 3}
   - {fileID: 8300000, guid: 10750b83f8cfb451aa4bb4bdb25207b8, type: 3}
+  cowboysOpeningClip: {fileID: 8300000, guid: 8621323ce1d3d471c93d6e1419e012d4, type: 3}
+  vikingOpeningClip: {fileID: 8300000, guid: 8fb4d0317fb324a748b13efac49d8e45, type: 3}
   crossFadeDuration: 1
-  musicStartSecondsOffset: 3
+  openingClipAudioSource: {fileID: 0}
 --- !u!114 &925133112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,17 +554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f585b619e39894d7d97d81a119e2f329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugGui: {fileID: 0}
-  defaultGuiPosition: {x: .00999999978, y: .980000019, z: 0}
-  defaultGuiScale: {x: .5, y: .5, z: 1}
-  normal: {r: 0, g: 1, b: 0, a: 1}
-  warning: {r: 1, g: .921568632, b: .0156862754, a: 1}
-  error: {r: 1, g: 0, b: 0, a: 1}
-  maxMessages: 30
-  lineSpacing: .0199999996
-  draggable: 1
-  visible: 1
-  pixelCorrect: 0
 --- !u!4 &1718127021
 Transform:
   m_ObjectHideFlags: 0
