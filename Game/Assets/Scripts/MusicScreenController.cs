@@ -133,16 +133,16 @@ public class MusicScreenController : NetworkBehaviour {
                     // Debug.Log("New clip index " + newClipIndex);
                 }
                 if(newClipIndex != playingClipIndex){
-                    //cross fade through all the tracks
+                    //cross fade through all the tracks inbetween current and desired
                     if(playingClipIndex > newClipIndex){
                         for(int i = playingClipIndex; i > newClipIndex; i--){
                           crossFadeQueue.Enqueue(CrossFade(audioSources[i], audioSources[i-1], crossFadeDuration));
-                          Debug.Log("Cross fading from " + i + " to " + (i-1));
+                        //   Debug.Log("Cross fading from " + i + " to " + (i-1));
                         }
                     } else {
                         for(int i = playingClipIndex; i < newClipIndex; i++){
                           crossFadeQueue.Enqueue(CrossFade(audioSources[i], audioSources[i+1], crossFadeDuration));
-                          Debug.Log("Cross fading from " + i + " to " + (i+1));
+                        //   Debug.Log("Cross fading from " + i + " to " + (i+1));
                         }
                     }
                     playingClipIndex = newClipIndex;
