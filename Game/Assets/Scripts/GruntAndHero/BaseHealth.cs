@@ -16,6 +16,9 @@ public class BaseHealth : Health {
         }
         this.computerLane = computerLane;
         InitialiseHealth(computerLane);
+        
+        // init fire (to no emissionRate)
+        RpcSetFireLevel();
     }
 	public new void ReduceHealth(float amountToReduce, out bool killedBase){
         if(currentHealth > 0) {
@@ -28,6 +31,10 @@ public class BaseHealth : Health {
             damageText.Play(-amountToReduce);
             if(otherBase) otherBase.ChangeFromOtherBase(-amountToReduce);
             team.BaseHealthChange(maxHealth, currentHealth);
+            
+            // set fire level on both bases
+            RpcSetFireLevel();
+            if(otherBase) otherBase.gameObject.GetComponent<BaseHealth>().RpcSetFireLevel();
         } else {
             killedBase = false;
         }
@@ -46,5 +53,18 @@ public class BaseHealth : Health {
     
     public ComputerLane getComputerLane(){
         return this.computerLane;
+    }
+    
+    public void RpcSetFireLevel(){
+        ParticleSystem[] fires = gameObject.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem fire in fires){
+            if (currentHealth <= 0){
+                fire.emissionRate = 100;
+            }else{
+                // increase rate with polynomial because nice
+                fire.emissionRate = 20 * Mathf.Pow(1 - (currentHealth / maxHealth), 5); 
+            }
+        }
+
     }
 }
