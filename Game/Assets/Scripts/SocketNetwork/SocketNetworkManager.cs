@@ -104,6 +104,8 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 				playerStats.AddField("heroKills", stats.heroKills);
 				playerStats.AddField("deaths", stats.deaths);
 				playerStats.AddField("towersCaptured", stats.towersCaptured);
+				playerStats.AddField("heroClass", (int)hero.Value.GetComponent<Hero>().heroClass);
+				playerStats.AddField("teamID", (int)team.teamID);
 				
 				playersStats.Add(playerStats);
 			}

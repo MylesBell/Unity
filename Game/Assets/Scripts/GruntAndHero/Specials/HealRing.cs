@@ -31,6 +31,16 @@ public class HealRing : Special
         RpcPlayHealRingSystem();
         CmdRadialHeal(ringRadius, healAmount);
     }
+    
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
 
     [ClientRpc]
     private void RpcPlayHealRingSystem() {

@@ -6,7 +6,7 @@ public class BombDrop : Special
 {   
     public Material original,flash;
     public float ringRadius = 6.0f;
-    public float damageAmount = 80.0f;
+    public float damageAmount = 100.0f;
     private Transform parentTransform;
     
     override public void InitialiseSpecial(float height)
@@ -18,7 +18,7 @@ public class BombDrop : Special
     override public void ResetSpecial()
     {
         ringRadius = 6.0f;
-        damageAmount = 80.0f;
+        damageAmount = 100.0f;
         gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 0);
     }
 
@@ -35,6 +35,17 @@ public class BombDrop : Special
         transform.position = parentTransform.position + new Vector3(1,0,0);
         gameObject.SetActive(true);
         RpcPlayBombSystem();
+    }
+    
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        transform.parent = parentTransform;
+        gameObject.SetActive(false);
     }
     
     
@@ -54,11 +65,11 @@ public class BombDrop : Special
     IEnumerator PlayBombSystem() {
         Renderer renderer = GetComponent<Renderer>();
         ParticleSystem particleSystem = gameObject.GetComponent<ParticleSystem>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 11; i >= 4; i--) {
             renderer.material = flash;
             yield return new WaitForSeconds(0.1f);
             renderer.material = original;
-            yield return new WaitForSeconds((-0.15f*i)+1.5f);
+            yield return new WaitForSeconds((0.02f*i));
         }
         particleSystem.Play();
         renderer.enabled = false;
@@ -80,7 +91,7 @@ public class BombDrop : Special
                 if (CheckColliderWantsToAttack(collider)){
                     bool killedObject;
                     if (collider.gameObject.tag.Equals(specials.attackBaseTag)){
-                        collider.gameObject.GetComponent<BaseHealth>().ReduceHealth(damage, out killedObject);
+                        collider.gameObject.GetComponent<BaseHealth>().ReduceHealth(2*damage, out killedObject);
                     }else{
                         ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
                     }

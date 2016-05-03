@@ -100,7 +100,7 @@ GameObject:
   - 95: {fileID: 9558728}
   m_Layer: 10
   m_Name: viking_hero_skinned
-  m_TagString: Untagged
+  m_TagString: originalModel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -993,7 +993,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1019,7 +1021,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1044,7 +1048,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1144,10 +1150,10 @@ MonoBehaviour:
   specialFiles:
   - prefab: {fileID: 128652, guid: 23afd99e3375d45d2b4e47c6c78d6d23, type: 2}
     identifier: 0
-  - prefab: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
-    identifier: 6
-  - prefab: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
-    identifier: 11
+  - prefab: {fileID: 165140, guid: a50ab2a415d7249cf88cc4c77763bb35, type: 2}
+    identifier: 2
+  - prefab: {fileID: 165140, guid: 1b8b3bb5b35ae4157b5f17172681365d, type: 2}
+    identifier: 1
   chosenNumbers: 
   attackGruntTag: 
   attackHeroTag: 
@@ -1178,7 +1184,7 @@ MonoBehaviour:
   ignoreRange: 3
   runAwayTime: 2
   maximumVelocityBeforeIgnore: 1
-  firstUpgrade: 3
+  firstUpgrade: 1
 --- !u!114 &11413352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1253,6 +1259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e84da38144544bb8b00f6fb47760d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 9558728}
   moveDirection: 8
   currentMovement: {x: 0, y: 0, z: 0}
   testSpeed: 0
@@ -1359,6 +1366,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitSlowDownPrefab: {fileID: 104996, guid: aee06e045acf748098585508e2d4115b, type: 2}
+  unitAttackIncreasePrefab: {fileID: 150224, guid: 8a5ae15d62e5f45a597b5e73277dd1ec,
+    type: 2}
+  unitDefenceIncreasePrefab: {fileID: 168854, guid: f5d047f2adbcc4497b11d3e72321ed2d,
+    type: 2}
   attackEffectPrefab: {fileID: 100000, guid: 5a97962f7d5ba4df0823334b52c7c02c, type: 2}
 --- !u!114 &11490844
 MonoBehaviour:
@@ -1371,7 +1382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c83a45646798f4bff86ee24ff5f2fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 9558728}
 --- !u!114 &11499648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1411,7 +1422,9 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1465,7 +1478,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
-      value: redHero
+      value: originalModel
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: healthBarInitialLength
@@ -1599,11 +1612,11 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[1].prefab
       value: 
-      objectReference: {fileID: 151664, guid: 3ed010f28f68c43f980b38db624d1fa2, type: 2}
+      objectReference: {fileID: 165140, guid: a50ab2a415d7249cf88cc4c77763bb35, type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[2].prefab
       value: 
-      objectReference: {fileID: 138532, guid: 50756da2de3ac4aefa9a23ea397f3d4f, type: 2}
+      objectReference: {fileID: 165140, guid: 1b8b3bb5b35ae4157b5f17172681365d, type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[1].special
       value: 
@@ -1621,11 +1634,11 @@ Prefab:
         type: 2}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[1].identifier
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: specialFiles.Array.data[2].identifier
-      value: 11
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementAcceleration
@@ -1749,13 +1762,21 @@ Prefab:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: unitAttackIncreasePrefab
+      value: 
+      objectReference: {fileID: 150224, guid: 8a5ae15d62e5f45a597b5e73277dd1ec, type: 2}
+    - target: {fileID: 0}
+      propertyPath: unitDefenceIncreasePrefab
+      value: 
+      objectReference: {fileID: 168854, guid: f5d047f2adbcc4497b11d3e72321ed2d, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: firstUpgrade
-      value: 3
-      objectReference: {fileID: 0}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 9558728}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101776}

@@ -9,7 +9,7 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
 {
     private TargetSelect targetSelect;
 	private Stats stats;
-    private Animator animator;
+    public Animator animator;
     
     // private LayerMask terrainMask = 256;
     
@@ -25,13 +25,10 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     void Start () {
         targetSelect = GetComponent<TargetSelect>();
         stats = GetComponent<Stats>();
-        GetAnimator();
     }
     
-    public void GetAnimator() {
-        if (animator == null)
-            animator = GetComponentInChildren<Animator>();
-        animator.enabled = true;
+    public void SwitchAnimator(Animator anim) {
+        animator = anim;
     }
 
     public void initialiseMovement(Vector3 position) {
@@ -57,24 +54,22 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     
     [ClientRpc]
     public void RpcResetAnimator() {
-        GetAnimator();
         animator.SetBool("Victory", false);                    
         animator.SetBool("Defeat", false); 
     }
    
     
     public void SetAnimatorSpeed(float speed) {
-        GetAnimator();
-        animator.SetFloat("Speed", speed);       
+        animator.SetFloat("Speed", speed);  
     }
     
     [ClientRpc]
     public void RpcSetEndAnim(TeamID teamID) {
-        GetAnimator();
-        if (teamID == GameState.winningTeam)
+        if (teamID == GameState.winningTeam) {
             animator.SetBool("Victory", true);
-        else
+        } else {
             animator.SetBool("Defeat", true);
+        }
     }
 
     void FixedUpdate(){

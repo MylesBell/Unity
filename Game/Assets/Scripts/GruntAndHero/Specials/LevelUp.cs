@@ -25,6 +25,16 @@ public class LevelUp : Special
         gameObject.SetActive(true);
         RpcPlayLevelUp();
     }
+    
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
 
     [ClientRpc]
     private void RpcPlayLevelUp() {

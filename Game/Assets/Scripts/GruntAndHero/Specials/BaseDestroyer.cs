@@ -32,6 +32,16 @@ public class BaseDestroyer : Special
         RpcPlayBaseDestroySystem();
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
+    
     [ClientRpc]
     public void RpcPlayBaseDestroySystem() {
         gameObject.SetActive(true);

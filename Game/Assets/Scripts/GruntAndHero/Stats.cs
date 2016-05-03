@@ -32,8 +32,17 @@ public class Stats : NetworkBehaviour{
     private int nextUpgrade;
     private int level = 1;
     
+    private float originalMovementSpeed, originalDamage, originalDefense;
+    private bool statsSet;
+    
     void Start(){
         ResetStats();
+        if (!statsSet) {
+            originalMovementSpeed = movementSpeed;
+            originalDamage = damage;
+            originalDefense = defense;
+            statsSet = true;
+        }
     }
     
     public void ResetStats(){
@@ -46,6 +55,18 @@ public class Stats : NetworkBehaviour{
             level = 1;
             nextUpgrade = firstUpgrade;
         }
+    }
+
+    public void ResetKills(){
+        lock(killsLock){
+            kills = 0;
+        }
+    }
+    
+    public void ResetSpecialStats() {
+        movementSpeed = originalMovementSpeed;
+        damage = originalDamage;
+        defense = originalDefense;
     }
     
     public int GetKills(){
