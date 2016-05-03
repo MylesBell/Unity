@@ -34,9 +34,10 @@ public class GameState : NetworkBehaviour {
             }
 
             if (Input.GetKeyUp(KeyCode.Q)) {
-                gameState = gameState == State.END ? State.IDLE : gameState;
-                musicScreenController.StopMusic();
-                changeGameState(State.IDLE);
+                if(gameState == State.END) {
+                    musicScreenController.StopMusic();
+                    changeGameState(State.IDLE);
+                }
             }
         }
     }
