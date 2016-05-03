@@ -161,7 +161,7 @@ public class MusicScreenController : NetworkBehaviour {
     }
     private IEnumerator CrossFade(AudioSource currentAudioSource, AudioSource newAudioSource, float duration){
         isCrossFadeRunning = true;
-        Debug.Log("Running coroutine");
+        // Debug.Log("Running coroutine");
         float timeElapsed = 0f;
         float startVolume = currentAudioSource.volume;
         float step = 1f/duration;
