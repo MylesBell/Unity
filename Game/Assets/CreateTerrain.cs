@@ -158,10 +158,7 @@ public class CreateTerrain : NetworkBehaviour
                 } else {
                     chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = groundMaterial;
                     float level = (chunkIndex - (numScreens / 2)) / (float)(numScreens- (numScreens/2));
-                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",level);
-                    Vector3 position = chunks[chunkIndex].transform.position + new Vector3(50,100,50);
-                    GameObject snow = (GameObject) Instantiate(snowObject, position, snowObject.transform.rotation);
-                    snow.GetComponent<ParticleSystem>().emissionRate = level * 1000;
+                    CreateSnow(chunks[chunkIndex], level);
                 }
 			}
 		}
@@ -169,10 +166,7 @@ public class CreateTerrain : NetworkBehaviour
 		if (isServer || screenNumber == (numScreens - 1)) {
 			// create last base
 			chunks[numScreens - 1] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? base2Left : base2Right, chunkOffset * (numScreens - 1) + laneOffset, Quaternion.identity);
-            chunks[numScreens - 1].GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",1.0f);
-            Vector3 position = chunks[numScreens - 1].transform.position + new Vector3(50,100,50);
-            GameObject snow = (GameObject) Instantiate(snowObject, position, snowObject.transform.rotation);
-            snow.GetComponent<ParticleSystem>().emissionRate = 1000;            
+            CreateSnow(chunks[numScreens - 1], 1.0f);    
             
 		}
 	}
@@ -181,6 +175,13 @@ public class CreateTerrain : NetworkBehaviour
         int terrainIndex = GetTerrainIndex(numScreens, chunkIndex);
         return (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? laneSegmentsLeft[terrainIndex] : 
                         laneSegmentsRight[terrainIndex], chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
+    }
+    
+    void CreateSnow(GameObject chunk, float snowLevel) {
+        chunk.GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",snowLevel);
+        Vector3 position = chunk.transform.position + new Vector3(50,100,50);
+        GameObject snow = (GameObject) Instantiate(snowObject, position, snowObject.transform.rotation);
+        snow.GetComponent<ParticleSystem>().emissionRate = snowLevel * 1000;
     }
     
     int GetTerrainIndex(int numScreens, int chunkIndex) {
