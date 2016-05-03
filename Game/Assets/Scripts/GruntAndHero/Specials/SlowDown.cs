@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class SlowDown : Special
@@ -10,7 +11,7 @@ public class SlowDown : Special
     override public void InitialiseSpecial(float height)
     {
         currentScale = new Vector3(1.0f, 1.0f, 0);
-        transform.localPosition = new Vector3(0,height,0);
+        transform.localPosition = new Vector3(0,0,0);
     }
 
     override public void ResetSpecial()
@@ -26,7 +27,30 @@ public class SlowDown : Special
 
     override public void UseSpecial()
     {
+        gameObject.SetActive(true);
+        RpcPlaySlowDownParticleSystem();
         CmdRadialSlowDown(slowDownRadius);
+    }
+    
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
+    
+    [ClientRpc]
+    public void RpcPlaySlowDownParticleSystem() {
+        gameObject.SetActive(true);
+        StartCoroutine(PlaySlowDownRingSystem());
+    }
+    
+    IEnumerator PlaySlowDownRingSystem(){
+        yield return new WaitForSeconds(1.0f);
+        gameObject.SetActive(false);
     }
     
     // to slow down in circular area about player
