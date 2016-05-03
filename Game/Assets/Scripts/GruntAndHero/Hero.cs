@@ -123,7 +123,8 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     
     [ClientRpc]
     public void RpcPlayDeathAnimation() {
-        StartCoroutine(PlayDeathAnimation());
+        if (gameObject.activeSelf)
+            StartCoroutine(PlayDeathAnimation());
     }
     
     IEnumerator PlayDeathAnimation() {

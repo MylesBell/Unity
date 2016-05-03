@@ -51,6 +51,7 @@ public class UnitDefenceIncrease : AllPlay {
     IEnumerator PlayDefenceIncrease(float defenceIncreaseTime){
         yield return new WaitForSeconds(defenceIncreaseTime);
         gameObject.SetActive(false);
-        stats.defense = originalDefence;
+        if (isServer)
+            stats.defense = originalDefence;
     }
 }

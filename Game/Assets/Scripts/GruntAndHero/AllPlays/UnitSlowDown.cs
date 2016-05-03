@@ -51,6 +51,7 @@ public class UnitSlowDown : AllPlay {
     IEnumerator PlaySlowDown(float slowDownTime){
         yield return new WaitForSeconds(slowDownTime);
         gameObject.SetActive(false);
-        stats.movementSpeed = savedSpeed;
+        if (isServer)
+            stats.movementSpeed = savedSpeed;
     }
 }

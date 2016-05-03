@@ -80,7 +80,8 @@ public class Bezerker : Special
         stats.damage = originalDamage;
         yield return new WaitForSeconds(1.0f);
         bool killedSelf;
-        health.ReduceHealth(health.maxHealth, out killedSelf);
+        if (isServer)
+            health.ReduceHealth(health.maxHealth, out killedSelf);
         foreach (Material material in renderer.materials) {
             Color color = Color.black;
             material.EnableKeyword("_EMISSION");

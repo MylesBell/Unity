@@ -249,6 +249,7 @@ public class Team : NetworkBehaviour {
                 grunt = CreateGrunt();
             }
         }
+        grunt.GetComponent<AllPlays>().KillAll();        
         return grunt;
     }
     
@@ -276,6 +277,7 @@ public class Team : NetworkBehaviour {
     private void HeroRespawn(GameObject hero) {
         ComputerLane computerLane = hero.GetComponent<Hero>().getComputerLane();
         string playerID = hero.GetComponent<Hero>().getplayerID();
+        hero.GetComponent<AllPlays>().KillAll();
         hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(computerLane), computerLane);
         hero.GetComponent<Stats>().ResetStats();
         SocketIOOutgoingEvents.PlayerRespawn(playerID);

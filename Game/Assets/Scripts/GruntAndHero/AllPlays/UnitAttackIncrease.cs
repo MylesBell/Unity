@@ -51,6 +51,7 @@ public class UnitAttackIncrease : AllPlay {
     IEnumerator PlayAttackIncrease(float attackIncreaseTime){
         yield return new WaitForSeconds(attackIncreaseTime);
         gameObject.SetActive(false);
-        stats.damage = originalAttack;
+        if (isServer)
+            stats.damage = originalAttack;
     }
 }
