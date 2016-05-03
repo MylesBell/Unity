@@ -80,7 +80,9 @@ public class CrossLaneAttack : Special
             if (CheckColliderWantsToAttack(collider)) {
                 bool killedObject;
                 ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damageAmount, out killedObject);
-                if(killedObject) stats.IncrementKillStreak();
+                if(killedObject){
+                    stats.IncrementKills(collider.gameObject.GetComponent<Hero>() != null);
+                }
             }
         }
     }
