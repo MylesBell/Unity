@@ -127,8 +127,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 10750b83f8cfb451aa4bb4bdb25207b8, type: 3}
   cowboysOpeningClip: {fileID: 8300000, guid: 8621323ce1d3d471c93d6e1419e012d4, type: 3}
   vikingOpeningClip: {fileID: 8300000, guid: 8fb4d0317fb324a748b13efac49d8e45, type: 3}
-  crossFadeDuration: 1
-  openingClipAudioSource: {fileID: 0}
+  crossFadeDuration: .200000003
 --- !u!114 &925133112
 MonoBehaviour:
   m_ObjectHideFlags: 0

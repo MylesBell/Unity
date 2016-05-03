@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -12,34 +13,34 @@ public class MusicScreenController : NetworkBehaviour {
     public float crossFadeDuration;
     
 
-    private int redHeroCount;
-    private int redGruntCount;
-    private int blueHeroCount;
-    private int blueGruntCount;
+    private int vikingHeroCount;
+    private int vikingGruntCount;
+    private int cowboyHeroCount;
+    private int cowboyGruntCount;
     
     private AudioSource baseClipAudioSource;
     private AudioSource[] audioSources;
-    public AudioSource openingClipAudioSource;
+    private AudioSource openingClipAudioSource;
     private float openingClipLength;
     private int defaultClipIndex;
-    private int previousClipIndex;
     private int playingClipIndex;
     
     private int middleTrack;
     private bool isCrossFadeRunning = false;
-    private Coroutine CrossFadeCoroutine;
-    
     private bool musicStarted = false;
     private bool openingMusicPlayed = false;
     
     private System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
     
+    private Queue<IEnumerator> crossFadeQueue;
+    
 	void Start () {
         if(!isServer) {
-            redHeroCount = 0;
-            redGruntCount = 0;
-            blueHeroCount = 0;
-            blueGruntCount = 0;
+            crossFadeQueue = new Queue<IEnumerator>();
+            vikingHeroCount = 0;
+            vikingGruntCount = 0;
+            cowboyHeroCount = 0;
+            cowboyGruntCount = 0;
             gameObject.transform.position = Camera.main.transform.position;
             //set up base sound clip audio source
             baseClipAudioSource = gameObject.AddComponent<AudioSource>();
@@ -95,45 +96,80 @@ public class MusicScreenController : NetworkBehaviour {
             if(isServer && Input.GetKeyDown(KeyCode.M)){
                 RpcStopMusicLoops();
             } else if(!isServer && audioSources.Length > 0 && openingMusicPlayed){
-                int redCount = redGruntCount + redHeroCount;
-                int blueCount = blueGruntCount + blueHeroCount;
-                // Debug.Log("Reds " + redCount + " blues " + blueCount);
+                int vikingCount = vikingGruntCount + vikingHeroCount;
+                int cowboysCount = cowboyGruntCount + cowboyHeroCount;
                 int newClipIndex;
-                if(redCount == 0 && blueCount == 0) newClipIndex = playingClipIndex; //neither of them present, hence keep playing tunes
-                else if(redCount == 0) newClipIndex = 0; //only blue present, play their tune
-                else if(blueCount == 0) newClipIndex = MusicClips.Length - 1; //only red present, play their tune
-                else if(redCount == blueCount) newClipIndex = middleTrack; //even number of each, play "equal" tunes
+                if(vikingCount == 0 && cowboysCount == 0) newClipIndex = playingClipIndex; //neither of them present, hence keep playing tunes
+                else if(vikingCount == 0) newClipIndex = 0; //only cowboys present, play their tune
+                else if(cowboysCount == 0) newClipIndex = MusicClips.Length - 1; //only viking present, play their tune
+                else if(vikingCount == cowboysCount) newClipIndex = middleTrack; //even number of each, play "equal" tunes
                 else {
-                    //agree about number of tracks
-                    //then create ranges for 1/abs(redCount-blueCount) which point to a track taking the diff into account
-                    if(redCount > blueCount) newClipIndex = MusicClips.Length - 1;
-                    else                     newClipIndex = 0;
+                    int diff = vikingCount - cowboysCount;
+                     //0 is the most neutral and 4 is the highest
+                    int songLevel = 0;
+                    switch((int)Mathf.Abs(diff)){
+                        case 1:
+                            songLevel = 0;
+                            break;
+                        case 2:
+                            songLevel = 1;
+                            break;
+                        case 3:
+                        case 4:
+                            songLevel = 2;
+                            break;
+                        case 5:
+                        case 6:
+                            songLevel = 3;
+                            break;
+                        default:
+                            songLevel = 4;
+                            break;
+                    }
+                    // Debug.Log("diff " + diff);
+                    // Debug.Log("vikings " + vikingCount + " cowboyss " + cowboysCount);
+                    // Debug.Log("Song Level " + songLevel);
+                    newClipIndex = diff > 0 ? songLevel + 5 : 4 - songLevel;
+                    // Debug.Log("New clip index " + newClipIndex);
                 }
                 if(newClipIndex != playingClipIndex){
-                    if(isCrossFadeRunning) {
-                        StopCoroutine(CrossFadeCoroutine);
-                        audioSources[previousClipIndex].volume = 0f;
+                    //cross fade through all the tracks
+                    if(playingClipIndex > newClipIndex){
+                        for(int i = playingClipIndex; i > newClipIndex; i--){
+                          crossFadeQueue.Enqueue(CrossFade(audioSources[i], audioSources[i-1], crossFadeDuration));
+                          Debug.Log("Cross fading from " + i + " to " + (i-1));
+                        }
+                    } else {
+                        for(int i = playingClipIndex; i < newClipIndex; i++){
+                          crossFadeQueue.Enqueue(CrossFade(audioSources[i], audioSources[i+1], crossFadeDuration));
+                          Debug.Log("Cross fading from " + i + " to " + (i+1));
+                        }
                     }
-                    CrossFadeCoroutine = StartCoroutine(CrossFade(audioSources[playingClipIndex], audioSources[newClipIndex], crossFadeDuration));
-                    previousClipIndex = playingClipIndex;
                     playingClipIndex = newClipIndex;
                 }
+                startEnqueuedCrossFade();
+                
             }
         } else if(!musicStarted && Input.GetKeyDown(KeyCode.M) && GameState.gameState == GameState.State.PLAYING){
             StartMusic(3f);
         }
 	}
-    
+    private void startEnqueuedCrossFade(){
+        if(!isCrossFadeRunning && crossFadeQueue.Count > 0){
+            StartCoroutine(crossFadeQueue.Dequeue());
+        }
+    }
     private IEnumerator CrossFade(AudioSource currentAudioSource, AudioSource newAudioSource, float duration){
-        Debug.Log("Starting Music");
         isCrossFadeRunning = true;
-        float fTimeCounter = 0f;
+        Debug.Log("Running coroutine");
+        float timeElapsed = 0f;
         float startVolume = currentAudioSource.volume;
-        while (!(Mathf.Approximately(fTimeCounter, duration))) {
-            fTimeCounter = Mathf.Clamp01(fTimeCounter + Time.deltaTime);
-            currentAudioSource.volume = Mathf.Clamp01(startVolume - fTimeCounter);
-            newAudioSource.volume = fTimeCounter;
-            yield return new WaitForSeconds(0.02f);
+        float step = 1f/duration;
+        while (timeElapsed < duration) {
+            timeElapsed += Time.deltaTime;
+            currentAudioSource.volume = Mathf.Clamp01(startVolume - timeElapsed*step);
+            newAudioSource.volume = timeElapsed*step;
+            yield return new WaitForSeconds(0.01f);
         }
         isCrossFadeRunning = false;
     }
@@ -150,6 +186,9 @@ public class MusicScreenController : NetworkBehaviour {
         musicStarted = false;
     }
     void StartMusicLoops(double startTimestamp) {
+        crossFadeQueue.Clear();
+        isCrossFadeRunning = false;
+        //start all the time loops
         double timestamp = (System.DateTime.UtcNow - epochStart).TotalSeconds;
         baseClipAudioSource.PlayDelayed((float)(startTimestamp - timestamp));
         baseClipAudioSource.volume = 0.5f;
@@ -173,6 +212,8 @@ public class MusicScreenController : NetworkBehaviour {
     }
     
     void StopMusicLoops() {
+        crossFadeQueue.Clear();
+        isCrossFadeRunning = false;
         baseClipAudioSource.Stop();
         baseClipAudioSource.volume = 0f;
         foreach (AudioSource audioSource in audioSources) {
@@ -187,24 +228,24 @@ public class MusicScreenController : NetworkBehaviour {
     public void IncrementCount(bool isHero, TeamID teamID){
         switch(teamID){
             case TeamID.blue:
-                if(isHero) blueHeroCount++;
-                else       blueGruntCount++;
+                if(isHero) cowboyHeroCount++;
+                else       cowboyGruntCount++;
                 break;
             case TeamID.red:
-                if(isHero) redHeroCount++;
-                else       redGruntCount++;
+                if(isHero) vikingHeroCount++;
+                else       vikingGruntCount++;
                 break;
         }
     }
     public void DecrementCount(bool isHero, TeamID teamID){
         switch(teamID){
             case TeamID.blue:
-                if(isHero) blueHeroCount--;
-                else       blueGruntCount--;
+                if(isHero) cowboyHeroCount--;
+                else       cowboyGruntCount--;
                 break;
             case TeamID.red:
-                if(isHero) redHeroCount--;
-                else       redGruntCount--;
+                if(isHero) vikingHeroCount--;
+                else       vikingGruntCount--;
                 break;
         }
     }
