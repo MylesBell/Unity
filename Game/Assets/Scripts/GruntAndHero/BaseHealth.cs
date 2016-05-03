@@ -18,11 +18,19 @@ public class BaseHealth : Health {
         InitialiseHealth(computerLane);
     }
 	public new void ReduceHealth(float amountToReduce, out bool killedBase){
-		currentHealth -= amountToReduce;
-        killedBase = currentHealth < 0;
-        damageText.Play(-amountToReduce);
-        if(otherBase) otherBase.ChangeFromOtherBase(-amountToReduce);
-        team.BaseHealthChange(maxHealth, currentHealth);
+        if(currentHealth > 0) {
+            currentHealth -= amountToReduce;
+            killedBase = currentHealth <= 0;
+            if (killedBase) {
+                gameObject.GetComponent<IDestroyableGameObject>().DisableGameObject();
+                if(otherBase) otherBase.gameObject.GetComponent<IDestroyableGameObject>().DisableGameObject();
+            }
+            damageText.Play(-amountToReduce);
+            if(otherBase) otherBase.ChangeFromOtherBase(-amountToReduce);
+            team.BaseHealthChange(maxHealth, currentHealth);
+        } else {
+            killedBase = false;
+        }
 	}
     
     public void ChangeFromOtherBase(float amountToReduce){

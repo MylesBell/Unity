@@ -139,10 +139,12 @@ public class Tower : NetworkBehaviour {
 			redTeam.CapturedTower(this);
 			towerState = TowerState.red;
 			percentRed = 100f;
+			UpdateCaptureStats(captureRadius, "redHero");
 		}else if (percentBlue >= 100f && oldTowerState == TowerState.neutral){
 			blueTeam.CapturedTower(this);
 			towerState = TowerState.blue;
 			percentBlue = 100f;
+			UpdateCaptureStats(captureRadius, "blueHero");
 		}else if (percentRed <= 0 && percentBlue <= 0 && oldTowerState != TowerState.neutral){
 			if (oldTowerState == TowerState.blue){
 				blueTeam.LostTower(this);
@@ -193,6 +195,13 @@ public class Tower : NetworkBehaviour {
 		
 		return heroCapturing;
     }
+	
+	private void UpdateCaptureStats(float radius, string heroTag){
+		Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        foreach(Collider collider in colliders) {
+            if (collider.gameObject.tag.Equals(heroTag)) collider.gameObject.GetComponent<Stats>().towersCaptured++;
+        }
+	}
 	
 	public void ResetTower(){
 		percentRed = 0f;

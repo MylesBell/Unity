@@ -35,21 +35,22 @@ public class Attack : NetworkBehaviour {
 	
 	private void AttackTarget() {
 		if (targetInAttackArea()){
-			RpcSetAttacking(true);
+			CmdSetAttacking(true);
             bool killedObject;
             if(target.GetComponent<BaseHealth>()){
-                target.GetComponent<BaseHealth>().ReduceHealth(stats.damage + stats.GetKillStreak()/10, out killedObject);
+                target.GetComponent<BaseHealth>().ReduceHealth(stats.damage + stats.GetKills()/10, out killedObject);
             }else{
-                // attack based on hero damage, killstreak and enemy defense
-                float damageToDo = (stats.damage + stats.GetKillStreak()/10)/target.GetComponent<Stats>().defense;
+                // attack based on hero damage, kills and enemy defense
+                float damageToDo = (stats.damage + stats.GetKills()/10)/target.GetComponent<Stats>().defense;
                 target.GetComponent<Health>().ReduceHealth(damageToDo, out killedObject);
             }
             if(killedObject) {
-				stats.IncrementKillStreak();
-				RpcSetAttacking(false);
+				stats.IncrementKills(target.GetComponent<Hero>() != null);
+				animator.SetBool("Attacking", false);
+				CmdSetAttacking(false);
 			}
 		} else {
-			RpcSetAttacking(false);
+			CmdSetAttacking(false);
 		}
 	}
 
@@ -70,7 +71,12 @@ public class Attack : NetworkBehaviour {
 	public void setTarget(GameObject newTarget){
 		target = newTarget;
 	}
-
+	
+	[Command]
+	public void CmdSetAttacking(bool attacking) {
+		animator.SetBool("Attacking", attacking);
+		RpcSetAttacking(attacking);
+	}
 	
 	[ClientRpc]
 	public void RpcSetAttacking(bool attacking) {
