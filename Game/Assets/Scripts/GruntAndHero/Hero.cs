@@ -56,21 +56,29 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
 
     public void ResetGameObject(Vector3 spawnLocation, ComputerLane computerLane) {
         if (isServer) {
-            active = true;
-            gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
-            gameObject.GetComponent<Attack>().initiliseAttack();
-            
-            // initialise targeting and movement            
-            targetSelect = GetComponent<TargetSelect>();
-            targetSelect.InitialiseTargetSelect (team.GetTeamID(), spawnLocation);
-            gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
-            //set Health to Max          
-            gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
-            CmdSetActiveState(active);
-            gameObject.SetActive(active);
+            Vector3 rotation = team.GetTeamID() == TeamID.blue ? new Vector3(0,90,0) : new Vector3(0,270,0);
+            RpcResetGameObject(spawnLocation,computerLane,rotation);
             RpcSetAnimatorActive(true);
             RpcSetAliveAnim(true);
         }
+    }
+    
+    [ClientRpc]
+    public void RpcResetGameObject(Vector3 spawnLocation, ComputerLane computerLane, Vector3 rotation){
+        active = true;
+        gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
+        if(isServer) gameObject.GetComponent<Attack>().initiliseAttack();
+        
+        if(isServer){
+            // initialise targeting and movement            
+            targetSelect = GetComponent<TargetSelect>();
+            targetSelect.InitialiseTargetSelect (team.GetTeamID(), spawnLocation);
+        }
+        gameObject.GetComponent<SynchronisedMovement>().ResetMovement(spawnLocation, rotation);
+        //set Health to Max          
+        gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
+        gameObject.SetActive(active);
+        
     }
     
     [Command] public void CmdSetActiveState(bool active) {
@@ -82,12 +90,14 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         gameObject.SetActive(active);
     }
     
+
     [ClientRpc]
     public void RpcSetAnimatorActive(bool active) {
         animator = GetComponentInChildren<Animator>();        
         animator.enabled = active;
     }
     
+
     [ClientRpc]
     public void RpcSetAliveAnim(bool alive) {
         animator = GetComponentInChildren<Animator>();        
