@@ -19,14 +19,16 @@ public class Health : NetworkBehaviour {
     }
     
     public virtual void InitialiseHealth(ComputerLane computerlane) {
-        // if max heath isnt set, as can be set by later function
-        currentHealth = maxHealth;
         entityLocation = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        percentOfHealth = currentHealth / maxHealth;
-        healthBarLength = percentOfHealth * healthBarInitialLength;
-        
-        damageText = gameObject.GetComponent<DamageText>();
-        damageText.InitialiseDamageText(computerlane);
+        if(isServer) {
+            // if max heath isnt set, as can be set by later function
+            currentHealth = maxHealth;
+            percentOfHealth = currentHealth / maxHealth;
+            healthBarLength = percentOfHealth * healthBarInitialLength;
+            
+            damageText = gameObject.GetComponent<DamageText>();
+            damageText.InitialiseDamageText(computerlane);
+        }
     }
 
 	void OnGUI () {

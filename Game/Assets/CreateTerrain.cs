@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-    
+using System;
+
 public enum ComputerLane {LEFT, RIGHT}
 
 public class CreateTerrain : NetworkBehaviour
@@ -73,7 +74,7 @@ public class CreateTerrain : NetworkBehaviour
         NetworkManager.singleton.client.RegisterHandler(MyMsgType.SendSceneryCode, onRecieverScenery);
         NetworkManager.singleton.client.RegisterHandler(MyMsgType.SceneryInfoCode, onRecieverSceneryInfo);
         
-        Random.seed = (int)Time.time;
+        UnityEngine.Random.seed = DateTime.Now.Millisecond;
         int numScreensLeft = GraniteNetworkManager.numberOfScreens_left;
         int numScreensRight = GraniteNetworkManager.numberOfScreens_right;
         int screenNumber = GraniteNetworkManager.screeNumber;
@@ -187,8 +188,8 @@ public class CreateTerrain : NetworkBehaviour
 		for (int i = 0; i < numScreens; i++) {
             //For each screen generate scenery on the unwalkable area
             //As well as the main terrain if using pathfinding
-            int numObjectsOnSides = Random.Range(minNumScenerySides, maxNumScenerySides);
-            int numObjectsOnMainTerrain = Random.Range(minNumSceneryMain, maxNumSceneryMain);
+            int numObjectsOnSides = UnityEngine.Random.Range(minNumScenerySides, maxNumScenerySides);
+            int numObjectsOnMainTerrain =  UnityEngine.Random.Range(minNumSceneryMain, maxNumSceneryMain);
             screenScenery[i] = new List<NetworkTreeMessage>();
             screenScenery[i].AddRange(GenerateTerrainPart(false, numObjectsOnSides, numScreens, i, computerLane, laneOffset));
             if(GraniteNetworkManager.usePathFinding) screenScenery[i].AddRange(GenerateTerrainPart(true, numObjectsOnMainTerrain, numScreens, i, computerLane, laneOffset));
@@ -199,13 +200,13 @@ public class CreateTerrain : NetworkBehaviour
     private List<NetworkTreeMessage> GenerateTerrainPart(bool generatingForMainTerrain, int numObjects, int numScreens, int screenNumber, ComputerLane computerLane, Vector3 laneOffset){
         List<NetworkTreeMessage> screenScenery = new List<NetworkTreeMessage>();
         for (int j = 0; j < numObjects; j++) {
-            int index = screenNumber < numScreens/2? Random.Range(0,3) : Random.Range(3,sceneryObjects.Length);
+            int index = screenNumber < numScreens/2?  UnityEngine.Random.Range(0,3) :  UnityEngine.Random.Range(3,sceneryObjects.Length);
             Vector3 position = GetNewPosition(generatingForMainTerrain, screenNumber, numScreens, chunkOffset*screenNumber, computerLane, laneOffset);
             RaycastHit terrainLevel;
             if(Physics.Raycast(position, -Vector3.up, out terrainLevel, Mathf.Infinity, terrainMask))
                 position = terrainLevel.point;
-            Quaternion rotation = Quaternion.Euler(0.0f,Random.Range(0,360),0.0f);
-            Vector3 scale = new Vector3(Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f));
+            Quaternion rotation = Quaternion.Euler(0.0f, UnityEngine.Random.Range(0,360),0.0f);
+            Vector3 scale = new Vector3( UnityEngine.Random.Range(0.8f,1.2f),  UnityEngine.Random.Range(0.8f,1.2f),  UnityEngine.Random.Range(0.8f,1.2f));
 
             //spawn on server
             scenerySpawner(index, position, rotation, scale);
@@ -243,11 +244,11 @@ public class CreateTerrain : NetworkBehaviour
         if(generatingForMainTerrain){
             //if generating for the walkbale part of the terrain
             //then generate the tree anywhere between min and max
-            z_pos = z_min + Random.Range(0, z_max - z_min);
+            z_pos = z_min +  UnityEngine.Random.Range(0, z_max - z_min);
         } else {
             //if generating for the hills then try until the number is not on the main terrain
             do {
-                z_pos = Random.Range(0, 100) + laneOffset.z;
+                z_pos =  UnityEngine.Random.Range(0, 100) + laneOffset.z;
             } while (z_pos >= z_min && z_pos <= z_max);
         }
         
@@ -264,18 +265,18 @@ public class CreateTerrain : NetworkBehaviour
             //Find a point that is not between A and B so that it's not in the tunnel
             if(screenNumber == 0){
                 if(generatingForMainTerrain){
-                    x_pos = Random.Range(50, 100);
+                    x_pos =  UnityEngine.Random.Range(50, 100);
                 } else {
                     do {
-                        x_pos = Random.Range(0, 100);
+                        x_pos =  UnityEngine.Random.Range(0, 100);
                     } while (56 <= x_pos && x_pos <= 76 && (tunnelSide));
                 }
             } else if(screenNumber == numScreens - 1){
                 if(generatingForMainTerrain){
-                    x_pos = Random.Range(0, 50);
+                    x_pos =  UnityEngine.Random.Range(0, 50);
                 } else {
                     do {
-                        x_pos = Random.Range(0, 100);
+                        x_pos =  UnityEngine.Random.Range(0, 100);
                     } while (24 <= x_pos && x_pos <= 44 && tunnelSide);
                 }
             } else {
@@ -283,10 +284,10 @@ public class CreateTerrain : NetworkBehaviour
                 //if it's a tower screen
                 if(Towers.IsTower(numScreens, screenNumber) && (tunnelSide || towerZ)){
                     do {
-                        x_pos = Random.Range(0, 100);
+                        x_pos =  UnityEngine.Random.Range(0, 100);
                     } while (35 <= x_pos && x_pos <= 65);
                 } else {
-                    x_pos = Random.Range(0,100);
+                    x_pos =  UnityEngine.Random.Range(0,100);
                 }
             }
         } else {
@@ -295,11 +296,11 @@ public class CreateTerrain : NetworkBehaviour
             bool nearBase = (computerLane == ComputerLane.LEFT && z_pos < z_max)|| (computerLane == ComputerLane.RIGHT && z_pos > z_min);
             //if z is near the base then move it away 
             if(screenNumber == 0 && nearBase){
-                x_pos = Random.Range(50,100);
+                x_pos =  UnityEngine.Random.Range(50,100);
             } else if(screenNumber == numScreens - 1 && nearBase){
-                x_pos = Random.Range(0,50);
+                x_pos =  UnityEngine.Random.Range(0,50);
             } else {
-                x_pos = Random.Range(0,100);
+                x_pos =  UnityEngine.Random.Range(0,100);
             }
         }
         
