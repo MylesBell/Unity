@@ -163,7 +163,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185270}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -54.382061, y: 28.4947777, z: -9.18820667}
+  m_LocalPosition: {x: 326.009247, y: 144.807129, z: -1187.46082}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 492080}
@@ -470,11 +470,8 @@ MonoBehaviour:
   healthBarLowTexture: {fileID: 2800000, guid: c4b48ec9a5dee409cba6c0d5bb8990db, type: 3}
   healthBarBackTexture: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b,
     type: 3}
-  healthBarDividerTexture: {fileID: 2800000, guid: 115a22b22ecd54651a7405d6fee5106a,
-    type: 3}
   healthBarOffset: 8
   maxHealth: 5000
-  dividerSpacing: 100
   currentHealth: 0
 --- !u!114 &11485344
 MonoBehaviour:
@@ -874,27 +871,27 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 1
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 4278252284
         key1:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 43516
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 253
         key3:
           serializedVersion: 2
-          rgba: 0
+          rgba: 327935
         key4:
           serializedVersion: 2
-          rgba: 0
+          rgba: 16777215
         key5:
           serializedVersion: 2
-          rgba: 0
+          rgba: 16777215
         key6:
           serializedVersion: 2
           rgba: 0
@@ -902,23 +899,23 @@ ParticleSystem:
           serializedVersion: 2
           rgba: 0
         ctime0: 0
-        ctime1: 65535
-        ctime2: 0
-        ctime3: 0
-        ctime4: 0
-        ctime5: 0
+        ctime1: 7325
+        ctime2: 33346
+        ctime3: 65535
+        ctime4: 65535
+        ctime5: 65535
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
+        atime1: 42405
+        atime2: 65535
         atime3: 0
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
-        m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumColorKeys: 4
+        m_NumAlphaKeys: 3
       minGradient:
         key0:
           serializedVersion: 2
@@ -1927,27 +1924,27 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 1
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 4278252284
         key1:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 43516
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 253
         key3:
           serializedVersion: 2
-          rgba: 0
+          rgba: 327935
         key4:
           serializedVersion: 2
-          rgba: 0
+          rgba: 16777215
         key5:
           serializedVersion: 2
-          rgba: 0
+          rgba: 16777215
         key6:
           serializedVersion: 2
           rgba: 0
@@ -1955,23 +1952,23 @@ ParticleSystem:
           serializedVersion: 2
           rgba: 0
         ctime0: 0
-        ctime1: 65535
-        ctime2: 0
-        ctime3: 0
-        ctime4: 0
-        ctime5: 0
+        ctime1: 7325
+        ctime2: 33346
+        ctime3: 65535
+        ctime4: 65535
+        ctime5: 65535
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
+        atime1: 42405
+        atime2: 65535
         atime3: 0
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
-        m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumColorKeys: 4
+        m_NumAlphaKeys: 3
       minGradient:
         key0:
           serializedVersion: 2
@@ -2980,27 +2977,27 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 1
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 4278252284
         key1:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 43516
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 253
         key3:
           serializedVersion: 2
-          rgba: 0
+          rgba: 327935
         key4:
           serializedVersion: 2
-          rgba: 0
+          rgba: 16777215
         key5:
           serializedVersion: 2
-          rgba: 0
+          rgba: 16777215
         key6:
           serializedVersion: 2
           rgba: 0
@@ -3008,23 +3005,23 @@ ParticleSystem:
           serializedVersion: 2
           rgba: 0
         ctime0: 0
-        ctime1: 65535
-        ctime2: 0
-        ctime3: 0
-        ctime4: 0
-        ctime5: 0
+        ctime1: 7325
+        ctime2: 33346
+        ctime3: 65535
+        ctime4: 65535
+        ctime5: 65535
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
+        atime1: 42405
+        atime2: 65535
         atime3: 0
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
-        m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumColorKeys: 4
+        m_NumAlphaKeys: 3
       minGradient:
         key0:
           serializedVersion: 2
@@ -4033,27 +4030,27 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 1
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 4278252284
         key1:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 43516
         key2:
           serializedVersion: 2
-          rgba: 0
+          rgba: 253
         key3:
           serializedVersion: 2
-          rgba: 0
+          rgba: 327935
         key4:
           serializedVersion: 2
-          rgba: 0
+          rgba: 16777215
         key5:
           serializedVersion: 2
-          rgba: 0
+          rgba: 16777215
         key6:
           serializedVersion: 2
           rgba: 0
@@ -4061,23 +4058,23 @@ ParticleSystem:
           serializedVersion: 2
           rgba: 0
         ctime0: 0
-        ctime1: 65535
-        ctime2: 0
-        ctime3: 0
-        ctime4: 0
-        ctime5: 0
+        ctime1: 7325
+        ctime2: 33346
+        ctime3: 65535
+        ctime4: 65535
+        ctime5: 65535
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
+        atime1: 42405
+        atime2: 65535
         atime3: 0
         atime4: 0
         atime5: 0
         atime6: 0
         atime7: 0
-        m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumColorKeys: 4
+        m_NumAlphaKeys: 3
       minGradient:
         key0:
           serializedVersion: 2
@@ -4721,7 +4718,7 @@ ParticleSystemRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: f294bcc86b0b14ed0a119d604ba6e1ff, type: 2}
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -4757,7 +4754,7 @@ ParticleSystemRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: f294bcc86b0b14ed0a119d604ba6e1ff, type: 2}
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -4793,7 +4790,7 @@ ParticleSystemRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: f294bcc86b0b14ed0a119d604ba6e1ff, type: 2}
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -4829,7 +4826,7 @@ ParticleSystemRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: f294bcc86b0b14ed0a119d604ba6e1ff, type: 2}
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
