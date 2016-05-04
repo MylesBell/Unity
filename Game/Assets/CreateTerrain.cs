@@ -180,7 +180,7 @@ public class CreateTerrain : NetworkBehaviour
     void CreateSnow(GameObject chunk, float snowLevel) {
         chunk.GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",snowLevel);
         Vector3 position = chunk.transform.position + new Vector3(50,100,50);
-        GameObject snow = (GameObject) Instantiate(snowObject, position, snowObject.transform.rotation);
+        GameObject snow = (GameObject) Instantiate(snowObject, position, Quaternion.identity);
         snow.GetComponent<ParticleSystem>().emissionRate = snowLevel * 1000;
     }
     
