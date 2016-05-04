@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class BaseHealth : Health {
     Team team;
@@ -55,6 +56,7 @@ public class BaseHealth : Health {
         return this.computerLane;
     }
     
+    [ClientRpc]
     public void RpcSetFireLevel(){
         ParticleSystem[] fires = gameObject.GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem fire in fires){
@@ -65,6 +67,5 @@ public class BaseHealth : Health {
                 fire.emissionRate = 20 * Mathf.Pow(1 - (currentHealth / maxHealth), 5); 
             }
         }
-
     }
 }
