@@ -66,7 +66,8 @@ LightmapSettings:
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
-  m_LightmapSnapshot: {fileID: 0}
+  m_LightmapSnapshot: {fileID: 112000067, guid: 5a08f0823c5814d7cb19d212c800c1c4,
+    type: 2}
   m_RuntimeCPUUsage: 25
 --- !u!196 &4
 NavMeshSettings:
@@ -260,7 +261,7 @@ Transform:
   - {fileID: 2117376848}
   - {fileID: 1023582045}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!114 &971672729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,35 +557,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18a930a1ef37c243adf7b5719d2ccb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laneSegmentsLeft:
-  - {fileID: 146500, guid: c10aad9250ac67540a2680b953ce73c6, type: 2}
+  base1Left: {fileID: 132566, guid: 044786a0879f04c718f1cf6c097fe4f8, type: 2}
+  base2Left: {fileID: 152870, guid: 2a453036efd95446c8303f0b3fc85ccf, type: 2}
+  base1Right: {fileID: 155452, guid: bedc37caf26a25341b9462a030a65dcb, type: 2}
+  base2Right: {fileID: 119416, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
+  laneSegmentsCowboyLeft:
+  - {fileID: 196498, guid: 533603a3024e84f839421bf5230f4807, type: 2}
+  - {fileID: 161908, guid: f75792ee7c61540af8ad918f0d4482f5, type: 2}
+  - {fileID: 146500, guid: b34a8511737f741d3bbd1e0c01a8243f, type: 2}
+  middleLaneLeft: {fileID: 166702, guid: fdffcdce435117642a97fc12665370d6, type: 2}
+  laneSegmentsVikingLeft:
+  - {fileID: 196498, guid: 66212218fd771e343991307335e17612, type: 2}
   - {fileID: 161908, guid: 31f8bff1f435cee4084de8af65dd72f2, type: 2}
-  base1LeftNoTunnel: {fileID: 132566, guid: 044786a0879f04c718f1cf6c097fe4f8, type: 2}
-  base2LeftNoTunnel: {fileID: 152870, guid: 2a453036efd95446c8303f0b3fc85ccf, type: 2}
-  base1LeftTunnel: {fileID: 132566, guid: 044786a0879f04c718f1cf6c097fe4f8, type: 2}
-  base2LeftTunnel: {fileID: 152870, guid: 2a453036efd95446c8303f0b3fc85ccf, type: 2}
-  laneSegmentsRight:
-  - {fileID: 157990, guid: 6c0525112d84a254587d70afc7378df6, type: 2}
+  - {fileID: 146500, guid: c10aad9250ac67540a2680b953ce73c6, type: 2}
+  laneSegmentsCowboyRight:
+  - {fileID: 126984, guid: a7659af81dc374bab8102bdc56c77d7d, type: 2}
+  - {fileID: 186994, guid: 286b1765890a14780b2136a8903be737, type: 2}
+  - {fileID: 157990, guid: 9f9aaf8bca4144fc6aec80e1848a93ac, type: 2}
+  middleLaneRight: {fileID: 185250, guid: 48a16a2ff688c2f4aa8ab13d90248e5a, type: 2}
+  laneSegmentsVikingRight:
+  - {fileID: 126984, guid: c292d28a73407134ab100e835d0a9373, type: 2}
   - {fileID: 186994, guid: 66018b435b670134fb189d52c76136ef, type: 2}
-  base1RightNoTunnel: {fileID: 155452, guid: bedc37caf26a25341b9462a030a65dcb, type: 2}
-  base2RightNoTunnel: {fileID: 119416, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
-  base1RightTunnel: {fileID: 155452, guid: bedc37caf26a25341b9462a030a65dcb, type: 2}
-  base2RightTunnel: {fileID: 119416, guid: 4b6a1ac1ead63de41b0eb487e3747892, type: 2}
-  groundMaterial: {fileID: 2100000, guid: 0e7ce98afff294a2f9aa916270a1eec7, type: 2}
-  sandMaterial: {fileID: 2100000, guid: bc7157999ea194f45a2797c56ec9c7a1, type: 2}
-  sceneryObjects:
-  - {fileID: 194014, guid: 31b1e74b9b72248a697572cb9d0fa77d, type: 2}
-  - {fileID: 165532, guid: efdd03d14e7844780b9dd3df3f41673a, type: 2}
-  - {fileID: 170964, guid: dca3f129a66b744269a0e63836bb528e, type: 2}
-  - {fileID: 103158, guid: ded6790f16e214c2a8e745443496f56a, type: 2}
-  - {fileID: 156676, guid: 37ddc133724d14583bf2c55d17be82e2, type: 2}
-  - {fileID: 133058, guid: 9295187c815e7462f9a1daabaf5c4b9b, type: 2}
-  - {fileID: 134034, guid: 6aa71e081f3c741b39cb0660f69a8582, type: 2}
+  - {fileID: 157990, guid: 6c0525112d84a254587d70afc7378df6, type: 2}
+  snowObject: {fileID: 162962, guid: db9e3826473b94b66b4980bd87ec5ff5, type: 2}
   terrainMask:
     serializedVersion: 2
     m_Bits: 256
-  minNumScenerySides: 100
-  maxNumScenerySides: 200
 --- !u!4 &1919932851
 Transform:
   m_ObjectHideFlags: 0
@@ -596,7 +594,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!114 &1919932852
 MonoBehaviour:
   m_ObjectHideFlags: 0
