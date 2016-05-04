@@ -35,12 +35,13 @@
         float4 _SnowDirection;
         float _SnowDepth;
 		
-		 float rand(float4 co)
+		 float rand(float3 co)
 		{
-			return frac(sin( dot(co.xyz ,float4(12.9898,78.233,45.5432,93.637) )) * 43758.5453);
+			return frac(sin( dot(co.xyz ,float3(12.9898,78.233,45.5432) )) * 43758.5453);
 		}
 
         void vert (inout appdata_full v, out Input o) {
+			UNITY_INITIALIZE_OUTPUT(Input,o);
             //Convert the normal to world coortinates
             float3 snormal = normalize(_SnowDirection.xyz);
             float3 sn = mul((float3x3)_World2Object, snormal).xyz;
