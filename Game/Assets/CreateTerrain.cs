@@ -180,7 +180,7 @@ public class CreateTerrain : NetworkBehaviour
     void CreateSnow(GameObject chunk, float snowLevel) {
         chunk.GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",snowLevel);
         Vector3 position = chunk.transform.position + new Vector3(50,100,50);
-        GameObject snow = (GameObject) Instantiate(snowObject, position, snowObject.transform.rotation);
+        GameObject snow = (GameObject) Instantiate(snowObject, position, Quaternion.identity);
         snow.GetComponent<ParticleSystem>().emissionRate = snowLevel * 1000;
     }
     
@@ -234,7 +234,7 @@ public class CreateTerrain : NetworkBehaviour
                   0.0f;
 
             //spawn on server
-            scenerySpawner(index, snowLevel, position, rotation, scale);
+            // scenerySpawner(index, snowLevel, position, rotation, scale);
             //create a message for the client
             NetworkTreeMessage msg = new NetworkTreeMessage();
             msg.index = index;
@@ -365,7 +365,7 @@ public class CreateTerrain : NetworkBehaviour
         //recieve message and spawn on client
         Debug.Log("Client received message");
         NetworkTreeMessage msg = netMsg.ReadMessage<NetworkTreeMessage>();
-        scenerySpawner(msg.index, msg.snowLevel, msg.position, msg.rotation, msg.scale);
+        // scenerySpawner(msg.index, msg.snowLevel, msg.position, msg.rotation, msg.scale);
         lock(objectsRecievedLock){
             objectsRecieved++;
         }
