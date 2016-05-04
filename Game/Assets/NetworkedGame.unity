@@ -329,7 +329,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -383,11 +385,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blueTeam: {fileID: 1193707488}
   redTeam: {fileID: 1193707487}
-  gruntPoolSize: 500
+  gruntPoolSize: 50
   numberOfGruntsToSpawn: 5
   gruntSpawnInterval: 10
   heroRespawnInterval: 5
-  numberOfChannels: 10
+  numberOfChannels: 30
 --- !u!114 &1193707482
 MonoBehaviour:
   m_ObjectHideFlags: 0

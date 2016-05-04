@@ -7,10 +7,6 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
     [SyncVar] private int id;
     private bool active = false;
     private ComputerLane computerLane;
-
-    void Start() {
-        gameObject.SetActive(active);
-    }
     
     public void InitialiseGameObject(Team team) {
         if (isServer) {
@@ -29,14 +25,26 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
             Vector3 adjusted_spawnLocation = gameObject.GetComponent<GruntMovement>().AdjustToTerrain(spawnPosition);
             gameObject.GetComponent<Attack>().initiliseAttack();
             gameObject.GetComponent<GruntMovement>().initialiseMovement(adjusted_spawnLocation);
+            gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID,adjusted_spawnLocation);
+            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), spawnPosition);
             //set Health to Max
             gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
-            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), spawnPosition);
-            gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID,adjusted_spawnLocation);
-            CmdSetActiveState(active,adjusted_spawnLocation);
             gameObject.SetActive(active);
+            CmdSetActiveState(active,adjusted_spawnLocation);
         }
 	}
+    
+    [ClientRpc]
+    public void RpcResetGameObject(Vector3 spawnPosition, ComputerLane computerLane){
+        active = true;
+        gameObject.GetComponent<Attack>().initiliseAttack();
+        gameObject.GetComponent<GruntMovement>().initialiseMovement(spawnPosition);
+        gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID,spawnPosition);
+        gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), spawnPosition);
+        //set Health to Max
+        gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
+        gameObject.SetActive(active);
+    }
 
     void Update() {
         if (isServer && GameState.gameState == GameState.State.IDLE) DisableGameObject(); //kill grunts at restart

@@ -60,15 +60,14 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             gameObject.GetComponent<HeroMovement>().initialiseMovement(spawnLocation);
             gameObject.GetComponent<Attack>().initiliseAttack();
             
-            //set Health to Max          
-            gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
-            
             // initialise targeting and movement            
             targetSelect = GetComponent<TargetSelect>();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), spawnLocation);
             gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
-            gameObject.SetActive(active);
+            //set Health to Max          
+            gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
             CmdSetActiveState(active);
+            gameObject.SetActive(active);
             RpcSetAnimatorActive(true);
             RpcSetAliveAnim(true);
         }

@@ -11,8 +11,10 @@ public class Attack : NetworkBehaviour {
 	private Stats stats;
 
     public void initiliseAttack() {
-        timeTillAttack = 0;
-        target = null;
+		if(isServer) {
+			timeTillAttack = 0;
+			target = null;
+		}
     }
 	public void SwitchAnimator(Animator anim) {
         animator = anim;

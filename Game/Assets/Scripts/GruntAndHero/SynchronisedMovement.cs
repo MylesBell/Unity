@@ -35,6 +35,10 @@ public class SynchronisedMovement : NetworkBehaviour{
     public void RpcSetPosition(Vector3 position, Vector3 rotation) {
         transform.position = position;
         transform.rotation = Quaternion.Euler(rotation);
+		synchPos = position;
+		synchRot = rotation;
+		lastPos = position;
+		lastRot = Quaternion.Euler(rotation);
     }
 
 
