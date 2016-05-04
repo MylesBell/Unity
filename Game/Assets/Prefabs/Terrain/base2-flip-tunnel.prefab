@@ -200,7 +200,7 @@ Transform:
   m_LocalScale: {x: 56, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 491482}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!4 &436716
 Transform:
   m_ObjectHideFlags: 1
@@ -212,7 +212,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 491482}
-  m_RootOrder: 7
+  m_RootOrder: 0
 --- !u!4 &440702
 Transform:
   m_ObjectHideFlags: 1
@@ -224,7 +224,7 @@ Transform:
   m_LocalScale: {x: 7.93199348, y: 7.53800201, z: 1}
   m_Children: []
   m_Father: {fileID: 491482}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!4 &443026
 Transform:
   m_ObjectHideFlags: 1
@@ -238,7 +238,7 @@ Transform:
   - {fileID: 484556}
   - {fileID: 475636}
   m_Father: {fileID: 491482}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!4 &452774
 Transform:
   m_ObjectHideFlags: 1
@@ -250,7 +250,7 @@ Transform:
   m_LocalScale: {x: 24, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 491482}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!4 &457904
 Transform:
   m_ObjectHideFlags: 1
@@ -262,7 +262,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 491482}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!4 &462358
 Transform:
   m_ObjectHideFlags: 1
@@ -274,7 +274,7 @@ Transform:
   m_LocalScale: {x: 20, y: 20, z: 60}
   m_Children: []
   m_Father: {fileID: 491482}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &475636
 Transform:
   m_ObjectHideFlags: 1
@@ -298,7 +298,7 @@ Transform:
   m_LocalScale: {x: 100, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 491482}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &484556
 Transform:
   m_ObjectHideFlags: 1
@@ -321,6 +321,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 436716}
   - {fileID: 479312}
   - {fileID: 462358}
   - {fileID: 452774}
@@ -328,7 +329,6 @@ Transform:
   - {fileID: 443026}
   - {fileID: 440702}
   - {fileID: 457904}
-  - {fileID: 436716}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!23 &2321378
@@ -350,7 +350,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -374,7 +376,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -398,7 +402,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -422,7 +428,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
