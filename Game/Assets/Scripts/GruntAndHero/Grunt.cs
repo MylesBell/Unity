@@ -7,16 +7,12 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
     [SyncVar] private int id;
     private bool active = false;
     private ComputerLane computerLane;
-
-    void Start() {
-        gameObject.SetActive(active);
-    }
     
     public void InitialiseGameObject(Team team) {
         if (isServer) {
             this.team = team;
             gameObject.SetActive(active);
-            CmdSetActiveState(active, transform.position);
+            CmdSetActiveState(active);
         }
 	}
     public void SetID(int id){
@@ -26,37 +22,46 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
     public void ResetGameObject(Vector3 spawnPosition, ComputerLane computerLane) {
         if (isServer) {
             active = true;
-            Vector3 adjusted_spawnLocation = gameObject.GetComponent<GruntMovement>().AdjustToTerrain(spawnPosition);
-            gameObject.GetComponent<Attack>().initiliseAttack();
-            gameObject.GetComponent<GruntMovement>().initialiseMovement(adjusted_spawnLocation);
-            //set Health to Max
-            gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
-            gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), spawnPosition);
-            gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID,adjusted_spawnLocation);
-            CmdSetActiveState(active,adjusted_spawnLocation);
-            gameObject.SetActive(active);
+            // Vector3 adjusted_spawnLocation = gameObject.GetComponent<GruntMovement>().AdjustToTerrain(spawnPosition);
+            Vector3 rotation = team.GetTeamID() == TeamID.blue ? new Vector3(0,90,0) : new Vector3(0,270,0);
+            RpcResetGameObject(spawnPosition, rotation, computerLane);
         }
 	}
+    
+    [ClientRpc]
+    public void RpcResetGameObject(Vector3 spawnPosition, Vector3 rotation, ComputerLane computerLane){
+        active = true;
+        if(isServer) gameObject.GetComponent<Attack>().initiliseAttack();
+        gameObject.GetComponent<GruntMovement>().initialiseMovement(spawnPosition);
+        gameObject.GetComponent<SynchronisedMovement>().ResetMovement(spawnPosition, rotation);
+        if(isServer) gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), spawnPosition);
+        //set Health to Max
+        gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
+        gameObject.SetActive(active);
+        for(int i = 0; i < transform.childCount; i++){
+            if(transform.GetChild(i).name.Contains("DamageText")){
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
 
     void Update() {
         if (isServer && GameState.gameState == GameState.State.IDLE) DisableGameObject(); //kill grunts at restart
     }
 
     [Command]
-    public void CmdSetActiveState(bool active, Vector3 spawnPosition) {
-        RpcSetActive(active, spawnPosition);
+    public void CmdSetActiveState(bool active) {
+        RpcSetActive(active);
     }
 
     [ClientRpc]
-    public void RpcSetActive(bool active, Vector3 spawnPosition) {
-        transform.position = spawnPosition;
+    public void RpcSetActive(bool active) {
         gameObject.SetActive(active);
     }
 
     public void DisableGameObject() {
         active = false;
-        gameObject.SetActive(active);
-        CmdSetActiveState(active, transform.position);
+        CmdSetActiveState(active);
         team.OnGruntDead(gameObject);
     }
     
