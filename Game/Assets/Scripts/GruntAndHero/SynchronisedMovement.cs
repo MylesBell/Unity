@@ -20,10 +20,13 @@ public class SynchronisedMovement : NetworkBehaviour{
 		else ClientMoveToPosition();
 	}
     
-    public void ResetMovement(TeamID teamID, Vector3 position){
-        synchPos = position;
-        synchRot = teamID == TeamID.blue ? new Vector3(0,90,0) : new Vector3(0,270,0);
-        CmdSetPosition(synchPos, synchRot);
+    public void ResetMovement(Vector3 position, Vector3 rotation){
+        transform.position = position;
+        transform.rotation = Quaternion.Euler(rotation);
+		synchPos = position;
+		synchRot = rotation;
+		lastPos = position;
+		lastRot = Quaternion.Euler(rotation);
     }
 
     [Command]
@@ -35,6 +38,10 @@ public class SynchronisedMovement : NetworkBehaviour{
     public void RpcSetPosition(Vector3 position, Vector3 rotation) {
         transform.position = position;
         transform.rotation = Quaternion.Euler(rotation);
+		synchPos = position;
+		synchRot = rotation;
+		lastPos = position;
+		lastRot = Quaternion.Euler(rotation);
     }
 
 

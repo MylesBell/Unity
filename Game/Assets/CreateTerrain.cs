@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
-    
+using System;
+
 public enum ComputerLane {LEFT, RIGHT}
 
 public class CreateTerrain : NetworkBehaviour
@@ -57,7 +58,7 @@ public class CreateTerrain : NetworkBehaviour
 
     void Start() {
         
-        Random.seed = (int)Time.time;
+        UnityEngine.Random.seed = DateTime.Now.Millisecond;
         int numScreensLeft = GraniteNetworkManager.numberOfScreens_left;
         int numScreensRight = GraniteNetworkManager.numberOfScreens_right;
         int screenNumber = GraniteNetworkManager.screeNumber;
@@ -175,8 +176,6 @@ public class CreateTerrain : NetworkBehaviour
     }
     
     void CreateSnow(GameObject chunk, float snowLevel) {
-        // chunk.GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",snowLevel);
-        
         foreach (MeshRenderer renderer in chunk.GetComponentsInChildren<MeshRenderer>()) {
             renderer.material.SetFloat("_Snow", snowLevel);
         }
