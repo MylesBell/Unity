@@ -385,7 +385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blueTeam: {fileID: 1193707488}
   redTeam: {fileID: 1193707487}
-  gruntPoolSize: 50
+  gruntPoolSize: 300
   numberOfGruntsToSpawn: 5
   gruntSpawnInterval: 10
   heroRespawnInterval: 5

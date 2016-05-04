@@ -47,6 +47,7 @@ public class DamageText : NetworkBehaviour {
         }
         
         damageTextObject.GetComponent<TextMesh>().text = Mathf.Abs(Mathf.Round(change)).ToString();
+        damageTextObject.GetComponent<Animator>().Rebind();
         damageTextObject.GetComponent<Animator>().SetTrigger("Damage");
         if (gameObject.activeSelf == true) StartCoroutine(ReturnDamageTextToPool(damageTextObject));
     }
