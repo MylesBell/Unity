@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class BaseHealth : Health {
     Team team;
@@ -19,8 +18,17 @@ public class BaseHealth : Health {
         InitialiseHealth(computerLane);
         
         // init fire (to no emissionRate)
-        RpcSetFireLevel();
+        SetFireLevel();
     }
+    
+    // update to show fire level
+    void Update(){
+        entityLocation =  Camera.main.WorldToScreenPoint(gameObject.transform.position);
+		percentOfHealth = currentHealth / maxHealth;
+		healthBarLength = percentOfHealth * healthBarInitialLength;
+        SetFireLevel();
+    }
+    
 	public new void ReduceHealth(float amountToReduce, out bool killedBase){
         if(currentHealth > 0) {
             currentHealth -= amountToReduce;
@@ -32,10 +40,6 @@ public class BaseHealth : Health {
             damageText.Play(-amountToReduce);
             if(otherBase) otherBase.ChangeFromOtherBase(-amountToReduce);
             team.BaseHealthChange(maxHealth, currentHealth);
-            
-            // set fire level on both bases
-            RpcSetFireLevel();
-            if(otherBase) otherBase.gameObject.GetComponent<BaseHealth>().RpcSetFireLevel();
         } else {
             killedBase = false;
         }
@@ -56,8 +60,7 @@ public class BaseHealth : Health {
         return this.computerLane;
     }
     
-    [ClientRpc]
-    public void RpcSetFireLevel(){
+    public void SetFireLevel(){
         ParticleSystem[] fires = gameObject.GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem fire in fires){
             if (currentHealth <= 0){

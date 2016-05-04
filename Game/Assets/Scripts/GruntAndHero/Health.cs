@@ -8,9 +8,9 @@ public class Health : NetworkBehaviour {
     public float healthBarOffset = 0.0f;
 	public float maxHealth;
 	[SyncVar] public float currentHealth;
-	private float healthBarLength;
-	private float percentOfHealth;
-	private Vector3 entityLocation;
+	public float healthBarLength;
+	public float percentOfHealth;
+	public Vector3 entityLocation;
     
     protected DamageText damageText;
     
