@@ -578,6 +578,7 @@ MonoBehaviour:
   - {fileID: 156676, guid: 37ddc133724d14583bf2c55d17be82e2, type: 2}
   - {fileID: 133058, guid: 9295187c815e7462f9a1daabaf5c4b9b, type: 2}
   - {fileID: 134034, guid: 6aa71e081f3c741b39cb0660f69a8582, type: 2}
+  snowObject: {fileID: 162962, guid: db9e3826473b94b66b4980bd87ec5ff5, type: 2}
   terrainMask:
     serializedVersion: 2
     m_Bits: 256
