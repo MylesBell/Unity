@@ -75,7 +75,7 @@ public class CreateTerrain : NetworkBehaviour
     
     void Update(){
         //only generate the long path grid ONCE on the client, after it has recieved all of the scenery or game has started
-        if(!isServer && !generatedPathfinder && objectsToRecieve > 0) {
+        if(!isServer && !generatedPathfinder) {
             lock(objectsRecievedLock){
                 if(GameState.instance.networkGameState == GameState.State.PLAYING){
                     ComputerLane computerLane = GraniteNetworkManager.lane;
