@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Ground
-  m_Shader: {fileID: 4800000, guid: ade83ac66f6d345aaad5fab3678a1f07, type: 3}
+  m_Name: CowboyRoof
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -25,13 +25,6 @@ Material:
       data:
         first:
           name: _BumpMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _NormalMap
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -85,27 +78,6 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _DispTex
-        second:
-          m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
-          m_Scale: {x: 10, y: 10}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _SnowBump
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _SnowTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -130,7 +102,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0
+        second: .200000003
       data:
         first:
           name: _BumpScale
@@ -158,19 +130,11 @@ Material:
       data:
         first:
           name: _SnowDepth
-        second: 0
+        second: .100000001
       data:
         first:
           name: _Snow
         second: 0
-      data:
-        first:
-          name: _Displacement
-        second: 1
-      data:
-        first:
-          name: _Tess
-        second: 32
     m_Colors:
       data:
         first:
@@ -179,11 +143,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .218532994, g: .448529422, b: .187986583, a: 1}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: .5}
+        second: {r: .291983962, g: .107962683, b: .0805112571, a: 1}
       data:
         first:
           name: _SnowColor

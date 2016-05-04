@@ -27,6 +27,7 @@ public class CreateTerrain : NetworkBehaviour
     [System.Serializable]
     public class NetworkTreeMessage : MessageBase {
         public int index;
+        public float snowLevel;
         public Vector3 position;
         public Quaternion rotation;
         public Vector3 scale;
@@ -50,6 +51,7 @@ public class CreateTerrain : NetworkBehaviour
     public Material groundMaterial;
     public Material sandMaterial;
 	public GameObject[] sceneryObjects;
+    public GameObject snowObject;
 	public LayerMask terrainMask;
 	public int minNumScenerySides = 100;
 	public int maxNumScenerySides = 200;
@@ -146,13 +148,26 @@ public class CreateTerrain : NetworkBehaviour
 			if (isServer || screenNumber == chunkIndex) {
 				// should randomly generate where the 0 is between 0->|laneSegments| to get random lane segments
 				chunks[chunkIndex] = GetTerrainPrefab(computerLane, numScreens, chunkIndex, laneOffset);
-                chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = chunkIndex < numScreens / 2? sandMaterial: groundMaterial;
+                if (chunkIndex < numScreens / 2) {
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = sandMaterial;
+                } else if (chunkIndex == numScreens / 2){
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = groundMaterial;
+                    Color sand = new Color(1.0f,0.85f,0.55f);
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material.SetColor("_SnowColor",sand);
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",0.35f);
+                } else {
+                    chunks[chunkIndex].GetComponentsInChildren<MeshRenderer>()[0].material = groundMaterial;
+                    float level = (chunkIndex - (numScreens / 2)) / (float)(numScreens- (numScreens/2));
+                    CreateSnow(chunks[chunkIndex], level);
+                }
 			}
 		}
 		
 		if (isServer || screenNumber == (numScreens - 1)) {
 			// create last base
 			chunks[numScreens - 1] = (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? base2Left : base2Right, chunkOffset * (numScreens - 1) + laneOffset, Quaternion.identity);
+            CreateSnow(chunks[numScreens - 1], 1.0f);    
+            
 		}
 	}
     
@@ -160,6 +175,13 @@ public class CreateTerrain : NetworkBehaviour
         int terrainIndex = GetTerrainIndex(numScreens, chunkIndex);
         return (GameObject)Instantiate(computerLane == ComputerLane.LEFT ? laneSegmentsLeft[terrainIndex] : 
                         laneSegmentsRight[terrainIndex], chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
+    }
+    
+    void CreateSnow(GameObject chunk, float snowLevel) {
+        chunk.GetComponentsInChildren<MeshRenderer>()[0].material.SetFloat("_Snow",snowLevel);
+        Vector3 position = chunk.transform.position + new Vector3(50,100,50);
+        GameObject snow = (GameObject) Instantiate(snowObject, position, snowObject.transform.rotation);
+        snow.GetComponent<ParticleSystem>().emissionRate = snowLevel * 1000;
     }
     
     int GetTerrainIndex(int numScreens, int chunkIndex) {
@@ -207,11 +229,16 @@ public class CreateTerrain : NetworkBehaviour
             Quaternion rotation = Quaternion.Euler(0.0f,Random.Range(0,360),0.0f);
             Vector3 scale = new Vector3(Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f), Random.Range(0.8f,1.2f));
 
+           float snowLevel = screenNumber > numScreens/2 ? 
+                  (screenNumber - (numScreens / 2)) / (float)(numScreens- (numScreens/2)) :
+                  0.0f;
+
             //spawn on server
-            scenerySpawner(index, position, rotation, scale);
+            scenerySpawner(index, snowLevel, position, rotation, scale);
             //create a message for the client
             NetworkTreeMessage msg = new NetworkTreeMessage();
             msg.index = index;
+            msg.snowLevel = snowLevel;
             msg.position = position;
             msg.rotation = rotation;
             msg.scale = scale;
@@ -338,7 +365,7 @@ public class CreateTerrain : NetworkBehaviour
         //recieve message and spawn on client
         Debug.Log("Client received message");
         NetworkTreeMessage msg = netMsg.ReadMessage<NetworkTreeMessage>();
-        scenerySpawner(msg.index, msg.position, msg.rotation, msg.scale);
+        scenerySpawner(msg.index, msg.snowLevel, msg.position, msg.rotation, msg.scale);
         lock(objectsRecievedLock){
             objectsRecieved++;
         }
@@ -349,9 +376,19 @@ public class CreateTerrain : NetworkBehaviour
         objectsToRecieve = msg.numberOfElements;
     }
 
-    GameObject scenerySpawner(int index, Vector3 position, Quaternion rotation, Vector3 scale){
+    GameObject scenerySpawner(int index, float snowLevel, Vector3 position, Quaternion rotation, Vector3 scale){
         GameObject scenery = (GameObject)Instantiate(sceneryObjects[index], position, rotation);
         scenery.transform.localScale = scale;
+        if (snowLevel > 0.0f) {
+            if (scenery.tag == "snowy") {
+                scenery.GetComponent<Renderer>().material.SetFloat("_Snow", snowLevel);
+            }
+            foreach (Transform child in scenery.transform) {
+                if (child.tag == "snowy") {
+                    child.gameObject.GetComponent<Renderer>().material.SetFloat("_Snow", snowLevel);                    
+                }
+            }
+        }
         return scenery;
     }
 }
