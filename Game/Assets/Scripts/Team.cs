@@ -41,6 +41,8 @@ public class Team : NetworkBehaviour {
     private List<int> nonAttackableEnemies = new List<int>();
     
     public LayerMask playerLayer;
+    
+    private const int maxTriesForSpawnPostion = 10;
 
     void Start() {
         if (isServer) {
@@ -103,6 +105,7 @@ public class Team : NetworkBehaviour {
     private Vector3 GetSpawnLocation(ComputerLane computerLane) {
         float xPos;
         Vector3 pos;
+        int tries = 0;
         do {
             int randomNumber = Random.Range(0, numberOfChannels);
             float zPos = computerLane == ComputerLane.LEFT ? randomNumber * zPositionOffsetLeft + Teams.minZLeft + Teams.bottomOffsetLeft : randomNumber * zPositionOffsetRight + Teams.minZRight + Teams.bottomOffsetRight;
@@ -111,7 +114,8 @@ public class Team : NetworkBehaviour {
             else
                 xPos = (computerLane == ComputerLane.LEFT ? teamBaseLeft : teamBaseRight).transform.position.x - 10;
             pos = new Vector3(xPos, 0, zPos);
-        } while(!validSpawnPosition(pos));
+            tries++;
+        } while(tries <= maxTriesForSpawnPostion && !validSpawnPosition(pos));
         pos.y = 0;
         return pos;
     }
@@ -136,9 +140,9 @@ public class Team : NetworkBehaviour {
         capturedTowers = new List<Tower>();
         
         //Restart heros
-        foreach (KeyValuePair<string, GameObject> entry in playerDict) {
-            if (entry.Value) {
-                HeroRestart(entry.Value);
+        foreach (string playerID in playerDict.Keys) {
+            if (playerDict[playerID]) {
+                HeroRestart(playerDict[playerID]);
             }
         }
         

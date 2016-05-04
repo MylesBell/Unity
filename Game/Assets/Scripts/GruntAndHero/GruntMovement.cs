@@ -22,9 +22,9 @@ public class GruntMovement : NetworkBehaviour{
 
     public void initialiseMovement(Vector3 position) {
         transform.position = position;
-        movementTarget = position;
+        if(isServer) movementTarget = position;
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        CmdSetPositionOnClient();
+        // CmdSetPositionOnClient();
     }
 
     [Command]

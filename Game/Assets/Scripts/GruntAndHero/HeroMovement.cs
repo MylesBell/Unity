@@ -34,8 +34,7 @@ public class HeroMovement : NetworkBehaviour, IHeroMovement
     public void initialiseMovement(Vector3 position) {
         transform.position = position;
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        moveDirection = MoveDirection.NONE;
-        CmdSetPositionOnClient();
+        if(isServer) moveDirection = MoveDirection.NONE;
     }
     
     public void setComputerLane(ComputerLane computerLane){

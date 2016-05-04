@@ -99,7 +99,7 @@ public class TargetSelect : NetworkBehaviour {
 	
 	private void UpdateMoveTargetPathFinding(){
 		float distance = Vector3.Distance (desiredPosition, transform.position);
-        if(distance < 2.0f && moveTargets.Count > 0) {
+        if(distance < 3.0f && moveTargets.Count > 0) {
             desiredPosition = moveTargets.Dequeue();
             gameObject.GetComponent<GruntMovement>().SetTarget(desiredPosition);
             notMovedSeconds = 0;
