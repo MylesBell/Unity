@@ -330,7 +330,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -563,6 +565,7 @@ MonoBehaviour:
   - {fileID: 196498, guid: 533603a3024e84f839421bf5230f4807, type: 2}
   - {fileID: 161908, guid: f75792ee7c61540af8ad918f0d4482f5, type: 2}
   - {fileID: 146500, guid: b34a8511737f741d3bbd1e0c01a8243f, type: 2}
+  middleLaneLeft: {fileID: 166702, guid: fdffcdce435117642a97fc12665370d6, type: 2}
   laneSegmentsVikingLeft:
   - {fileID: 196498, guid: 66212218fd771e343991307335e17612, type: 2}
   - {fileID: 161908, guid: 31f8bff1f435cee4084de8af65dd72f2, type: 2}
@@ -571,6 +574,7 @@ MonoBehaviour:
   - {fileID: 126984, guid: a7659af81dc374bab8102bdc56c77d7d, type: 2}
   - {fileID: 186994, guid: 286b1765890a14780b2136a8903be737, type: 2}
   - {fileID: 157990, guid: 9f9aaf8bca4144fc6aec80e1848a93ac, type: 2}
+  middleLaneRight: {fileID: 185250, guid: 48a16a2ff688c2f4aa8ab13d90248e5a, type: 2}
   laneSegmentsVikingRight:
   - {fileID: 126984, guid: c292d28a73407134ab100e835d0a9373, type: 2}
   - {fileID: 186994, guid: 66018b435b670134fb189d52c76136ef, type: 2}

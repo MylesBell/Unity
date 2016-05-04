@@ -38,8 +38,10 @@ public class CreateTerrain : NetworkBehaviour
     public GameObject base1Right;
     public GameObject base2Right;
     public GameObject[] laneSegmentsCowboyLeft;
+    public GameObject middleLaneLeft;
     public GameObject[] laneSegmentsVikingLeft;
     public GameObject[] laneSegmentsCowboyRight;
+    public GameObject middleLaneRight;
     public GameObject[] laneSegmentsVikingRight;
     public GameObject snowObject;
 	public LayerMask terrainMask;
@@ -148,7 +150,11 @@ public class CreateTerrain : NetworkBehaviour
             if (chunkIndex < numScreens / 2) {
                 terrain = (GameObject)Instantiate(laneSegmentsCowboyLeft[terrainIndex],
                     chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
-            } else {
+            } else if(chunkIndex == numScreens / 2) {
+                terrain = (GameObject)Instantiate(middleLaneLeft,
+                    chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
+            }
+            else{
                 terrain = (GameObject)Instantiate(laneSegmentsVikingLeft[terrainIndex],
                     chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
             }
@@ -156,7 +162,11 @@ public class CreateTerrain : NetworkBehaviour
             if (chunkIndex < numScreens / 2) {
                 terrain = (GameObject)Instantiate(laneSegmentsCowboyRight[terrainIndex],
                     chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
-            } else {
+            } else if(chunkIndex == numScreens / 2) {
+                terrain = (GameObject)Instantiate(middleLaneRight,
+                    chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
+            }
+            else{
                 terrain = (GameObject)Instantiate(laneSegmentsVikingRight[terrainIndex],
                     chunkOffset * chunkIndex + laneOffset, Quaternion.identity);
             }
