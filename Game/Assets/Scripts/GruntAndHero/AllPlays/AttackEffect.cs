@@ -21,6 +21,16 @@ public class AttackEffect : AllPlay {
         RpcPlayEffect();
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
+    
     [ClientRpc]
     private void RpcPlayEffect() {
         gameObject.SetActive(true);

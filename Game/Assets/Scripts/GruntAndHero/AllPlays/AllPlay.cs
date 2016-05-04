@@ -26,4 +26,6 @@ public abstract class AllPlay : NetworkBehaviour {
     public abstract void Use(params float[] inputs);
     public abstract void Upgrade();
     public abstract void Reset();
+    
+    public abstract void Kill();
 }

@@ -16,7 +16,7 @@ public class DamageText : NetworkBehaviour {
         if (availableDamageTexts.Count == 0 && inUseDamageTexts.Count == 0){
 		    InitialiseDamageTextPool(computerLane);    
         }else{
-            ResetDamageTextPool();
+            ResetDamageTextPool(computerLane);
         }
 	}
     
@@ -88,8 +88,10 @@ public class DamageText : NetworkBehaviour {
         }
     }
     
-    
-    private void ResetDamageTextPool(){
+    private void ResetDamageTextPool(ComputerLane computerLane){
+         this.computerLane = computerLane;
+        RpcSetComputerLane(computerLane);
+        
         // clear not used pool and set inactive
         lock (availableDamageTexts) {
             while(inUseDamageTexts.Count > 0){

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class GameState : NetworkBehaviour {
@@ -10,9 +12,13 @@ public class GameState : NetworkBehaviour {
     
     public State networkGameState;
     public static GameState instance;
+    private static Team[] teams;
+    
+    public MusicScreenController musicScreenController;
 
     // Use this for initialization
     void Start () {
+        teams = gameObject.GetComponents<Team>();
         instance = this;
         gameState = State.IDLE;
         SetText(IDLE_STRING);
@@ -22,19 +28,29 @@ public class GameState : NetworkBehaviour {
 	void Update () {
         if (isServer) {
             if (Input.GetKeyUp(KeyCode.S)) {
-                gameState = gameState == State.IDLE ? State.PLAYING: gameState;
-		        changeGameState(State.PLAYING);
+                if(gameState == State.IDLE) StartCoroutine(StartGame());
             }
 
             if (Input.GetKeyUp(KeyCode.E)) {
-                gameState = gameState == State.PLAYING ? State.END : gameState;
+                if(gameState == State.PLAYING) changeGameState(State.END);
             }
 
             if (Input.GetKeyUp(KeyCode.Q)) {
-                gameState = gameState == State.END ? State.IDLE : gameState;
-                changeGameState(State.IDLE);
+                if(gameState == State.END) {
+                    musicScreenController.StopMusic();
+                    changeGameState(State.IDLE);
+                }
             }
         }
+    }
+    
+    private IEnumerator StartGame(){
+        musicScreenController.StartMusic(3);
+        for(int i = 3; i > 0; i--){
+            RpcSetText(""+i);
+            yield return new WaitForSeconds(1f);
+        }
+        changeGameState(State.PLAYING);
     }
 
     public static void changeGameState(State state) {
@@ -46,8 +62,14 @@ public class GameState : NetworkBehaviour {
 	public static void endGame(TeamID winner) {
 		winningTeam = winner;
 		changeGameState(State.END);
+        SocketIOOutgoingEvents.SendPlayerStats(teams);
 		Debug.Log(winner + " won!\n");
 	}
+    
+    [ClientRpc]
+    public void RpcSetText(string text){
+        SetText(text);
+    }
 
     [ClientRpc]
     public void RpcStateAndText(GameState.State networkGameState, TeamID winner) {

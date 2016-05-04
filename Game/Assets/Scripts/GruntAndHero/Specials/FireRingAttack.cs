@@ -33,6 +33,16 @@ public class FireRingAttack : Special
         CmdRadialDamage(ringRadius, damageAmount);
     }
     
+    override public void Kill(){
+        RpcKill();
+    }
+    
+    [ClientRpc]
+    private void RpcKill() {
+        StopAllCoroutines();
+        gameObject.SetActive(false);
+    }
+    
     [ClientRpc]
     public void RpcPlayFireParticleSystem() {
         gameObject.SetActive(true);
@@ -56,7 +66,9 @@ public class FireRingAttack : Special
                 }else{
                     ((Health)collider.gameObject.GetComponent<Health>()).ReduceHealth(damage, out killedObject);
                 }
-                if(killedObject) stats.IncrementKillStreak();
+                if(killedObject){
+                    stats.IncrementKills(collider.gameObject.GetComponent<Hero>() != null);
+                }
             }
         }
     }

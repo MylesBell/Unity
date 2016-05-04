@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class Stats : NetworkBehaviour{
@@ -21,36 +22,71 @@ public class Stats : NetworkBehaviour{
     public float maximumVelocityBeforeIgnore = 1f;
         
     // kill streaks
-    private int currentKillStreak = 0;
-    private object killStreakLock = new object();
-    public int firstUpgrade = 1;
+    private int kills = 0;
+    public int heroKills = 0;
+    public int gruntKills = 0;
+    public int deaths = 0;
+    public int towersCaptured = 0;
+    private object killsLock = new object();
+    public int firstUpgrade = 3;
     private int nextUpgrade;
     private int level = 1;
     
-    void Start(){
-        nextUpgrade = firstUpgrade;
-    }
+    private float originalMovementSpeed, originalDamage, originalDefense;
+    private bool statsSet;
     
-    public void ResetKillStreak(){
-        lock(killStreakLock){
-            currentKillStreak = 0;
-            // dont reset so continually more difficult to level up
-            // nextUpgrade = firstUpgrade;
+    void Start(){
+        ResetStats();
+        if (!statsSet) {
+            originalMovementSpeed = movementSpeed;
+            originalDamage = damage;
+            originalDefense = defense;
+            statsSet = true;
         }
     }
     
-    public int GetKillStreak(){
+    public void ResetStats(){
+        lock(killsLock){
+            kills = 0;
+            heroKills = 0;
+            gruntKills = 0;
+            deaths = 0;
+            towersCaptured = 0;
+            level = 1;
+            nextUpgrade = firstUpgrade;
+        }
+    }
+
+    public void ResetKills(){
+        lock(killsLock){
+            kills = 0;
+        }
+    }
+    
+    public void ResetSpecialStats() {
+        movementSpeed = originalMovementSpeed;
+        damage = originalDamage;
+        defense = originalDefense;
+    }
+    
+    public int GetKills(){
         int val;
-        lock(killStreakLock){
-            val = currentKillStreak;
+        lock(killsLock){
+            val = kills;
         }
         return val;
     }
     
-    public void IncrementKillStreak(){
-        lock(killStreakLock){
-            currentKillStreak++;
-            if(gameObject.GetComponent<Hero>() && currentKillStreak >= nextUpgrade){
+    public void IncrementKills(bool heroKill){
+        lock(killsLock){
+            if (heroKill){
+                kills += 3;
+                heroKills += 1;
+            }else{
+                kills++;
+                gruntKills++;
+            }
+            if(gameObject.GetComponent<Hero>() && kills >= nextUpgrade){
                 level++;
                 SetNextUpgrade();
                 gameObject.GetComponent<Specials>().UpgradeSpecials();
@@ -60,7 +96,7 @@ public class Stats : NetworkBehaviour{
     }
     
     private void SetNextUpgrade(){
-        nextUpgrade = nextUpgrade * 2;
+        nextUpgrade += (int)(nextUpgrade * 1.5f);
     }
     
     private void SendUpgradeEvent(){

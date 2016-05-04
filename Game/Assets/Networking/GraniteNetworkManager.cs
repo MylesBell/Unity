@@ -26,6 +26,9 @@ public class GraniteNetworkManager : NetworkManager {
     public static bool usePathFinding = false;
     public static bool showPathFinding = false;
 
+    public override void OnServerConnect(NetworkConnection conn) {
+        conn.SetChannelOption(Channels.DefaultReliable, ChannelOption.MaxPendingBuffers, 500);
+    }
     public void Start() {
         //reset 
         //check for CLI

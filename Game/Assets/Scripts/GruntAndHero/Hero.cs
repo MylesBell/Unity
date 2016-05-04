@@ -7,7 +7,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     
     public Team team;
     public HeroClass heroClass;
-    private Animator animator;
+    public Animator animator;
 
 	private string playerID;
 	private TargetSelect targetSelect;
@@ -41,6 +41,10 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
         CmdSetPlayerName(playerName);
         updateTextMesh(playerName);
     }
+    
+    public void SwitchAnimator(Animator anim) {
+        animator = anim;
+    }
 
     private void updateTextMesh(string playerName) {
         transform.FindChild("HeroName").gameObject.GetComponent<TextMesh>().text = playerName;
@@ -58,8 +62,8 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             
             //set Health to Max          
             gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
-            gameObject.GetComponent<Stats>().ResetKillStreak();
-
+            
+            // initialise targeting and movement            
             targetSelect = GetComponent<TargetSelect>();
             targetSelect.InitialiseTargetSelect (team.GetTeamID(), spawnLocation);
             gameObject.GetComponent<SynchronisedMovement>().ResetMovement(team.teamID, spawnLocation);
@@ -69,7 +73,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
             RpcSetAliveAnim(true);
         }
     }
-
+    
     [Command] public void CmdSetActiveState(bool active) {
         RpcSetActive(active);
     }
@@ -119,7 +123,8 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     
     [ClientRpc]
     public void RpcPlayDeathAnimation() {
-        StartCoroutine(PlayDeathAnimation());
+        if (gameObject.activeSelf)
+            StartCoroutine(PlayDeathAnimation());
     }
     
     IEnumerator PlayDeathAnimation() {

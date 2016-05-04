@@ -55,5 +55,8 @@ public static class SocketIOOutgoingEvents {
 	public static void PlayerSwitchLaneHandler(string playerID, ComputerLane computerLane){
 		socketIOManager.PlayerSwitchLaneHandler(playerID, computerLane);
 	}
- 
+	
+	public static void SendPlayerStats(Team[] teams){
+		socketIOManager.SendPlayerStats(teams);
+	} 
 }
