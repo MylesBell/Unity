@@ -16,7 +16,19 @@ public class BaseHealth : Health {
         }
         this.computerLane = computerLane;
         InitialiseHealth(computerLane);
+        
+        // init fire (to no emissionRate)
+        SetFireLevel();
     }
+    
+    // update to show fire level
+    void Update(){
+        entityLocation =  Camera.main.WorldToScreenPoint(gameObject.transform.position);
+		percentOfHealth = currentHealth / maxHealth;
+		healthBarLength = percentOfHealth * healthBarInitialLength;
+        SetFireLevel();
+    }
+    
 	public new void ReduceHealth(float amountToReduce, out bool killedBase){
         if(currentHealth > 0) {
             currentHealth -= amountToReduce;
@@ -46,5 +58,17 @@ public class BaseHealth : Health {
     
     public ComputerLane getComputerLane(){
         return this.computerLane;
+    }
+    
+    public void SetFireLevel(){
+        ParticleSystem[] fires = gameObject.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem fire in fires){
+            if (currentHealth <= 0){
+                fire.emissionRate = 100;
+            }else{
+                // increase rate with polynomial because nice
+                fire.emissionRate = 20 * Mathf.Pow(1 - (currentHealth / maxHealth), 5); 
+            }
+        }
     }
 }

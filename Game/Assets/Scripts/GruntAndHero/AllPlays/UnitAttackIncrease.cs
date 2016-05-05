@@ -38,8 +38,8 @@ public class UnitAttackIncrease : AllPlay {
     
     [Command]
     private void CmdIncreaseAttack(float attackIncrease){
-        originalAttack = stats.damage;
-        stats.damage += attackIncrease;
+        originalAttack = GetStats().damage;
+        GetStats().damage += attackIncrease;
     }
     
     [ClientRpc]

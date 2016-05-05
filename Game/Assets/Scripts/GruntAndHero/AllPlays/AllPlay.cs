@@ -22,6 +22,13 @@ public abstract class AllPlay : NetworkBehaviour {
         transform.SetParent(parentObject.transform);
     }
     
+    public Stats GetStats(){
+        if (stats == null){
+            stats = gameObject.GetComponentInParent<Stats>();
+        }
+        return stats;
+    }
+    
 	public abstract void Initialise(float height);
     public abstract void Use(params float[] inputs);
     public abstract void Upgrade();
