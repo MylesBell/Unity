@@ -42,6 +42,7 @@ public class Health : NetworkBehaviour {
             else if (currentHealth > 0.2 * maxHealth)
                 healthBarTexture = healthBarMedTexture;
             else healthBarTexture = healthBarLowTexture;
+            
             int healthBarHeight = (Screen.height / 150) < 3? 3 : Screen.height / 150;
             healthBarHeight -= healthBarHeight % 3;
             float length = healthBarInitialLength * healthBarHeight + (2 * healthBarHeight/3);
@@ -57,7 +58,7 @@ public class Health : NetworkBehaviour {
             // draw dividers
             for (float xPositionOffset = dividerSpacing; xPositionOffset < maxHealth; xPositionOffset += dividerSpacing){
                 GUI.DrawTexture(new Rect(xPos + (healthBarInitialLength * healthBarHeight) * (xPositionOffset/maxHealth), 
-                                         yPos, (healthBarHeight / 3), height), healthBarDividerTexture);
+                                         yPos - (healthBarHeight / 3), (healthBarHeight / 3), height), healthBarDividerTexture);
             }
 		}
 	}
