@@ -105,6 +105,10 @@ public class Invisibility : Special
     }
     
     private void SetAttackable(){
+        // first time get enemy team, not done in init as specials null then.
+        if (enemyTeam == null){
+            setEnemyTeam();
+        }
         enemyTeam.setAttackable(specials.gameObject);
     }
     
