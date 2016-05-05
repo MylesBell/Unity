@@ -103,7 +103,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .381000012
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -128,6 +128,18 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _WaveWavelength
+        second: .100000001
+      data:
+        first:
+          name: _WaveMagnitude
+        second: .100000001
+      data:
+        first:
+          name: _WaveSpeed
+        second: .100000001
     m_Colors:
       data:
         first:
@@ -136,4 +148,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .191176474, g: .527383387, b: .764705896, a: .572000027}
+        second: {r: .191176474, g: .527383387, b: .764705896, a: .402999997}
