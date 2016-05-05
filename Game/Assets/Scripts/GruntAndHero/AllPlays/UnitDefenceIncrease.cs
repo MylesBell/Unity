@@ -38,8 +38,8 @@ public class UnitDefenceIncrease : AllPlay {
     
     [Command]
     private void CmdIncreaseDefence(float defenceIncrease){
-        originalDefence = stats.defense;
-        stats.defense += defenceIncrease;
+        originalDefence = GetStats().defense;
+        GetStats().defense += defenceIncrease;
     }
     
     [ClientRpc]
