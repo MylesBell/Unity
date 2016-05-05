@@ -142,15 +142,15 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
     }
 
 	#region IPlayerJoin implementation
-	public void PlayerJoin (string playerID, string playerName, string gameCode) {
+	public void PlayerJoin (string playerID, string playerName, int playerClass, string gameCode) {
         
         if(GraniteNetworkManager.game_code == gameCode) {
             int blueHeroes = blueTeam.GetNumberOfHeros();
             int redHeroes = redTeam.GetNumberOfHeros();
             if (blueHeroes < redHeroes) {
-                blueTeam.CreatePlayer(playerID, playerName);
+                blueTeam.CreatePlayer(playerID, playerName, playerClass);
             } else {
-                redTeam.CreatePlayer(playerID, playerName);
+                redTeam.CreatePlayer(playerID, playerName, playerClass);
             }
         } else {
 	        SocketIOOutgoingEvents.PlayerJoinFailInvalidGameCode (playerID);
