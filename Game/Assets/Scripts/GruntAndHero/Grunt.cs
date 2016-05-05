@@ -37,6 +37,7 @@ public class Grunt : NetworkBehaviour, IDestroyableGameObject {
         if(isServer) gameObject.GetComponent<TargetSelect>().InitialiseTargetSelect(team.GetTeamID(), spawnPosition);
         //set Health to Max
         gameObject.GetComponent<Health>().InitialiseHealth(computerLane);
+        gameObject.GetComponent<GruntClientPathFinder>().InitilizePathFindiding(spawnPosition);
         gameObject.SetActive(active);
         for(int i = 0; i < transform.childCount; i++){
             if(transform.GetChild(i).name.Contains("DamageText")){

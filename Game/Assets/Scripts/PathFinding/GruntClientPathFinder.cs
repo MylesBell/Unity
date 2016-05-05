@@ -44,7 +44,9 @@ public class GruntClientPathFinder : NetworkBehaviour {
     }
     
     public void InitilizePathFindiding(Vector3 position){
-        currentTargetPosition = position;
+        if(isServer) currentTargetPosition = position;
+        wasVisible = false;
+        recievePaths = true;
     }
     
     void Update(){
@@ -92,7 +94,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     private void RequestPath(){
         // DebugConsole.Log("I am " + teamID + " requesting path");
         targetPosition = FindNewTargetPosition(targetPosition);
-        NavGridManager.RequestLongPath(transform.position, targetPosition, navGridManager.getLongPathGrid(currentLane), OnPathFound);
+        NavGridManager.RequestLongPath(currentTargetPosition, targetPosition, navGridManager.getLongPathGrid(currentLane), OnPathFound);
     }
     
     public void OnForcedPathFound(Vector3[] newPath, bool pathSuccessful){
