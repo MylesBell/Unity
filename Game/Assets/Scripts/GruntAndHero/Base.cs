@@ -36,7 +36,8 @@ public class Base : NetworkBehaviour, IDestroyableGameObject {
 
     public void DisableGameObject() {
         GameState.endGame(team.GetTeamID() == TeamID.blue ? TeamID.red : TeamID.blue);
-        active = false;
-        CmdSetActiveState(false, Vector3.zero);
+        // Uncomment to not show base at end, left in just in case desired
+        // active = false;
+        // CmdSetActiveState(false, Vector3.zero);
     }
 }

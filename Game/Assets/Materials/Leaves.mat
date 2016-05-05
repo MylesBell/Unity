@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Leaves
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: ade83ac66f6d345aaad5fab3678a1f07, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -127,6 +127,14 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _SnowDepth
+        second: .100000001
+      data:
+        first:
+          name: _Snow
+        second: 0
     m_Colors:
       data:
         first:
@@ -136,3 +144,11 @@ Material:
         first:
           name: _Color
         second: {r: 0, g: .252947152, b: .00121704221, a: 1}
+      data:
+        first:
+          name: _SnowColor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SnowDirection
+        second: {r: 0, g: 1, b: 0, a: 1}

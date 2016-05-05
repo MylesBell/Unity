@@ -14,6 +14,7 @@ TagManager:
   - terrainSpawner
   - originalModel
   - decoyModel
+  - snowy
   layers:
   - Default
   - TransparentFX
