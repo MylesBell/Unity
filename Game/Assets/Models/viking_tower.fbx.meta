@@ -48,6 +48,9 @@ ModelImporter:
     100080: viking_hero1:transform4
     100082: viking_hero1:transform5
     100084: //RootNode
+    100086: pCube15
+    100088: tower2:pCube24
+    100090: tower2:pCube6
     400000: Character1_Head
     400002: Character1_Neck
     400004: cowboy_hero1:pCube10
@@ -91,9 +94,21 @@ ModelImporter:
     400080: viking_hero1:transform4
     400082: viking_hero1:transform5
     400084: //RootNode
+    400086: pCube15
+    400088: tower2:pCube24
+    400090: tower2:pCube6
     2300000: cowboy_hero2:pCube15
+    2300002: pCube15
+    2300004: tower2:pCube24
+    2300006: tower2:pCube6
     3300000: cowboy_hero2:pCube15
+    3300002: pCube15
+    3300004: tower2:pCube24
+    3300006: tower2:pCube6
     4300000: cowboy_hero2:pCube15
+    4300002: pCube15
+    4300004: tower2:pCube6
+    4300006: tower2:pCube24
   materials:
     importMaterials: 1
     materialName: 0
@@ -117,7 +132,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 100
+    globalScale: 150
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
