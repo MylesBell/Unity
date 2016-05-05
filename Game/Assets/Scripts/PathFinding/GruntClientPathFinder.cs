@@ -5,12 +5,14 @@ public class GruntClientPathFinder : NetworkBehaviour {
     RendererChecker rendererChecker;
     private TeamID teamID;
     private float ForwardMovementTarget = 50;
-    private float threshold = 1;
+    private float threshold = 10;
     private NavGridManager navGridManager;
     ComputerLane currentLane;
     private TargetSelect targetSelect;
     
     private Vector3 targetPosition;
+    
+    [SyncVar] private Vector3 currentTargetPosition;
     
     private bool wasVisible = false;
     private bool recievePaths = true;
@@ -41,12 +43,18 @@ public class GruntClientPathFinder : NetworkBehaviour {
         }
     }
     
+    public void InitilizePathFindiding(Vector3 position){
+        if(isServer) currentTargetPosition = position;
+        wasVisible = false;
+        recievePaths = true;
+    }
+    
     void Update(){
         if(!isServer) {
             if(rendererChecker.visible){
                 if(!wasVisible){
                     wasVisible = true;
-                    targetPosition = transform.position;
+                    targetPosition = currentTargetPosition;
                     targetPosition.y = GetComponent<BoxCollider>().bounds.size.y/2;
                 }
                 float distance = Vector3.Distance(targetPosition, transform.position);
@@ -86,7 +94,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     private void RequestPath(){
         // DebugConsole.Log("I am " + teamID + " requesting path");
         targetPosition = FindNewTargetPosition(targetPosition);
-        NavGridManager.RequestLongPath(transform.position, targetPosition, navGridManager.getLongPathGrid(currentLane), OnPathFound);
+        NavGridManager.RequestLongPath(currentTargetPosition, targetPosition, navGridManager.getLongPathGrid(currentLane), OnPathFound);
     }
     
     public void OnForcedPathFound(Vector3[] newPath, bool pathSuccessful){
@@ -106,6 +114,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
         int screenNumber = (int)transform.position.x/(int)CreateTerrain.chunkOffset.x;
         if(screenNumber == msg.screen && computerLane == msg.computerLane){
             targetSelect.AddToQueue(msg.path);
+            currentTargetPosition = msg.path[msg.path.Length - 1];
         }
     }
     
@@ -129,6 +138,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
         // DebugConsole.Log("Recieved message from screen " + msg.screen);
         if(recievePaths && screenNumber == msg.screen && computerLane == msg.computerLane) {
             targetSelect.AddToQueue(msg.path);
+            currentTargetPosition = msg.path[msg.path.Length - 1];
         }
     }
     
