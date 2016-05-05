@@ -11,7 +11,7 @@ public class GruntMovement : NetworkBehaviour{
 	private Stats stats;
     private Animator animator;
     
-    // private LayerMask terrainMask = 256;
+    private LayerMask terrainMask = 256;
 
 	void Start() {
         targetSelect = GetComponent<TargetSelect>();
@@ -111,10 +111,10 @@ public class GruntMovement : NetworkBehaviour{
 	}
     
     public Vector3 AdjustToTerrain(Vector3 movementTargetInput){
-        // RaycastHit terrainLevel;
-        // movementTargetInput.y = 20f;
-        // if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 21f, terrainMask)) movementTargetInput = terrainLevel.point;
-        movementTargetInput.y = GetComponent<BoxCollider>().bounds.size.y/2;
+        RaycastHit terrainLevel;
+        movementTargetInput.y = 20f;
+        if(Physics.Raycast(movementTargetInput, -Vector3.up, out terrainLevel, 30f, terrainMask)) movementTargetInput = terrainLevel.point;
+        movementTargetInput.y += GetComponent<BoxCollider>().bounds.size.y/2;
         return movementTargetInput;
     }
 }
