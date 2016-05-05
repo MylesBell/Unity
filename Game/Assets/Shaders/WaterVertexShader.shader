@@ -6,12 +6,11 @@
 		_Metallic ("Metallic", Range(0,1)) = 0.0
         _WaveWavelength ("Wave Wavelength", Range(0,1) ) = 0.1
         _WaveMagnitude ("Wave Magnitude", Range(0,1)) = 0.1
-        _WaveDirection ("Wave Direction", Vector) = (0,1,0)
-        // _SnowDepth ("Snow Depth", Range(0,0.5)) = 0.1
+		_WaveSpeed ("Wave Speed", Range(0,1)) = 0.1
 	}
 	SubShader {
-		Tags { "Queue"="Transparent" "RenderType"="Transparent" }
-		LOD 200
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" "ForceNoShadowCasting"="True"}
+		Blend SrcAlpha OneMinusSrcAlpha
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
@@ -31,7 +30,7 @@
 		fixed4 _Color;
 		float _WaveWavelength;
 		float _WaveMagnitude;
-		float4 _WaveDirection;
+		float _WaveSpeed;
 		
 		 float rand(float3 co)
 		{
@@ -40,17 +39,13 @@
 
         void vert (inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input,o);
-            //Convert the normal to world coortinates
-            float3 wnormal = normalize(_WaveDirection.xyz);
-            float3 wn = mul((float3x3)_World2Object, wnormal).xyz;
- 
- 			float r = rand(v.vertex.xyz);
-			v.vertex.y += r;
-            // if(dot(v.normal, sn) >= lerp(1,-1, (_Snow*2)/3)
-			// && r >= 0.5)
-            // {
-            //    v.vertex.xyz += normalize(sn + v.normal) * _SnowDepth * _Snow;
-            // }
+			float4 v0 = mul(_Object2World, v.vertex);
+
+			float phase0 = (_WaveMagnitude)* sin((_Time[1] * _WaveSpeed) + (v0.x * _WaveWavelength) + (v0.z * _WaveWavelength) + rand(v0.xzz));
+			float phase0_1 = (_WaveMagnitude)*sin(cos(rand(v0.xzz) * _WaveMagnitude * cos(_Time[1] * _WaveSpeed * sin(rand(v0.xxz)))));			
+			v0.y += phase0 + phase0_1;
+
+			v.vertex.xyz = mul(_World2Object, v0);
         }
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
