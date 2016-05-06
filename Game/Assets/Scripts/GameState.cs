@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 public class GameState : NetworkBehaviour {
     public const string IDLE_STRING = "Preparing...";
     public enum State { IDLE, PLAYING, END };
+    
+    public static bool allowPlayersJoin;
 
     public static State gameState;
     public static TeamID winningTeam;
@@ -20,6 +22,7 @@ public class GameState : NetworkBehaviour {
     void Start () {
         teams = gameObject.GetComponents<Team>();
         instance = this;
+        allowPlayersJoin = false;
         gameState = State.IDLE;
         SetText(IDLE_STRING);
     }
@@ -27,6 +30,9 @@ public class GameState : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (isServer) {
+            if (Input.GetKeyUp(KeyCode.W)) {
+                allowPlayersJoin = true;
+            }
             if (Input.GetKeyUp(KeyCode.S)) {
                 if(gameState == State.IDLE) StartCoroutine(StartGame());
             }
@@ -60,6 +66,7 @@ public class GameState : NetworkBehaviour {
     }
 
 	public static void endGame(TeamID winner) {
+        allowPlayersJoin = false;
 		winningTeam = winner;
 		changeGameState(State.END);
         SocketIOOutgoingEvents.SendPlayerStats(teams);

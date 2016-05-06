@@ -187,33 +187,35 @@ public class Team : NetworkBehaviour {
 	}
 
     public void CreatePlayer(string playerID, string playerName, int playerClass) {
-        GameObject hero = unitFactory.CreateHero(HeroPrefabs[playerClass]);
-        
-        hero.GetComponent<Hero>().InitialiseGameObject(this);        
-		hero.GetComponent<Hero>().setplayerID (playerID);
-        hero.GetComponent<Hero>().setHeroName(playerName);
-        
-        hero.GetComponent<Specials>().InitialiseSpecials();
-        hero.GetComponent<AllPlays>().InitialiseAllPlays();
-        
-        //Choose random lane
-        ComputerLane computerLane = getSpawnLane();
-        hero.GetComponent<Hero>().setComputerLane(computerLane);
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(computerLane), computerLane);
-        playerDict.Add(playerID, hero);
-        numberOfHeros++;
-        
-        // get chosen specials
-        Specials special = hero.GetComponent<Specials>();
-        int specialOneId = special.specialFiles[special.chosenNumbers[0]].identifier;
-        int specialTwoId = special.specialFiles[special.chosenNumbers[1]].identifier;
-        int specialThreeId = special.specialFiles[special.chosenNumbers[2]].identifier;
-		SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState,
-                                                hero.GetComponent<Health>().maxHealth,
-                                                hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
-                                                              teamBaseRight.GetComponent<BaseHealth>().maxHealth,
-                                                hero.GetComponent<Hero>().heroClass,
-                                                specialOneId, specialTwoId, specialThreeId, computerLane);
+        if(!playerDict.ContainsKey(playerID) && GameState.allowPlayersJoin){
+            GameObject hero = unitFactory.CreateHero(HeroPrefabs[playerClass]);
+            
+            hero.GetComponent<Hero>().InitialiseGameObject(this);        
+            hero.GetComponent<Hero>().setplayerID (playerID);
+            hero.GetComponent<Hero>().setHeroName(playerName);
+            
+            hero.GetComponent<Specials>().InitialiseSpecials();
+            hero.GetComponent<AllPlays>().InitialiseAllPlays();
+            
+            //Choose random lane
+            ComputerLane computerLane = getSpawnLane();
+            hero.GetComponent<Hero>().setComputerLane(computerLane);
+            hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(computerLane), computerLane);
+            playerDict.Add(playerID, hero);
+            numberOfHeros++;
+            
+            // get chosen specials
+            Specials special = hero.GetComponent<Specials>();
+            int specialOneId = special.specialFiles[special.chosenNumbers[0]].identifier;
+            int specialTwoId = special.specialFiles[special.chosenNumbers[1]].identifier;
+            int specialThreeId = special.specialFiles[special.chosenNumbers[2]].identifier;
+            SocketIOOutgoingEvents.PlayerHasJoined (playerID, GetTeamID(), GameState.gameState,
+                                                    hero.GetComponent<Health>().maxHealth,
+                                                    hasLeftLane ? teamBaseLeft.GetComponent<BaseHealth>().maxHealth :
+                                                                teamBaseRight.GetComponent<BaseHealth>().maxHealth,
+                                                    hero.GetComponent<Hero>().heroClass,
+                                                    specialOneId, specialTwoId, specialThreeId, computerLane);
+        }
     }
     
     public void RemovePlayer(string playerID) {
