@@ -34,7 +34,10 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
         if (isServer) {
             Debug.Log(string.Format("[name: {0}, data: {1}, decoded: {2}]", e.name, e.data, e.data.GetField("input")));
             //check the game code
-            socketIOInputEvents.PlayerJoin(e.data.GetField("uID").str, e.data.GetField("username").str, e.data.GetField("gamecode").str); // socekt io id, name
+            socketIOInputEvents.PlayerJoin(e.data.GetField("uID").str, 
+										   e.data.GetField("username").str,
+										   (int)e.data.GetField("playerClass").n,
+										   e.data.GetField("gamecode").str); // socekt io id, name
         }
 	}
     
