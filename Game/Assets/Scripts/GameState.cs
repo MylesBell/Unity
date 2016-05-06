@@ -66,6 +66,7 @@ public class GameState : NetworkBehaviour {
     }
 
 	public static void endGame(TeamID winner) {
+        allowPlayersJoin = false;
 		winningTeam = winner;
 		changeGameState(State.END);
         SocketIOOutgoingEvents.SendPlayerStats(teams);
