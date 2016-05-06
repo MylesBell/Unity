@@ -187,7 +187,7 @@ public class Team : NetworkBehaviour {
 	}
 
     public void CreatePlayer(string playerID, string playerName, int playerClass) {
-        if(!playerDict.ContainsKey(playerID)){
+        if(!playerDict.ContainsKey(playerID) && GameState.allowPlayersJoin){
             GameObject hero = unitFactory.CreateHero(HeroPrefabs[playerClass]);
             
             hero.GetComponent<Hero>().InitialiseGameObject(this);        
