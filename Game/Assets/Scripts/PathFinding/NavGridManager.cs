@@ -23,9 +23,9 @@ public class NavGridManager : MonoBehaviour {
         public Vector3 pathStart;
         public Vector3 pathTarget;
         public LongPathGrid longPathGrid;
-        public Action<Vector3[], bool> callback;
+        public Action<Vector3,Vector3,Vector3[], bool> callback;
         
-        public LongPathRequest(Vector3 start, Vector3 target, LongPathGrid grid, Action<Vector3[], bool> call){
+        public LongPathRequest(Vector3 start, Vector3 target, LongPathGrid grid, Action<Vector3, Vector3, Vector3[], bool> call){
             pathStart = start;
             pathTarget = target;
             longPathGrid = grid;
@@ -53,7 +53,7 @@ public class NavGridManager : MonoBehaviour {
         return computerLane == ComputerLane.LEFT ? leftGrid : rightGrid;
     }
     
-    public static void RequestLongPath(Vector3 pathStart, Vector3 pathTarget, LongPathGrid longPathGrid, Action<Vector3[], bool> callback) {
+    public static void RequestLongPath(Vector3 pathStart, Vector3 pathTarget, LongPathGrid longPathGrid, Action<Vector3,Vector3,Vector3[], bool> callback) {
         LongPathRequest newRequest = new LongPathRequest(pathStart, pathTarget, longPathGrid, callback);
         instance.longPathRequestQueue.Enqueue(newRequest);
         instance.TryProcessNext();
@@ -68,8 +68,8 @@ public class NavGridManager : MonoBehaviour {
 		}
     }
     
-    public void FinishProcessingLongPath(Vector3[] path, bool success) {
-        currentLongPathRequest.callback(path,success);
+    public void FinishProcessingLongPath(Vector3 start, Vector3 end, Vector3[] path, bool success) {
+        currentLongPathRequest.callback(start, end, path,success);
         isProcessingLongPath = false;
         TryProcessNext();
     }

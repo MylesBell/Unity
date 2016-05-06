@@ -61,7 +61,7 @@ public class LongPathNavigation : MonoBehaviour{
         yield return null;
         if (pathSuccess)
             waypoints = RetracePath(startNode, targetNode);
-        navGridManager.FinishProcessingLongPath(waypoints,pathSuccess);
+        navGridManager.FinishProcessingLongPath(startPosition, targetPosition, waypoints,pathSuccess);
     }
     
     Vector3[] RetracePath(GridNode startNode, GridNode targetNode) {

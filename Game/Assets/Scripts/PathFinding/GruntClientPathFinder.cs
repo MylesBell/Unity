@@ -34,7 +34,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
             ForwardMovementTarget *= teamID == TeamID.blue ? 1 : -1;
             navGridManager = GameObject.FindGameObjectsWithTag("terrainSpawner")[0].GetComponent<NavGridManager>();
             currentLane = GraniteNetworkManager.lane;
-            maxX = (currentLane == ComputerLane.LEFT ? GraniteNetworkManager.numberOfScreens_left : GraniteNetworkManager.numberOfScreens_right)*CreateTerrain.chunkOffset.x - 20f;
+            maxX = (currentLane == ComputerLane.LEFT ? GraniteNetworkManager.numberOfScreens_left : GraniteNetworkManager.numberOfScreens_right)*CreateTerrain.chunkOffset.x - 25f;
             
             screenNumber = GraniteNetworkManager.screeNumber;
             nextScreenXPos = screenNumber * CreateTerrain.chunkOffset.x + (teamID == TeamID.blue ? 110 : -10);
@@ -92,12 +92,15 @@ public class GruntClientPathFinder : NetworkBehaviour {
     }
     
     private void RequestPath(){
-        // DebugConsole.Log("I am " + teamID + " requesting path");
         targetPosition = FindNewTargetPosition(targetPosition);
-        NavGridManager.RequestLongPath(currentTargetPosition, targetPosition, navGridManager.getLongPathGrid(currentLane), OnPathFound);
+        if((currentTargetPosition - targetPosition).magnitude > 5f) {
+            NavGridManager.RequestLongPath(currentTargetPosition, targetPosition, navGridManager.getLongPathGrid(currentLane), OnPathFound);
+        } else {
+            currentTargetPosition = targetPosition;
+        }
     }
     
-    public void OnForcedPathFound(Vector3[] newPath, bool pathSuccessful){
+    public void OnForcedPathFound(Vector3 start, Vector3 end, Vector3[] newPath, bool pathSuccessful){
         if (pathSuccessful && newPath.Length > 0) {
             PathfindingMessage msg = new PathfindingMessage();
             msg.path = newPath;
@@ -106,7 +109,6 @@ public class GruntClientPathFinder : NetworkBehaviour {
             msg.screen = screenNumber;
             msg.computerLane = currentLane;
             NetworkManager.singleton.client.Send(MyPathfindingMsg.ReceiveForcedPathCode, msg);
-            DebugConsole.Log("Path found at " + System.DateTime.Now);
         }
     }
     
@@ -119,7 +121,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
         }
     }
     
-    public void OnPathFound(Vector3[] newPath, bool pathSuccessful) {
+    public void OnPathFound(Vector3 start, Vector3 end, Vector3[] newPath, bool pathSuccessful) {
         if (pathSuccessful && newPath.Length > 0) {
             targetPosition = newPath[newPath.Length - 1];
             // DebugConsole.Log("Screen " + screenNumber + " Current position " + transform.position + " Target position " + targetPosition);
@@ -130,7 +132,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
             msg.screen = screenNumber;
             msg.computerLane = currentLane;
             NetworkManager.singleton.client.Send(MyPathfindingMsg.ReceivePathCode, msg);
-            DebugConsole.Log("Path found at " + System.DateTime.Now);
+            // DebugConsole.Log("Path found at " + System.DateTime.Now);
         }
     }
     
@@ -155,9 +157,9 @@ public class GruntClientPathFinder : NetworkBehaviour {
             } else if(failed > 50){
                 position.x -= ForwardMovementTarget/10;
             } else if (failed > 10){
-                position.x += ForwardMovementTarget/50;
-            } else {
                 position.x += ForwardMovementTarget/10;
+            } else {
+                position.x += ForwardMovementTarget/50;
             }
             position.x = Mathf.Clamp(position.x, minX, maxX);
             failed++;

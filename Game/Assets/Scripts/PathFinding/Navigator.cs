@@ -75,7 +75,7 @@ public class Navigator : MonoBehaviour {
     }
     
     void TryNavigate() {
-        NavGridManager.RequestLongPath(this.transform.position, targetPosition, longPathGrid, OnPathFound);
+        // NavGridManager.RequestLongPath(this.transform.position, targetPosition, longPathGrid, OnPathFound);
     }
     
     void OnDrawGizmos() {
