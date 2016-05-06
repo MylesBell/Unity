@@ -662,6 +662,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 480630}
+  - 65: {fileID: 6596832}
   m_Layer: 8
   m_Name: bridge
   m_TagString: Untagged
@@ -1016,6 +1017,7 @@ GameObject:
   - 33: {fileID: 3374642}
   - 23: {fileID: 2378614}
   - 64: {fileID: 6472298}
+  - 114: {fileID: 11421066}
   m_Layer: 9
   m_Name: river_waterfall
   m_TagString: Untagged
@@ -3131,6 +3133,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 473266}
+  - 65: {fileID: 6591554}
   m_Layer: 8
   m_Name: bridge
   m_TagString: Untagged
@@ -23205,6 +23208,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 3, z: 3}
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!65 &6591554
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127976}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .119999997, y: .00300000003, z: .0850000009}
+  m_Center: {x: 0, y: .00200000009, z: .000500000024}
 --- !u!65 &6594004
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -23217,6 +23232,29 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6596832
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107676}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .119999997, y: .00300000003, z: .0850000009}
+  m_Center: {x: 0, y: .00200000009, z: .000500000024}
+--- !u!114 &11421066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997918a18494645d6917625f7516832c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &13605596
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -23566,6 +23604,30 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 828582e7475e5478eb9e15a765bc4880, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300008, guid: fee166429cded864495e38a6a4461c4f, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Size.x
+      value: .119999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.y
+      value: .00300000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.z
+      value: .0850000009
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Center.y
+      value: .00200000009
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Center.z
+      value: .000500000024
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 126984}
