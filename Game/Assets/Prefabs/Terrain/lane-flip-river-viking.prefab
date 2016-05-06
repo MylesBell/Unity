@@ -3473,6 +3473,7 @@ GameObject:
   - 23: {fileID: 2340802}
   - 64: {fileID: 6482042}
   - 114: {fileID: 11479090}
+  - 114: {fileID: 11400666}
   m_Layer: 9
   m_Name: river_waterfall
   m_TagString: Untagged
@@ -35994,6 +35995,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.5, y: 2.5, z: 5}
   m_Center: {x: .400000006, y: 4, z: 0}
+--- !u!114 &11400666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b819b9f32b5754fe59986532aefc5843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mesh: {fileID: 0}
+  WaveWavelength: .100000001
+  WaveMagnitude: .00999999978
+  WaveSpeed: 2
 --- !u!114 &11479090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -36004,7 +36020,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 997918a18494645d6917625f7516832c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
 --- !u!135 &13500330
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -37240,6 +37256,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Center.z
       value: .000500000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: WaveWavelength
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: WaveMagnitude
+      value: .00999999978
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: WaveSpeed
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
