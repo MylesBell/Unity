@@ -38,8 +38,8 @@ public class UnitSlowDown : AllPlay {
     
     [Command]
     private void CmdReduceSpeed(float slowDownMultiplier){
-        savedSpeed = stats.movementSpeed;
-        stats.movementSpeed = savedSpeed * slowDownMultiplier;
+        savedSpeed = GetStats().movementSpeed;
+        GetStats().movementSpeed = savedSpeed * slowDownMultiplier;
     }
     
     [ClientRpc]

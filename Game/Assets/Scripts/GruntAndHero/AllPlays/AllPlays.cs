@@ -15,9 +15,6 @@ public class AllPlays : NetworkBehaviour {
     private AllPlay defenceIncrease;
     private AllPlay attackEffect;
     
-    void Start() {
-
-    }
     
     public void InitialiseAllPlays(){
         // init all allPlay objects

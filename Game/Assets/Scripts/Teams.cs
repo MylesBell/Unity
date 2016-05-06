@@ -80,17 +80,17 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
                     break;
             }
             
-            //// uncomment to create test hero
-            //if (Input.GetKeyUp(KeyCode.Slash)) redTeam.CreatePlayer("id", "Test Hero");
+            // // uncomment to create test hero
+            // if (Input.GetKeyUp(KeyCode.Slash)) redTeam.CreatePlayer("id", "Test Hero");
             
-            //if (Input.GetKeyDown(KeyCode.I)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.N));
-            //if (Input.GetKeyDown(KeyCode.M)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.S));
-            //if (Input.GetKeyDown(KeyCode.J)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.W));
-            //if (Input.GetKeyDown(KeyCode.K)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.E));
+            // if (Input.GetKeyDown(KeyCode.I)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.N));
+            // if (Input.GetKeyDown(KeyCode.M)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.S));
+            // if (Input.GetKeyDown(KeyCode.J)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.W));
+            // if (Input.GetKeyDown(KeyCode.K)) ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.E));
             
-            //if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.M) || Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.K)){
+            // if (Input.GetKeyUp(KeyCode.I) || Input.GetKeyUp(KeyCode.M) || Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.K)){
             //    ExecuteEvents.Execute<IHeroMovement> (GetHero("id"), null, (x,y) => x.PlayerMovement(MoveDirection.NONE));
-            //}      
+            // }      
         }
     }
 
@@ -142,15 +142,15 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
     }
 
 	#region IPlayerJoin implementation
-	public void PlayerJoin (string playerID, string playerName, string gameCode) {
+	public void PlayerJoin (string playerID, string playerName, int playerClass, string gameCode) {
         
         if(GraniteNetworkManager.game_code == gameCode) {
             int blueHeroes = blueTeam.GetNumberOfHeros();
             int redHeroes = redTeam.GetNumberOfHeros();
             if (blueHeroes < redHeroes) {
-                blueTeam.CreatePlayer(playerID, playerName);
+                blueTeam.CreatePlayer(playerID, playerName, playerClass);
             } else {
-                redTeam.CreatePlayer(playerID, playerName);
+                redTeam.CreatePlayer(playerID, playerName, playerClass);
             }
         } else {
 	        SocketIOOutgoingEvents.PlayerJoinFailInvalidGameCode (playerID);
