@@ -116,14 +116,16 @@ public class Tower : NetworkBehaviour {
 		HeroCapturing heroCapturing = CmdHeroesCapturing(captureRadius);
 
 		// if red capturing
-		if (towerState != TowerState.red && heroCapturing == HeroCapturing.red){
+		if ((towerState != TowerState.red || (towerState == TowerState.red && percentRed < 100))
+		  && heroCapturing == HeroCapturing.red){
 			if (percentBlue > 0){
 				percentBlue -= captureRate;
 			}else{
 				percentRed += captureRate;
 			}
 		// if blue capturing
-		}else if(towerState != TowerState.blue && heroCapturing == HeroCapturing.blue){
+		}else if((towerState != TowerState.blue || (towerState == TowerState.blue && percentBlue < 100))
+		  && heroCapturing == HeroCapturing.blue){
 			if (percentRed > 0){
 				percentRed -= captureRate;
 			}else{
@@ -227,10 +229,12 @@ public class Tower : NetworkBehaviour {
 				foreach(Collider collider in colliders) {
 					if (collider.gameObject.tag.Equals(heroTag)){
 						Health health = (Health)collider.gameObject.GetComponent<Health>();
-						if (health.currentHealth + healAmount > health.maxHealth){
+						
+						// heal by 10 percent
+						if (health.currentHealth + (health.maxHealth/10) > health.maxHealth){
 							health.currentHealth = health.maxHealth;
 						}else{
-							health.IncreaseHealth(healAmount);
+							health.IncreaseHealth(health.maxHealth/10);
 						}
 					}
 				}
