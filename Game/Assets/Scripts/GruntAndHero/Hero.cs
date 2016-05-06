@@ -14,7 +14,7 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     private ComputerLane computerLane;
     [SyncVar] private bool active = false;
     
-    private string playerName;
+    public string playerName;
     
     public void Start() {
         gameObject.SetActive(active);

@@ -93,7 +93,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 	public void SendPlayerStats(Team[] teams){
 		JSONObject dataJSON = new JSONObject(JSONObject.Type.OBJECT);
 		JSONObject playersStats = new JSONObject(JSONObject.Type.ARRAY);
-	
+		
 		// for both teams
 		foreach (Team team in teams){
 			// for each hero
@@ -101,6 +101,7 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
 				// create json object of stats and add to json array
 				JSONObject playerStats = new JSONObject(JSONObject.Type.OBJECT);
 				playerStats.AddField("playerID", hero.Key);
+				playerStats.AddField("username", hero.Value.GetComponent<Hero>().playerName);
 				
 				Stats stats = hero.Value.GetComponent<Stats>();
 				playerStats.AddField("gruntKills", stats.gruntKills);
