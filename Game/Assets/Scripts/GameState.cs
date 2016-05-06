@@ -7,7 +7,7 @@ public class GameState : NetworkBehaviour {
     public const string IDLE_STRING = "Preparing...";
     public enum State { IDLE, PLAYING, END };
     
-    public bool allowPlayersJoin;
+    public static bool allowPlayersJoin;
 
     public static State gameState;
     public static TeamID winningTeam;
