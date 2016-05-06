@@ -13,6 +13,7 @@ public class Attack : NetworkBehaviour {
     public void initiliseAttack() {
 		timeTillAttack = 0;
 		target = null;
+		CmdSetAttacking(false);
     }
 	public void SwitchAnimator(Animator anim) {
         animator = anim;
@@ -76,10 +77,22 @@ public class Attack : NetworkBehaviour {
 	public void CmdSetAttacking(bool attacking) {
 		animator.SetBool("Attacking", attacking);
 		RpcSetAttacking(attacking);
+		
+		if (gameObject.GetComponent<Hero>()){
+			RpcTrailRenderEnabled(attacking);
+		}
 	}
 	
 	[ClientRpc]
 	public void RpcSetAttacking(bool attacking) {
 		animator.SetBool("Attacking", attacking);
+	}
+	
+	[ClientRpc]
+	private void RpcTrailRenderEnabled(bool enabled){
+		TrailRenderer[] trailRenderers = gameObject.GetComponentsInChildren<TrailRenderer>();
+		foreach (TrailRenderer trailRenderer in trailRenderers){
+			trailRenderer.enabled = enabled;
+		}
 	}
 }
