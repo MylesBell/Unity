@@ -32,7 +32,7 @@ public class GameState : NetworkBehaviour {
             }
 
             if (Input.GetKeyUp(KeyCode.E)) {
-                if(gameState == State.PLAYING) changeGameState(State.END);
+                if(gameState == State.PLAYING) endGame(TeamID.blue);
             }
 
             if (Input.GetKeyUp(KeyCode.Q)) {
