@@ -22,6 +22,7 @@ public class Tower : NetworkBehaviour {
 	public float captureBarInitialLength;
 	private float captureBarLength;
     public float captureBarOffset;
+	public float healAmount = 20f;
 	
 	private Vector3 entityLocation;
 	public float captureRadius;
@@ -32,6 +33,9 @@ public class Tower : NetworkBehaviour {
 	public GameObject neutralTower;
 	public GameObject cowboyTower;
 	public GameObject vikingTower;
+	
+	public float healTime = 5f;
+	private float timeTillHeal;
 	
 	[SyncVar] public ComputerLane computerLane;
 	
@@ -95,6 +99,7 @@ public class Tower : NetworkBehaviour {
 		// update capture values
 		if (isServer){
 			UpdateCaptureValues();
+			HealSurroundingUnits();
 		}
 		
 		// update draw location
@@ -201,6 +206,36 @@ public class Tower : NetworkBehaviour {
         foreach(Collider collider in colliders) {
             if (collider.gameObject.tag.Equals(heroTag)) collider.gameObject.GetComponent<Stats>().towersCaptured++;
         }
+	}
+	
+	private void HealSurroundingUnits(){
+		if (GameState.gameState == GameState.State.PLAYING && (towerState == TowerState.red || towerState == TowerState.blue)) {
+			if ((timeTillHeal > 0)) {
+				timeTillHeal -= Time.deltaTime;
+			// heal teams heroes
+			} else {
+				// reset time to heal
+				timeTillHeal = healTime;
+				// get units to heal
+				Collider[] colliders = Physics.OverlapSphere(transform.position, captureRadius);
+				string heroTag;
+				if (towerState == TowerState.red){
+					heroTag = "redHero";
+				}else{
+					heroTag = "blueHero";
+				}
+				foreach(Collider collider in colliders) {
+					if (collider.gameObject.tag.Equals(heroTag)){
+						Health health = (Health)collider.gameObject.GetComponent<Health>();
+						if (health.currentHealth + healAmount > health.maxHealth){
+							health.currentHealth = health.maxHealth;
+						}else{
+							health.IncreaseHealth(healAmount);
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	public void ResetTower(){

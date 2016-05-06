@@ -131,7 +131,33 @@ public class Team : NetworkBehaviour {
         }
         return true;
     }
-
+    
+    private Vector3 GetHeroSpawnLocation(ComputerLane computerLane){
+        Tower forwardTower = getForwardTower(computerLane);
+        if (forwardTower == null){
+            return GetSpawnLocation(computerLane);
+        }else{
+            float zPos = forwardTower.transform.position.z;
+            float xPos = forwardTower.transform.position.x + (teamID == TeamID.blue ? 6 : -6);
+            return new Vector3(xPos,0,zPos);
+        }
+    }
+    
+    private Tower getForwardTower(ComputerLane computerLane){
+        Tower forwardTower = null;
+        float distanceFromBase = 0;
+        foreach (Tower tower in capturedTowers){
+            if (tower.computerLane == computerLane){
+                float distance = Mathf.Abs(tower.transform.position.x - (computerLane == ComputerLane.LEFT? basePositionLeft.x: basePositionRight.x));
+                if (distance > distanceFromBase){
+                    distanceFromBase = distance;
+                    forwardTower = tower;
+                }
+            }
+        } 
+        return forwardTower;
+    }
+    
     public void resetTeam() {
         if(hasRightLane) teamBaseRight.GetComponent<Base>().ResetGameObject(basePositionRight, ComputerLane.RIGHT);
         if(hasLeftLane) teamBaseLeft.GetComponent<Base>().ResetGameObject(basePositionLeft, ComputerLane.LEFT);
@@ -269,7 +295,7 @@ public class Team : NetworkBehaviour {
         // send respawn
         string playerID = hero.GetComponent<Hero>().getplayerID();
         hero.GetComponent<AllPlays>().KillAll();
-        hero.GetComponent<Hero>().ResetGameObject(GetSpawnLocation(computerLane), computerLane);
+        hero.GetComponent<Hero>().ResetGameObject(GetHeroSpawnLocation(computerLane), computerLane);
         hero.GetComponent<Stats>().ResetSpecialStats();
         SocketIOOutgoingEvents.PlayerRespawn(playerID);
     }
