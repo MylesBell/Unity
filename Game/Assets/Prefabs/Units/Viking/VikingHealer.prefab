@@ -672,7 +672,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 118518}
   m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106709}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 10.3000002}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 494108}
@@ -1329,9 +1329,9 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Time: 5
-  m_StartWidth: 1
-  m_EndWidth: 1
+  m_Time: .5
+  m_StartWidth: 3
+  m_EndWidth: 0
   m_Colors:
     m_Color[0]:
       serializedVersion: 2
@@ -1521,9 +1521,15 @@ MonoBehaviour:
   healthBarLowTexture: {fileID: 2800000, guid: c4b48ec9a5dee409cba6c0d5bb8990db, type: 3}
   healthBarBackTexture: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b,
     type: 3}
+  healthBarDividerTexture: {fileID: 2800000, guid: 115a22b22ecd54651a7405d6fee5106a,
+    type: 3}
   healthBarOffset: 15
   maxHealth: 500
+  dividerSpacing: 50
   currentHealth: 0
+  healthBarLength: 0
+  percentOfHealth: 0
+  entityLocation: {x: 0, y: 0, z: 0}
 --- !u!114 &11451048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1806,6 +1812,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: firstUpgrade
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarDividerTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 115a22b22ecd54651a7405d6fee5106a, type: 3}
+    - target: {fileID: 0}
+      propertyPath: dividerSpacing
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

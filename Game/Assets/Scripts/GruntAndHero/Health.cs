@@ -3,10 +3,13 @@ using UnityEngine.Networking;
 
 public class Health : NetworkBehaviour {
 	public float healthBarInitialLength;
-	public Texture healthBarHighTexture, healthBarMedTexture, healthBarLowTexture, healthBarBackTexture;
+	public Texture healthBarHighTexture, healthBarMedTexture, healthBarLowTexture,
+                   healthBarBackTexture, healthBarDividerTexture;
     
     public float healthBarOffset = 0.0f;
 	public float maxHealth;
+    public float dividerSpacing = 100f;
+
 	[SyncVar] public float currentHealth;
 	public float healthBarLength;
 	public float percentOfHealth;
@@ -39,18 +42,24 @@ public class Health : NetworkBehaviour {
             else if (currentHealth > 0.2 * maxHealth)
                 healthBarTexture = healthBarMedTexture;
             else healthBarTexture = healthBarLowTexture;
+            
             int healthBarHeight = (Screen.height / 150) < 3? 3 : Screen.height / 150;
             healthBarHeight -= healthBarHeight % 3;
             float length = healthBarInitialLength * healthBarHeight + (2 * healthBarHeight/3);
             float height = healthBarHeight + (2 * healthBarHeight / 3);
             float yOffset = healthBarOffset * height;
-            float xPos = entityLocation.x - (length/2) - (healthBarHeight / 3);
-            float yPos = Screen.height - entityLocation.y - yOffset - (healthBarHeight / 3);
-			GUI.DrawTexture(new Rect(xPos, yPos,length, height), healthBarBackTexture);
-			GUI.DrawTexture(new Rect(entityLocation.x - (length/2) ,
-			                         Screen.height - entityLocation.y - yOffset,
-			                         healthBarLength * healthBarHeight, healthBarHeight), 
+            float xPos = entityLocation.x - (length/2);
+            float yPos = Screen.height - entityLocation.y - yOffset;
+			GUI.DrawTexture(new Rect(xPos - (healthBarHeight / 3), yPos - (healthBarHeight / 3),
+                                     length, height), healthBarBackTexture);
+			GUI.DrawTexture(new Rect(xPos, yPos, healthBarLength * healthBarHeight, healthBarHeight), 
                                      healthBarTexture);
+            
+            // draw dividers
+            for (float xPositionOffset = dividerSpacing; xPositionOffset < maxHealth; xPositionOffset += dividerSpacing){
+                GUI.DrawTexture(new Rect(xPos + (healthBarInitialLength * healthBarHeight) * (xPositionOffset/maxHealth), 
+                                         yPos - (healthBarHeight / 3), (healthBarHeight / 3), height), healthBarDividerTexture);
+            }
 		}
 	}
 	
