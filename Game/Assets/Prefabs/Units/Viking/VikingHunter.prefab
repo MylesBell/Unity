@@ -1529,9 +1529,15 @@ MonoBehaviour:
   healthBarLowTexture: {fileID: 2800000, guid: c4b48ec9a5dee409cba6c0d5bb8990db, type: 3}
   healthBarBackTexture: {fileID: 2800000, guid: 11058c88d1be1481fade3fc04248d55b,
     type: 3}
+  healthBarDividerTexture: {fileID: 2800000, guid: 115a22b22ecd54651a7405d6fee5106a,
+    type: 3}
   healthBarOffset: 15
   maxHealth: 400
+  dividerSpacing: 50
   currentHealth: 0
+  healthBarLength: 0
+  percentOfHealth: 0
+  entityLocation: {x: 0, y: 0, z: 0}
 --- !u!114 &11458366
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2025,6 +2031,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: firstUpgrade
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: healthBarDividerTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: 115a22b22ecd54651a7405d6fee5106a, type: 3}
+    - target: {fileID: 0}
+      propertyPath: dividerSpacing
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
