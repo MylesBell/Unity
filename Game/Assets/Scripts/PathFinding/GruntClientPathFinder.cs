@@ -44,7 +44,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
     }
     
     public void InitilizePathFindiding(Vector3 position){
-        if(isServer) currentTargetPosition = position;
+        currentTargetPosition = position;
         wasVisible = false;
         recievePaths = true;
     }
@@ -106,6 +106,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
             msg.screen = screenNumber;
             msg.computerLane = currentLane;
             NetworkManager.singleton.client.Send(MyPathfindingMsg.ReceiveForcedPathCode, msg);
+            DebugConsole.Log("Path found at " + System.DateTime.Now);
         }
     }
     
@@ -129,6 +130,7 @@ public class GruntClientPathFinder : NetworkBehaviour {
             msg.screen = screenNumber;
             msg.computerLane = currentLane;
             NetworkManager.singleton.client.Send(MyPathfindingMsg.ReceivePathCode, msg);
+            DebugConsole.Log("Path found at " + System.DateTime.Now);
         }
     }
     
