@@ -92,15 +92,15 @@ public class Specials : NetworkBehaviour, IPlayerSpecial {
     }
     
     void Update() {
-        if (Input.GetKeyUp(KeyCode.Z)) {
-            EmitSpecial(SpecialType.one);
-        }
-        if (Input.GetKeyUp(KeyCode.X)) {
-            EmitSpecial(SpecialType.two);
-        }
-        if (Input.GetKeyUp(KeyCode.C)) {
-            EmitSpecial(SpecialType.three);
-        }
+        // if (Input.GetKeyUp(KeyCode.Z)) {
+        //     EmitSpecial(SpecialType.one);
+        // }
+        // if (Input.GetKeyUp(KeyCode.X)) {
+        //     EmitSpecial(SpecialType.two);
+        // }
+        // if (Input.GetKeyUp(KeyCode.C)) {
+        //     EmitSpecial(SpecialType.three);
+        // }
     }
     
     // implement IPlayerSpecial interface
