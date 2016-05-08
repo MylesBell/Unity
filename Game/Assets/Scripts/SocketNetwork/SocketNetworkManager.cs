@@ -247,7 +247,10 @@ public class SocketNetworkManager : NetworkBehaviour, ISocketManager  {
     
 	public void CloseHandler(SocketIOEvent e)
 	{	
-		Debug.Log("[SocketIO] Close received: " + e.name + " " + e.data);
+		if(isServer){
+			Debug.Log("[SocketIO] Close received: " + e.name + " " + e.data);
+			// socketIOInputEvents.ServerDisconnect();
+		}
 	}
 
 	public void OpenHandler(SocketIOEvent e)

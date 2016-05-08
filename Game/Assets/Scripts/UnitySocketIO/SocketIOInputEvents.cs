@@ -35,6 +35,12 @@ public class SocketIOInputEvents : ISocketIOInputEvents{
     {
         ExecuteEvents.Execute<IPlayerSpecial> (teams.GetHero(playerID), null, (x,y) => x.PlayerSpecial(specialType));
     }
+	
+	public void ServerDisconnect ()
+    {
+		ExecuteEvents.Execute<IServerDisconnect> (teamsObject, null, (x,y) => x.ServerDisconnect());
+    }
+	
 
 	#endregion
 

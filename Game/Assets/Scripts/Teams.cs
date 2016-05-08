@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 
@@ -19,7 +21,7 @@ public class PathfindingMessage : MessageBase {
     public ComputerLane computerLane;
 }
 
-public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
+public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave, IServerDisconnect {
 
 	public Team blueTeam, redTeam;
         
@@ -79,6 +81,7 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
                     initialised = false;
                     break;
             }
+            if(Input.GetKeyDown(KeyCode.K)) ServerDisconnect();
             
             // // uncomment to create test hero
             // if (Input.GetKeyUp(KeyCode.Slash)) redTeam.CreatePlayer("id", "Test Hero");
@@ -168,6 +171,18 @@ public class Teams : NetworkBehaviour, IPlayerJoin, IPlayerLeave {
             redTeam.RemovePlayer(playerID);
             
     }
+
+    public void ServerDisconnect()
+    {
+        List<string> keysBlue = new List<string>(blueTeam.playerDict.Keys);
+        List<string> keysRed = new List<string>(redTeam.playerDict.Keys);
+        foreach(string playerID in keysBlue){
+            blueTeam.RemovePlayer(playerID);
+        }
+        foreach(string playerID in keysRed){
+            redTeam.RemovePlayer(playerID);
+        }
+    }
     #endregion
-    
+
 }
