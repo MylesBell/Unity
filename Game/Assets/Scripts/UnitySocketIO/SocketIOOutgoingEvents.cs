@@ -1,10 +1,14 @@
 // SocketIO methods to handle game events;
 
+using UnityEngine;
+
 public enum State { IDLE, PLAYING, END };
 
-public static class SocketIOOutgoingEvents {
-    
-    static SocketNetworkManager socketIOManager = new SocketNetworkManager();
+public class SocketIOOutgoingEvents : MonoBehaviour {
+    static SocketNetworkManager socketIOManager;
+	void Start(){
+		socketIOManager = gameObject.GetComponent<SocketNetworkManager>();
+	}
     
 	public static void GameStateChange (GameState.State state)
 	{
