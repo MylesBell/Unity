@@ -31,16 +31,16 @@ public class Navigator : MonoBehaviour {
     }
     
     void Update() {
-        if (Input.GetKeyDown(KeyCode.N))
-            transform.position = new Vector3(Random.Range(0,200),0,Random.Range(0,100));
-        if (Input.GetKeyDown(KeyCode.M)) { //For testing
-            this.targetPosition = target.position;
-            reachedTarget = false;
-        }
-        if (initialised && state == State.Idle && !reachedTarget) {
-            state = State.Calculating;          
-            TryNavigate();
-        }
+        // if (Input.GetKeyDown(KeyCode.N))
+        //     transform.position = new Vector3(Random.Range(0,200),0,Random.Range(0,100));
+        // if (Input.GetKeyDown(KeyCode.M)) { //For testing
+        //     this.targetPosition = target.position;
+        //     reachedTarget = false;
+        // }
+        // if (initialised && state == State.Idle && !reachedTarget) {
+        //     state = State.Calculating;          
+        //     TryNavigate();
+        // }
     }
     
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful) {

@@ -19,11 +19,11 @@ public class SpawningObject : NetworkBehaviour {
     void Update () {
         if (isServer)
         {
-            if (Input.GetKey(KeyCode.C))
-            {
-                Spawn();
-                Debug.Log("Spawned");
-            }
+            // if (Input.GetKey(KeyCode.C))
+            // {
+            //     Spawn();
+            //     Debug.Log("Spawned");
+            // }
         }
     }
 }
