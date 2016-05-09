@@ -22,7 +22,7 @@ public class FireRingAttack : Special
     override public void UpgradeSpecial()
     {
         // to increase size of fire particle attack the scale is increased, then the damage area is incremented
-        currentScale += new Vector3(1.0f, 1.0f, 0);
+        gameObject.transform.localScale += new Vector3(1.0f, 1.0f, 0);
         ringRadius += 3.0f;
     }
 
@@ -81,5 +81,10 @@ public class FireRingAttack : Special
         }
         
         return false;
+    }
+    
+    [ClientRpc]
+    private void RpcSetLocalScale(){
+        
     }
 }

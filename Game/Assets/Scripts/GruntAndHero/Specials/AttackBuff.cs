@@ -22,7 +22,7 @@ public class AttackBuff : Special
 
     override public void UpgradeSpecial()
     {
-        attackIncrease += 10.0f;
+        attackIncrease += 5.0f;
     }
     
     override public void UseSpecial()

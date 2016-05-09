@@ -23,9 +23,7 @@ public class CrossLaneAttack : Special
 
     override public void UpgradeSpecial()
     {
-        // to increase size of fire particle attack the scale is increased, then the damage area is incremented
-        currentScale += new Vector3(1.0f, 1.0f, 0);
-        beamRadius += 1.0f;
+        damageAmount += 20f;
     }
 
     override public void UseSpecial()

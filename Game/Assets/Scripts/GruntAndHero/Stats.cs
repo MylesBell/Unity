@@ -28,7 +28,7 @@ public class Stats : NetworkBehaviour{
     public int deaths = 0;
     public int towersCaptured = 0;
     private object killsLock = new object();
-    public int firstUpgrade = 3;
+    private int firstUpgrade = 1;
     private int nextUpgrade;
     private int level = 1;
     
@@ -80,7 +80,7 @@ public class Stats : NetworkBehaviour{
     public void IncrementKills(bool heroKill){
         lock(killsLock){
             if (heroKill){
-                kills += 3;
+                kills += 5;
                 heroKills += 1;
             }else{
                 kills++;

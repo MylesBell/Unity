@@ -1455,7 +1455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f92930b3f4e34b9fabd9379fa43af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 15
+  movementSpeed: 13
   movementAcceleration: 80
   minDistanceFromEnemy: 0
   damage: 60
@@ -1470,7 +1470,6 @@ MonoBehaviour:
   gruntKills: 0
   deaths: 0
   towersCaptured: 0
-  firstUpgrade: 3
 --- !u!114 &11407310
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1638,6 +1637,7 @@ MonoBehaviour:
   team: {fileID: 0}
   heroClass: 1
   animator: {fileID: 0}
+  playerName: 
 --- !u!114 &11489826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1847,7 +1847,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSpeed
-      value: 15
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damage
