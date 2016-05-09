@@ -7,7 +7,7 @@ public class Attack : NetworkBehaviour {
 	public Animator animator;
 
 	private float timeTillAttack;
-	
+	private bool isAttacking = true;
 	private Stats stats;
 
     public void initiliseAttack() {
@@ -23,14 +23,16 @@ public class Attack : NetworkBehaviour {
         if (isServer) {
             stats = (Stats)GetComponent<Stats>();
             if (target && !target.activeSelf) target = null; // check if target is still active, if not then null this
-            if (target && GameState.gameState == GameState.State.PLAYING) {
+            if (target && GameState.gameState == GameState.State.PLAYING && gameObject.GetComponent<Health>().currentHealth > 0) {
 			    if ((timeTillAttack > 0)) {
 				    timeTillAttack -= Time.deltaTime;
 			    } else {
 				    AttackTarget ();
 				    timeTillAttack = stats.attackCoolDown;
 			    }
-		    }
+		    }else if(!target && GameState.gameState == GameState.State.PLAYING){
+				CmdSetAttacking(false);
+			}
         }
     }
 	
@@ -47,8 +49,6 @@ public class Attack : NetworkBehaviour {
             }
             if(killedObject) {
 				stats.IncrementKills(target.GetComponent<Hero>() != null);
-				animator.SetBool("Attacking", false);
-				CmdSetAttacking(false);
 			}
 		} else {
 			CmdSetAttacking(false);
@@ -75,21 +75,21 @@ public class Attack : NetworkBehaviour {
 	
 	[Command]
 	public void CmdSetAttacking(bool attacking) {
-		animator.SetBool("Attacking", attacking);
-		RpcSetAttacking(attacking);
-		
-		if (gameObject.GetComponent<Hero>()){
-			RpcTrailRenderEnabled(attacking);
+		if (isAttacking != attacking){
+			RpcSetAttacking(attacking);
+			isAttacking = attacking;
 		}
 	}
 	
 	[ClientRpc]
 	public void RpcSetAttacking(bool attacking) {
 		animator.SetBool("Attacking", attacking);
+		if (gameObject.GetComponent<Hero>()){
+			TrailRenderEnabled(attacking);
+		}
 	}
 	
-	[ClientRpc]
-	private void RpcTrailRenderEnabled(bool enabled){
+	private void TrailRenderEnabled(bool enabled){
 		TrailRenderer[] trailRenderers = gameObject.GetComponentsInChildren<TrailRenderer>();
 		foreach (TrailRenderer trailRenderer in trailRenderers){
 			trailRenderer.enabled = enabled;
