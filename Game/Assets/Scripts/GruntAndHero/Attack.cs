@@ -13,6 +13,7 @@ public class Attack : NetworkBehaviour {
     public void initiliseAttack() {
 		timeTillAttack = 0;
 		target = null;
+		isAttacking = true;
 		CmdSetAttacking(false);
     }
 	public void SwitchAnimator(Animator anim) {
