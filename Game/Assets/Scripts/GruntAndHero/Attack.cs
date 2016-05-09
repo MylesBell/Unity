@@ -85,12 +85,11 @@ public class Attack : NetworkBehaviour {
 	public void RpcSetAttacking(bool attacking) {
 		animator.SetBool("Attacking", attacking);
 		if (gameObject.GetComponent<Hero>()){
-			RpcTrailRenderEnabled(attacking);
+			TrailRenderEnabled(attacking);
 		}
 	}
 	
-	[ClientRpc]
-	private void RpcTrailRenderEnabled(bool enabled){
+	private void TrailRenderEnabled(bool enabled){
 		TrailRenderer[] trailRenderers = gameObject.GetComponentsInChildren<TrailRenderer>();
 		foreach (TrailRenderer trailRenderer in trailRenderers){
 			trailRenderer.enabled = enabled;
