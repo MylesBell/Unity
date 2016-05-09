@@ -4,7 +4,7 @@ using UnityEngine.Networking;
 
 public class SpeedBuff : Special
 {   
-    public float speedIncrease = 5.0f;
+    public float speedIncrease = 3.0f;
     private float originalSpeed;
     
     override public void InitialiseSpecial(float height)
@@ -15,7 +15,7 @@ public class SpeedBuff : Special
 
     override public void ResetSpecial()
     {
-        speedIncrease = 5.0f;
+        speedIncrease = 3.0f;
     }
 
     override public void UpgradeSpecial()

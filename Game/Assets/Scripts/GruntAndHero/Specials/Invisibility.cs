@@ -6,7 +6,7 @@ public class Invisibility : Special
 {   
     public GameObject originalModel;
     public GameObject decoyModel;
-    public float invisibilityTime = 8.0f;
+    private float invisibilityTime = 4.0f;
     
     private Team enemyTeam = null;
     private Teams teams;
@@ -22,12 +22,12 @@ public class Invisibility : Special
 
     override public void ResetSpecial()
     {
-        invisibilityTime = 10.0f;
+        invisibilityTime = 4.0f;
     }
 
     override public void UpgradeSpecial()
     {
-        invisibilityTime += 5.0f;
+        invisibilityTime += 2.0f;
     }
 
     override public void UseSpecial()

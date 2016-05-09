@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 public class Bezerker : Special
 {   
     public GameObject model;
-    public float ringRadius = 8.0f;
-    public float damageAmount = 200.0f;
+    private float ringRadius = 10.0f;
+    private float damageAmount = 200.0f;
     
     override public void InitialiseSpecial(float height)
     {
@@ -17,12 +17,12 @@ public class Bezerker : Special
 
     override public void ResetSpecial()
     {
-        
+        damageAmount = 200f;
     }
 
     override public void UpgradeSpecial()
     {
-        
+        damageAmount += 40f;
     }
 
     override public void UseSpecial()
