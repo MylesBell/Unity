@@ -126,13 +126,15 @@ public class Hero : NetworkBehaviour, IDestroyableGameObject {
     public void DisableGameObject() {
         if (animator.GetBool("Alive")) {
             team.OnHeroDead(gameObject);
-            RpcPlayDeathAnimation();
+            RpcPlayDeathAnimation();        
+            animator.SetBool("Alive", false);
+            gameObject.SetActive(false);
         }
     }
     
     [ClientRpc]
     public void RpcPlayDeathAnimation() {
-        if (gameObject.activeSelf)
+        if (gameObject.activeSelf && !isServer)
             StartCoroutine(PlayDeathAnimation());
     }
     
