@@ -93,7 +93,10 @@ public class Team : NetworkBehaviour {
                 foreach (Tuple<float,GameObject> tuple in herosToRespawn) {
                     tuple.First -= Time.deltaTime;
                     if (tuple.First <= 0) {
-                        HeroRespawn(tuple.Second);
+                        // ensure hero exits, if not remove
+                        if (tuple.Second.GetComponent<Hero>()) {
+                            HeroRespawn(tuple.Second);
+                        }
                         itemsToRemove++;
                     }
                 }
