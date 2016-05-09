@@ -94,7 +94,7 @@ public class Team : NetworkBehaviour {
                     tuple.First -= Time.deltaTime;
                     if (tuple.First <= 0) {
                         // ensure hero exits, if not remove
-                        if (tuple.Second.GetComponent<Hero>()) {
+                        if (tuple.Second && tuple.Second.GetComponent<Hero>()) {
                             HeroRespawn(tuple.Second);
                         }
                         itemsToRemove++;
