@@ -6,7 +6,7 @@ public class Invisibility : Special
 {   
     public GameObject originalModel;
     public GameObject decoyModel;
-    public float invisibilityTime = 8.0f;
+    private float invisibilityTime = 4.0f;
     
     private Team enemyTeam = null;
     private Teams teams;
@@ -22,12 +22,12 @@ public class Invisibility : Special
 
     override public void ResetSpecial()
     {
-        invisibilityTime = 10.0f;
+        invisibilityTime = 4.0f;
     }
 
     override public void UpgradeSpecial()
     {
-        invisibilityTime += 5.0f;
+        invisibilityTime += 2.0f;
     }
 
     override public void UseSpecial()
@@ -35,9 +35,9 @@ public class Invisibility : Special
         gameObject.SetActive(true);
         originalModel.SetActive(false);
         decoyModel.SetActive(true);
-        originalSpeed = stats.movementSpeed;
-        stats.movementSpeed = 10;
-        RpcPlayInvisibiltySystem();
+        // originalSpeed = stats.movementSpeed;
+        // stats.movementSpeed = 10;
+        RpcPlayInvisibiltySystem(invisibilityTime);
         CmdSetNotAttackable();
     }
     
@@ -56,7 +56,7 @@ public class Invisibility : Special
         transform.parent.gameObject.GetComponent<Hero>().SwitchAnimator(originalModel.GetComponent<Animator>());
         if (isServer){
             SetAttackable();
-            stats.movementSpeed = originalSpeed;
+            // stats.movementSpeed = originalSpeed;
         }
     }
     
@@ -71,18 +71,18 @@ public class Invisibility : Special
     }
     
     [ClientRpc]
-    public void RpcPlayInvisibiltySystem() {
+    public void RpcPlayInvisibiltySystem(float time) {
         gameObject.SetActive(true);
         originalModel.SetActive(false);
         decoyModel.SetActive(true);
         transform.parent.gameObject.GetComponent<HeroMovement>().SwitchAnimator(decoyModel.GetComponent<Animator>());
         transform.parent.gameObject.GetComponent<Attack>().SwitchAnimator(decoyModel.GetComponent<Animator>());
         transform.parent.gameObject.GetComponent<Hero>().SwitchAnimator(decoyModel.GetComponent<Animator>());
-        StartCoroutine(PlayInvisibiltySystem());
+        StartCoroutine(PlayInvisibiltySystem(time));
     }
     
-    IEnumerator PlayInvisibiltySystem(){
-        yield return new WaitForSeconds(invisibilityTime);
+    IEnumerator PlayInvisibiltySystem(float time){
+        yield return new WaitForSeconds(time);
         gameObject.SetActive(false);
         originalModel.SetActive(true);
         decoyModel.SetActive(false);
@@ -91,7 +91,7 @@ public class Invisibility : Special
         transform.parent.gameObject.GetComponent<Hero>().SwitchAnimator(originalModel.GetComponent<Animator>());
         if (isServer){
             SetAttackable();
-            stats.movementSpeed = originalSpeed;
+            // stats.movementSpeed = originalSpeed;
         }
     }
     

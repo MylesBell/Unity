@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 public class Bezerker : Special
 {   
     public GameObject model;
-    public float ringRadius = 8.0f;
-    public float damageAmount = 200.0f;
+    private float ringRadius = 10.0f;
+    private float damageAmount = 200.0f;
     
     override public void InitialiseSpecial(float height)
     {
@@ -17,12 +17,12 @@ public class Bezerker : Special
 
     override public void ResetSpecial()
     {
-        
+        damageAmount = 200f;
     }
 
     override public void UpgradeSpecial()
     {
-        
+        damageAmount += 40f;
     }
 
     override public void UseSpecial()
@@ -38,12 +38,6 @@ public class Bezerker : Special
     [ClientRpc]
     private void RpcKill() {
         StopAllCoroutines();
-        Renderer renderer = model.GetComponentInChildren<SkinnedMeshRenderer>();
-        foreach (Material material in renderer.materials) {
-            Color color = Color.black;
-            material.EnableKeyword("_EMISSION");
-            material.SetColor("_EmissionColor", color);
-        }
         gameObject.SetActive(false);
     }
     
@@ -64,16 +58,9 @@ public class Bezerker : Special
     IEnumerator PlayBezerkerSystem() {
         float originalDamage = stats.damage;
         stats.damage *= 2;
-        Renderer renderer = model.GetComponentInChildren<SkinnedMeshRenderer>();
         Health health = GetComponentInParent<Health>();
         TargetSelect target = GetComponentInParent<TargetSelect>();
         ParticleSystem particleSystem = gameObject.GetComponent<ParticleSystem>();
-        Debug.Log(renderer.materials.Length);
-        foreach (Material material in renderer.materials) {
-            Color color = target.teamID == TeamID.red ? Color.red : Color.blue;
-            material.EnableKeyword("_EMISSION");
-            material.SetColor("_EmissionColor", color);
-        }
         yield return new WaitForSeconds(4.0f);
         particleSystem.Play();
         RadialDamage(ringRadius, damageAmount);
@@ -82,11 +69,6 @@ public class Bezerker : Special
         bool killedSelf;
         if (isServer)
             health.ReduceHealth(health.maxHealth, out killedSelf);
-        foreach (Material material in renderer.materials) {
-            Color color = Color.black;
-            material.EnableKeyword("_EMISSION");
-            material.SetColor("_EmissionColor", color);
-        }
         gameObject.SetActive(false);
         particleSystem.Stop();
     }

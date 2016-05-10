@@ -6,7 +6,7 @@ public class SlowDown : Special
 {   
     public float slowDownTime = 10.0f;
     public float slowDownRadius = 10.0f;
-    public float slowDownMultiplier = 0.5f;
+    private float slowDownMultiplier = 0.8f;
     
     override public void InitialiseSpecial(float height)
     {
@@ -16,7 +16,7 @@ public class SlowDown : Special
 
     override public void ResetSpecial()
     {
-        slowDownMultiplier = 10.0f;
+        slowDownMultiplier = 0.8f;
     }
 
     override public void UpgradeSpecial()

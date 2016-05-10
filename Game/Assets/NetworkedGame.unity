@@ -390,7 +390,7 @@ MonoBehaviour:
   gruntPoolSize: 300
   numberOfGruntsToSpawn: 5
   gruntSpawnInterval: 10
-  heroRespawnInterval: 5
+  heroRespawnInterval: 10
   numberOfChannels: 30
 --- !u!114 &1193707482
 MonoBehaviour:

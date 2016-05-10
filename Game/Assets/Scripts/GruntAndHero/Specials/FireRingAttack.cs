@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class FireRingAttack : Special
 {   
     public float ringRadius = 6.0f;
-    public float damageAmount = 30.0f;
+    public float damageAmount = 20.0f;
     
     override public void InitialiseSpecial(float height)
     {
@@ -21,9 +21,7 @@ public class FireRingAttack : Special
 
     override public void UpgradeSpecial()
     {
-        // to increase size of fire particle attack the scale is increased, then the damage area is incremented
-        currentScale += new Vector3(1.0f, 1.0f, 0);
-        ringRadius += 3.0f;
+        damageAmount += 5f;
     }
 
     override public void UseSpecial()
@@ -81,5 +79,10 @@ public class FireRingAttack : Special
         }
         
         return false;
+    }
+    
+    [ClientRpc]
+    private void RpcSetLocalScale(){
+        
     }
 }

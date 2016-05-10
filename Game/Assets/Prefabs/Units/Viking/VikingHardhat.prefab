@@ -1161,7 +1161,7 @@ Animator:
   m_GameObject: {fileID: 164158}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: da09a47d16939414eb1edcea65ca0a03, type: 3}
-  m_Controller: {fileID: 9100000, guid: b16185558cefb42aab57f508b9477a28, type: 2}
+  m_Controller: {fileID: 9100000, guid: dd84d1dacd0334e508ac4ca1ceebcbb6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1315,7 +1315,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f92930b3f4e34b9fabd9379fa43af4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 8
+  movementSpeed: 9
   movementAcceleration: 60
   minDistanceFromEnemy: 0
   damage: 60
@@ -1330,7 +1330,6 @@ MonoBehaviour:
   gruntKills: 0
   deaths: 0
   towersCaptured: 0
-  firstUpgrade: 3
 --- !u!114 &11463114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1685,6 +1684,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: dividerSpacing
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSpeed
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
