@@ -189,7 +189,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 492554}
-  - 65: {fileID: 6559640}
   - 114: {fileID: 11478142}
   - 114: {fileID: 11473656}
   - 114: {fileID: 11457344}
@@ -198,6 +197,7 @@ GameObject:
   - 114: {fileID: 11422146}
   - 114: {fileID: 11457278}
   - 54: {fileID: 5460466}
+  - 65: {fileID: 6559640}
   - 114: {fileID: 11461072}
   - 114: {fileID: 11401502}
   - 114: {fileID: 11422842}
@@ -1389,7 +1389,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1414,7 +1416,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1438,7 +1442,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1494,8 +1500,8 @@ Animator:
   m_GameObject: {fileID: 160086}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: da09a47d16939414eb1edcea65ca0a03, type: 3}
-  m_Controller: {fileID: 9100000, guid: b16185558cefb42aab57f508b9477a28, type: 2}
-  m_CullingMode: 0
+  m_Controller: {fileID: 9100000, guid: dd84d1dacd0334e508ac4ca1ceebcbb6, type: 2}
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -1537,7 +1543,9 @@ TrailRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1876,7 +1884,9 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -1929,7 +1939,9 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}

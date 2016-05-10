@@ -21,8 +21,7 @@ public class HealRing : Special
 
     override public void UpgradeSpecial()
     {
-        currentScale += new Vector3(1.0f, 1.0f, 0);
-        ringRadius += 3.0f;
+        healAmount += 5f;
     }
 
     override public void UseSpecial()
