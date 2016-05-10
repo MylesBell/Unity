@@ -35,9 +35,9 @@ public class Invisibility : Special
         gameObject.SetActive(true);
         originalModel.SetActive(false);
         decoyModel.SetActive(true);
-        originalSpeed = stats.movementSpeed;
-        stats.movementSpeed = 10;
-        RpcPlayInvisibiltySystem();
+        // originalSpeed = stats.movementSpeed;
+        // stats.movementSpeed = 10;
+        RpcPlayInvisibiltySystem(invisibilityTime);
         CmdSetNotAttackable();
     }
     
@@ -56,7 +56,7 @@ public class Invisibility : Special
         transform.parent.gameObject.GetComponent<Hero>().SwitchAnimator(originalModel.GetComponent<Animator>());
         if (isServer){
             SetAttackable();
-            stats.movementSpeed = originalSpeed;
+            // stats.movementSpeed = originalSpeed;
         }
     }
     
@@ -71,18 +71,18 @@ public class Invisibility : Special
     }
     
     [ClientRpc]
-    public void RpcPlayInvisibiltySystem() {
+    public void RpcPlayInvisibiltySystem(float time) {
         gameObject.SetActive(true);
         originalModel.SetActive(false);
         decoyModel.SetActive(true);
         transform.parent.gameObject.GetComponent<HeroMovement>().SwitchAnimator(decoyModel.GetComponent<Animator>());
         transform.parent.gameObject.GetComponent<Attack>().SwitchAnimator(decoyModel.GetComponent<Animator>());
         transform.parent.gameObject.GetComponent<Hero>().SwitchAnimator(decoyModel.GetComponent<Animator>());
-        StartCoroutine(PlayInvisibiltySystem());
+        StartCoroutine(PlayInvisibiltySystem(time));
     }
     
-    IEnumerator PlayInvisibiltySystem(){
-        yield return new WaitForSeconds(invisibilityTime);
+    IEnumerator PlayInvisibiltySystem(float time){
+        yield return new WaitForSeconds(time);
         gameObject.SetActive(false);
         originalModel.SetActive(true);
         decoyModel.SetActive(false);
@@ -91,7 +91,7 @@ public class Invisibility : Special
         transform.parent.gameObject.GetComponent<Hero>().SwitchAnimator(originalModel.GetComponent<Animator>());
         if (isServer){
             SetAttackable();
-            stats.movementSpeed = originalSpeed;
+            // stats.movementSpeed = originalSpeed;
         }
     }
     

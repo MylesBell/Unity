@@ -28,8 +28,8 @@ public class Stats : NetworkBehaviour{
     public int deaths = 0;
     public int towersCaptured = 0;
     private object killsLock = new object();
-    private int firstUpgrade = 1;
     private int nextUpgrade;
+    private int upgradeInterval = 3;
     private int level = 1;
     
     private float originalMovementSpeed, originalDamage, originalDefense;
@@ -53,7 +53,8 @@ public class Stats : NetworkBehaviour{
             deaths = 0;
             towersCaptured = 0;
             level = 1;
-            nextUpgrade = firstUpgrade;
+            upgradeInterval = 3;
+            nextUpgrade = upgradeInterval;
         }
     }
 
@@ -96,7 +97,8 @@ public class Stats : NetworkBehaviour{
     }
     
     private void SetNextUpgrade(){
-        nextUpgrade += (int)(nextUpgrade * 1.5f);
+        upgradeInterval = (int)(upgradeInterval * 1.5f);
+        nextUpgrade += upgradeInterval;
     }
     
     private void SendUpgradeEvent(){
